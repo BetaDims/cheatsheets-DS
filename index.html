@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheets · Índice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAE7E1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F5F2EC;
+  --code-bg:#FBF9F5;
+  --line:#E1DBD0;
+  --line-soft:#ECE7DD;
+  --ink:#221E18;
+  --ink-soft:#574F44;
+  --ink-faint:#928A7C;
+  --br:#3D4654;       /* índice: graphite neutro */
+  --br-deep:#2A313C;
+  --br-tint:rgba(61,70,84,.10);
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+::selection{background:var(--br);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 60px}
+
+/* app chrome */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:0 30px 80px -46px rgba(34,30,24,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F2EEE7;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#CCC3B5;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--br);color:#fff;font-size:13px;flex:none;margin-left:3px}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--br-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.fxbar{display:flex;align-items:stretch;background:#F8F4EE;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--br-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--br-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--br)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--br-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.hero-stats{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.hstat{display:flex;flex-direction:column;gap:2px}
+.hstat .n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.5rem;color:var(--ink);line-height:1}
+.hstat .l{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* sections */
+.group{margin-top:34px}
+.group-h{display:flex;align-items:center;gap:12px;margin:0 4px 14px}
+.group-h .gn{font-family:"JetBrains Mono";font-size:11px;font-weight:700;color:#fff;background:var(--gc);padding:3px 9px;border-radius:6px;letter-spacing:.04em}
+.group-h h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-.01em}
+.group-h .gl{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:920px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+.card{display:flex;flex-direction:column;background:var(--tile);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(34,30,24,.04);transition:transform .16s,box-shadow .16s,border-color .16s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 34px -18px rgba(34,30,24,.4)}
+.card-h{display:flex;align-items:center;gap:11px;padding:15px 16px 11px}
+.card .mark{width:34px;height:34px;border-radius:8px;background:var(--c);color:#fff;display:grid;place-items:center;font-family:"JetBrains Mono";font-weight:700;font-size:14px;flex:none}
+.card h3{font-family:"Space Grotesk",sans-serif;font-size:1.06rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.card .tag{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--c);font-weight:700;margin-top:2px}
+.card-b{padding:0 16px 14px;flex:1;display:flex;flex-direction:column}
+.card .desc{font-size:12.7px;color:var(--ink-soft);line-height:1.5;flex:1}
+.card .go{margin-top:12px;display:flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:11px;font-weight:600;color:var(--c)}
+.card .go svg{width:13px;height:13px;transition:transform .16s}
+.card:hover .go svg{transform:translateX(3px)}
+.card .soon{position:absolute;top:12px;right:12px;font-family:"JetBrains Mono";font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);border:1px solid var(--line);padding:2px 6px;border-radius:20px}
+
+footer{margin-top:42px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;text-align:center}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+.lvlpill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:17px;height:17px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--lc)}
+.legend-row{display:flex;gap:14px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">▤</span>
+      <span class="fname"><b>Cheat Sheets</b> · índice</span>
+      <span class="grow"></span>
+      <span class="vtag">44 hojas · jun 2026</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">abrir ▸</span>
+      <span class="fxc"><span class="mono" style="color:var(--ink-faint)"># elige una herramienta para abrir su hoja de referencia</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Biblioteca de referencia · mismo sistema, distinta esencia</div>
+      <h1>Una hoja para<br>cada <em>herramienta</em>.</h1>
+      <p class="lede">Colección de <b>cheat sheets</b> de una página: densas, exactas y para tener al lado mientras trabajas o estudias. Todas comparten el mismo sistema visual — ventana de app, secciones por color, etiquetas <b>B/I/A</b> y clic para copiar — y una <b>esencia única</b> por herramienta. <b>Haz clic en cualquier tarjeta para abrir su hoja.</b></p>
+      <div class="hero-stats">
+        <div class="hstat"><span class="n">44</span><span class="l">hojas</span></div>
+        <div class="hstat"><span class="n">9</span><span class="l">áreas</span></div>
+        <div class="hstat"><span class="n">B·I·A</span><span class="l">niveles marcados</span></div>
+        <div class="hstat"><span class="n">1</span><span class="l">archivo por hoja</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Programación & Web -->
+  <div class="group" style="--gc:#2B6FD6">
+    <div class="group-h"><span class="gn">01</span><h2>Programación &amp; Web</h2><span class="gl">12 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#3776AB" href="sheets/cheatsheet_python.html">
+        <div class="card-h"><span class="mark">Py</span><div><h3>Python</h3><div class="tag">lenguaje</div></div></div>
+        <div class="card-b"><p class="desc">Del dato a la función: tipos, estructuras, control de flujo, funciones, OOP, módulos y manejo de errores.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#264DE4" href="sheets/cheatsheet_html_css.html">
+        <div class="card-h"><span class="mark">&lt;&gt;</span><div><h3>HTML &amp; CSS</h3><div class="tag">web</div></div></div>
+        <div class="card-b"><p class="desc">La estructura y el estilo de la web: etiquetas, el modelo de caja, Flexbox, Grid, responsive y buenas prácticas.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#8A7B00" href="sheets/cheatsheet_javascript.html">
+        <div class="card-h"><span class="mark" style="background:#F7DF1E;color:#23211A">JS</span><div><h3>JavaScript</h3><div class="tag">web</div></div></div>
+        <div class="card-b"><p class="desc">El lenguaje del navegador: variables, funciones, arrays, el DOM, async/await, módulos y patrones modernos.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#F05032" href="sheets/cheatsheet_git.html">
+        <div class="card-h"><span class="mark">⎇</span><div><h3>Git &amp; GitHub</h3><div class="tag">versiones</div></div></div>
+        <div class="card-b"><p class="desc">De add a merge: las tres zonas, el ciclo diario, ramas, trabajo remoto, deshacer y el flujo de pull requests.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#2496ED" href="sheets/cheatsheet_docker.html">
+        <div class="card-h"><span class="mark">🐳</span><div><h3>Docker</h3><div class="tag">contenedores</div></div></div>
+        <div class="card-b"><p class="desc">De build a run: imágenes vs contenedores, Dockerfile, volúmenes y redes, Docker Compose y limpieza.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#009688" href="sheets/cheatsheet_api_fastapi.html">
+        <div class="card-h"><span class="mark">{ }</span><div><h3>APIs &amp; FastAPI</h3><div class="tag">backend / REST</div></div></div>
+        <div class="card-b"><p class="desc">Del contrato REST al código: HTTP, métodos, petición/respuesta, estados, seguridad y FastAPI con Pydantic, CRUD, BD y JWT.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#336791" href="sheets/cheatsheet_sql.html">
+        <div class="card-h"><span class="mark">SQL</span><div><h3>SQL &amp; PostgreSQL</h3><div class="tag">bases de datos</div></div></div>
+        <div class="card-b"><p class="desc">Del SELECT al diseño de datos: JOINs, agregados, subconsultas, CTEs, window functions, índices y transacciones — con vista PostgreSQL.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#0E7490" href="sheets/cheatsheet_react.html">
+        <div class="card-h"><span class="mark" style="background:#149ECA;color:#06222B">⚛</span><div><h3>React</h3><div class="tag">UI / web</div></div></div>
+        <div class="card-b"><p class="desc">De JSX a producción: componentes, props y estado, hooks, efectos, formularios, React Router, estado global y Next.js.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#2F5D67" href="sheets/cheatsheet_electron.html">
+        <div class="card-h"><span class="mark">⬡</span><div><h3>Electron</h3><div class="tag">escritorio</div></div></div>
+        <div class="card-b"><p class="desc">Apps de escritorio con web: procesos main y renderer, IPC, preload seguro, menús nativos, empaquetado y auto-update.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#6B349E" href="sheets/cheatsheet_kotlin.html">
+        <div class="card-h"><span class="mark">Kt</span><div><h3>Kotlin</h3><div class="tag">lenguaje / Android</div></div></div>
+        <div class="card-b"><p class="desc">Conciso y seguro: tipos y null-safety, funciones, clases, colecciones, coroutines y Flow, e interop con Android.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#475569" href="sheets/cheatsheet_patrones_arquitectura.html">
+        <div class="card-h"><span class="mark">◇</span><div><h3>Patrones &amp; Arquitectura</h3><div class="tag">diseño de software</div></div></div>
+        <div class="card-b"><p class="desc">SOLID, los 23 patrones GoF (creacionales, estructurales, de comportamiento), code smells y arquitecturas — con refactoring.guru.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#1A8A4E" href="sheets/cheatsheet_terminal.html">
+        <div class="card-h"><span class="mark" style="background:#1A8A4E;color:#EAFBF1">$_</span><div><h3>Terminal &amp; Linux</h3><div class="tag">línea de comandos</div></div></div>
+        <div class="card-b"><p class="desc">La CLI de Linux/WSL en una página: navegar, archivos, grep/find, pipes y alias, permisos, procesos, paquetes, vim, tmux, red/SSH y zsh.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Datos & BI -->
+  <div class="group" style="--gc:#178A4C">
+    <div class="group-h"><span class="gn">02</span><h2>Datos &amp; BI</h2><span class="gl">2 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#217346" href="sheets/cheatsheet_Excel.html">
+        <div class="card-h"><span class="mark">fx</span><div><h3>Excel</h3><div class="tag">hoja de cálculo</div></div></div>
+        <div class="card-b"><p class="desc">De la celda al dashboard: fórmulas, funciones, tablas, tablas dinámicas y visualización de datos.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#9A7A0A" href="sheets/cheatsheet_power_bi.html">
+        <div class="card-h"><span class="mark" style="background:#F2C811;color:#23211A">▦</span><div><h3>Power BI</h3><div class="tag">business intel.</div></div></div>
+        <div class="card-b"><p class="desc">De los datos a las decisiones: modelo de datos, DAX, esquema estrella, relaciones y publicación.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Estadística -->
+  <div class="group" style="--gc:#0E8A6E">
+    <div class="group-h"><span class="gn">03</span><h2>Estadística &amp; Probabilidad</h2><span class="gl">3 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#0E8A6E" href="sheets/cheatsheet_estadistica_descriptiva.html">
+        <div class="card-h"><span class="mark">∑</span><div><h3>Est. Descriptiva</h3><div class="tag">resumir datos</div></div></div>
+        <div class="card-b"><p class="desc">Tipos de datos, tablas y gráficas, tendencia central, dispersión, boxplot, distribución normal y correlación.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#3B4F9E" href="sheets/cheatsheet_estadistica_inferencial.html">
+        <div class="card-h"><span class="mark">x̄</span><div><h3>Est. Inferencial</h3><div class="tag">muestra → población</div></div></div>
+        <div class="card-b"><p class="desc">Muestreo y TCL, estimación e intervalos de confianza, pruebas de hipótesis, tests, bootstrapping y validación.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#C0398C" href="sheets/cheatsheet_probabilidad.html">
+        <div class="card-h"><span class="mark">⚄</span><div><h3>Probabilidad</h3><div class="tag">el azar</div></div></div>
+        <div class="card-b"><p class="desc">Espacio muestral, reglas de suma y producto, condicional, Bayes, conteo, distribuciones y falacias.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Diseño & CAD -->
+  <div class="group" style="--gc:#7048E8">
+    <div class="group-h"><span class="gn">04</span><h2>Diseño &amp; CAD</h2><span class="gl">3 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#7048E8" href="sheets/cheatsheet_inkscape.html">
+        <div class="card-h"><span class="mark">◆</span><div><h3>Inkscape</h3><div class="tag">vectorial / SVG</div></div></div>
+        <div class="card-b"><p class="desc">Del trazo al nodo: interfaz, formas, la pluma bézier, color y gradientes, operaciones booleanas, capas y efectos.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#E51937" href="sheets/cheatsheet_autocad.html">
+        <div class="card-h"><span class="mark">⊿</span><div><h3>AutoCAD</h3><div class="tag">dibujo 2D/3D</div></div></div>
+        <div class="card-b"><p class="desc">Dibujo técnico: comandos, coordenadas, capas, modificación, cotas y bloques.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#2E7D9A" href="sheets/cheatsheet_inventor.html">
+        <div class="card-h"><span class="mark">⬡</span><div><h3>Inventor</h3><div class="tag">CAD 3D</div></div></div>
+        <div class="card-b"><p class="desc">Modelado paramétrico 3D: bocetos, operaciones, ensamblajes, restricciones y planos.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- IA & Claude -->
+  <div class="group" style="--gc:#4F46E5">
+    <div class="group-h"><span class="gn">05</span><h2>IA &amp; Claude</h2><span class="gl">3 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#D97757" href="sheets/cheatsheet_claude_code.html">
+        <div class="card-h"><span class="mark">✳</span><div><h3>Claude Code</h3><div class="tag">agente en terminal</div></div></div>
+        <div class="card-b"><p class="desc">Codifica con un agente: instalar, el ciclo, contexto y CLAUDE.md, comandos slash, MCP, hooks, git y modelos.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#C96442" href="sheets/cheatsheet_claude_cowork.html">
+        <div class="card-h"><span class="mark">✳</span><div><h3>Claude Cowork</h3><div class="tag">trabajo agéntico</div></div></div>
+        <div class="card-b"><p class="desc">Un agente para tu oficina: archivos y ofimática, conectores y MCP, skills, plugins, chat y tu agente personal.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#4F46E5" href="sheets/cheatsheet_ai_agents.html">
+        <div class="card-h"><span class="mark">◈</span><div><h3>AI Agents</h3><div class="tag">construir agentes</div></div></div>
+        <div class="card-b"><p class="desc">LLM + herramientas + bucle: anatomía, tool use, MCP, contexto y skills, patrones multi-agente y evaluación.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Idiomas -->
+  <div class="group" style="--gc:#34507F">
+    <div class="group-h"><span class="gn">06</span><h2>Idiomas</h2><span class="gl">1 hoja</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#34507F" href="sheets/cheatsheet_ingles_gramatica.html">
+        <div class="card-h"><span class="mark">EN</span><div><h3>Inglés · Gramática</h3><div class="tag">CEFR A1–C2</div></div></div>
+        <div class="card-b"><p class="desc">Gramática inglesa por niveles del MCER con plan de estudio: tiempos, condicionales, pasiva, phrasal verbs y errores comunes.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Ingeniería mecánica & Industrial -->
+  <div class="group" style="--gc:#9A6B1E">
+    <div class="group-h"><span class="gn">07</span><h2>Ingeniería mecánica &amp; Industrial</h2><span class="gl">11 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#B0701A" href="sheets/cheatsheet_mantenimiento.html">
+        <div class="card-h"><span class="mark">⚙</span><div><h3>Mantenimiento</h3><div class="tag">confiabilidad / KPIs</div></div></div>
+        <div class="card-b"><p class="desc">Tipos de mantenimiento, KPIs de confiabilidad (MTBF, MTTR, disponibilidad, OEE), curva de la bañera, RCM/FMEA, CMMS y CMRP — con simulador de KPIs.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#0A6ED1" href="sheets/cheatsheet_sap_pm.html">
+        <div class="card-h"><span class="mark">PM</span><div><h3>SAP PM</h3><div class="tag">mantenimiento / ERP</div></div></div>
+        <div class="card-b"><p class="desc">Mantenimiento en SAP: datos maestros, avisos y órdenes (IW21/IW31/IW41), el ciclo aviso→orden→cierre, equipos y planes — con tabla de transacciones.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#0F6E8C" href="sheets/cheatsheet_valvulas.html">
+        <div class="card-h"><span class="mark">PV</span><div><h3>Válvulas</h3><div class="tag">procesos / P&amp;ID</div></div></div>
+        <div class="card-b"><p class="desc">Tipos y operación, actuadores, coeficiente de flujo Cv/Kv, cavitación, clases de presión y cómo se ven en plano — con símbolos P&amp;ID.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#5B6E2F" href="sheets/cheatsheet_gdt.html">
+        <div class="card-h"><span class="mark">⌖</span><div><h3>GD&amp;T</h3><div class="tag">tolerancias / planos</div></div></div>
+        <div class="card-b"><p class="desc">Los 14 controles geométricos (forma, perfil, orientación, ubicación, cabeceo), datums, MMC/LMC y el marco de control de características.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#0E9CA8" href="sheets/cheatsheet_bombas.html">
+        <div class="card-h"><span class="mark">◉</span><div><h3>Bombas centrífugas</h3><div class="tag">hidráulica</div></div></div>
+        <div class="card-b"><p class="desc">Partes y tipos, curvas H-Q, NPSH y cavitación, leyes de afinidad, potencia y eficiencia, serie/paralelo — con la curva del punto de operación.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#C0392B" href="sheets/cheatsheet_intercambiadores.html">
+        <div class="card-h"><span class="mark">⇄</span><div><h3>Intercambiadores</h3><div class="tag">transferencia de calor</div></div></div>
+        <div class="card-b"><p class="desc">Tipos (coraza-tubos, placas), arreglos de flujo, coeficiente global U, métodos LMTD y ε-NTU, ensuciamiento y diseño.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#D9480F" href="sheets/cheatsheet_soldadura.html">
+        <div class="card-h"><span class="mark">◤</span><div><h3>Soldadura</h3><div class="tag">uniones / AWS</div></div></div>
+        <div class="card-b"><p class="desc">Procesos (SMAW, MIG/MAG, TIG, FCAW, SAW), juntas y posiciones, simbología AWS, clasificación de electrodos, defectos y END.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#2D8FD5" href="sheets/cheatsheet_refrigeracion.html">
+        <div class="card-h"><span class="mark">❄</span><div><h3>Refrigeración</h3><div class="tag">HVAC-R / ciclo</div></div></div>
+        <div class="card-b"><p class="desc">El ciclo por compresión de vapor y sus 4 componentes, diagrama P-h, refrigerantes y GWP/ODP, COP y tipos de compresores.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#7A5C39" href="sheets/cheatsheet_tribologia.html">
+        <div class="card-h"><span class="mark">μ</span><div><h3>Tribología</h3><div class="tag">lubricación / desgaste</div></div></div>
+        <div class="card-b"><p class="desc">Fricción (Amontons-Coulomb), desgaste (Archard), regímenes de lubricación, lubricantes y análisis de aceite — con la curva de Stribeck.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#1F6F54" href="sheets/cheatsheet_petroleo.html">
+        <div class="card-h"><span class="mark">O&amp;G</span><div><h3>Petróleo (Oil &amp; Gas)</h3><div class="tag">cadena de valor</div></div></div>
+        <div class="card-b"><p class="desc">Upstream, midstream y downstream, la torre de destilación y sus cortes, gas natural (GLP/GNL), propiedades del crudo (API, Brent/WTI) y glosario.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#3776AB" href="sheets/cheatsheet_python_ing_mecanica.html">
+        <div class="card-h"><span class="mark">Py</span><div><h3>Python para Ing. Mecánica</h3><div class="tag">cálculo / código</div></div></div>
+        <div class="card-b"><p class="desc">NumPy, Pandas, SciPy y Matplotlib aplicados a mecánica: equilibrio, integración, EDOs, vigas (V-M), esfuerzo-deformación, ciclos y Reynolds.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Fundamentos de Ingeniería Mecánica -->
+  <div class="group" style="--gc:#5A6B7B">
+    <div class="group-h"><span class="gn">08</span><h2>Fundamentos de Ingeniería Mecánica</h2><span class="gl">6 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#34495E" href="sheets/cheatsheet_estatica_dinamica.html">
+        <div class="card-h"><span class="mark">Σ</span><div><h3>Estática y Dinámica</h3><div class="tag">mecánica · fuerzas</div></div></div>
+        <div class="card-b"><p class="desc">Vectores, fuerzas, momentos y pares, equilibrio (ΣF=0, ΣM=0) y diagramas de cuerpo libre, armaduras, fricción, centroides e inercia, cinemática y cinética — con FBD y polígono de fuerzas.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#922B3E" href="sheets/cheatsheet_resistencia_materiales.html">
+        <div class="card-h"><span class="mark">σ</span><div><h3>Resistencia de Materiales</h3><div class="tag">esfuerzo / deformación</div></div></div>
+        <div class="card-b"><p class="desc">Esfuerzo y deformación, ley de Hooke, torsión, flexión de vigas (diagramas V y M), deflexión, pandeo de Euler y factor de seguridad — con el círculo de Mohr.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#0E6BA8" href="sheets/cheatsheet_mecanica_fluidos.html">
+        <div class="card-h"><span class="mark">≈</span><div><h3>Mecánica de Fluidos</h3><div class="tag">hidráulica / flujo</div></div></div>
+        <div class="card-b"><p class="desc">Propiedades, estática (Pascal, flotación), continuidad y Bernoulli, número de Reynolds, pérdidas de carga (Darcy-Weisbach) — con el tubo de Venturi.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#A0522D" href="sheets/cheatsheet_termodinamica.html">
+        <div class="card-h"><span class="mark">Δ</span><div><h3>Termodinámica y Ciclos</h3><div class="tag">energía / calor</div></div></div>
+        <div class="card-b"><p class="desc">Primera ley (ΔU=Q−W), gas ideal y procesos, sustancia pura, segunda ley y entropía (Carnot) y ciclos (Otto, Diesel, Brayton, Rankine) — con diagramas T-s y P-v.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#D1495B" href="sheets/cheatsheet_transferencia_calor.html">
+        <div class="card-h"><span class="mark">q</span><div><h3>Transferencia de Calor</h3><div class="tag">conducción / convección</div></div></div>
+        <div class="card-b"><p class="desc">Los tres modos (Fourier, Newton, Stefan-Boltzmann), la analogía de resistencias térmicas y el coeficiente global U, aletas, intercambiadores (LMTD, ε-NTU) y números adimensionales.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#566573" href="sheets/cheatsheet_ciencia_materiales.html">
+        <div class="card-h"><span class="mark">Fe</span><div><h3>Ciencia de Materiales</h3><div class="tag">microestructura</div></div></div>
+        <div class="card-b"><p class="desc">Propiedades mecánicas (fatiga, creep), tipos y aceros, estructura cristalina (BCC/FCC/HCP) y defectos, tratamientos térmicos, ensayos y corrosión — con el diagrama hierro-carbono.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Eléctrica & Normativa -->
+  <div class="group" style="--gc:#5E4FA2">
+    <div class="group-h"><span class="gn">09</span><h2>Eléctrica &amp; Normativa</h2><span class="gl">3 hojas</span></div>
+    <div class="grid">
+      <a class="card" style="--c:#2E5EAA" href="sheets/cheatsheet_motores_ac.html">
+        <div class="card-h"><span class="mark">∿</span><div><h3>Motores AC</h3><div class="tag">máquinas eléctricas</div></div></div>
+        <div class="card-b"><p class="desc">Campo giratorio y motor de inducción (n=120f/p, deslizamiento), tipos, placa, arranque (DOL, Y-Δ, VFD) y protección — con corte y curva par-velocidad.</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#5E4FA2" href="sheets/cheatsheet_cne.html">
+        <div class="card-h"><span class="mark">CNE</span><div><h3>CNE — Utilización</h3><div class="tag">norma eléctrica / Perú</div></div></div>
+        <div class="card-b"><p class="desc">Código Nacional de Electricidad — Utilización: alcance (BT/AT), conductores y ampacidad (030), puesta a tierra (060), demanda (050) y protección (080).</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="card" style="--c:#E8590C" href="sheets/cheatsheet_ds024.html">
+        <div class="card-h"><span class="mark">024</span><div><h3>DS-024-2016-EM</h3><div class="tag">SSO minería / Perú</div></div></div>
+        <div class="card-b"><p class="desc">Reglamento de Seguridad y Salud Ocupacional en Minería: gestión, IPERC y jerarquía de controles, PETS/EPP/PETAR, higiene, emergencias e índices (IF, IS, IA).</p><span class="go">Abrir hoja <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <b>Cheat Sheets</b> — biblioteca de hojas de referencia de una página. Mismo sistema visual, esencia única por herramienta.
+    <div class="legend-row">
+      <span class="lvlpill"><b style="--lc:var(--lvl-b)">B</b>Básico</span>
+      <span class="lvlpill"><b style="--lc:var(--lvl-i)">I</b>Intermedio</span>
+      <span class="lvlpill"><b style="--lc:var(--lvl-a)">A</b>Avanzado</span>
+    </div>
+    <span class="mono">44 hojas · 9 áreas · v1.1 · jun 2026</span>
+  </footer>
+</div>
+</body>
+</html>

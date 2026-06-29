@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; GitHub · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECEAE6;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F6F4F1;
+  --rail:#F4F2EE;
+  --code-bg:#FBF9F6;
+  --line:#E2DDD5;
+  --line-soft:#EBE7E0;
+  --ink:#241F1B;
+  --ink-soft:#5C554D;
+  --ink-faint:#928A80;
+  /* Git orange: bright for fills/markers, deep for legible text on white */
+  --git:#F05032;
+  --git-deep:#B23A20;
+  --git-tint:rgba(240,80,50,.14);
+  /* section accents — legible on white (text + fills) */
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* Día a día */
+  --s2:#0C8A8A;  /* Ramas */
+  --s3:#1E9B51;  /* Remoto */
+  --s4:#B0840A;  /* Deshacer */
+  --s5:#7A45C9;  /* Colaboración */
+  --s6:#C0392B;  /* Avanzado */
+  /* level badges (bright fills, dark text) */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (terminal, light) */
+  --t-kw:#B23A20;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#9A938A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--git);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (terminal hero) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(36,31,27,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F2EFEA;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#CBC4BA;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:4px}
+.titlebar .fname b{color:var(--git-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--git-deep);background:var(--git-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+/* shell tabs */
+.viewtabs{display:flex;gap:0;background:#FCFAF7;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--git-deep);border-bottom-color:var(--git)}
+
+/* git prompt bar */
+.fxbar{display:flex;align-items:stretch;background:#FCFAF7;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--git-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+/* hero body */
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--git-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--git)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--git-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--git-deep)}
+
+/* hero quote */
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--git);background:linear-gradient(90deg,var(--git-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+/* stepper nav */
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--git-deep);background:var(--git-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--git)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(36,31,27,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(36,31,27,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--git-deep)}
+
+/* ====== CODE BLOCK (terminal) ====== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(36,31,27,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--git);background:#FDF1ED}
+figure.code.copied .cphint{opacity:1;color:var(--git-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+.pmt{color:var(--git);font-weight:700}
+.out{color:var(--ink-faint)}
+
+/* ====== REFERENCE TABLE ====== */
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--git-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* ====== BRANCH GRAPH signature ====== */
+.graphwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.graph-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F2EFEA;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.graph-bar i{width:10px;height:10px;border-radius:50%;background:#CBC4BA;display:block}
+.graph-bar i:nth-child(1){background:#E5736B}.graph-bar i:nth-child(2){background:#E8B73D}.graph-bar i:nth-child(3){background:#69B27C}
+.bgraph{width:100%;height:auto;display:block;padding:6px 4px}
+.bgraph .lmain{stroke:var(--git);stroke-width:3;fill:none}
+.bgraph .lfeat{stroke:var(--s2);stroke-width:3;fill:none}
+.bgraph .cm{fill:var(--git);stroke:#fff;stroke-width:2}
+.bgraph .cf{fill:var(--s2);stroke:#fff;stroke-width:2}
+.bgraph .lbl{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink-soft)}
+.bgraph .tag{font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.bgraph .tmain{fill:var(--git-deep)}
+.bgraph .tfeat{fill:var(--s2)}
+
+/* ====== tips / callouts ====== */
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--git-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* zones diagram */
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:6px 0;border:1px solid var(--line);border-radius:9px;overflow:hidden;text-align:center}
+.zone{padding:11px 8px;border-right:1px solid var(--line-soft);background:var(--tile-2)}
+.zone:last-child{border-right:none}
+.zone .zt{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:12px;color:var(--ink)}
+.zone .zc{font-family:"JetBrains Mono";font-size:9.5px;color:var(--git-deep);margin-top:3px}
+.zone .zd{font-size:10px;color:var(--ink-faint);margin-top:4px;line-height:1.3}
+.zone.z1 .zt{color:var(--s1)}.zone.z2 .zt{color:var(--s4)}.zone.z3 .zt{color:var(--s2)}.zone.z4 .zt{color:var(--s3)}
+@media(max-width:560px){.zones{grid-template-columns:1fr 1fr}.zone:nth-child(2n){border-right:none}}
+
+/* def list */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--git-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#241F1B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(36,31,27,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="fname"><b>~/proyecto</b> — zsh</span>
+      <span class="branch">⎇ main</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">zsh</span>
+      <span class="vt">git log</span>
+      <span class="vt">gh</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">git ▸</span>
+      <span class="fxc"><span class="t-fn">git</span> <span class="t-kw">commit</span> <span class="t-flag">-m</span> <span class="t-str">"haz commits pequeños y a menudo"</span>&nbsp;&nbsp;<span class="t-com"># commit early, commit often</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del primer commit al pull request</div>
+      <h1>Git &amp; GitHub,<br>de <em>add</em> a <em>merge</em>.</h1>
+      <p class="lede">El control de versiones en una página para tener al lado de la terminal: las <b>tres zonas</b>, el ciclo diario (<code>status → add → commit</code>), <b>ramas</b> y <b>merge</b>, trabajo <b>remoto</b> en GitHub, cómo <b>deshacer</b> sin romper nada, y el flujo de <b>colaboración</b> con pull requests. Cada comando trae su sintaxis real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier comando para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Commitea pronto, commitea a menudo."</p>
+        <cite>— Adagio del desarrollo · <span class="mono">git commit -m</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Día a día</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Ramas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Remoto</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Deshacer</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Colaboración</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Avanzado</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">repo · 3 zonas</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Día a día</span><span class="sd">add · commit · log</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Ramas</span><span class="sd">branch · merge</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Remoto</span><span class="sd">push · pull · PR</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Deshacer</span><span class="sd">reset · revert · stash</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Colaboración</span><span class="sd">rebase · conflictos</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Avanzado</span><span class="sd">gh · alias · bisect</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">⎇</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a3 3 0 0 0-3 3H6"/><circle cx="18" cy="6" r="3"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.git</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es Git / GitHub?</a>
+      <a href="#fd-zonas" style="--seg:var(--s0)">Las tres zonas</a>
+      <a href="#fd-config" style="--seg:var(--s0)">Configurar &amp; empezar</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Día a día</div>
+      <a href="#dd-ciclo" style="--seg:var(--s1)">El ciclo básico</a>
+      <a href="#dd-status" style="--seg:var(--s1)">status &amp; diff</a>
+      <a href="#dd-log" style="--seg:var(--s1)">log &amp; historial</a>
+      <a href="#dd-ignore" style="--seg:var(--s1)">.gitignore</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Ramas</div>
+      <a href="#rm-graph" style="--seg:var(--s2)">Qué es una rama</a>
+      <a href="#rm-cmd" style="--seg:var(--s2)">Crear &amp; cambiar</a>
+      <a href="#rm-merge" style="--seg:var(--s2)">Merge &amp; tipos</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Remoto</div>
+      <a href="#re-remote" style="--seg:var(--s3)">clone &amp; remote</a>
+      <a href="#re-sync" style="--seg:var(--s3)">fetch · pull · push</a>
+      <a href="#re-pr" style="--seg:var(--s3)">Pull requests</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Deshacer</div>
+      <a href="#ds-restore" style="--seg:var(--s4)">restore &amp; reset</a>
+      <a href="#ds-revert" style="--seg:var(--s4)">revert &amp; amend</a>
+      <a href="#ds-stash" style="--seg:var(--s4)">stash &amp; reflog</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Colaboración</div>
+      <a href="#co-rebase" style="--seg:var(--s5)">merge vs rebase</a>
+      <a href="#co-conflict" style="--seg:var(--s5)">Resolver conflictos</a>
+      <a href="#co-tags" style="--seg:var(--s5)">Tags &amp; releases</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Avanzado</div>
+      <a href="#av-gh" style="--seg:var(--s6)">GitHub CLI (gh)</a>
+      <a href="#av-tools" style="--seg:var(--s6)">cherry-pick · bisect</a>
+      <a href="#av-alias" style="--seg:var(--s6)">Alias &amp; atajos</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Día</a><a href="#e2">02 Ramas</a>
+        <a href="#e3">03 Remoto</a><a href="#e4">04 Deshacer</a><a href="#e5">05 Colab.</a><a href="#e6">06 Avanz.</a>
+      </div>
+
+      <!-- ===== 00 — FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">el modelo mental<br>antes de los comandos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es Git y qué es GitHub?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Git</b> es el sistema de control de versiones que corre en <i>tu máquina</i>: guarda fotos (commits) de tu proyecto a lo largo del tiempo y te deja volver atrás, ramificar y combinar. <b>GitHub</b> es un servicio en la nube para <i>alojar</i> repos Git y colaborar (pull requests, issues, CI).</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Repositorio</span><span class="dv">la carpeta del proyecto + su historial completo (en <code>.git/</code>).</span></div>
+                <div class="di"><span class="dk">Commit</span><span class="dv">una instantánea con mensaje; la unidad de cambio. Tiene un hash único.</span></div>
+                <div class="di"><span class="dk">Rama (branch)</span><span class="dv">una línea de trabajo paralela. <code>main</code> es la principal.</span></div>
+                <div class="di"><span class="dk">Remoto</span><span class="dv">una copia del repo en un servidor (GitHub); por defecto se llama <code>origin</code>.</span></div>
+              </div>
+              <div class="tip"><span class="lab">La idea clave</span>Git es <b>distribuido</b>: cada copia tiene el historial entero. Puedes trabajar sin conexión y sincronizar después.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-config">
+            <div class="tile-h"><span class="td"></span><h3>Configurar &amp; empezar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Configura tu identidad una vez (global). Luego inicia un repo nuevo con <code>init</code> o copia uno existente con <code>clone</code>.</p>
+              <figure class="code" data-copy="git config --global user.name &quot;Tu Nombre&quot;&#10;git config --global user.email &quot;tu@correo.com&quot;&#10;git config --global init.defaultBranch main&#10;&#10;git init                 # repo nuevo aquí&#10;git clone &lt;url&gt;           # copiar uno existente">
+                <figcaption><span class="lang">git config</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> user.name <span class="t-str">"Tu Nombre"</span>
+<span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> user.email <span class="t-str">"tu@correo.com"</span>
+<span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> init.defaultBranch main
+
+<span class="t-fn">git</span> <span class="t-kw">init</span>                 <span class="t-com"># repo nuevo aquí</span>
+<span class="t-fn">git</span> <span class="t-kw">clone</span> &lt;url&gt;           <span class="t-com"># copiar existente</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">SSH vs HTTPS</span>Configura una <b>clave SSH</b> en GitHub para empujar sin escribir contraseña cada vez (<code>ssh-keygen</code> + añadir la clave pública en Settings).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-zonas">
+            <div class="tile-h"><span class="td"></span><h3>Las tres zonas — el corazón de Git</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un archivo viaja por tres zonas. Entender este flujo explica casi todos los comandos: <code>add</code> mueve a la izquierda→staging; <code>commit</code> de staging→repo.</p>
+              <div class="zones" aria-hidden="true">
+                <div class="zone z1"><div class="zt">Working dir</div><div class="zc">modificado</div><div class="zd">tus archivos tal y como los editas</div></div>
+                <div class="zone z2"><div class="zt">Staging</div><div class="zc">git add</div><div class="zd">lo que entrará en el próximo commit</div></div>
+                <div class="zone z3"><div class="zt">Repositorio</div><div class="zc">git commit</div><div class="zd">historial local permanente (.git)</div></div>
+                <div class="zone z4"><div class="zt">Remoto</div><div class="zc">git push</div><div class="zd">GitHub: copia compartida</div></div>
+              </div>
+              <div class="deflist" style="margin-top:12px">
+                <div class="di"><span class="dk">git add</span><span class="dv">marca cambios para el próximo commit (working → staging).</span></div>
+                <div class="di"><span class="dk">git commit</span><span class="dv">sella lo que está en staging como una instantánea (staging → repo).</span></div>
+                <div class="di"><span class="dk">git push</span><span class="dv">sube tus commits locales al remoto (repo → GitHub).</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 — DÍA A DÍA ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>El día a día</h2><span class="meta">el ciclo que repites<br>cien veces al día</span></div>
+
+        <div class="cols">
+          <div class="tile" id="dd-ciclo">
+            <div class="tile-h"><span class="td"></span><h3>El ciclo básico</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Editar → revisar → preparar → confirmar. El 90% del trabajo diario son estos cuatro comandos.</p>
+              <figure class="code" data-copy="git status               # ¿qué cambió?&#10;git add archivo.py       # preparar uno&#10;git add .                # preparar todo&#10;git commit -m &quot;Añade login&quot;&#10;git push                 # subir al remoto">
+                <figcaption><span class="lang">git · ciclo</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">status</span>               <span class="t-com"># ¿qué cambió?</span>
+<span class="t-fn">git</span> <span class="t-kw">add</span> archivo.py       <span class="t-com"># preparar uno</span>
+<span class="t-fn">git</span> <span class="t-kw">add</span> .                <span class="t-com"># preparar todo</span>
+<span class="t-fn">git</span> <span class="t-kw">commit</span> <span class="t-flag">-m</span> <span class="t-str">"Añade login"</span>
+<span class="t-fn">git</span> <span class="t-kw">push</span>                 <span class="t-com"># subir</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Buen mensaje</span>En imperativo y conciso: <i>"Añade validación de email"</i>, no <i>"añadí cosas"</i>. La 1.ª línea ≤ 50 caracteres; detalle en el cuerpo si hace falta.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="dd-status">
+            <div class="tile-h"><span class="td"></span><h3>status &amp; diff</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>status</code> resume el estado; <code>diff</code> muestra <i>qué</i> líneas cambiaron exactamente.</p>
+              <figure class="code" data-copy="git status -s            # resumen corto&#10;git diff                 # cambios sin preparar&#10;git diff --staged        # lo ya preparado&#10;git diff main..rama      # entre dos ramas">
+                <figcaption><span class="lang">git</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">status</span> <span class="t-flag">-s</span>            <span class="t-com"># resumen corto</span>
+<span class="t-fn">git</span> <span class="t-kw">diff</span>                 <span class="t-com"># sin preparar</span>
+<span class="t-fn">git</span> <span class="t-kw">diff</span> <span class="t-flag">--staged</span>        <span class="t-com"># ya preparado</span>
+<span class="t-fn">git</span> <span class="t-kw">diff</span> main..rama      <span class="t-com"># entre ramas</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="dd-log">
+            <div class="tile-h"><span class="td"></span><h3>log &amp; historial</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Recorre el historial de commits. La forma <code>--oneline --graph</code> es la más útil para ver ramas de un vistazo.</p>
+              <figure class="code" data-copy="git log --oneline --graph --all&#10;git log -p archivo.py     # con diffs&#10;git log --author=&quot;Ada&quot;&#10;git show &lt;hash&gt;            # un commit a detalle&#10;git blame archivo.py      # quién tocó cada línea">
+                <figcaption><span class="lang">git log</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">log</span> <span class="t-flag">--oneline --graph --all</span>
+<span class="t-fn">git</span> <span class="t-kw">log</span> <span class="t-flag">-p</span> archivo.py     <span class="t-com"># con diffs</span>
+<span class="t-fn">git</span> <span class="t-kw">log</span> <span class="t-flag">--author=</span><span class="t-str">"Ada"</span>
+<span class="t-fn">git</span> <span class="t-kw">show</span> &lt;hash&gt;            <span class="t-com"># un commit</span>
+<span class="t-fn">git</span> <span class="t-kw">blame</span> archivo.py      <span class="t-com"># por línea</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="dd-ignore">
+            <div class="tile-h"><span class="td"></span><h3>.gitignore</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Lista de patrones que Git <b>no</b> debe rastrear: dependencias, secretos, binarios, entornos. Va en la raíz del repo.</p>
+              <figure class="code" data-copy="# .gitignore&#10;.venv/&#10;node_modules/&#10;__pycache__/&#10;*.log&#10;.env            # ¡nunca subas secretos!&#10;.DS_Store">
+                <figcaption><span class="lang">.gitignore</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># .gitignore</span>
+.venv/
+node_modules/
+__pycache__/
+<span class="t-op">*</span>.log
+.env            <span class="t-com"># ¡no subas secretos!</span>
+.DS_Store</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Ya lo rastreé</span><code>.gitignore</code> no afecta a lo ya rastreado. Sácalo del índice con <code>git rm --cached &lt;archivo&gt;</code> y haz commit.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 — RAMAS ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Ramas &amp; merge</h2><span class="meta">trabajar en paralelo<br>sin pisarte</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="rm-graph">
+            <div class="tile-h"><span class="td"></span><h3>Qué es una rama — y cómo se ve</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Una rama es un puntero móvil a un commit. Creas una rama para una tarea (<code>feature/login</code>), trabajas aislado y luego la <b>fusionas</b> (merge) de vuelta a <code>main</code>. Así el historial se ramifica y se vuelve a unir:</p>
+              <div class="graphwrap">
+                <div class="graph-bar"><i></i><i></i><i></i><span>git log --oneline --graph</span></div>
+                <svg class="bgraph" viewBox="0 0 720 200" role="img" aria-label="Grafo de ramas: main con una rama feature que diverge y se fusiona de vuelta">
+                  <path class="lmain" d="M60 150 H660"/>
+                  <path class="lfeat" d="M210 150 C250 150 250 70 290 70 H470 C510 70 510 150 550 150"/>
+                  <circle class="cm" cx="60" cy="150" r="9"/>
+                  <circle class="cm" cx="210" cy="150" r="9"/>
+                  <circle class="cf" cx="330" cy="70" r="9"/>
+                  <circle class="cf" cx="430" cy="70" r="9"/>
+                  <circle class="cm" cx="400" cy="150" r="9"/>
+                  <circle class="cm" cx="550" cy="150" r="9"/>
+                  <circle class="cm" cx="660" cy="150" r="9"/>
+                  <text class="tag tmain" x="48" y="180">main</text>
+                  <text class="tag tfeat" x="300" y="50">feature/login</text>
+                  <text class="lbl" x="500" y="180">merge</text>
+                </svg>
+              </div>
+              <div class="deflist" style="margin-top:10px">
+                <div class="di"><span class="dk">HEAD</span><span class="dv">puntero a "dónde estás": normalmente la punta de la rama actual.</span></div>
+                <div class="di"><span class="dk">Por qué ramificar</span><span class="dv">aíslas trabajo en curso de <code>main</code> (que se mantiene estable y desplegable).</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile" id="rm-cmd">
+            <div class="tile-h"><span class="td"></span><h3>Crear &amp; cambiar de rama</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <figure class="code" data-copy="git branch                # listar ramas&#10;git switch -c feature/login  # crear y cambiar&#10;git switch main           # volver a main&#10;git branch -d feature/login  # borrar (ya mergeada)&#10;git branch -m nuevo-nombre   # renombrar">
+                <figcaption><span class="lang">git · ramas</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">branch</span>                <span class="t-com"># listar</span>
+<span class="t-fn">git</span> <span class="t-kw">switch</span> <span class="t-flag">-c</span> feature/login  <span class="t-com"># crear+ir</span>
+<span class="t-fn">git</span> <span class="t-kw">switch</span> main           <span class="t-com"># volver</span>
+<span class="t-fn">git</span> <span class="t-kw">branch</span> <span class="t-flag">-d</span> feature/login  <span class="t-com"># borrar</span>
+<span class="t-fn">git</span> <span class="t-kw">branch</span> <span class="t-flag">-m</span> nuevo-nombre   <span class="t-com"># renombrar</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">switch vs checkout</span><code>git switch</code> (moderno) cambia de rama; <code>git restore</code> recupera archivos. Antes ambas cosas las hacía el sobrecargado <code>checkout</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-merge">
+            <div class="tile-h"><span class="td"></span><h3>Merge &amp; sus tipos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Estando en la rama destino (<code>main</code>), fusionas la otra hacia ella.</p>
+              <figure class="code" data-copy="git switch main&#10;git merge feature/login   # traer cambios a main&#10;git merge --no-ff rama    # forzar commit de merge">
+                <figcaption><span class="lang">git merge</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">switch</span> main
+<span class="t-fn">git</span> <span class="t-kw">merge</span> feature/login   <span class="t-com"># traer a main</span>
+<span class="t-fn">git</span> <span class="t-kw">merge</span> <span class="t-flag">--no-ff</span> rama    <span class="t-com"># commit merge</span></pre>
+              </figure>
+              <div class="deflist">
+                <div class="di"><span class="dk">Fast-forward</span><span class="dv">si main no avanzó, solo mueve el puntero. Historial lineal.</span></div>
+                <div class="di"><span class="dk">Merge commit</span><span class="dv">si ambas avanzaron, crea un commit que une las dos historias.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 — REMOTO ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Trabajo remoto (GitHub)</h2><span class="meta">sincronizar con<br>el equipo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="re-remote">
+            <div class="tile-h"><span class="td"></span><h3>clone &amp; remote</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El remoto por defecto se llama <code>origin</code>. <code>clone</code> ya lo configura; en un repo local lo añades a mano.</p>
+              <figure class="code" data-copy="git clone git@github.com:user/repo.git&#10;git remote -v             # ver remotos&#10;git remote add origin &lt;url&gt;&#10;git push -u origin main   # 1.ª vez: enlaza rama">
+                <figcaption><span class="lang">git remote</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">clone</span> git@github.com:user/repo.git
+<span class="t-fn">git</span> <span class="t-kw">remote</span> <span class="t-flag">-v</span>             <span class="t-com"># ver remotos</span>
+<span class="t-fn">git</span> <span class="t-kw">remote</span> <span class="t-kw">add</span> origin &lt;url&gt;
+<span class="t-fn">git</span> <span class="t-kw">push</span> <span class="t-flag">-u</span> origin main   <span class="t-com"># enlaza rama</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="re-sync">
+            <div class="tile-h"><span class="td"></span><h3>fetch · pull · push</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>fetch</code> baja cambios <i>sin</i> aplicarlos; <code>pull</code> = <code>fetch</code> + <code>merge</code>; <code>push</code> sube los tuyos.</p>
+              <figure class="code" data-copy="git fetch origin         # baja, no aplica&#10;git pull                 # baja y fusiona&#10;git pull --rebase        # baja y rebasa (lineal)&#10;git push                 # sube tus commits">
+                <figcaption><span class="lang">git · sync</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">fetch</span> origin         <span class="t-com"># baja, no aplica</span>
+<span class="t-fn">git</span> <span class="t-kw">pull</span>                 <span class="t-com"># baja y fusiona</span>
+<span class="t-fn">git</span> <span class="t-kw">pull</span> <span class="t-flag">--rebase</span>        <span class="t-com"># lineal</span>
+<span class="t-fn">git</span> <span class="t-kw">push</span>                 <span class="t-com"># sube</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Rechazado al push</span>Si el remoto tiene commits que no tienes, Git rechaza el push. Haz <code>git pull</code> (o <code>--rebase</code>), resuelve y vuelve a empujar. Nunca <code>--force</code> en ramas compartidas.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="re-pr">
+            <div class="tile-h"><span class="td"></span><h3>Pull requests — el flujo de GitHub</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>pull request (PR)</b> propone fusionar tu rama en <code>main</code> y abre un espacio para revisión, comentarios y CI antes de integrar. El flujo estándar de equipo:</p>
+              <figure class="code" data-copy="git switch -c feature/x   # 1. rama nueva&#10;# ...trabajas y haces commits...&#10;git push -u origin feature/x  # 2. subes la rama&#10;# 3. abres el PR en GitHub (o con gh):&#10;gh pr create --fill&#10;# 4. revisión + cambios, luego se fusiona&#10;gh pr merge --squash --delete-branch">
+                <figcaption><span class="lang">flujo PR · gh</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">switch</span> <span class="t-flag">-c</span> feature/x   <span class="t-com"># 1. rama nueva</span>
+<span class="t-com"># …trabajas y haces commits…</span>
+<span class="t-fn">git</span> <span class="t-kw">push</span> <span class="t-flag">-u</span> origin feature/x  <span class="t-com"># 2. subir</span>
+<span class="t-com"># 3. abrir el PR (web o gh):</span>
+<span class="t-fn">gh</span> <span class="t-kw">pr</span> create <span class="t-flag">--fill</span>
+<span class="t-com"># 4. revisión, y se fusiona:</span>
+<span class="t-fn">gh</span> <span class="t-kw">pr</span> merge <span class="t-flag">--squash --delete-branch</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Squash merge</span><b>Squash</b> aplasta todos los commits del PR en uno solo sobre <code>main</code>: historial limpio. Muy usado en equipos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 — DESHACER ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Deshacer sin romper nada</h2><span class="meta">el botón de<br>marcha atrás</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ds-restore">
+            <div class="tile-h"><span class="td"></span><h3>restore &amp; reset</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>restore</code> descarta cambios en archivos; <code>reset</code> mueve la punta de la rama. Las tres variantes de reset según qué conservan:</p>
+              <figure class="code" data-copy="git restore archivo.py    # descartar cambios&#10;git restore --staged f.py # quitar de staging&#10;&#10;git reset --soft HEAD~1   # deshace commit, deja cambios staged&#10;git reset --mixed HEAD~1  # ...deja cambios sin stage (default)&#10;git reset --hard HEAD~1   # BORRA cambios y commit">
+                <figcaption><span class="lang">git · deshacer</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">restore</span> archivo.py    <span class="t-com"># descartar</span>
+<span class="t-fn">git</span> <span class="t-kw">restore</span> <span class="t-flag">--staged</span> f.py <span class="t-com"># un-stage</span>
+
+<span class="t-fn">git</span> <span class="t-kw">reset</span> <span class="t-flag">--soft</span> HEAD~1   <span class="t-com"># deja staged</span>
+<span class="t-fn">git</span> <span class="t-kw">reset</span> <span class="t-flag">--mixed</span> HEAD~1  <span class="t-com"># deja sin stage</span>
+<span class="t-fn">git</span> <span class="t-kw">reset</span> <span class="t-flag">--hard</span> HEAD~1   <span class="t-com"># BORRA todo</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Cuidado con --hard</span>Destruye cambios no commiteados sin red de seguridad. Si dudas, <code>--soft</code> o <code>git stash</code> primero.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ds-revert">
+            <div class="tile-h"><span class="td"></span><h3>revert &amp; amend</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>revert</code> es el modo <b>seguro</b> de deshacer en ramas compartidas: crea un commit nuevo que invierte otro, sin reescribir la historia. <code>amend</code> corrige el último commit.</p>
+              <figure class="code" data-copy="git revert &lt;hash&gt;         # deshace ese commit (seguro)&#10;&#10;git commit --amend -m &quot;Mensaje corregido&quot;&#10;git commit --amend --no-edit  # solo añadir archivos olvidados">
+                <figcaption><span class="lang">git</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">revert</span> &lt;hash&gt;         <span class="t-com"># invierte (seguro)</span>
+
+<span class="t-fn">git</span> <span class="t-kw">commit</span> <span class="t-flag">--amend</span> <span class="t-flag">-m</span> <span class="t-str">"Mensaje nuevo"</span>
+<span class="t-fn">git</span> <span class="t-kw">commit</span> <span class="t-flag">--amend --no-edit</span>  <span class="t-com"># + archivos</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">amend ya empujado</span><code>--amend</code> reescribe el commit: si ya lo empujaste a una rama compartida, evita reescribir. Úsalo solo en commits locales.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ds-stash">
+            <div class="tile-h"><span class="td"></span><h3>stash &amp; reflog — la red de seguridad</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><code>stash</code> guarda cambios a medio hacer en un cajón para cambiar de rama sin commitear. <code>reflog</code> registra <b>cada</b> movimiento de HEAD: tu salvavidas para recuperar commits "perdidos" tras un reset.</p>
+              <figure class="code" data-copy="git stash                # guardar cambios en el cajón&#10;git stash pop            # recuperarlos (y quitar del cajón)&#10;git stash list           # ver cajones&#10;&#10;git reflog               # historial de HEAD&#10;git reset --hard HEAD@{2} # volver a un estado anterior">
+                <figcaption><span class="lang">git · rescate</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">stash</span>                <span class="t-com"># guardar a medio hacer</span>
+<span class="t-fn">git</span> <span class="t-kw">stash</span> <span class="t-kw">pop</span>            <span class="t-com"># recuperar</span>
+<span class="t-fn">git</span> <span class="t-kw">stash</span> <span class="t-kw">list</span>           <span class="t-com"># ver cajones</span>
+
+<span class="t-fn">git</span> <span class="t-kw">reflog</span>               <span class="t-com"># historial de HEAD</span>
+<span class="t-fn">git</span> <span class="t-kw">reset</span> <span class="t-flag">--hard</span> HEAD@{<span class="t-num">2</span>} <span class="t-com"># volver atrás</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Casi nada se pierde</span>Aunque hagas un <code>reset --hard</code> de más, el commit sigue en el reflog unos 90 días. Busca su hash con <code>git reflog</code> y recupéralo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 — COLABORACIÓN ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Colaboración</h2><span class="meta">trabajar con otros<br>sin caos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="co-rebase">
+            <div class="tile-h"><span class="td"></span><h3>merge vs rebase</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Ambos integran cambios. <b>Merge</b> conserva la historia real (con commit de unión); <b>rebase</b> reescribe tus commits encima de la otra rama para una historia <b>lineal</b>.</p>
+              <figure class="code" data-copy="# poner mi rama al día sobre main (lineal)&#10;git switch feature/x&#10;git rebase main&#10;&#10;# limpiar mis commits antes del PR&#10;git rebase -i HEAD~3      # squash, reorder, edit">
+                <figcaption><span class="lang">git rebase</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># poner mi rama al día sobre main</span>
+<span class="t-fn">git</span> <span class="t-kw">switch</span> feature/x
+<span class="t-fn">git</span> <span class="t-kw">rebase</span> main
+
+<span class="t-com"># limpiar commits antes del PR</span>
+<span class="t-fn">git</span> <span class="t-kw">rebase</span> <span class="t-flag">-i</span> HEAD~<span class="t-num">3</span>      <span class="t-com"># squash/reorder</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">La regla de oro del rebase</span>No rebases ramas <b>públicas/compartidas</b>: reescribir commits que otros ya tienen rompe su historial. Rebasa solo tu trabajo local.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="co-conflict">
+            <div class="tile-h"><span class="td"></span><h3>Resolver conflictos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Pasa cuando dos ramas tocan las mismas líneas. Git marca el choque; tú eliges qué queda, borras los marcadores y confirmas.</p>
+              <figure class="code" data-copy="&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD&#10;tu versión&#10;=======&#10;la versión entrante&#10;&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/x&#10;&#10;# tras editar y dejar la versión final:&#10;git add archivo&#10;git commit            # (o git rebase --continue)">
+                <figcaption><span class="lang">conflicto</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD
+tu versión
+<span class="t-kw">=======</span>
+la versión entrante
+<span class="t-kw">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> feature/x
+
+<span class="t-com"># tras dejar la versión final:</span>
+<span class="t-fn">git</span> <span class="t-kw">add</span> archivo
+<span class="t-fn">git</span> <span class="t-kw">commit</span>            <span class="t-com"># o rebase --continue</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="co-tags">
+            <div class="tile-h"><span class="td"></span><h3>Tags &amp; releases</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>tag</b> marca un punto del historial (típicamente una versión) con un nombre estable. Combinado con GitHub Releases, publica versiones descargables.</p>
+              <figure class="code" data-copy="git tag v1.0.0                 # tag ligero&#10;git tag -a v1.0.0 -m &quot;Primera versión&quot;  # anotado&#10;git push origin v1.0.0         # subir el tag&#10;git tag                        # listar&#10;gh release create v1.0.0 --notes &quot;Cambios...&quot;">
+                <figcaption><span class="lang">git tag · gh release</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">tag</span> v1.0.0                 <span class="t-com"># ligero</span>
+<span class="t-fn">git</span> <span class="t-kw">tag</span> <span class="t-flag">-a</span> v1.0.0 <span class="t-flag">-m</span> <span class="t-str">"Versión 1"</span>  <span class="t-com"># anotado</span>
+<span class="t-fn">git</span> <span class="t-kw">push</span> origin v1.0.0         <span class="t-com"># subir tag</span>
+<span class="t-fn">git</span> <span class="t-kw">tag</span>                        <span class="t-com"># listar</span>
+<span class="t-fn">gh</span> <span class="t-kw">release</span> create v1.0.0 <span class="t-flag">--notes</span> <span class="t-str">"…"</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">SemVer</span><code>vMAYOR.MENOR.PARCHE</code>: MAYOR rompe compatibilidad, MENOR añade features, PARCHE corrige bugs. <code>v2.1.3</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 — AVANZADO ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Avanzado &amp; atajos</h2><span class="meta">el cinturón de<br>herramientas pro</span></div>
+
+        <div class="cols">
+          <div class="tile" id="av-gh">
+            <div class="tile-h"><span class="td"></span><h3>GitHub CLI (gh)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>gh</code> trae GitHub a la terminal: PRs, issues, releases y repos sin abrir el navegador.</p>
+              <figure class="code" data-copy="gh auth login            # autenticarte&#10;gh repo clone user/repo&#10;gh pr create --fill      # PR desde la rama actual&#10;gh pr status             # tus PRs&#10;gh pr checkout 42        # revisar el PR #42&#10;gh issue list">
+                <figcaption><span class="lang">gh cli</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">gh</span> <span class="t-kw">auth</span> login            <span class="t-com"># autenticar</span>
+<span class="t-fn">gh</span> <span class="t-kw">repo</span> clone user/repo
+<span class="t-fn">gh</span> <span class="t-kw">pr</span> create <span class="t-flag">--fill</span>      <span class="t-com"># PR de la rama</span>
+<span class="t-fn">gh</span> <span class="t-kw">pr</span> status             <span class="t-com"># tus PRs</span>
+<span class="t-fn">gh</span> <span class="t-kw">pr</span> checkout <span class="t-num">42</span>        <span class="t-com"># revisar #42</span>
+<span class="t-fn">gh</span> <span class="t-kw">issue</span> list</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="av-tools">
+            <div class="tile-h"><span class="td"></span><h3>cherry-pick · bisect · worktree</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Comando</th><th>Para qué</th></tr>
+                <tr><td class="fn">cherry-pick &lt;hash&gt;</td><td>traer <b>un</b> commit suelto de otra rama</td></tr>
+                <tr><td class="fn">bisect</td><td>búsqueda binaria del commit que rompió algo</td></tr>
+                <tr><td class="fn">worktree add</td><td>varias ramas abiertas en carpetas a la vez</td></tr>
+                <tr><td class="fn">clean -fd</td><td>borrar archivos no rastreados</td></tr>
+              </table>
+              <figure class="code" data-copy="git bisect start&#10;git bisect bad            # el actual falla&#10;git bisect good v1.0      # esta versión iba bien&#10;# Git te lleva al commit medio; marcas good/bad&#10;git bisect reset">
+                <figcaption><span class="lang">git bisect</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">bisect</span> start
+<span class="t-fn">git</span> <span class="t-kw">bisect</span> bad            <span class="t-com"># actual falla</span>
+<span class="t-fn">git</span> <span class="t-kw">bisect</span> good v1.0      <span class="t-com"># aquí iba bien</span>
+<span class="t-com"># marcas good/bad hasta hallarlo</span>
+<span class="t-fn">git</span> <span class="t-kw">bisect</span> reset</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="av-alias">
+            <div class="tile-h"><span class="td"></span><h3>Alias &amp; atajos que ahorran tiempo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Define abreviaturas en tu config global. Una vez puestas, <code>git lg</code> vale por todo un comando largo.</p>
+              <figure class="code" data-copy="git config --global alias.st status&#10;git config --global alias.co switch&#10;git config --global alias.lg \&#10;  &quot;log --oneline --graph --all --decorate&quot;&#10;git config --global alias.last &quot;log -1 HEAD&quot;&#10;# uso: git st · git lg · git last">
+                <figcaption><span class="lang">git alias</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> alias.st status
+<span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> alias.co switch
+<span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> alias.lg \
+  <span class="t-str">"log --oneline --graph --all"</span>
+<span class="t-fn">git</span> <span class="t-kw">config</span> <span class="t-flag">--global</span> alias.last <span class="t-str">"log -1"</span>
+<span class="t-com"># uso: git st · git lg · git last</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Higiene de repo</span>Commits pequeños y atómicos · <code>main</code> siempre desplegable · ramas con prefijo (<code>feat/</code>, <code>fix/</code>) · nunca subas secretos (usa <code>.env</code> + <code>.gitignore</code>).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Git &amp; GitHub · Hoja de referencia</b> — del primer commit al pull request. Construida sobre el flujo real de trabajo con Git: las tres zonas, ramas, sincronización remota, deshacer con seguridad y colaboración con PRs, completada con buenas prácticas de equipo y <code>gh</code> CLI.
+        <span class="mono">Comandos en su sintaxis real (inglés) · notas en español · clic en cualquier comando para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

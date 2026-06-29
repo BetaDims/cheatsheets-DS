@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9ECF1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F9;
+  --rail:#F1F3F7;
+  --code-bg:#F7F9FC;
+  --line:#DBDFE7;
+  --line-soft:#E8EBF1;
+  --ink:#1C2230;
+  --ink-soft:#525A6B;
+  --ink-faint:#8A91A0;
+  /* Python blue: bright for fills/markers, deep for legible text on white */
+  --py:#3776AB;
+  --py-deep:#28527A;
+  --py-tint:rgba(55,118,171,.16);
+  --py-gold:#FFD43B;
+  --py-gold-deep:#9A7400;
+  /* section accents — legible on white (text + fills) */
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* Texto */
+  --s2:#0C8A8A;  /* Colecciones */
+  --s3:#1E9B51;  /* Flujo */
+  --s4:#B0840A;  /* Funciones */
+  --s5:#7A45C9;  /* POO */
+  --s6:#D5632E;  /* Módulos */
+  --s7:#C0392B;  /* Errores */
+  --s8:#C44C85;  /* Avanzado */
+  /* level badges (bright fills, dark text) */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (light editor) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-bi:#0E7C86;
+  --t-com:#9097A1;
+  --t-dec:#B5701A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--py-gold);color:#1a1a1a}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (hero) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(28,34,48,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F3F5F9;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,var(--py),var(--py-deep));flex:none}
+.logo svg{width:13px;height:13px}
+.titlebar .fname{font-weight:600;color:var(--ink);letter-spacing:.005em}
+.titlebar .fname b{color:var(--py-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CBD0DA;display:block}
+
+/* editor file tabs */
+.viewtabs{display:flex;gap:0;background:#FBFCFE;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--py-deep);border-bottom-color:var(--py)}
+.viewtabs .vt .d{width:8px;height:8px;border-radius:50%;background:var(--py-gold);flex:none}
+
+/* REPL prompt bar */
+.fxbar{display:flex;align-items:stretch;background:#FBFCFE;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--py-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+/* hero body */
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--py-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--py)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.2rem);line-height:.98;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--py-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--py-deep)}
+
+/* hero quote */
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--py-gold);background:linear-gradient(90deg,rgba(255,212,59,.12),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+/* section stepper nav */
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+
+/* left rail */
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:13px;font-weight:700}
+.rail .ri.on{color:var(--py-deep);background:var(--py-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--py)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+/* sticky section index */
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+/* mobile tab strip */
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.6rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+/* tile */
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(28,34,48,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(28,34,48,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--py-deep)}
+
+/* ====== CODE BLOCK ====== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(28,34,48,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--py-gold);background:#FBF8E8}
+figure.code.copied .cphint{opacity:1;color:var(--py-gold-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:4}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-bi{color:var(--t-bi);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-dec{color:var(--t-dec);font-weight:600}
+.t-op{color:var(--ink-soft)}
+.pmt{color:var(--py);font-weight:700}
+.out{color:var(--ink-faint)}
+
+/* ====== REFERENCE TABLE ====== */
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--py-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-bi)}
+
+/* ====== REPL signature ====== */
+.repl{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.repl-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F3F5F9;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.repl-bar i{width:10px;height:10px;border-radius:50%;background:#CBD0DA;display:block}
+.repl-bar i:nth-child(1){background:#E5736B}.repl-bar i:nth-child(2){background:var(--py-gold)}.repl-bar i:nth-child(3){background:#5FB87C}
+.repl-bar span{margin-left:6px}
+.repl pre{padding:13px 15px;font-family:"JetBrains Mono";font-size:12.5px;line-height:1.7;overflow-x:auto;color:var(--ink)}
+.repl .cur{display:inline-block;width:7px;height:14px;background:var(--py);vertical-align:-2px;margin-left:2px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.repl .cur{animation:none}}
+
+/* ====== tips / callouts ====== */
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--py-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+.tip.zen{border-left-color:var(--py-gold);background:rgba(255,212,59,.1)}
+.tip.zen .lab{color:var(--py-gold-deep)}
+
+/* def list */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--py-deep);font-weight:600;flex:none;width:118px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+/* kbd */
+.tip kbd{font-family:"JetBrains Mono";font-size:11px;background:var(--canvas);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C2230;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(28,34,48,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="#fff"><path d="M11.9 2c-2 0-3.5.2-3.5 2.4v1.6h7v.9H5.6C3.4 6.9 3 8.6 3 11s.4 4.1 2.6 4.1h1.6v-2c0-2 1.5-3.6 3.6-3.6h3.8c1.8 0 2.9-1.2 2.9-3V4.4C17.5 2.7 16 2 13.9 2h-2zm-1.9 2c.4 0 .7.3.7.7s-.3.7-.7.7-.7-.3-.7-.7.3-.7.7-.7z"/><path d="M12.1 22c2 0 3.5-.2 3.5-2.4v-1.6h-7v-.9h9.8c2.2 0 2.6-1.7 2.6-4.1s-.4-4.1-2.6-4.1h-1.6v2c0 2-1.5 3.6-3.6 3.6H9c-1.8 0-2.9 1.2-2.9 3v2.5C6.5 19.3 8 22 10.1 22h2zm1.9-2c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7z" opacity=".75"/></svg></span>
+      <span class="fname"><b>Python</b> · hoja_de_referencia.py</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on"><span class="d"></span>hoja_de_referencia.py</span>
+      <span class="vt">&gt;&gt;&gt; consola</span>
+      <span class="vt">requirements.txt</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">&gt;&gt;&gt;</span>
+      <span class="fxc"><span class="t-kw">import</span> this&nbsp;&nbsp;<span class="t-com"># lo bello es mejor que lo feo; lo simple, mejor que lo complejo</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · de la variable al decorador</div>
+      <h1>Python,<br>de los <em>fundamentos</em> a lo <em>avanzado</em>.</h1>
+      <p class="lede">Todo el lenguaje en una sola página para tener abierta mientras programas: <b>tipos y estructuras de datos</b>, <b>flujo</b>, <b>funciones</b>, <b>POO</b>, <b>módulos y entornos</b>, manejo de <b>errores</b> y los recursos avanzados (<code>decoradores</code>, <code>generadores</code>, <code>with</code>) más la biblioteca estándar que de verdad usas. Cada concepto trae su sintaxis real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier bloque de código para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Bello es mejor que feo. Explícito es mejor que implícito. Simple es mejor que complejo."</p>
+        <cite>— El Zen de Python, Tim Peters · <span class="mono">import this</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Texto</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Colecciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Flujo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Funciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>POO</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Módulos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Errores</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s8)"></span>Avanzado</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">tipos · variables</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Texto</span><span class="sd">str · f-strings</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Colecciones</span><span class="sd">list · dict · set</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Flujo</span><span class="sd">if · for · comprehension</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Funciones</span><span class="sd">def · *args · lambda</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">POO</span><span class="sd">class · herencia</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Módulos</span><span class="sd">import · pip · venv</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Errores</span><span class="sd">try · except</span></a>
+        <a class="step" href="#e8" style="--c:var(--s8)"><span class="sn">08</span><span class="st">Avanzado</span><span class="sd">decorador · yield</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+
+    <!-- left rail -->
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">Py</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.py</div>
+    </aside>
+
+    <!-- section index -->
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-ejecutar" style="--seg:var(--s0)">Ejecutar &amp; el REPL</a>
+      <a href="#fd-vars" style="--seg:var(--s0)">Variables &amp; tipos</a>
+      <a href="#fd-num" style="--seg:var(--s0)">Números &amp; operadores</a>
+      <a href="#fd-conv" style="--seg:var(--s0)">Conversión &amp; entrada</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Texto</div>
+      <a href="#tx-slice" style="--seg:var(--s1)">Índices &amp; rebanadas</a>
+      <a href="#tx-metodos" style="--seg:var(--s1)">Métodos de cadena</a>
+      <a href="#tx-fstring" style="--seg:var(--s1)">f-strings &amp; formato</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Colecciones</div>
+      <a href="#cl-list" style="--seg:var(--s2)">Listas</a>
+      <a href="#cl-tuple" style="--seg:var(--s2)">Tuplas</a>
+      <a href="#cl-dict" style="--seg:var(--s2)">Diccionarios</a>
+      <a href="#cl-set" style="--seg:var(--s2)">Conjuntos</a>
+      <a href="#cl-cual" style="--seg:var(--s2)">¿Cuál uso?</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Flujo</div>
+      <a href="#fl-bool" style="--seg:var(--s3)">Comparar &amp; lógica</a>
+      <a href="#fl-if" style="--seg:var(--s3)">if / elif / else</a>
+      <a href="#fl-loops" style="--seg:var(--s3)">Bucles for &amp; while</a>
+      <a href="#fl-utiles" style="--seg:var(--s3)">Operadores útiles</a>
+      <a href="#fl-comp" style="--seg:var(--s3)">Comprehensions</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Funciones</div>
+      <a href="#fn-def" style="--seg:var(--s4)">def &amp; parámetros</a>
+      <a href="#fn-args" style="--seg:var(--s4)">*args &amp; **kwargs</a>
+      <a href="#fn-lambda" style="--seg:var(--s4)">lambda · map · filter</a>
+      <a href="#fn-scope" style="--seg:var(--s4)">Alcance (LEGB)</a>
+      <a href="#fn-hints" style="--seg:var(--s4)">Anotaciones de tipo</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · POO</div>
+      <a href="#oo-class" style="--seg:var(--s5)">Clases &amp; objetos</a>
+      <a href="#oo-herencia" style="--seg:var(--s5)">Herencia &amp; polimorfismo</a>
+      <a href="#oo-dunder" style="--seg:var(--s5)">Métodos dunder</a>
+      <a href="#oo-prop" style="--seg:var(--s5)">@property &amp; dataclass</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Módulos</div>
+      <a href="#md-import" style="--seg:var(--s6)">import &amp; módulos</a>
+      <a href="#md-main" style="--seg:var(--s6)">__name__ == "__main__"</a>
+      <a href="#md-venv" style="--seg:var(--s6)">pip &amp; entornos</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Errores</div>
+      <a href="#er-try" style="--seg:var(--s7)">try / except / finally</a>
+      <a href="#er-raise" style="--seg:var(--s7)">raise &amp; propias</a>
+      <a href="#er-comunes" style="--seg:var(--s7)">Excepciones comunes</a>
+
+      <div class="toc-h" style="--seg:var(--s8)"><span class="sq"></span>08 · Avanzado</div>
+      <a href="#av-with" style="--seg:var(--s8)">Context managers (with)</a>
+      <a href="#av-gen" style="--seg:var(--s8)">Generadores (yield)</a>
+      <a href="#av-deco" style="--seg:var(--s8)">Decoradores</a>
+      <a href="#av-std" style="--seg:var(--s8)">Biblioteca estándar</a>
+    </nav>
+
+    <!-- ============ MAIN ============ -->
+    <main>
+
+      <!-- mobile tabs -->
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Texto</a><a href="#e2">02 Colec.</a>
+        <a href="#e3">03 Flujo</a><a href="#e4">04 Func.</a><a href="#e5">05 POO</a>
+        <a href="#e6">06 Mód.</a><a href="#e7">07 Errores</a><a href="#e8">08 Avanz.</a>
+      </div>
+
+      <!-- ===== 00 — FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">CPython 3.13+<br>el punto de partida</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="fd-ejecutar">
+            <div class="tile-h"><span class="td"></span><h3>Ejecutar Python &amp; el REPL</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Dos formas de correr código: un <b>script</b> (<code>python archivo.py</code>) o el <b>REPL</b> interactivo (<code>python</code> sin más), donde escribes una línea y ves el resultado al instante — ideal para probar y explorar. <code>&gt;&gt;&gt;</code> es el prompt; lo que devuelve aparece debajo.</p>
+              <div class="repl" aria-label="Consola interactiva de Python (REPL)">
+                <div class="repl-bar"><i></i><i></i><i></i><span>Python 3.13 · consola interactiva</span></div>
+<pre><span class="pmt">&gt;&gt;&gt;</span> <span class="t-num">2</span> <span class="t-op">**</span> <span class="t-num">10</span>
+<span class="out">1024</span>
+<span class="pmt">&gt;&gt;&gt;</span> nombre <span class="t-op">=</span> <span class="t-str">"Ada"</span>
+<span class="pmt">&gt;&gt;&gt;</span> <span class="t-bi">len</span>(nombre)
+<span class="out">3</span>
+<span class="pmt">&gt;&gt;&gt;</span> <span class="t-bi">print</span>(<span class="t-str">f"Hola, {nombre}!"</span>)
+<span class="out">Hola, Ada!</span>
+<span class="pmt">&gt;&gt;&gt;</span> <span class="t-bi">type</span>(<span class="t-num">3.14</span>)
+<span class="out">&lt;class 'float'&gt;</span>
+<span class="pmt">&gt;&gt;&gt;</span> <span class="cur"></span></pre>
+              </div>
+              <div class="tip"><span class="lab">Atajos clave</span>En el REPL, <code>_</code> guarda el último resultado · <code>help(obj)</code> abre la ayuda · <code>dir(obj)</code> lista atributos y métodos · <kbd>Ctrl-D</kbd> (o <code>exit()</code>) sale.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile" id="fd-vars">
+            <div class="tile-h"><span class="td"></span><h3>Variables &amp; tipos básicos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">No se declara el tipo: la variable es una <b>etiqueta</b> que apunta a un objeto. <code>=</code> asigna; <code>==</code> compara. Nombres en <code>snake_case</code>.</p>
+              <figure class="code" data-copy="edad = 30            # int&#10;precio = 19.99       # float&#10;nombre = &quot;Ada&quot;       # str&#10;activo = True        # bool&#10;nada = None          # NoneType&#10;x = y = 0            # asignación múltiple&#10;a, b = 1, 2          # desempaquetado">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>edad   <span class="t-op">=</span> <span class="t-num">30</span>            <span class="t-com"># int</span>
+precio <span class="t-op">=</span> <span class="t-num">19.99</span>         <span class="t-com"># float</span>
+nombre <span class="t-op">=</span> <span class="t-str">"Ada"</span>         <span class="t-com"># str</span>
+activo <span class="t-op">=</span> <span class="t-kw">True</span>          <span class="t-com"># bool</span>
+nada   <span class="t-op">=</span> <span class="t-kw">None</span>          <span class="t-com"># NoneType</span>
+x <span class="t-op">=</span> y <span class="t-op">=</span> <span class="t-num">0</span>           <span class="t-com"># múltiple</span>
+a, b <span class="t-op">=</span> <span class="t-num">1</span>, <span class="t-num">2</span>          <span class="t-com"># desempaqueta</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Tipado dinámico, fuerte</span>El tipo lo lleva el objeto, no la variable, pero Python <b>no</b> mezcla tipos a la fuerza: <code>"3" + 5</code> es un error, no <code>"35"</code> ni <code>8</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-num">
+            <div class="tile-h"><span class="td"></span><h3>Números &amp; operadores</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Op.</th><th>Hace</th><th>Ejemplo</th></tr>
+                <tr><td class="fn">+ - *</td><td>suma, resta, mult.</td><td><code>3 * 4 → 12</code></td></tr>
+                <tr><td class="fn">/</td><td>división real</td><td><code>7 / 2 → 3.5</code></td></tr>
+                <tr><td class="fn">//</td><td>división entera</td><td><code>7 // 2 → 3</code></td></tr>
+                <tr><td class="fn">%</td><td>módulo (resto)</td><td><code>7 % 2 → 1</code></td></tr>
+                <tr><td class="fn">**</td><td>potencia</td><td><code>2 ** 3 → 8</code></td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué importa</span><code>%</code> revela paridad (<code>n % 2 == 0</code> = par) y <code>//</code> reparte sin decimales. <code>int</code> no tiene límite de tamaño; <code>float</code> sí redondea (<code>0.1 + 0.2 ≠ 0.3</code> exacto).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-conv">
+            <div class="tile-h"><span class="td"></span><h3>Conversión de tipos &amp; entrada del usuario</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Convierte explícitamente con las funciones del tipo. <code>input()</code> <b>siempre</b> devuelve <code>str</code>: si esperas un número, conviértelo o fallarán los cálculos.</p>
+              <figure class="code" data-copy="int(&quot;42&quot;)        # 42   texto → entero&#10;float(&quot;3.14&quot;)    # 3.14&#10;str(42)         # &quot;42&quot;  número → texto&#10;bool(0)         # False (0, &quot;&quot;, [], None → False)&#10;list(&quot;abc&quot;)      # ['a', 'b', 'c']&#10;&#10;edad = int(input(&quot;Tu edad: &quot;))&#10;print(edad + 1)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-bi">int</span>(<span class="t-str">"42"</span>)        <span class="t-com"># 42   texto → entero</span>
+<span class="t-bi">float</span>(<span class="t-str">"3.14"</span>)    <span class="t-com"># 3.14</span>
+<span class="t-bi">str</span>(<span class="t-num">42</span>)         <span class="t-com"># "42"  número → texto</span>
+<span class="t-bi">bool</span>(<span class="t-num">0</span>)         <span class="t-com"># False  (0,"",[],None → False)</span>
+<span class="t-bi">list</span>(<span class="t-str">"abc"</span>)      <span class="t-com"># ['a','b','c']</span>
+
+edad <span class="t-op">=</span> <span class="t-bi">int</span>(<span class="t-bi">input</span>(<span class="t-str">"Tu edad: "</span>))
+<span class="t-bi">print</span>(edad <span class="t-op">+</span> <span class="t-num">1</span>)</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Error típico</span><code>input()</code> + número sin convertir: <code>"5" + 1</code> lanza <code>TypeError</code>. Envuelve siempre en <code>int(...)</code> o <code>float(...)</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 — TEXTO ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Texto · cadenas (str)</h2><span class="meta">inmutables<br>secuencias de caracteres</span></div>
+
+        <div class="cols">
+          <div class="tile" id="tx-slice">
+            <div class="tile-h"><span class="td"></span><h3>Índices &amp; rebanadas (slicing)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cada carácter tiene un índice desde <code>0</code>; los negativos cuentan desde el final. La rebanada <code>[inicio:fin:paso]</code> incluye <code>inicio</code> y excluye <code>fin</code>.</p>
+              <figure class="code" data-copy="s = &quot;Python&quot;&#10;s[0]      # 'P'   primero&#10;s[-1]     # 'n'   último&#10;s[0:3]    # 'Pyt' del 0 al 2&#10;s[:3]     # 'Pyt' desde el inicio&#10;s[2:]     # 'thon' hasta el final&#10;s[::-1]   # 'nohtyP' invertir&#10;s[::2]    # 'Pto'  de dos en dos">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>s <span class="t-op">=</span> <span class="t-str">"Python"</span>
+s[<span class="t-num">0</span>]      <span class="t-com"># 'P'   primero</span>
+s[<span class="t-op">-</span><span class="t-num">1</span>]     <span class="t-com"># 'n'   último</span>
+s[<span class="t-num">0</span>:<span class="t-num">3</span>]    <span class="t-com"># 'Pyt' del 0 al 2</span>
+s[:<span class="t-num">3</span>]     <span class="t-com"># 'Pyt' desde inicio</span>
+s[<span class="t-num">2</span>:]     <span class="t-com"># 'thon' al final</span>
+s[::<span class="t-op">-</span><span class="t-num">1</span>]   <span class="t-com"># 'nohtyP' invertir</span>
+s[::<span class="t-num">2</span>]    <span class="t-com"># 'Pto'  de 2 en 2</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Recuerda</span>El slicing funciona igual en <b>listas y tuplas</b>. Las cadenas son <b>inmutables</b>: <code>s[0]="x"</code> falla; crea una nueva con métodos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="tx-metodos">
+            <div class="tile-h"><span class="td"></span><h3>Métodos de cadena</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Método</th><th>Para qué</th></tr>
+                <tr><td class="fn">.upper() .lower()</td><td>mayúsculas / minúsculas</td></tr>
+                <tr><td class="fn">.strip()</td><td>quita espacios en los extremos</td></tr>
+                <tr><td class="fn">.replace(a, b)</td><td>sustituye texto</td></tr>
+                <tr><td class="fn">.split(sep)</td><td>texto → lista</td></tr>
+                <tr><td class="fn">", ".join(lista)</td><td>lista → texto</td></tr>
+                <tr><td class="fn">.startswith()</td><td>¿empieza por…?</td></tr>
+                <tr><td class="fn">.find() / in</td><td>buscar / ¿contiene?</td></tr>
+                <tr><td class="fn">.format()</td><td>plantilla con <code>{}</code></td></tr>
+              </table>
+              <div class="tip"><span class="lab">Encadenan</span>Devuelven una <b>nueva</b> cadena, así que se enlazan: <code>" Hola ".strip().lower()</code> → <code>"hola"</code>.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols one">
+          <div class="tile span" id="tx-fstring">
+            <div class="tile-h"><span class="td"></span><h3>f-strings &amp; formato de impresión</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>f-string</b> (prefijo <code>f</code>) inserta variables y expresiones entre <code>{}</code>. Es la forma moderna y legible de construir texto; además da control de formato (decimales, alineación, miles).</p>
+              <figure class="code" data-copy="nombre, total = &quot;Ada&quot;, 1234.5&#10;f&quot;Hola, {nombre}&quot;          # Hola, Ada&#10;f&quot;{2 + 2 = }&quot;               # 2 + 2 = 4  (debug)&#10;f&quot;{total:.2f}&quot;              # 1234.50  (2 decimales)&#10;f&quot;{total:,.2f}&quot;             # 1,234.50 (miles)&#10;f&quot;{nombre:&gt;10}&quot;             # alinea a la derecha&#10;f&quot;{0.25:.0%}&quot;               # 25%  (porcentaje)">
+                <figcaption><span class="lang">python · f-string</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>nombre, total <span class="t-op">=</span> <span class="t-str">"Ada"</span>, <span class="t-num">1234.5</span>
+<span class="t-str">f"Hola, {nombre}"</span>          <span class="t-com"># Hola, Ada</span>
+<span class="t-str">f"{2 + 2 = }"</span>               <span class="t-com"># 2 + 2 = 4  (debug)</span>
+<span class="t-str">f"{total:.2f}"</span>              <span class="t-com"># 1234.50</span>
+<span class="t-str">f"{total:,.2f}"</span>             <span class="t-com"># 1,234.50  (miles)</span>
+<span class="t-str">f"{nombre:&gt;10}"</span>             <span class="t-com"># alinea derecha</span>
+<span class="t-str">f"{0.25:.0%}"</span>               <span class="t-com"># 25%</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Mini-lenguaje de formato</span><code>{valor:[relleno][align][,][.precisión][tipo]}</code>. Tipos útiles: <code>f</code> fijo, <code>%</code> porcentaje, <code>e</code> científico, <code>d</code> entero, <code>x</code> hex.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 — COLECCIONES ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Estructuras de datos</h2><span class="meta">list · tuple<br>dict · set</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cl-list">
+            <div class="tile-h"><span class="td"></span><h3>Listas — ordenadas y mutables</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Secuencia <b>ordenada</b> que puede crecer, encoger y cambiar. El caballo de batalla de Python. Se crea con <code>[]</code>.</p>
+              <figure class="code" data-copy="xs = [3, 1, 2]&#10;xs.append(4)      # [3,1,2,4] añade al final&#10;xs.insert(0, 9)   # inserta en posición&#10;xs.pop()          # saca y devuelve el último&#10;xs.remove(1)      # borra el valor 1&#10;xs.sort()         # ordena in-place&#10;sorted(xs)        # nueva lista ordenada&#10;len(xs); 3 in xs  # tamaño; pertenencia">
+                <figcaption><span class="lang">python · list</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>xs <span class="t-op">=</span> [<span class="t-num">3</span>, <span class="t-num">1</span>, <span class="t-num">2</span>]
+xs.<span class="t-fn">append</span>(<span class="t-num">4</span>)      <span class="t-com"># añade al final</span>
+xs.<span class="t-fn">insert</span>(<span class="t-num">0</span>, <span class="t-num">9</span>)   <span class="t-com"># en posición</span>
+xs.<span class="t-fn">pop</span>()          <span class="t-com"># saca el último</span>
+xs.<span class="t-fn">remove</span>(<span class="t-num">1</span>)      <span class="t-com"># borra valor 1</span>
+xs.<span class="t-fn">sort</span>()         <span class="t-com"># ordena in-place</span>
+<span class="t-bi">sorted</span>(xs)        <span class="t-com"># nueva ordenada</span>
+<span class="t-bi">len</span>(xs); <span class="t-num">3</span> <span class="t-kw">in</span> xs  <span class="t-com"># tamaño; ¿está?</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cl-tuple">
+            <div class="tile-h"><span class="td"></span><h3>Tuplas — ordenadas e inmutables</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Como una lista pero <b>no cambia</b> tras crearse. Se crea con <code>()</code>. Útil para datos fijos (coordenadas, un registro) y para devolver varios valores de una función.</p>
+              <figure class="code" data-copy="punto = (10, 20)&#10;x, y = punto        # desempaquetado&#10;punto[0]            # 10&#10;# punto[0] = 5       error: inmutable&#10;una = (5,)          # tupla de 1: coma obligatoria&#10;def min_max(xs):&#10;    return min(xs), max(xs)   # devuelve tupla">
+                <figcaption><span class="lang">python · tuple</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>punto <span class="t-op">=</span> (<span class="t-num">10</span>, <span class="t-num">20</span>)
+x, y <span class="t-op">=</span> punto        <span class="t-com"># desempaqueta</span>
+punto[<span class="t-num">0</span>]            <span class="t-com"># 10</span>
+<span class="t-com"># punto[0] = 5  → error: inmutable</span>
+una <span class="t-op">=</span> (<span class="t-num">5</span>,)          <span class="t-com"># 1 elem: coma!</span>
+<span class="t-kw">def</span> <span class="t-fn">min_max</span>(xs):
+    <span class="t-kw">return</span> <span class="t-bi">min</span>(xs), <span class="t-bi">max</span>(xs)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cl-dict">
+            <div class="tile-h"><span class="td"></span><h3>Diccionarios — pares clave→valor</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Asocia una <b>clave única</b> a un valor; acceso instantáneo por clave. La estructura más usada para datos estructurados (como un JSON). Se crea con <code>{}</code>.</p>
+              <figure class="code" data-copy="u = {&quot;nombre&quot;: &quot;Ada&quot;, &quot;edad&quot;: 30}&#10;u[&quot;nombre&quot;]            # 'Ada'&#10;u.get(&quot;tel&quot;, &quot;n/d&quot;)     # default si no existe&#10;u[&quot;activo&quot;] = True      # añade / actualiza&#10;u.keys(); u.values()   # claves; valores&#10;for k, v in u.items(): # recorre pares&#10;    print(k, v)&#10;&quot;edad&quot; in u             # ¿existe la clave?">
+                <figcaption><span class="lang">python · dict</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>u <span class="t-op">=</span> {<span class="t-str">"nombre"</span>: <span class="t-str">"Ada"</span>, <span class="t-str">"edad"</span>: <span class="t-num">30</span>}
+u[<span class="t-str">"nombre"</span>]            <span class="t-com"># 'Ada'</span>
+u.<span class="t-fn">get</span>(<span class="t-str">"tel"</span>, <span class="t-str">"n/d"</span>)     <span class="t-com"># default</span>
+u[<span class="t-str">"activo"</span>] <span class="t-op">=</span> <span class="t-kw">True</span>      <span class="t-com"># add/update</span>
+u.<span class="t-fn">keys</span>(); u.<span class="t-fn">values</span>()
+<span class="t-kw">for</span> k, v <span class="t-kw">in</span> u.<span class="t-fn">items</span>():
+    <span class="t-bi">print</span>(k, v)
+<span class="t-str">"edad"</span> <span class="t-kw">in</span> u             <span class="t-com"># ¿clave?</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cl-set">
+            <div class="tile-h"><span class="td"></span><h3>Conjuntos — únicos, sin orden</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Colección de elementos <b>únicos</b>, sin duplicados ni orden. Perfecto para quitar repetidos y para operaciones de conjuntos. Se crea con <code>{}</code> (con elementos) o <code>set()</code>.</p>
+              <figure class="code" data-copy="a = {1, 2, 3}&#10;b = {3, 4, 5}&#10;a | b   # unión        {1,2,3,4,5}&#10;a &amp; b   # intersección  {3}&#10;a - b   # diferencia    {1,2}&#10;a ^ b   # simétrica     {1,2,4,5}&#10;set([1,1,2,2])         # {1,2} quita duplicados&#10;a.add(9); a.discard(1)">
+                <figcaption><span class="lang">python · set</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>a <span class="t-op">=</span> {<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>}
+b <span class="t-op">=</span> {<span class="t-num">3</span>, <span class="t-num">4</span>, <span class="t-num">5</span>}
+a <span class="t-op">|</span> b   <span class="t-com"># unión        {1,2,3,4,5}</span>
+a <span class="t-op">&amp;</span> b   <span class="t-com"># intersección {3}</span>
+a <span class="t-op">-</span> b   <span class="t-com"># diferencia   {1,2}</span>
+a <span class="t-op">^</span> b   <span class="t-com"># simétrica    {1,2,4,5}</span>
+<span class="t-bi">set</span>([<span class="t-num">1</span>,<span class="t-num">1</span>,<span class="t-num">2</span>,<span class="t-num">2</span>])         <span class="t-com"># {1,2}</span>
+a.<span class="t-fn">add</span>(<span class="t-num">9</span>); a.<span class="t-fn">discard</span>(<span class="t-num">1</span>)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="cl-cual">
+            <div class="tile-h"><span class="td"></span><h3>¿Cuál estructura uso?</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Orden</th><th>¿Cambia?</th><th>Duplicados</th><th>Úsalo cuando…</th></tr>
+                <tr><td class="k">list <code>[]</code></td><td>sí</td><td>sí</td><td>sí</td><td>secuencia que crece/ordenas</td></tr>
+                <tr><td class="k">tuple <code>()</code></td><td>sí</td><td>no</td><td>sí</td><td>datos fijos, devolver varios</td></tr>
+                <tr><td class="k">dict <code>{k:v}</code></td><td>sí*</td><td>sí</td><td>claves no</td><td>buscar por clave</td></tr>
+                <tr><td class="k">set <code>{}</code></td><td>no</td><td>sí</td><td>no</td><td>únicos / pertenencia rápida</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Rendimiento</span>Buscar un elemento (<code>x in …</code>) es <b>instantáneo</b> en <code>set</code> y <code>dict</code> (tabla hash) pero lento en <code>list</code> (recorre todo). *Los <code>dict</code> conservan el orden de inserción desde Python 3.7.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 — FLUJO ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Control de flujo</h2><span class="meta">la indentación<br>define los bloques</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fl-bool">
+            <div class="tile-h"><span class="td"></span><h3>Comparar &amp; lógica booleana</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Operador</th><th>Significa</th></tr>
+                <tr><td class="fn">== !=</td><td>igual / distinto (valor)</td></tr>
+                <tr><td class="fn">&lt; &lt;= &gt; &gt;=</td><td>comparaciones</td></tr>
+                <tr><td class="fn">and or not</td><td>lógicos (palabras, no símbolos)</td></tr>
+                <tr><td class="fn">in / not in</td><td>pertenencia</td></tr>
+                <tr><td class="fn">is / is not</td><td>misma identidad (objeto)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">==  vs  is</span><code>==</code> compara <b>valores</b>; <code>is</code> compara si son <b>el mismo objeto</b> en memoria. Usa <code>is</code> solo con <code>None</code>: <code>if x is None:</code>.</div>
+              <div class="tip"><span class="lab">Encadenan</span><code>18 &lt;= edad &lt; 65</code> es válido y legible — Python encadena comparaciones.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fl-if">
+            <div class="tile-h"><span class="td"></span><h3>if / elif / else</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El bloque se define por la <b>indentación</b> (4 espacios), no por llaves. El <code>:</code> abre el bloque.</p>
+              <figure class="code" data-copy="nota = 75&#10;if nota &gt;= 90:&#10;    grado = &quot;A&quot;&#10;elif nota &gt;= 70:&#10;    grado = &quot;B&quot;&#10;else:&#10;    grado = &quot;F&quot;&#10;&#10;# ternario en una línea&#10;estado = &quot;ok&quot; if nota &gt;= 70 else &quot;repasa&quot;">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>nota <span class="t-op">=</span> <span class="t-num">75</span>
+<span class="t-kw">if</span> nota <span class="t-op">&gt;=</span> <span class="t-num">90</span>:
+    grado <span class="t-op">=</span> <span class="t-str">"A"</span>
+<span class="t-kw">elif</span> nota <span class="t-op">&gt;=</span> <span class="t-num">70</span>:
+    grado <span class="t-op">=</span> <span class="t-str">"B"</span>
+<span class="t-kw">else</span>:
+    grado <span class="t-op">=</span> <span class="t-str">"F"</span>
+
+<span class="t-com"># ternario en una línea</span>
+estado <span class="t-op">=</span> <span class="t-str">"ok"</span> <span class="t-kw">if</span> nota <span class="t-op">&gt;=</span> <span class="t-num">70</span> <span class="t-kw">else</span> <span class="t-str">"repasa"</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="fl-loops">
+            <div class="tile-h"><span class="td"></span><h3>Bucles for &amp; while</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>for</code> recorre cualquier <b>iterable</b> (lista, texto, dict…). <code>while</code> repite mientras una condición sea verdadera. <code>break</code> sale; <code>continue</code> salta a la siguiente vuelta.</p>
+              <figure class="code" data-copy="for x in [10, 20, 30]:&#10;    print(x)&#10;&#10;for i in range(3):       # 0, 1, 2&#10;    print(i)&#10;&#10;n = 5&#10;while n &gt; 0:&#10;    print(n)&#10;    n -= 1               # evita bucle infinito">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">for</span> x <span class="t-kw">in</span> [<span class="t-num">10</span>, <span class="t-num">20</span>, <span class="t-num">30</span>]:
+    <span class="t-bi">print</span>(x)
+
+<span class="t-kw">for</span> i <span class="t-kw">in</span> <span class="t-bi">range</span>(<span class="t-num">3</span>):       <span class="t-com"># 0, 1, 2</span>
+    <span class="t-bi">print</span>(i)
+
+n <span class="t-op">=</span> <span class="t-num">5</span>
+<span class="t-kw">while</span> n <span class="t-op">&gt;</span> <span class="t-num">0</span>:
+    <span class="t-bi">print</span>(n)
+    n <span class="t-op">-=</span> <span class="t-num">1</span>               <span class="t-com"># evita infinito</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="fl-utiles">
+            <div class="tile-h"><span class="td"></span><h3>Operadores útiles en bucles</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Función</th><th>Da</th></tr>
+                <tr><td class="fn">range(a,b,p)</td><td>secuencia de números</td></tr>
+                <tr><td class="fn">enumerate(xs)</td><td>pares (índice, valor)</td></tr>
+                <tr><td class="fn">zip(a, b)</td><td>empareja dos iterables</td></tr>
+                <tr><td class="fn">reversed(xs)</td><td>iterador al revés</td></tr>
+                <tr><td class="fn">sorted(xs, key=)</td><td>ordena con criterio</td></tr>
+              </table>
+              <figure class="code" data-copy="for i, x in enumerate(xs):&#10;    print(i, x)         # 0 a, 1 b...&#10;for a, b in zip(nom, edad):&#10;    print(a, b)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">for</span> i, x <span class="t-kw">in</span> <span class="t-bi">enumerate</span>(xs):
+    <span class="t-bi">print</span>(i, x)         <span class="t-com"># 0 a, 1 b…</span>
+<span class="t-kw">for</span> a, b <span class="t-kw">in</span> <span class="t-bi">zip</span>(nom, edad):
+    <span class="t-bi">print</span>(a, b)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="fl-comp">
+            <div class="tile-h"><span class="td"></span><h3>Comprehensions — construir colecciones en una línea</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Forma idiomática y rápida de crear listas, dicts o sets a partir de un iterable, con filtro opcional. Lee como inglés: <i>"x al cuadrado, para cada x en el rango, si x es par"</i>.</p>
+              <figure class="code" data-copy="# lista&#10;cuad = [x**2 for x in range(6)]        # [0,1,4,9,16,25]&#10;# con filtro&#10;pares = [x for x in range(10) if x % 2 == 0]&#10;# diccionario&#10;mapa = {x: x**2 for x in range(4)}     # {0:0,1:1,2:4,3:9}&#10;# conjunto&#10;iniciales = {n[0] for n in nombres}&#10;# generador (perezoso, no guarda en memoria)&#10;suma = sum(x*x for x in range(1000))">
+                <figcaption><span class="lang">python · comprehensions</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># lista</span>
+cuad <span class="t-op">=</span> [x<span class="t-op">**</span><span class="t-num">2</span> <span class="t-kw">for</span> x <span class="t-kw">in</span> <span class="t-bi">range</span>(<span class="t-num">6</span>)]        <span class="t-com"># [0,1,4,9,16,25]</span>
+<span class="t-com"># con filtro</span>
+pares <span class="t-op">=</span> [x <span class="t-kw">for</span> x <span class="t-kw">in</span> <span class="t-bi">range</span>(<span class="t-num">10</span>) <span class="t-kw">if</span> x <span class="t-op">%</span> <span class="t-num">2</span> <span class="t-op">==</span> <span class="t-num">0</span>]
+<span class="t-com"># diccionario</span>
+mapa <span class="t-op">=</span> {x: x<span class="t-op">**</span><span class="t-num">2</span> <span class="t-kw">for</span> x <span class="t-kw">in</span> <span class="t-bi">range</span>(<span class="t-num">4</span>)}     <span class="t-com"># {0:0,1:1,2:4,3:9}</span>
+<span class="t-com"># conjunto</span>
+iniciales <span class="t-op">=</span> {n[<span class="t-num">0</span>] <span class="t-kw">for</span> n <span class="t-kw">in</span> nombres}
+<span class="t-com"># generador (perezoso, no llena memoria)</span>
+suma <span class="t-op">=</span> <span class="t-bi">sum</span>(x<span class="t-op">*</span>x <span class="t-kw">for</span> x <span class="t-kw">in</span> <span class="t-bi">range</span>(<span class="t-num">1000</span>))</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">No te pases</span>Si una comprehension necesita varios <code>if</code>/<code>for</code> anidados y deja de leerse de un vistazo, usa un <code>for</code> normal. Legible &gt; ingenioso.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 — FUNCIONES ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Funciones</h2><span class="meta">reutilizar lógica<br>def · return</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fn-def">
+            <div class="tile-h"><span class="td"></span><h3>def &amp; parámetros</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Empaqueta lógica reutilizable. Los parámetros pueden tener <b>valor por defecto</b> y pasarse <b>por nombre</b> (keyword), lo que hace la llamada legible.</p>
+              <figure class="code" data-copy="def saludo(nombre, signo=&quot;!&quot;):&#10;    &quot;&quot;&quot;Devuelve un saludo.&quot;&quot;&quot;   # docstring&#10;    return f&quot;Hola, {nombre}{signo}&quot;&#10;&#10;saludo(&quot;Ada&quot;)             # Hola, Ada!&#10;saludo(&quot;Ada&quot;, signo=&quot;.&quot;)  # por nombre&#10;# sin return → devuelve None">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">saludo</span>(nombre, signo<span class="t-op">=</span><span class="t-str">"!"</span>):
+    <span class="t-str">"""Devuelve un saludo."""</span>   <span class="t-com"># docstring</span>
+    <span class="t-kw">return</span> <span class="t-str">f"Hola, {nombre}{signo}"</span>
+
+<span class="t-fn">saludo</span>(<span class="t-str">"Ada"</span>)             <span class="t-com"># Hola, Ada!</span>
+<span class="t-fn">saludo</span>(<span class="t-str">"Ada"</span>, signo<span class="t-op">=</span><span class="t-str">"."</span>)  <span class="t-com"># por nombre</span>
+<span class="t-com"># sin return → devuelve None</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Trampa clásica</span>Nunca uses una lista/dict como valor por defecto (<code>def f(x=[])</code>): se comparte entre llamadas. Usa <code>x=None</code> y créala dentro.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fn-args">
+            <div class="tile-h"><span class="td"></span><h3>*args &amp; **kwargs</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>*args</code> recoge posicionales extra en una <b>tupla</b>; <code>**kwargs</code> recoge keywords extra en un <b>dict</b>. Para funciones que aceptan un número variable de argumentos.</p>
+              <figure class="code" data-copy="def total(*args, **kwargs):&#10;    print(args)     # (1, 2, 3)&#10;    print(kwargs)   # {'iva': 0.16}&#10;    return sum(args)&#10;&#10;total(1, 2, 3, iva=0.16)&#10;&#10;# desempaquetar al llamar&#10;nums = [1, 2, 3]&#10;total(*nums)        # *  expande la lista">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">total</span>(<span class="t-op">*</span>args, <span class="t-op">**</span>kwargs):
+    <span class="t-bi">print</span>(args)     <span class="t-com"># (1, 2, 3)</span>
+    <span class="t-bi">print</span>(kwargs)   <span class="t-com"># {'iva': 0.16}</span>
+    <span class="t-kw">return</span> <span class="t-bi">sum</span>(args)
+
+<span class="t-fn">total</span>(<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>, iva<span class="t-op">=</span><span class="t-num">0.16</span>)
+
+<span class="t-com"># desempaquetar al llamar</span>
+nums <span class="t-op">=</span> [<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>]
+<span class="t-fn">total</span>(<span class="t-op">*</span>nums)        <span class="t-com"># expande la lista</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="fn-lambda">
+            <div class="tile-h"><span class="td"></span><h3>lambda · map · filter</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <code>lambda</code> es una función anónima de una sola expresión. Brilla como argumento <code>key=</code> o con <code>map</code>/<code>filter</code> (aunque a menudo una comprehension es más clara).</p>
+              <figure class="code" data-copy="doble = lambda x: x * 2&#10;doble(5)                       # 10&#10;&#10;# ordenar por criterio&#10;personas.sort(key=lambda p: p[&quot;edad&quot;])&#10;&#10;# map / filter (devuelven iteradores)&#10;list(map(lambda x: x*2, xs))&#10;list(filter(lambda x: x &gt; 0, xs))">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>doble <span class="t-op">=</span> <span class="t-kw">lambda</span> x: x <span class="t-op">*</span> <span class="t-num">2</span>
+doble(<span class="t-num">5</span>)                       <span class="t-com"># 10</span>
+
+<span class="t-com"># ordenar por criterio</span>
+personas.<span class="t-fn">sort</span>(key<span class="t-op">=</span><span class="t-kw">lambda</span> p: p[<span class="t-str">"edad"</span>])
+
+<span class="t-com"># map / filter → iteradores</span>
+<span class="t-bi">list</span>(<span class="t-bi">map</span>(<span class="t-kw">lambda</span> x: x<span class="t-op">*</span><span class="t-num">2</span>, xs))
+<span class="t-bi">list</span>(<span class="t-bi">filter</span>(<span class="t-kw">lambda</span> x: x <span class="t-op">&gt;</span> <span class="t-num">0</span>, xs))</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="fn-scope">
+            <div class="tile-h"><span class="td"></span><h3>Alcance de variables (LEGB)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Python busca un nombre en este orden: <b>L</b>ocal → <b>E</b>nclosing (función externa) → <b>G</b>lobal → <b>B</b>uilt-in. Una función puede <i>leer</i> globales, pero para <i>reasignarlas</i> necesita <code>global</code> / <code>nonlocal</code>.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Local</span><span class="dv">definida dentro de la función; muere al terminar.</span></div>
+                <div class="di"><span class="dk">Enclosing</span><span class="dv">de una función que envuelve a otra (closures).</span></div>
+                <div class="di"><span class="dk">Global</span><span class="dv">a nivel de módulo; usa <code>global x</code> para reasignar.</span></div>
+                <div class="di"><span class="dk">Built-in</span><span class="dv"><code>len</code>, <code>print</code>, <code>range</code>… siempre disponibles.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Buena práctica</span>Evita <code>global</code>: pasa datos por parámetros y devuelve resultados con <code>return</code>. Funciones puras = más fáciles de probar.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fn-hints">
+            <div class="tile-h"><span class="td"></span><h3>Anotaciones de tipo (type hints)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Opcionales y no obligan en tiempo de ejecución, pero documentan la intención y permiten que el editor y herramientas como <b>mypy</b> detecten errores antes de correr. Hoy son estándar en código profesional.</p>
+              <figure class="code" data-copy="def promedio(notas: list[float]) -&gt; float:&#10;    return sum(notas) / len(notas)&#10;&#10;nombre: str = &quot;Ada&quot;&#10;edad: int = 30&#10;from typing import Optional&#10;def buscar(id: int) -&gt; Optional[str]:&#10;    ...   # puede devolver str o None">
+                <figcaption><span class="lang">python · typing</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">promedio</span>(notas: <span class="t-bi">list</span>[<span class="t-bi">float</span>]) <span class="t-op">-&gt;</span> <span class="t-bi">float</span>:
+    <span class="t-kw">return</span> <span class="t-bi">sum</span>(notas) <span class="t-op">/</span> <span class="t-bi">len</span>(notas)
+
+nombre: <span class="t-bi">str</span> <span class="t-op">=</span> <span class="t-str">"Ada"</span>
+edad: <span class="t-bi">int</span> <span class="t-op">=</span> <span class="t-num">30</span>
+<span class="t-kw">from</span> typing <span class="t-kw">import</span> Optional
+<span class="t-kw">def</span> <span class="t-fn">buscar</span>(id: <span class="t-bi">int</span>) <span class="t-op">-&gt;</span> Optional[<span class="t-bi">str</span>]:
+    ...   <span class="t-com"># str o None</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 — POO ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Programación orientada a objetos</h2><span class="meta">class · self<br>herencia · dunder</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="oo-class">
+            <div class="tile-h"><span class="td"></span><h3>Clases &amp; objetos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>clase</b> es el molde; un <b>objeto</b> (instancia) es lo que creas con él. <code>__init__</code> es el constructor: corre al crear el objeto. <code>self</code> es la instancia actual — el primer parámetro de todo método.</p>
+              <figure class="code" data-copy="class Perro:&#10;    especie = &quot;Canis&quot;          # atributo de clase (compartido)&#10;&#10;    def __init__(self, nombre, edad):&#10;        self.nombre = nombre   # atributos de instancia&#10;        self.edad = edad&#10;&#10;    def ladrar(self):          # método&#10;        return f&quot;{self.nombre} dice ¡guau!&quot;&#10;&#10;p = Perro(&quot;Rex&quot;, 3)            # crea la instancia&#10;p.nombre                      # 'Rex'&#10;p.ladrar()                    # 'Rex dice ¡guau!'">
+                <figcaption><span class="lang">python · class</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">class</span> <span class="t-fn">Perro</span>:
+    especie <span class="t-op">=</span> <span class="t-str">"Canis"</span>          <span class="t-com"># atributo de clase (compartido)</span>
+
+    <span class="t-kw">def</span> <span class="t-fn">__init__</span>(<span class="t-kw">self</span>, nombre, edad):
+        <span class="t-kw">self</span>.nombre <span class="t-op">=</span> nombre   <span class="t-com"># atributos de instancia</span>
+        <span class="t-kw">self</span>.edad <span class="t-op">=</span> edad
+
+    <span class="t-kw">def</span> <span class="t-fn">ladrar</span>(<span class="t-kw">self</span>):          <span class="t-com"># método</span>
+        <span class="t-kw">return</span> <span class="t-str">f"{self.nombre} dice ¡guau!"</span>
+
+p <span class="t-op">=</span> <span class="t-fn">Perro</span>(<span class="t-str">"Rex"</span>, <span class="t-num">3</span>)            <span class="t-com"># crea la instancia</span>
+p.nombre                      <span class="t-com"># 'Rex'</span>
+p.<span class="t-fn">ladrar</span>()                    <span class="t-com"># 'Rex dice ¡guau!'</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile" id="oo-herencia">
+            <div class="tile-h"><span class="td"></span><h3>Herencia &amp; polimorfismo</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una subclase <b>hereda</b> y puede <b>sobrescribir</b> métodos del padre. <code>super()</code> llama al método del padre. <b>Polimorfismo</b>: distintas clases responden al mismo método a su manera.</p>
+              <figure class="code" data-copy="class Animal:&#10;    def hablar(self):&#10;        return &quot;...&quot;&#10;&#10;class Gato(Animal):           # hereda de Animal&#10;    def hablar(self):         # sobrescribe&#10;        return &quot;miau&quot;&#10;&#10;for a in [Gato(), Animal()]:&#10;    print(a.hablar())         # miau / ...">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">class</span> <span class="t-fn">Animal</span>:
+    <span class="t-kw">def</span> <span class="t-fn">hablar</span>(<span class="t-kw">self</span>):
+        <span class="t-kw">return</span> <span class="t-str">"…"</span>
+
+<span class="t-kw">class</span> <span class="t-fn">Gato</span>(Animal):           <span class="t-com"># hereda</span>
+    <span class="t-kw">def</span> <span class="t-fn">hablar</span>(<span class="t-kw">self</span>):         <span class="t-com"># sobrescribe</span>
+        <span class="t-kw">return</span> <span class="t-str">"miau"</span>
+
+<span class="t-kw">for</span> a <span class="t-kw">in</span> [<span class="t-fn">Gato</span>(), <span class="t-fn">Animal</span>()]:
+    <span class="t-bi">print</span>(a.<span class="t-fn">hablar</span>())         <span class="t-com"># miau / …</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="oo-dunder">
+            <div class="tile-h"><span class="td"></span><h3>Métodos dunder (mágicos)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Los métodos <code>__xxx__</code> conectan tu objeto con la sintaxis de Python: cómo se imprime, se suma, se compara o se mide su longitud.</p>
+              <table class="tbl">
+                <tr><th>Método</th><th>Se activa con</th></tr>
+                <tr><td class="fn">__init__</td><td>crear: <code>Clase()</code></td></tr>
+                <tr><td class="fn">__str__</td><td><code>print(obj)</code>, <code>str()</code></td></tr>
+                <tr><td class="fn">__repr__</td><td>el REPL, depuración</td></tr>
+                <tr><td class="fn">__len__</td><td><code>len(obj)</code></td></tr>
+                <tr><td class="fn">__eq__</td><td><code>obj == otro</code></td></tr>
+                <tr><td class="fn">__add__</td><td><code>obj + otro</code></td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile span" id="oo-prop">
+            <div class="tile-h"><span class="td"></span><h3>@property &amp; @dataclass</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><code>@property</code> expone un método como si fuera un atributo (cálculo al vuelo, validación). <code>@dataclass</code> genera <code>__init__</code>, <code>__repr__</code> y <code>__eq__</code> por ti para clases que solo guardan datos.</p>
+              <figure class="code" data-copy="from dataclasses import dataclass&#10;&#10;@dataclass&#10;class Punto:&#10;    x: float&#10;    y: float&#10;&#10;    @property&#10;    def magnitud(self):&#10;        return (self.x**2 + self.y**2) ** 0.5&#10;&#10;p = Punto(3, 4)&#10;p.magnitud        # 5.0  (sin paréntesis)&#10;print(p)          # Punto(x=3, y=4)  repr gratis">
+                <figcaption><span class="lang">python · dataclass</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> dataclasses <span class="t-kw">import</span> dataclass
+
+<span class="t-dec">@dataclass</span>
+<span class="t-kw">class</span> <span class="t-fn">Punto</span>:
+    x: <span class="t-bi">float</span>
+    y: <span class="t-bi">float</span>
+
+    <span class="t-dec">@property</span>
+    <span class="t-kw">def</span> <span class="t-fn">magnitud</span>(<span class="t-kw">self</span>):
+        <span class="t-kw">return</span> (<span class="t-kw">self</span>.x<span class="t-op">**</span><span class="t-num">2</span> <span class="t-op">+</span> <span class="t-kw">self</span>.y<span class="t-op">**</span><span class="t-num">2</span>) <span class="t-op">**</span> <span class="t-num">0.5</span>
+
+p <span class="t-op">=</span> <span class="t-fn">Punto</span>(<span class="t-num">3</span>, <span class="t-num">4</span>)
+p.magnitud        <span class="t-com"># 5.0  (sin paréntesis)</span>
+<span class="t-bi">print</span>(p)          <span class="t-com"># Punto(x=3, y=4)  repr gratis</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 — MÓDULOS ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Módulos, paquetes &amp; entornos</h2><span class="meta">organizar e<br>instalar código</span></div>
+
+        <div class="cols">
+          <div class="tile" id="md-import">
+            <div class="tile-h"><span class="td"></span><h3>import &amp; módulos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>módulo</b> es un archivo <code>.py</code>; un <b>paquete</b> es una carpeta de módulos. <code>import</code> trae código de la biblioteca estándar, de paquetes instalados o tuyos.</p>
+              <figure class="code" data-copy="import math&#10;math.sqrt(16)            # 4.0&#10;&#10;from random import choice, randint&#10;choice([&quot;a&quot;, &quot;b&quot;])&#10;&#10;import numpy as np        # alias&#10;from pathlib import Path  # nombre concreto&#10;from mi_modulo import fn  # módulo propio">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> math
+math.<span class="t-fn">sqrt</span>(<span class="t-num">16</span>)            <span class="t-com"># 4.0</span>
+
+<span class="t-kw">from</span> random <span class="t-kw">import</span> choice, randint
+<span class="t-fn">choice</span>([<span class="t-str">"a"</span>, <span class="t-str">"b"</span>])
+
+<span class="t-kw">import</span> numpy <span class="t-kw">as</span> np        <span class="t-com"># alias</span>
+<span class="t-kw">from</span> pathlib <span class="t-kw">import</span> Path  <span class="t-com"># concreto</span>
+<span class="t-kw">from</span> mi_modulo <span class="t-kw">import</span> fn  <span class="t-com"># propio</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Evita</span><code>from modulo import *</code> ensucia el espacio de nombres y oculta de dónde viene cada cosa. Importa lo concreto.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="md-main">
+            <div class="tile-h"><span class="td"></span><h3>if __name__ == "__main__"</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El código bajo este <code>if</code> solo corre cuando ejecutas el archivo <b>directamente</b>, no cuando otro lo importa. Separa "soy un programa" de "soy una biblioteca".</p>
+              <figure class="code" data-copy="def main():&#10;    print(&quot;Ejecutando como programa&quot;)&#10;&#10;if __name__ == &quot;__main__&quot;:&#10;    main()&#10;# python archivo.py  → corre main()&#10;# import archivo     → NO corre main()">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">main</span>():
+    <span class="t-bi">print</span>(<span class="t-str">"Ejecutando como programa"</span>)
+
+<span class="t-kw">if</span> __name__ <span class="t-op">==</span> <span class="t-str">"__main__"</span>:
+    <span class="t-fn">main</span>()
+<span class="t-com"># python archivo.py → corre main()</span>
+<span class="t-com"># import archivo    → NO lo corre</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="md-venv">
+            <div class="tile-h"><span class="td"></span><h3>pip &amp; entornos virtuales</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>entorno virtual</b> aísla las dependencias de cada proyecto para que no choquen entre sí. Créalo, actívalo, instala con <code>pip</code> y congela versiones en <code>requirements.txt</code>. Comandos para tu terminal (zsh):</p>
+              <figure class="code" data-copy="python -m venv .venv          # crear entorno&#10;source .venv/bin/activate     # activar (Linux/Mac)&#10;pip install requests          # instalar paquete&#10;pip install -r requirements.txt  # desde archivo&#10;pip freeze &gt; requirements.txt  # congelar versiones&#10;deactivate                    # salir del entorno">
+                <figcaption><span class="lang">bash · terminal</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>python <span class="t-op">-</span>m venv .venv          <span class="t-com"># crear entorno</span>
+<span class="t-kw">source</span> .venv/bin/activate     <span class="t-com"># activar</span>
+pip install requests          <span class="t-com"># instalar</span>
+pip install <span class="t-op">-</span>r requirements.txt  <span class="t-com"># desde archivo</span>
+pip freeze <span class="t-op">&gt;</span> requirements.txt  <span class="t-com"># congelar</span>
+deactivate                    <span class="t-com"># salir</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Regla de oro</span>Un entorno por proyecto y <code>.venv/</code> en el <code>.gitignore</code>. Lo que se versiona es <code>requirements.txt</code>, no la carpeta del entorno.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 — ERRORES ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Errores &amp; excepciones</h2><span class="meta">fallar con<br>elegancia</span></div>
+
+        <div class="cols">
+          <div class="tile" id="er-try">
+            <div class="tile-h"><span class="td"></span><h3>try / except / else / finally</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Captura errores previsibles en vez de dejar que el programa muera. <code>else</code> corre si <b>no</b> hubo error; <code>finally</code> corre <b>siempre</b> (cerrar archivos, liberar recursos).</p>
+              <figure class="code" data-copy="try:&#10;    n = int(input(&quot;Número: &quot;))&#10;    r = 100 / n&#10;except ValueError:&#10;    print(&quot;Eso no es un número&quot;)&#10;except ZeroDivisionError:&#10;    print(&quot;No se divide entre cero&quot;)&#10;else:&#10;    print(f&quot;Resultado: {r}&quot;)   # si todo fue bien&#10;finally:&#10;    print(&quot;Listo&quot;)            # pase lo que pase">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">try</span>:
+    n <span class="t-op">=</span> <span class="t-bi">int</span>(<span class="t-bi">input</span>(<span class="t-str">"Número: "</span>))
+    r <span class="t-op">=</span> <span class="t-num">100</span> <span class="t-op">/</span> n
+<span class="t-kw">except</span> <span class="t-bi">ValueError</span>:
+    <span class="t-bi">print</span>(<span class="t-str">"Eso no es un número"</span>)
+<span class="t-kw">except</span> <span class="t-bi">ZeroDivisionError</span>:
+    <span class="t-bi">print</span>(<span class="t-str">"No se divide entre cero"</span>)
+<span class="t-kw">else</span>:
+    <span class="t-bi">print</span>(<span class="t-str">f"Resultado: {r}"</span>)   <span class="t-com"># sin error</span>
+<span class="t-kw">finally</span>:
+    <span class="t-bi">print</span>(<span class="t-str">"Listo"</span>)            <span class="t-com"># siempre</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="er-raise">
+            <div class="tile-h"><span class="td"></span><h3>raise &amp; excepciones propias</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>raise</code> lanza un error a propósito (validar entradas). Define los tuyos heredando de <code>Exception</code> para errores con significado en tu dominio.</p>
+              <figure class="code" data-copy="def retirar(saldo, monto):&#10;    if monto &gt; saldo:&#10;        raise ValueError(&quot;Fondos insuficientes&quot;)&#10;    return saldo - monto&#10;&#10;class SaldoError(Exception):&#10;    &quot;&quot;&quot;Error propio del dominio.&quot;&quot;&quot;&#10;&#10;# assert: comprobación de desarrollo&#10;assert monto &gt; 0, &quot;el monto debe ser positivo&quot;">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">retirar</span>(saldo, monto):
+    <span class="t-kw">if</span> monto <span class="t-op">&gt;</span> saldo:
+        <span class="t-kw">raise</span> <span class="t-bi">ValueError</span>(<span class="t-str">"Fondos insuficientes"</span>)
+    <span class="t-kw">return</span> saldo <span class="t-op">-</span> monto
+
+<span class="t-kw">class</span> <span class="t-fn">SaldoError</span>(<span class="t-bi">Exception</span>):
+    <span class="t-str">"""Error propio del dominio."""</span>
+
+<span class="t-com"># assert: comprobación de desarrollo</span>
+<span class="t-kw">assert</span> monto <span class="t-op">&gt;</span> <span class="t-num">0</span>, <span class="t-str">"debe ser positivo"</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="er-comunes">
+            <div class="tile-h"><span class="td"></span><h3>Excepciones que verás a diario</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Excepción</th><th>Causa típica</th></tr>
+                <tr><td class="fn">SyntaxError</td><td>código mal escrito (no llega a correr)</td></tr>
+                <tr><td class="fn">NameError</td><td>usar una variable no definida</td></tr>
+                <tr><td class="fn">TypeError</td><td>operar tipos incompatibles (<code>"3" + 5</code>)</td></tr>
+                <tr><td class="fn">ValueError</td><td>tipo correcto, valor inválido (<code>int("ab")</code>)</td></tr>
+                <tr><td class="fn">IndexError</td><td>índice fuera de rango en una lista</td></tr>
+                <tr><td class="fn">KeyError</td><td>clave inexistente en un dict</td></tr>
+                <tr><td class="fn">AttributeError</td><td>método/atributo que no existe</td></tr>
+                <tr><td class="fn">FileNotFoundError</td><td>abrir un archivo que no está</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">No silencies</span>Evita <code>except:</code> a secas o <code>except Exception: pass</code>. Captura la excepción <b>concreta</b> que esperas; lo demás debe explotar para que lo veas.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 08 — AVANZADO ===== -->
+      <section class="stage" id="e8" style="--seg:var(--s8)">
+        <div class="stage-head"><span class="sn">08</span><h2>Avanzado &amp; biblioteca estándar</h2><span class="meta">with · yield<br>decoradores · stdlib</span></div>
+
+        <div class="cols">
+          <div class="tile" id="av-with">
+            <div class="tile-h"><span class="td"></span><h3>Context managers (with)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>with</code> garantiza que un recurso se <b>cierre</b> aunque haya un error: abre, te deja trabajar y limpia al salir del bloque. La forma correcta de leer/escribir archivos.</p>
+              <figure class="code" data-copy="with open(&quot;datos.txt&quot;, encoding=&quot;utf-8&quot;) as f:&#10;    texto = f.read()       # se cierra solo al salir&#10;&#10;with open(&quot;salida.txt&quot;, &quot;w&quot;) as f:&#10;    f.write(&quot;hola\n&quot;)&#10;&#10;# leer línea a línea (eficiente)&#10;with open(&quot;datos.txt&quot;) as f:&#10;    for linea in f:&#10;        print(linea.strip())">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">with</span> <span class="t-bi">open</span>(<span class="t-str">"datos.txt"</span>, encoding<span class="t-op">=</span><span class="t-str">"utf-8"</span>) <span class="t-kw">as</span> f:
+    texto <span class="t-op">=</span> f.<span class="t-fn">read</span>()       <span class="t-com"># se cierra solo</span>
+
+<span class="t-kw">with</span> <span class="t-bi">open</span>(<span class="t-str">"salida.txt"</span>, <span class="t-str">"w"</span>) <span class="t-kw">as</span> f:
+    f.<span class="t-fn">write</span>(<span class="t-str">"hola\n"</span>)
+
+<span class="t-com"># leer línea a línea (eficiente)</span>
+<span class="t-kw">with</span> <span class="t-bi">open</span>(<span class="t-str">"datos.txt"</span>) <span class="t-kw">as</span> f:
+    <span class="t-kw">for</span> linea <span class="t-kw">in</span> f:
+        <span class="t-bi">print</span>(linea.<span class="t-fn">strip</span>())</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="av-gen">
+            <div class="tile-h"><span class="td"></span><h3>Generadores (yield)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una función con <code>yield</code> devuelve valores <b>de a uno y bajo demanda</b>, sin construir toda la lista en memoria. Ideal para secuencias grandes o infinitas.</p>
+              <figure class="code" data-copy="def cuenta(n):&#10;    i = 0&#10;    while i &lt; n:&#10;        yield i        # pausa y entrega&#10;        i += 1&#10;&#10;for x in cuenta(3):    # 0, 1, 2&#10;    print(x)&#10;&#10;total = sum(cuenta(10**6))  # sin llenar RAM">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">def</span> <span class="t-fn">cuenta</span>(n):
+    i <span class="t-op">=</span> <span class="t-num">0</span>
+    <span class="t-kw">while</span> i <span class="t-op">&lt;</span> n:
+        <span class="t-kw">yield</span> i        <span class="t-com"># pausa y entrega</span>
+        i <span class="t-op">+=</span> <span class="t-num">1</span>
+
+<span class="t-kw">for</span> x <span class="t-kw">in</span> <span class="t-fn">cuenta</span>(<span class="t-num">3</span>):    <span class="t-com"># 0, 1, 2</span>
+    <span class="t-bi">print</span>(x)
+
+total <span class="t-op">=</span> <span class="t-bi">sum</span>(<span class="t-fn">cuenta</span>(<span class="t-num">10</span><span class="t-op">**</span><span class="t-num">6</span>))  <span class="t-com"># sin llenar RAM</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="av-deco">
+            <div class="tile-h"><span class="td"></span><h3>Decoradores</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>decorador</b> envuelve una función para añadirle comportamiento (logging, medir tiempo, cachear, controlar acceso) <b>sin tocar su código</b>. La sintaxis <code>@deco</code> encima de la función es azúcar para <code>fn = deco(fn)</code>.</p>
+              <figure class="code" data-copy="import functools&#10;&#10;def cronometro(fn):&#10;    @functools.wraps(fn)&#10;    def envoltura(*args, **kwargs):&#10;        import time&#10;        ini = time.perf_counter()&#10;        r = fn(*args, **kwargs)&#10;        print(f&quot;{fn.__name__}: {time.perf_counter()-ini:.4f}s&quot;)&#10;        return r&#10;    return envoltura&#10;&#10;@cronometro&#10;def tarea():&#10;    return sum(range(10**6))">
+                <figcaption><span class="lang">python · decorador</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> functools
+
+<span class="t-kw">def</span> <span class="t-fn">cronometro</span>(fn):
+    <span class="t-dec">@functools.wraps</span>(fn)
+    <span class="t-kw">def</span> <span class="t-fn">envoltura</span>(<span class="t-op">*</span>args, <span class="t-op">**</span>kwargs):
+        <span class="t-kw">import</span> time
+        ini <span class="t-op">=</span> time.<span class="t-fn">perf_counter</span>()
+        r <span class="t-op">=</span> <span class="t-fn">fn</span>(<span class="t-op">*</span>args, <span class="t-op">**</span>kwargs)
+        <span class="t-bi">print</span>(<span class="t-str">f"{fn.__name__}: {time.perf_counter()-ini:.4f}s"</span>)
+        <span class="t-kw">return</span> r
+    <span class="t-kw">return</span> envoltura
+
+<span class="t-dec">@cronometro</span>
+<span class="t-kw">def</span> <span class="t-fn">tarea</span>():
+    <span class="t-kw">return</span> <span class="t-bi">sum</span>(<span class="t-bi">range</span>(<span class="t-num">10</span><span class="t-op">**</span><span class="t-num">6</span>))</pre>
+              </figure>
+              <div class="tip"><span class="lab">En la práctica</span>Decoradores que usarás listos: <code>@property</code>, <code>@staticmethod</code>, <code>@classmethod</code>, <code>@functools.cache</code> (memoiza resultados) y los de frameworks (<code>@app.route</code> en Flask).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="av-std">
+            <div class="tile-h"><span class="td"></span><h3>Biblioteca estándar que vale la pena conocer</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">"Pilas incluidas": Python trae módulos potentes sin instalar nada. Estos cubren el 80% de lo cotidiano.</p>
+              <table class="tbl">
+                <tr><th>Módulo</th><th>Para qué</th></tr>
+                <tr><td class="fn">pathlib</td><td>rutas y archivos (<code>Path</code>) — moderno, mejor que <code>os.path</code></td></tr>
+                <tr><td class="fn">datetime</td><td>fechas, horas y diferencias de tiempo</td></tr>
+                <tr><td class="fn">math / random</td><td>matemáticas; aleatoriedad</td></tr>
+                <tr><td class="fn">collections</td><td><code>Counter</code>, <code>defaultdict</code>, <code>deque</code></td></tr>
+                <tr><td class="fn">itertools</td><td>combinaciones, permutaciones, <code>groupby</code></td></tr>
+                <tr><td class="fn">json</td><td>leer/escribir JSON (<code>loads</code>, <code>dumps</code>)</td></tr>
+                <tr><td class="fn">re</td><td>expresiones regulares (búsqueda de patrones)</td></tr>
+                <tr><td class="fn">os / sys</td><td>sistema operativo y argumentos del script</td></tr>
+              </table>
+              <div class="tip zen"><span class="lab">El Zen, en corto</span>Cuando dudes entre dos soluciones: la <b>explícita</b>, <b>simple</b> y <b>legible</b> casi siempre gana. "Debería haber una —y preferiblemente solo una— forma obvia de hacerlo."</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Python · Hoja de referencia</b> — de la variable al decorador. Construida sobre la ruta del <i>Complete Python Bootcamp</i> (tipos, estructuras, funciones, POO, módulos y excepciones) y completada con type hints, entornos virtuales, generadores, decoradores y la biblioteca estándar que se usa a diario.
+        <span class="mono">Palabras clave y funciones en inglés (la sintaxis real de Python) · notas en español · clic en cualquier código para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  /* ---- copy to clipboard ---- */
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  /* ---- scrollspy for TOC ---- */
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

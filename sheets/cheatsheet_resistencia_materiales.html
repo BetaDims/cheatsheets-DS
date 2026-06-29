@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resistencia de Materiales · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --bg:#EFE9EB;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F7F2F4;
+  --rail:#F5EEF0;
+  --code-bg:#FBF8F9;
+  --line:#E8DDE1;
+  --line-soft:#F0E7EA;
+  --ink:#221A1C;
+  --ink-soft:#5E5054;
+  --ink-faint:#9A8A8F;
+  /* marca: vino esfuerzo */
+  --kt:#922B3E;
+  --kt-deep:#6E2030;
+  --kt-tint:rgba(146,43,62,.14);
+  /* section accents */
+  --s0:#922B3E;
+  --s1:#1F7A5A;
+  --s2:#B0701A;
+  --s3:#2B6FD6;
+  --s4:#0E8A8A;
+  --s5:#7A4DBE;
+  --s6:#C0398C;
+  --s7:#3A4A5E;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-num:#A8480A;
+  --t-com:#9A8A8F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--kt);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(34,26,28,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F6EFF1;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--kt),#C0506A);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:12px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--kt-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:var(--kt-deep);border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:10px;height:10px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#D9CBCF;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FBF8F9;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--kt-deep);border-bottom-color:var(--kt)}
+
+.fxbar{display:flex;align-items:stretch;background:#FBF8F9;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--kt-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--kt-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--kt)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--kt-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--kt-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--kt);background:linear-gradient(90deg,var(--kt-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--kt-deep);background:var(--kt-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--kt)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(34,26,28,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(34,26,28,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--kt-deep)}
+
+/* formula display blocks */
+.fbox{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;background:var(--code-bg);padding:6px 14px;margin:9px 0}
+.fbox:last-child{margin-bottom:0}
+.fbox .katex-display{margin:.45em 0;overflow-x:auto;overflow-y:hidden}
+.fbox .fl{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(34,26,28,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--kt);background:#FBF1F3}
+figure.code.copied .cphint{opacity:1;color:var(--kt-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-var{color:var(--kt-deep);font-weight:600}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--kt-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--kt-deep)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--kt-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature: círculo de Mohr + elemento de esfuerzo ===== */
+.mohr{display:grid;grid-template-columns:1.35fr .85fr;gap:16px;align-items:center;margin:6px 0;border:1px dashed var(--kt);border-radius:11px;padding:16px;background:linear-gradient(180deg,var(--kt-tint),transparent)}
+.mohr svg{width:100%;height:auto;display:block}
+.mohr .cap{font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);line-height:1.5;margin-top:8px}
+.mohr .cap b{color:var(--kt-deep)}
+@media(max-width:560px){.mohr{grid-template-columns:1fr}}
+.mlbl{font-family:"JetBrains Mono";font-size:9.5px;fill:var(--ink-soft)}
+.mlbl.k{fill:var(--kt-deep);font-weight:700}
+
+/* ===== curva esfuerzo-deformación (apoyo) ===== */
+.sscurve{margin:6px 0;border:1px solid var(--line);border-radius:10px;padding:12px 12px 4px;background:var(--canvas)}
+.sscurve svg{width:100%;height:auto;display:block}
+.sslbl{font-family:"JetBrains Mono";font-size:9px;fill:var(--ink-soft)}
+.sslbl.k{fill:var(--kt-deep);font-weight:700}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#221A1C;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(34,26,28,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">σ</span>
+      <span class="fname"><b>Resistencia de Materiales</b> · resistencia.stress</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>Calcular</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Esfuerzo</span>
+      <span class="vt">Deformación</span>
+      <span class="vt">Vigas</span>
+      <span class="vt">Mohr</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">σ</span>
+      <span class="fxc">σ = F/A&nbsp;&nbsp;▸&nbsp;&nbsp;ε = δ/L&nbsp;&nbsp;▸&nbsp;&nbsp;σ = E·ε&nbsp;&nbsp;▸&nbsp;&nbsp;n = σ_y / σ</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del esfuerzo al pandeo</div>
+      <h1>Resistencia de materiales,<br>del <em>esfuerzo</em> a la <em>falla</em>.</h1>
+      <p class="lede">La mecánica de sólidos deformables en una página: <b>esfuerzo</b> (normal, cortante, axial, aplastamiento) y sus <b>componentes cartesianos</b>, <b>deformación unitaria</b>, <b>razón de Poisson</b> y la <b>ley de Hooke</b> (<code>σ = Eε</code>), el <b>diagrama esfuerzo-deformación</b>, <b>torsión</b> (<code>τ = Tr/J</code>), <b>flexión de vigas</b> (<code>σ = Mc/I</code>), <b>diagramas V y M</b>, <b>deflexión</b>, la firma de la materia —el <b>círculo de Mohr</b> y los esfuerzos principales— y el <b>pandeo de columnas</b> (Euler) con el <b>factor de seguridad</b>. Cada bloque con su fórmula real (KaTeX) y una nota de <b>cuándo usarla</b>. <b>Clic en cualquier bloque de fórmula para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Todo lo que se dobla terminará por romperse — averigua cuánto aguanta."</p>
+        <cite>— Sabiduría de diseño mecánico</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Esfuerzo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Deformación</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Torsión</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Flexión</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Cortante y M</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Deflexión</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Mohr</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Pandeo y falla</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Esfuerzo</span><span class="sd">σ · τ · tipos</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Deformación</span><span class="sd">ε · Hooke · Poisson</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Torsión</span><span class="sd">τ = Tr/J</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Flexión</span><span class="sd">σ = Mc/I</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Cortante y M</span><span class="sd">diagramas V·M</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Deflexión</span><span class="sd">EI·y'' = M</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Mohr</span><span class="sd">principales · τmáx</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Pandeo y falla</span><span class="sd">Euler · n · fatiga</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">σ</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M3 18l4-9 4 5 3-7 4 11"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.stress</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Esfuerzo</div>
+      <a href="#rm-sigma" style="--seg:var(--s0)">¿Qué es el esfuerzo?</a>
+      <a href="#rm-tipos" style="--seg:var(--s0)">Tipos de esfuerzo</a>
+      <a href="#rm-cartesian" style="--seg:var(--s0)">Componentes cartesianos</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Deformación</div>
+      <a href="#rm-strain" style="--seg:var(--s1)">Deformación unitaria</a>
+      <a href="#rm-hooke" style="--seg:var(--s1)">Ley de Hooke &amp; E, G</a>
+      <a href="#rm-poisson" style="--seg:var(--s1)">Razón de Poisson</a>
+      <a href="#rm-sscurve" style="--seg:var(--s1)">Diagrama σ-ε</a>
+      <a href="#rm-axial" style="--seg:var(--s1)">Carga axial y térmica</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Torsión</div>
+      <a href="#rm-torsion" style="--seg:var(--s2)">Esfuerzo cortante τ = Tr/J</a>
+      <a href="#rm-twist" style="--seg:var(--s2)">Ángulo de giro y potencia</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Flexión</div>
+      <a href="#rm-bending" style="--seg:var(--s3)">Esfuerzo por flexión σ = Mc/I</a>
+      <a href="#rm-inercia" style="--seg:var(--s3)">Momento de inercia I</a>
+      <a href="#rm-vshear" style="--seg:var(--s3)">Cortante transversal τ = VQ/Ib</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Cortante y momento</div>
+      <a href="#rm-vm-rel" style="--seg:var(--s4)">Relaciones w-V-M</a>
+      <a href="#rm-vm-conv" style="--seg:var(--s4)">Convención de signos</a>
+      <a href="#rm-vm-casos" style="--seg:var(--s4)">Casos típicos (V, M máx)</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Deflexión</div>
+      <a href="#rm-defl-eq" style="--seg:var(--s5)">Ecuación de la elástica</a>
+      <a href="#rm-defl-tabla" style="--seg:var(--s5)">Deflexiones típicas</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Mohr</div>
+      <a href="#rm-transf" style="--seg:var(--s6)">Transformación de esfuerzos</a>
+      <a href="#rm-principal" style="--seg:var(--s6)">Esfuerzos principales</a>
+      <a href="#rm-mohr-sig" style="--seg:var(--s6)">El círculo de Mohr</a>
+      <a href="#rm-mohr-pasos" style="--seg:var(--s6)">Cómo trazarlo</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Pandeo y falla</div>
+      <a href="#rm-euler" style="--seg:var(--s7)">Pandeo de Euler</a>
+      <a href="#rm-fos" style="--seg:var(--s7)">Factor de seguridad</a>
+      <a href="#rm-static" style="--seg:var(--s7)">Falla estática (Tresca/Mises)</a>
+      <a href="#rm-fatiga" style="--seg:var(--s7)">Fatiga y esfuerzos fluctuantes</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Esfuerzo</a><a href="#e1">01 Deform.</a><a href="#e2">02 Torsión</a><a href="#e3">03 Flexión</a>
+        <a href="#e4">04 V·M</a><a href="#e5">05 Deflex.</a><a href="#e6">06 Mohr</a><a href="#e7">07 Pandeo</a>
+      </div>
+
+      <!-- ===== 00 ESFUERZO ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Esfuerzo (stress)</h2><span class="meta">fuerza interna<br>por unidad de área</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-sigma">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es el esfuerzo?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>esfuerzo</b> mide la intensidad de la fuerza interna que un material soporta repartida en el área de su sección. Esfuerzo <b>normal</b> (σ) perpendicular al área; esfuerzo <b>cortante</b> (τ) tangente a ella.</p>
+              <div class="fbox">
+                $$\sigma=\frac{F}{A}\qquad \tau=\frac{V}{A}$$
+                <div class="fl">F = fuerza normal · V = fuerza cortante · A = área</div>
+              </div>
+              <figure class="code" data-copy="sigma = F / A      # esfuerzo normal [Pa]&#10;tau   = V / A      # esfuerzo cortante&#10;# unidades: 1 Pa = 1 N/m^2 ; 1 MPa = 1 N/mm^2">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-var">sigma</span> = F / A      <span class="t-com"># normal [Pa]</span>
+<span class="t-var">tau</span>   = V / A      <span class="t-com"># cortante</span>
+<span class="t-com"># 1 MPa = 1 N/mm^2</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Unidades</span>SI: pascal (Pa = N/m²); en ingeniería casi todo va en <b>MPa = N/mm²</b>. Tracción se toma <b>positiva</b>; compresión negativa.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-tipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de esfuerzo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Fórmula / idea</th></tr>
+                <tr><td class="k">Axial (σ)</td><td>tracción/compresión, $\sigma=F/A$</td></tr>
+                <tr><td class="k">Cortante (τ)</td><td>fuerza paralela al área, $\tau=V/A$</td></tr>
+                <tr><td class="k">Aplastamiento</td><td>contacto pernos/apoyos, $\sigma_b=\dfrac{P}{t\,d}$</td></tr>
+                <tr><td class="k">Térmico</td><td>por dilatación impedida</td></tr>
+                <tr><td class="k">Flexión</td><td>en vigas, $\sigma=Mc/I$</td></tr>
+                <tr><td class="k">Torsión</td><td>en ejes, $\tau=Tr/J$</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Aplastamiento</span>El esfuerzo de <b>aplastamiento</b> (bearing) usa el área <b>proyectada</b> <code>t·d</code> del agujero, no la sección transversal. Clave en uniones con pernos y remaches.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rm-cartesian">
+            <div class="tile-h"><span class="td"></span><h3>Componentes cartesianos del esfuerzo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">En un punto, el estado de esfuerzo es un <b>tensor</b> sobre un elemento diferencial: 3 normales (<b>σx, σy, σz</b>) y 6 cortantes que, por equilibrio de momentos, se reducen a 3 independientes (<b>τxy, τyz, τzx</b>). El tensor es <b>simétrico</b>: $\tau_{xy}=\tau_{yx}$.</p>
+              <div class="fbox">
+                $$\boldsymbol{\sigma}=\begin{bmatrix}\sigma_x & \tau_{xy} & \tau_{xz}\\ \tau_{xy} & \sigma_y & \tau_{yz}\\ \tau_{xz} & \tau_{yz} & \sigma_z\end{bmatrix}$$
+                <div class="fl">tensor de esfuerzos · simétrico (6 componentes)</div>
+              </div>
+              <div class="tip"><span class="lab">Esfuerzo plano</span>Si σz = τxz = τyz = 0 quedas en <b>esfuerzo plano</b> (placas delgadas, superficies libres): basta con σx, σy y τxy — justo lo que entra al círculo de Mohr (§06).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 DEFORMACIÓN ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Deformación y elasticidad</h2><span class="meta">cómo responde<br>el material</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-strain">
+            <div class="tile-h"><span class="td"></span><h3>Deformación unitaria</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>deformación unitaria</b> (strain) es el cambio relativo de dimensión: <b>adimensional</b>. Normal ε = alargamiento/longitud; cortante γ = cambio de ángulo (rad).</p>
+              <div class="fbox">
+                $$\varepsilon=\frac{\delta}{L}\qquad \gamma=\frac{\Delta x}{h}$$
+                <div class="fl">δ = alargamiento · L = longitud inicial · γ = distorsión angular</div>
+              </div>
+              <div class="tip"><span class="lab">Magnitudes</span>Suele ser diminuta: se expresa en <b>microdeformación</b> (µε = 10⁻⁶). Acero a fluencia ≈ 0,0012 (1200 µε).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-hooke">
+            <div class="tile-h"><span class="td"></span><h3>Ley de Hooke · E y G</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">En la zona <b>elástica lineal</b>, esfuerzo y deformación son proporcionales. La pendiente es el <b>módulo de Young E</b>; en cortante, el <b>módulo de rigidez G</b>.</p>
+              <div class="fbox">
+                $$\sigma=E\,\varepsilon\qquad \tau=G\,\gamma\qquad G=\frac{E}{2(1+\nu)}$$
+                <div class="fl">E ≈ 200 GPa (acero) · 70 GPa (aluminio)</div>
+              </div>
+              <figure class="code" data-copy="sigma = E * epsilon     # ley de Hooke&#10;G = E / (2*(1 + nu))    # rigidez a cortante&#10;# E_acero = 200e3 MPa ; nu_acero = 0.30">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-var">sigma</span> = E * epsilon
+<span class="t-var">G</span> = E / (<span class="t-num">2</span>*(<span class="t-num">1</span> + nu))
+<span class="t-com"># E_acero = 200e3 MPa</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-poisson">
+            <div class="tile-h"><span class="td"></span><h3>Razón de Poisson</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Al estirar una barra se <b>adelgaza</b> en sentido transversal. La razón de Poisson <b>ν</b> relaciona ambas deformaciones (signo negativo: son opuestas).</p>
+              <div class="fbox">
+                $$\nu=-\frac{\varepsilon_{lat}}{\varepsilon_{long}}$$
+                <div class="fl">metales ν ≈ 0,25–0,35 · caucho ≈ 0,5 · corcho ≈ 0</div>
+              </div>
+              <div class="tip"><span class="lab">Límites</span>Materiales isótropos: 0 ≤ ν &lt; 0,5. En ν = 0,5 el material es <b>incompresible</b> (caucho). Define también la ley de Hooke generalizada (triaxial).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-axial">
+            <div class="tile-h"><span class="td"></span><h3>Carga axial y térmica</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El alargamiento de una barra bajo carga axial sale de combinar Hooke y la geometría. Un cambio de temperatura produce dilatación libre proporcional a α.</p>
+              <div class="fbox">
+                $$\delta=\frac{F\,L}{A\,E}\qquad \delta_T=\alpha\,L\,\Delta T$$
+                <div class="fl">α = coef. dilatación · acero ≈ 12×10⁻⁶ /°C</div>
+              </div>
+              <div class="tip warn"><span class="lab">Esfuerzo térmico</span>Si la dilatación está <b>impedida</b>, aparece esfuerzo aunque no haya carga externa: $\sigma_T=E\,\alpha\,\Delta T$. Por eso hay juntas de dilatación en puentes y vías.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rm-sscurve">
+            <div class="tile-h"><span class="td"></span><h3>Diagrama esfuerzo-deformación</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El ensayo de tracción es el mapa de comportamiento del material: zona <b>elástica</b> (recupera forma), <b>fluencia</b> (deformación permanente), <b>endurecimiento</b> hasta la <b>resistencia última</b> y caída por <b>estricción</b> hasta la <b>fractura</b>.</p>
+              <div class="sscurve">
+                <svg viewBox="0 0 360 210" role="img" aria-label="Curva esfuerzo-deformación de un metal dúctil">
+                  <!-- ejes -->
+                  <line x1="40" y1="180" x2="345" y2="180" stroke="#C9BCC0" stroke-width="1.5"/>
+                  <line x1="40" y1="180" x2="40" y2="20" stroke="#C9BCC0" stroke-width="1.5"/>
+                  <text x="350" y="184" class="sslbl" text-anchor="end">ε</text>
+                  <text x="34" y="26" class="sslbl" text-anchor="end">σ</text>
+                  <!-- curva -->
+                  <path d="M40 180 L120 70 Q132 58 150 70 L168 70 Q230 26 250 50 Q280 84 315 120"
+                        fill="none" stroke="#922B3E" stroke-width="2.4"/>
+                  <!-- guías -->
+                  <line x1="120" y1="70" x2="120" y2="180" stroke="#D8C2C8" stroke-width="1" stroke-dasharray="3 3"/>
+                  <line x1="250" y1="50" x2="250" y2="180" stroke="#D8C2C8" stroke-width="1" stroke-dasharray="3 3"/>
+                  <line x1="40" y1="50" x2="250" y2="50" stroke="#D8C2C8" stroke-width="1" stroke-dasharray="3 3"/>
+                  <!-- puntos -->
+                  <circle cx="110" cy="84" r="3" fill="#6E2030"/>
+                  <circle cx="120" cy="70" r="3.4" fill="#922B3E"/>
+                  <circle cx="250" cy="50" r="3.4" fill="#922B3E"/>
+                  <circle cx="315" cy="120" r="3.4" fill="#922B3E"/>
+                  <!-- etiquetas -->
+                  <text x="96" y="80" class="sslbl">P (lím. prop.)</text>
+                  <text x="124" y="64" class="sslbl k">Y · fluencia</text>
+                  <text x="200" y="44" class="sslbl k">U · resistencia última</text>
+                  <text x="300" y="138" class="sslbl k">F · fractura</text>
+                  <text x="60" y="140" class="sslbl">elástico</text>
+                  <text x="170" y="168" class="sslbl">plástico / endurecimiento</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Puntos clave</span><b>Límite de proporcionalidad</b> (fin de la recta de Hooke) · <b>límite elástico</b> · <b>punto de fluencia σ_y</b> (offset 0,2 %) · <b>resistencia última σ_u</b> (máximo de la curva) · <b>fractura</b>. El área bajo la curva = <b>tenacidad</b>; la pendiente inicial = E. Frágil (vidrio, fundición) rompe casi sin zona plástica.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 TORSIÓN ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Torsión de ejes</h2><span class="meta">par sobre<br>secciones circulares</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-torsion">
+            <div class="tile-h"><span class="td"></span><h3>Esfuerzo cortante por torsión</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un par <b>T</b> produce esfuerzo cortante que crece <b>lineal</b> desde el centro (cero) hasta el máximo en la superficie. <b>J</b> es el momento polar de inercia.</p>
+              <div class="fbox">
+                $$\tau=\frac{T\,r}{J}\qquad \tau_{máx}=\frac{T\,R}{J}$$
+                <div class="fl">macizo: $J=\dfrac{\pi d^4}{32}$ · hueco: $J=\dfrac{\pi(d_o^4-d_i^4)}{32}$</div>
+              </div>
+              <figure class="code" data-copy="tau_max = T * R / J        # superficie&#10;J_macizo = pi * d**4 / 32&#10;J_hueco  = pi*(do**4 - di**4)/32">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-var">tau_max</span> = T * R / J
+<span class="t-var">J_macizo</span> = pi * d**<span class="t-num">4</span> / <span class="t-num">32</span>
+<span class="t-var">J_hueco</span>  = pi*(do**<span class="t-num">4</span>-di**<span class="t-num">4</span>)/<span class="t-num">32</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué hueco</span>El material del centro casi no trabaja: un <b>eje hueco</b> da casi la misma resistencia a torsión con mucho menos peso. Por eso los árboles de transmisión suelen ser tubulares.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-twist">
+            <div class="tile-h"><span class="td"></span><h3>Ángulo de giro y potencia</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El giro total entre extremos depende de T, la longitud y la rigidez torsional <b>GJ</b>. En máquinas, el par se vincula con la potencia y la velocidad angular.</p>
+              <div class="fbox">
+                $$\varphi=\frac{T\,L}{J\,G}\qquad P=T\,\omega=T\,\frac{2\pi N}{60}$$
+                <div class="fl">φ en rad · ω en rad/s · N en rpm</div>
+              </div>
+              <div class="tip warn"><span class="lab">Diseño de ejes</span>Limita a la vez el <b>esfuerzo</b> (τ ≤ τ_perm) y la <b>rigidez</b> (φ por metro). Un eje puede ser seguro y aun así girar demasiado, vibrar o desalinear engranajes.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 FLEXIÓN ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Flexión de vigas</h2><span class="meta">el momento<br>genera σ</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-bending">
+            <div class="tile-h"><span class="td"></span><h3>Esfuerzo por flexión</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un momento flector <b>M</b> comprime una cara y tracciona la otra; el esfuerzo varía <b>lineal</b> con la distancia <b>y</b> al <b>eje neutro</b> (donde σ = 0). Máximo en la fibra más alejada, <b>c</b>.</p>
+              <div class="fbox">
+                $$\sigma=\frac{M\,y}{I}\qquad \sigma_{máx}=\frac{M\,c}{I}=\frac{M}{S}$$
+                <div class="fl">I = inercia de la sección · S = I/c = módulo de sección</div>
+              </div>
+              <figure class="code" data-copy="sigma_max = M * c / I    # = M / S&#10;S = I / c                # modulo de seccion&#10;# eje neutro pasa por el centroide">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-var">sigma_max</span> = M * c / I
+<span class="t-var">S</span> = I / c   <span class="t-com"># modulo seccion</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">El eje neutro</span>Pasa por el <b>centroide</b> de la sección. El módulo de sección <b>S</b> resume la eficiencia geométrica: a mayor S, más momento resiste con el mismo esfuerzo.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-inercia">
+            <div class="tile-h"><span class="td"></span><h3>Momento de inercia I</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Mide cuánto se reparte el área lejos del eje neutro. Crece con el <b>cubo</b> de la altura: por eso las vigas son altas y los perfiles son <b>I</b>.</p>
+              <table class="tbl">
+                <tr><th>Sección</th><th>I respecto al centroide</th></tr>
+                <tr><td class="k">Rectángulo</td><td>$I=\dfrac{b\,h^3}{12}$</td></tr>
+                <tr><td class="k">Círculo macizo</td><td>$I=\dfrac{\pi d^4}{64}$</td></tr>
+                <tr><td class="k">Tubo</td><td>$I=\dfrac{\pi(d_o^4-d_i^4)}{64}$</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Ejes paralelos</span>Para trasladar el eje una distancia d: $I=\bar I+A\,d^2$ (teorema de Steiner). Indispensable para secciones compuestas (perfil I, cajón).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rm-vshear">
+            <div class="tile-h"><span class="td"></span><h3>Esfuerzo cortante transversal</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La fuerza cortante <b>V</b> también genera esfuerzo cortante dentro de la viga, <b>máximo en el eje neutro</b> y cero en las fibras extremas — al revés que la flexión.</p>
+              <div class="fbox">
+                $$\tau=\frac{V\,Q}{I\,b}\qquad \tau_{máx}^{rect}=\frac{3}{2}\frac{V}{A}$$
+                <div class="fl">Q = primer momento del área por encima del corte · b = ancho</div>
+              </div>
+              <div class="tip"><span class="lab">Cuándo importa</span>En vigas <b>cortas y peraltadas</b> o de madera/compuestos el cortante puede mandar sobre la flexión. En vigas esbeltas comunes, casi siempre domina σ por flexión.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 CORTANTE Y MOMENTO ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Fuerza cortante y momento flector</h2><span class="meta">diagramas<br>V y M</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-vm-rel">
+            <div class="tile-h"><span class="td"></span><h3>Relaciones carga-V-M</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La carga, el cortante y el momento están ligados por derivadas. Por eso los diagramas se construyen integrando: la pendiente de M es V, la de V es −w.</p>
+              <div class="fbox">
+                $$\frac{dV}{dx}=-w(x)\qquad \frac{dM}{dx}=V(x)$$
+                <div class="fl">w = carga distribuida (por longitud)</div>
+              </div>
+              <div class="tip"><span class="lab">Consecuencia clave</span>El momento es <b>máximo o mínimo donde V = 0</b> (su derivada se anula). Localizar el cruce por cero de V es el truco para hallar M_máx.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-vm-conv">
+            <div class="tile-h"><span class="td"></span><h3>Convención de signos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Convención estándar de vigas: el cortante positivo gira el elemento en sentido horario; el momento positivo <b>cóncavo hacia arriba</b> (sonrisa) tracciona la fibra inferior.</p>
+              <table class="tbl">
+                <tr><th>Magnitud</th><th>Positivo cuando…</th></tr>
+                <tr><td class="k">Cortante V</td><td>tramo izq. empuja hacia arriba</td></tr>
+                <tr><td class="k">Momento M</td><td>flexión cóncava arriba (sonríe)</td></tr>
+                <tr><td class="k">Apoyos</td><td>fijo (empotre): R y M · simple: solo R</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Primero las reacciones</span>Antes de dibujar, resuelve el equilibrio: <code>ΣF = 0</code> y <code>ΣM = 0</code> para hallar las reacciones. Sin ellas el diagrama estará mal.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rm-vm-casos">
+            <div class="tile-h"><span class="td"></span><h3>Casos típicos — V y M máximos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Memoriza los cuatro casos base; cualquier viga real se descompone en ellos por superposición.</p>
+              <table class="tbl">
+                <tr><th>Viga y carga</th><th>V máx</th><th>M máx</th></tr>
+                <tr><td class="k">Simple · P en el centro</td><td class="fn">P/2</td><td class="fn">P·L/4</td></tr>
+                <tr><td class="k">Simple · w uniforme</td><td class="fn">w·L/2</td><td class="fn">w·L²/8</td></tr>
+                <tr><td class="k">Voladizo · P en extremo</td><td class="fn">P</td><td class="fn">P·L (empotre)</td></tr>
+                <tr><td class="k">Voladizo · w uniforme</td><td class="fn">w·L</td><td class="fn">w·L²/2</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Lectura del diagrama</span>Carga puntual → <b>salto</b> en V y un <b>pico</b> en M. Carga uniforme → V <b>lineal</b> y M <b>parabólico</b>. El M máx de diseño sale de la tabla y alimenta directo a $\sigma=Mc/I$.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 DEFLEXIÓN ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Deflexión de vigas</h2><span class="meta">cuánto<br>se hunde</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-defl-eq">
+            <div class="tile-h"><span class="td"></span><h3>Ecuación de la elástica</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La curva que adopta el eje de la viga se obtiene integrando el momento dos veces. <b>EI</b> es la <b>rigidez a flexión</b>: a mayor EI, menos deflexión.</p>
+              <div class="fbox">
+                $$EI\,\frac{d^2y}{dx^2}=M(x)$$
+                <div class="fl">integra una vez → pendiente θ · dos veces → deflexión y</div>
+              </div>
+              <div class="tip"><span class="lab">Constantes</span>Las constantes de integración salen de las <b>condiciones de borde</b> (en un apoyo y = 0; en un empotre y = 0 y θ = 0). Métodos: integración doble, área-momento, superposición.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-defl-tabla">
+            <div class="tile-h"><span class="td"></span><h3>Deflexiones máximas típicas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Fórmulas cerradas para los casos base; combínalas por <b>superposición</b>.</p>
+              <table class="tbl">
+                <tr><th>Caso</th><th>δ máx</th></tr>
+                <tr><td class="k">Simple · P centro</td><td>$\dfrac{P L^3}{48 EI}$</td></tr>
+                <tr><td class="k">Simple · w uniforme</td><td>$\dfrac{5 w L^4}{384 EI}$</td></tr>
+                <tr><td class="k">Voladizo · P extremo</td><td>$\dfrac{P L^3}{3 EI}$</td></tr>
+                <tr><td class="k">Voladizo · w uniforme</td><td>$\dfrac{w L^4}{8 EI}$</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Servicio, no solo resistencia</span>Una viga puede ser segura y aun así <b>flexar demasiado</b>. Suele limitarse δ ≤ L/360 (techos) o L/240. Nota la potencia de L: doblar la luz multiplica la deflexión por <b>16</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 MOHR ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Transformación &amp; círculo de Mohr</h2><span class="meta">esfuerzos<br>principales</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-transf">
+            <div class="tile-h"><span class="td"></span><h3>Transformación de esfuerzos</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El estado (σx, σy, τxy) cambia al girar el elemento un ángulo θ. Estas ecuaciones dan el esfuerzo en cualquier orientación — y son la ecuación paramétrica de un <b>círculo</b>.</p>
+              <div class="fbox">
+                $$\sigma_{x'}=\frac{\sigma_x+\sigma_y}{2}+\frac{\sigma_x-\sigma_y}{2}\cos2\theta+\tau_{xy}\sin2\theta$$
+                $$\tau_{x'y'}=-\frac{\sigma_x-\sigma_y}{2}\sin2\theta+\tau_{xy}\cos2\theta$$
+                <div class="fl">ángulos en el plano físico → se duplican en Mohr (2θ)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-principal">
+            <div class="tile-h"><span class="td"></span><h3>Esfuerzos principales y τmáx</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Existe una orientación donde el cortante es <b>cero</b> y los normales son extremos: los <b>esfuerzos principales σ₁, σ₂</b>. El cortante máximo es el <b>radio</b> del círculo.</p>
+              <div class="fbox">
+                $$\sigma_{1,2}=\frac{\sigma_x+\sigma_y}{2}\pm R,\quad R=\sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2+\tau_{xy}^2}$$
+                $$\tau_{máx}=R\qquad \tan 2\theta_p=\frac{2\tau_{xy}}{\sigma_x-\sigma_y}$$
+              </div>
+              <figure class="code" data-copy="c = (sx + sy)/2            # centro&#10;R = sqrt(((sx-sy)/2)**2 + txy**2)&#10;s1, s2 = c + R, c - R      # principales&#10;tau_max = R">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-var">c</span> = (sx + sy)/<span class="t-num">2</span>   <span class="t-com"># centro</span>
+<span class="t-var">R</span> = sqrt(((sx-sy)/<span class="t-num">2</span>)**<span class="t-num">2</span> + txy**<span class="t-num">2</span>)
+<span class="t-var">s1, s2</span> = c + R, c - R
+<span class="t-var">tau_max</span> = R</pre>
+              </figure>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE ===== -->
+          <div class="tile span" id="rm-mohr-sig">
+            <div class="tile-h"><span class="td"></span><h3>El círculo de Mohr — la firma de la materia</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Representación geométrica del estado de esfuerzo: en el plano <b>σ-τ</b>, los puntos <b>X(σx, τxy)</b> e <b>Y(σy, −τxy)</b> son diámetros opuestos. El <b>centro</b> está en σ_prom y el <b>radio</b> R = τmáx. Donde el círculo corta el eje σ están <b>σ₁ y σ₂</b> (τ = 0).</p>
+              <div class="mohr">
+                <div>
+                  <svg viewBox="0 0 360 280" role="img" aria-label="Círculo de Mohr para σx=80, σy=20, τxy=30">
+                    <!-- ejes -->
+                    <line x1="20" y1="140" x2="345" y2="140" stroke="#C9BCC0" stroke-width="1.5"/>
+                    <line x1="70" y1="20" x2="70" y2="262" stroke="#C9BCC0" stroke-width="1.5"/>
+                    <text x="342" y="156" class="mlbl" text-anchor="end">σ</text>
+                    <text x="60" y="28" class="mlbl">τ</text>
+                    <!-- círculo: centro (210,140) r=119 -->
+                    <circle cx="210" cy="140" r="119" fill="rgba(146,43,62,.08)" stroke="#922B3E" stroke-width="2.2"/>
+                    <!-- centro -->
+                    <circle cx="210" cy="140" r="3" fill="#6E2030"/>
+                    <text x="210" y="156" class="mlbl" text-anchor="middle">C (σprom)</text>
+                    <!-- diámetro X-Y -->
+                    <line x1="294" y1="56" x2="126" y2="224" stroke="#C0398C" stroke-width="1.6" stroke-dasharray="4 3"/>
+                    <!-- punto X (σx=80, τxy=30) -->
+                    <circle cx="294" cy="56" r="4" fill="#922B3E"/>
+                    <text x="300" y="52" class="mlbl k">X (σx, τxy)</text>
+                    <!-- punto Y (σy=20, -τxy) -->
+                    <circle cx="126" cy="224" r="4" fill="#922B3E"/>
+                    <text x="120" y="240" class="mlbl k" text-anchor="end">Y (σy, −τxy)</text>
+                    <!-- principales en eje sigma -->
+                    <circle cx="329" cy="140" r="3.5" fill="#6E2030"/>
+                    <text x="332" y="132" class="mlbl k">σ₁</text>
+                    <circle cx="91" cy="140" r="3.5" fill="#6E2030"/>
+                    <text x="88" y="132" class="mlbl k" text-anchor="end">σ₂</text>
+                    <!-- radio = tau_max -->
+                    <line x1="210" y1="140" x2="210" y2="21" stroke="#922B3E" stroke-width="1.4"/>
+                    <text x="216" y="34" class="mlbl k">R = τmáx</text>
+                  </svg>
+                  <div class="cap">Ejemplo: <b>σx=80, σy=20, τxy=30 MPa</b> → C=50, R≈42,4, σ₁≈92,4, σ₂≈7,6, τmáx≈42,4.</div>
+                </div>
+                <div>
+                  <svg viewBox="0 0 170 170" role="img" aria-label="Elemento de esfuerzo con σx, σy y τxy">
+                    <rect x="50" y="50" width="70" height="70" fill="#fff" stroke="#6E2030" stroke-width="2"/>
+                    <!-- σx flechas horizontales (tracción) -->
+                    <line x1="120" y1="85" x2="150" y2="85" stroke="#922B3E" stroke-width="2.2" marker-end="url(#ah)"/>
+                    <line x1="50" y1="85" x2="20" y2="85" stroke="#922B3E" stroke-width="2.2" marker-end="url(#ah)"/>
+                    <text x="156" y="89" class="mlbl k">σx</text>
+                    <!-- σy flechas verticales -->
+                    <line x1="85" y1="50" x2="85" y2="20" stroke="#922B3E" stroke-width="2.2" marker-end="url(#ah)"/>
+                    <line x1="85" y1="120" x2="85" y2="150" stroke="#922B3E" stroke-width="2.2" marker-end="url(#ah)"/>
+                    <text x="78" y="16" class="mlbl k">σy</text>
+                    <!-- τxy flechas tangenciales -->
+                    <line x1="58" y1="50" x2="112" y2="50" stroke="#C0398C" stroke-width="1.8" marker-end="url(#ap)"/>
+                    <line x1="112" y1="120" x2="58" y2="120" stroke="#C0398C" stroke-width="1.8" marker-end="url(#ap)"/>
+                    <line x1="120" y1="58" x2="120" y2="112" stroke="#C0398C" stroke-width="1.8" marker-end="url(#ap)"/>
+                    <line x1="50" y1="112" x2="50" y2="58" stroke="#C0398C" stroke-width="1.8" marker-end="url(#ap)"/>
+                    <text x="128" y="142" class="mlbl k" text-anchor="end">τxy</text>
+                    <defs>
+                      <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#922B3E"/></marker>
+                      <marker id="ap" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#C0398C"/></marker>
+                    </defs>
+                  </svg>
+                  <div class="cap"><b>Elemento de esfuerzo</b>: caras con σx, σy y el cortante τxy complementario. Es el "estado en el punto" que entra al círculo.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rm-mohr-pasos">
+            <div class="tile-h"><span class="td"></span><h3>Cómo trazar el círculo de Mohr</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Receta de 5 pasos para pasar del estado de esfuerzo a principales y cortante máximo.</p>
+              <table class="tbl">
+                <tr><th>Paso</th><th>Acción</th></tr>
+                <tr><td class="k">1</td><td>Ejes: σ horizontal, τ vertical.</td></tr>
+                <tr><td class="k">2</td><td>Marca X = (σx, τxy) e Y = (σy, −τxy).</td></tr>
+                <tr><td class="k">3</td><td>Une X–Y: el corte con el eje σ es el centro C.</td></tr>
+                <tr><td class="k">4</td><td>Radio R = distancia C→X = τmáx.</td></tr>
+                <tr><td class="k">5</td><td>σ₁,₂ = C ± R (donde el círculo cruza σ).</td></tr>
+              </table>
+              <div class="tip"><span class="lab">El gran truco</span>Los ángulos en Mohr son <b>el doble</b> de los físicos: una rotación de θ del elemento equivale a 2θ en el círculo. Por eso los planos principales (sin cortante) y los de τmáx están separados <b>45°</b> en la pieza real.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 PANDEO Y FALLA ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Pandeo, seguridad y falla</h2><span class="meta">de la carga<br>al criterio</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rm-euler">
+            <div class="tile-h"><span class="td"></span><h3>Pandeo de columnas (Euler)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una columna esbelta a compresión no falla por aplastamiento sino por <b>pandeo</b>: se flexiona de golpe al superar la <b>carga crítica</b>. Depende de EI y la longitud, <b>no</b> de la resistencia del material.</p>
+              <div class="fbox">
+                $$P_{cr}=\frac{\pi^2 EI}{(K L)^2}\qquad \sigma_{cr}=\frac{\pi^2 E}{(KL/r)^2}$$
+                <div class="fl">KL = longitud efectiva · r = √(I/A) = radio de giro</div>
+              </div>
+              <table class="tbl">
+                <tr><th>Apoyos</th><th>K (long. efectiva)</th></tr>
+                <tr><td class="k">Articulada-articulada</td><td class="fn">1,0</td></tr>
+                <tr><td class="k">Empotrada-libre</td><td class="fn">2,0</td></tr>
+                <tr><td class="k">Empotrada-empotrada</td><td class="fn">0,5</td></tr>
+                <tr><td class="k">Empotrada-articulada</td><td class="fn">0,7</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Esbeltez</span>Euler solo vale para columnas <b>esbeltas</b> (KL/r alto, pandeo elástico). Las cortas fallan por fluencia/aplastamiento; las intermedias, por curvas como Johnson.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-fos">
+            <div class="tile-h"><span class="td"></span><h3>Factor de seguridad</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Margen entre la capacidad del material y la solicitación real. Cubre incertidumbre en cargas, material, fabricación y modelo.</p>
+              <div class="fbox">
+                $$n=\frac{\text{resistencia}}{\text{esfuerzo}}=\frac{\sigma_y}{\sigma}\;\;\text{o}\;\;\frac{\sigma_u}{\sigma}$$
+                <div class="fl">dúctil → contra fluencia σ_y · frágil → contra σ_u</div>
+              </div>
+              <div class="tip"><span class="lab">Valores típicos</span><b>n = 1,5–2</b> cargas bien conocidas · <b>2–3</b> cargas variables · <b>3–4+</b> impacto/incertidumbre o riesgo a personas. Esfuerzo admisible: $\sigma_{perm}=\sigma_y/n$.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-static">
+            <div class="tile-h"><span class="td"></span><h3>Falla estática (dúctiles)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Bajo esfuerzo combinado se compara un <b>esfuerzo equivalente</b> con σ_y. Dos criterios para materiales dúctiles:</p>
+              <div class="fbox">
+                $$\sigma'=\sqrt{\sigma_x^2-\sigma_x\sigma_y+\sigma_y^2+3\tau_{xy}^2}\le\frac{\sigma_y}{n}$$
+                <div class="fl">von Mises (energía de distorsión, DET)</div>
+              </div>
+              <div class="tip"><span class="lab">Tresca vs von Mises</span><b>Tresca</b> (cortante máximo): $\tau_{máx}=\sigma_y/2$ — más conservador y simple. <b>von Mises</b>: ajusta mejor los datos y es el estándar en diseño y en FEA.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rm-fatiga">
+            <div class="tile-h"><span class="td"></span><h3>Fatiga y esfuerzos fluctuantes</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Cargas <b>cíclicas</b> rompen piezas a esfuerzos muy por debajo de σ_u tras muchos ciclos. Es la causa más común de fallo en servicio.</p>
+              <div class="fbox">
+                $$\sigma_m=\frac{\sigma_{máx}+\sigma_{mín}}{2}\qquad \sigma_a=\frac{\sigma_{máx}-\sigma_{mín}}{2}$$
+                <div class="fl">σm = esfuerzo medio · σa = amplitud (alterno)</div>
+              </div>
+              <div class="tip warn"><span class="lab">Curva S-N y límite</span>El acero tiene <b>límite de fatiga</b> S_e (≈ 0,5·σ_u): por debajo, vida "infinita". El aluminio no lo tiene. La combinación media+alterna se evalúa con <b>Goodman/Soderberg</b>. Concentradores (agujeros, filetes, ralladuras) son el origen típico de la grieta.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Resistencia de Materiales · Hoja de referencia</b> — del esfuerzo a la falla. Basada en la sección "Mechanics of Materials" del curso <i>The Complete Mechanical Engineering Course — 12 Courses in 1</i> (esfuerzo y tipos, componentes cartesianos, Poisson y Hooke, transformación y círculo de Mohr, torsión, falla estática, fatiga y esfuerzos fluctuantes), completada con flexión, diagramas V·M, deflexión, pandeo de Euler y factor de seguridad.
+        <span class="mono">Fórmulas con KaTeX · notas en español · clic en cualquier bloque de fórmula para copiarlo.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

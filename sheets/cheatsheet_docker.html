@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7EBF0;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F6FA;
+  --rail:#F1F5FA;
+  --code-bg:#FAFCFE;
+  --line:#DCE3EC;
+  --line-soft:#E8EDF3;
+  --ink:#1B2530;
+  --ink-soft:#52606F;
+  --ink-faint:#8893A1;
+  /* Docker blue: bright for fills/markers, deep for legible text on white */
+  --dk:#2496ED;
+  --dk-deep:#176BB0;
+  --dk-tint:rgba(36,150,237,.14);
+  /* section accents — legible on white (text + fills) */
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* Imágenes */
+  --s2:#0C8A8A;  /* Contenedores */
+  --s3:#B0840A;  /* Dockerfile */
+  --s4:#1E9B51;  /* Datos & redes */
+  --s5:#7A45C9;  /* Compose */
+  --s6:#C0392B;  /* Limpieza */
+  /* level badges (bright fills, dark text) */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (terminal, light) */
+  --t-kw:#176BB0;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#9098A4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--dk);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (terminal hero) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(27,37,48,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EEF3F9;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#C6CFDA;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--dk);color:#fff;font-size:13px;flex:none;margin-left:3px}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:2px}
+.titlebar .fname b{color:var(--dk-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--dk-deep);background:var(--dk-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+/* shell tabs */
+.viewtabs{display:flex;gap:0;background:#F7FAFD;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--dk-deep);border-bottom-color:var(--dk)}
+
+/* docker prompt bar */
+.fxbar{display:flex;align-items:stretch;background:#F7FAFD;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--dk-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+/* hero body */
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dk-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--dk)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--dk-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--dk-deep)}
+
+/* hero quote */
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--dk);background:linear-gradient(90deg,var(--dk-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+/* stepper nav */
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--dk-deep);background:var(--dk-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--dk)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(27,37,48,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(27,37,48,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--dk-deep)}
+
+/* ====== CODE BLOCK (terminal) ====== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(27,37,48,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--dk);background:#EEF7FE}
+figure.code.copied .cphint{opacity:1;color:var(--dk-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+.pmt{color:var(--dk);font-weight:700}
+.out{color:var(--ink-faint)}
+
+/* ====== REFERENCE TABLE ====== */
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--dk-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* ====== IMAGE/LAYER signature ====== */
+.layerwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.layer-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#EEF3F9;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.layer-bar i{width:10px;height:10px;border-radius:50%;background:#C6CFDA;display:block}
+.layer-bar i:nth-child(1){background:#E5736B}.layer-bar i:nth-child(2){background:#E8B73D}.layer-bar i:nth-child(3){background:#69B27C}
+.dimg{width:100%;height:auto;display:block;padding:8px 4px}
+.dimg .lay{fill:#EAF4FD;stroke:var(--dk);stroke-width:1.5}
+.dimg .layw{fill:#FFF6E8;stroke:var(--s3);stroke-width:1.6;stroke-dasharray:5 3}
+.dimg .lt{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink-soft)}
+/* ====== architecture diagram (imagen·contenedor·volumen·red) ====== */
+.darch{width:100%;height:auto;display:block;margin:2px 0}
+.darch .box{fill:#fff;stroke:var(--ink-soft);stroke-width:1.5}
+.darch .lay{fill:#EAF4FD;stroke:var(--dk);stroke-width:1.4}
+.darch .img-hd{fill:var(--dk)}
+.darch .cont{fill:#fff;stroke:var(--s2);stroke-width:1.7}
+.darch .cont-hd{fill:var(--s2)}
+.darch .vol{fill:#ECF9F1;stroke:var(--s4);stroke-width:1.6}
+.darch .net{fill:#F0FBF5;stroke:var(--s4);stroke-width:1.5;stroke-dasharray:5 3}
+.darch .t{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:12px;fill:var(--ink)}
+.darch .t.w{fill:#fff}
+.darch .s{font-family:"JetBrains Mono";font-size:9.5px;fill:var(--ink-soft)}
+.darch .s.g{fill:var(--s4)}
+.darch .lbl{font-family:"JetBrains Mono";font-size:9.5px;fill:var(--ink-faint);font-weight:700}
+.darch .ar{stroke:#9aa0ab;stroke-width:1.6;fill:none;marker-end:url(#da-arr)}
+.darch .ar.d{stroke-dasharray:4 3}
+.darch .net-ln{stroke:var(--s4);stroke-width:1.5;fill:none}
+.dimg .lc{font-family:"JetBrains Mono";font-size:10px;fill:var(--dk-deep);font-weight:700}
+.dimg .wt{font-family:"JetBrains Mono";font-size:10px;fill:var(--s3);font-weight:700}
+
+/* ====== tips / callouts ====== */
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--dk-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* flow / zones diagram */
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:6px 0;border:1px solid var(--line);border-radius:9px;overflow:hidden;text-align:center}
+.zone{padding:11px 8px;border-right:1px solid var(--line-soft);background:var(--tile-2)}
+.zone:last-child{border-right:none}
+.zone .zt{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:12px;color:var(--ink)}
+.zone .zc{font-family:"JetBrains Mono";font-size:9.5px;color:var(--dk-deep);margin-top:3px}
+.zone .zd{font-size:10px;color:var(--ink-faint);margin-top:4px;line-height:1.3}
+.zone.z1 .zt{color:var(--s1)}.zone.z2 .zt{color:var(--s3)}.zone.z3 .zt{color:var(--s2)}.zone.z4 .zt{color:var(--s4)}
+@media(max-width:560px){.zones{grid-template-columns:1fr 1fr}.zone:nth-child(2n){border-right:none}}
+
+/* def list */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--dk-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1B2530;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(27,37,48,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">🐳</span>
+      <span class="fname"><b>~/proyecto</b> — Dockerfile</span>
+      <span class="branch">⊞ engine 27</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.2 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">terminal</span>
+      <span class="vt">Dockerfile</span>
+      <span class="vt">compose.yaml</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">docker ▸</span>
+      <span class="fxc"><span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-d -p</span> <span class="t-num">8080:80</span> nginx&nbsp;&nbsp;<span class="t-com"># build, ship, run</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · de la imagen al contenedor en producción</div>
+      <h1>Docker,<br>de <em>build</em> a <em>run</em>.</h1>
+      <p class="lede">Contenedores en una página para tener junto a la terminal: la diferencia entre <b>imagen</b> y <b>contenedor</b>, el ciclo <code>build → run → ps → logs</code>, escribir <b>Dockerfiles</b> que cachean bien, persistir datos con <b>volúmenes</b>, conectar servicios por <b>red</b>, levantar todo con <b>Compose</b> y mantener el disco limpio. Cada comando trae su sintaxis real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier comando para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Build, ship, run."</p>
+        <cite>— Lema de Docker · <span class="mono">docker build · push · run</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Imágenes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Contenedores</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Dockerfile</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Datos &amp; redes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Compose</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Limpieza</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">imagen vs contenedor</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Imágenes</span><span class="sd">pull · build · push</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Contenedores</span><span class="sd">run · ps · exec</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Dockerfile</span><span class="sd">FROM · CMD · stages</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Datos &amp; redes</span><span class="sd">volumes · networks</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Compose</span><span class="sd">up · down · services</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Limpieza</span><span class="sd">prune · best-practice</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">🐳</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="1"/><path d="M7 8V5h4v3M13 8V5h4v3"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">CLI</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es Docker?</a>
+      <a href="#fd-arch" style="--seg:var(--s0)">Arquitectura</a>
+      <a href="#fd-img" style="--seg:var(--s0)">Imagen vs contenedor</a>
+      <a href="#fd-anatomia" style="--seg:var(--s0)">Anatomía: build → run</a>
+      <a href="#fd-install" style="--seg:var(--s0)">Verificar instalación</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Imágenes</div>
+      <a href="#im-pull" style="--seg:var(--s1)">pull · search · ls</a>
+      <a href="#im-build" style="--seg:var(--s1)">build</a>
+      <a href="#im-push" style="--seg:var(--s1)">tag &amp; push</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Contenedores</div>
+      <a href="#co-run" style="--seg:var(--s2)">run &amp; flags</a>
+      <a href="#co-manage" style="--seg:var(--s2)">ps · logs · exec</a>
+      <a href="#co-life" style="--seg:var(--s2)">stop · rm · ciclo</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Dockerfile</div>
+      <a href="#df-inst" style="--seg:var(--s3)">Instrucciones</a>
+      <a href="#df-ej" style="--seg:var(--s3)">Ejemplo real</a>
+      <a href="#df-cmd" style="--seg:var(--s3)">CMD vs ENTRYPOINT</a>
+      <a href="#df-multi" style="--seg:var(--s3)">Multi-stage &amp; capas</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Datos &amp; redes</div>
+      <a href="#dr-vol" style="--seg:var(--s4)">Volúmenes</a>
+      <a href="#dr-mount" style="--seg:var(--s4)">Bind mounts</a>
+      <a href="#dr-net" style="--seg:var(--s4)">Redes</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Compose</div>
+      <a href="#cp-file" style="--seg:var(--s5)">compose.yaml</a>
+      <a href="#cp-cmd" style="--seg:var(--s5)">Comandos</a>
+      <a href="#cp-ej" style="--seg:var(--s5)">Ejemplo web + db</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Limpieza</div>
+      <a href="#lp-prune" style="--seg:var(--s6)">prune &amp; espacio</a>
+      <a href="#lp-debug" style="--seg:var(--s6)">inspect · stats</a>
+      <a href="#lp-best" style="--seg:var(--s6)">Buenas prácticas</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Imág.</a><a href="#e2">02 Conten.</a>
+        <a href="#e3">03 Dockerfile</a><a href="#e4">04 Datos/red</a><a href="#e5">05 Compose</a><a href="#e6">06 Limpieza</a>
+      </div>
+
+      <!-- ===== 00 — FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">el modelo mental<br>antes de los comandos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es Docker?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Docker</b> empaqueta una aplicación con todas sus dependencias en una <b>imagen</b> portable que corre igual en cualquier máquina. Un <b>contenedor</b> es esa imagen en ejecución: un proceso aislado que comparte el kernel del host, mucho más ligero que una máquina virtual.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Contenedor</span><span class="dv">proceso aislado (CPU, red, FS propios) que <b>comparte el kernel</b> del host.</span></div>
+                <div class="di"><span class="dk">VM</span><span class="dv">SO invitado completo sobre un hipervisor: pesada, arranque en minutos.</span></div>
+                <div class="di"><span class="dk">Contenedor ≈</span><span class="dv">arranca en milisegundos, ocupa MB, no GB.</span></div>
+              </div>
+              <div class="tip"><span class="lab">La idea clave</span><b>"Funciona en mi máquina" deja de ser excusa</b>: la imagen lleva dentro runtime, librerías y código.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-arch">
+            <div class="tile-h"><span class="td"></span><h3>Arquitectura</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La CLI (<code>docker</code>) habla con el <b>daemon</b> (<code>dockerd</code>), que construye y corre contenedores y tira imágenes de un <b>registry</b> (Docker Hub por defecto).</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">cliente</span><span class="dv">el comando <code>docker</code> que escribes.</span></div>
+                <div class="di"><span class="dk">daemon</span><span class="dv">servicio que hace el trabajo real.</span></div>
+                <div class="di"><span class="dk">registry</span><span class="dv">almacén de imágenes (Docker Hub, GHCR…).</span></div>
+                <div class="di"><span class="dk">objetos</span><span class="dv">imágenes, contenedores, volúmenes, redes.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-img">
+            <div class="tile-h"><span class="td"></span><h3>Imagen vs contenedor — capas de solo lectura</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>imagen</b> son capas <i>de solo lectura</i> apiladas (cada instrucción del Dockerfile es una capa cacheable). Al ejecutar <code>docker run</code> se añade encima una <b>capa de escritura</b> efímera: eso es el <b>contenedor</b>. Borra el contenedor y esa capa se va; la imagen no cambia.</p>
+              <div class="layerwrap">
+                <div class="layer-bar"><i></i><i></i><i></i><span>docker image · capas</span></div>
+                <svg class="dimg" viewBox="0 0 720 220" role="img" aria-label="Una imagen son capas de solo lectura; el contenedor añade una capa de escritura encima">
+                  <rect class="layw" x="170" y="22" width="380" height="30" rx="4"/>
+                  <text class="wt" x="186" y="42">▲ capa de escritura  ·  CONTENEDOR (efímera)</text>
+                  <rect class="lay" x="170" y="58" width="380" height="28" rx="4"/>
+                  <text class="lc" x="186" y="76">COPY . /app            (tu código)</text>
+                  <rect class="lay" x="170" y="92" width="380" height="28" rx="4"/>
+                  <text class="lc" x="186" y="110">RUN pip install -r req.txt</text>
+                  <rect class="lay" x="170" y="126" width="380" height="28" rx="4"/>
+                  <text class="lc" x="186" y="144">WORKDIR /app</text>
+                  <rect class="lay" x="170" y="160" width="380" height="28" rx="4"/>
+                  <text class="lc" x="186" y="178">FROM python:3.12-slim   (base)</text>
+                  <text class="lt" x="170" y="208">↑ IMAGEN = capas de solo lectura (cacheables, compartidas)</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-anatomia">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía: del Dockerfile al contenedor en marcha</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El recorrido completo: el <b>Dockerfile</b> es la receta; <code>docker build</code> la cuece en una <b>imagen</b> (plantilla inmutable); <code>docker run</code> la enciende como <b>contenedor</b> (proceso efímero). Para que los datos sobrevivan usas un <b>volumen</b>; para que los contenedores se hablen, una <b>red</b>.</p>
+              <svg class="darch" viewBox="0 0 760 312" role="img" aria-label="Dockerfile se construye en una imagen, que se ejecuta como contenedor; el volumen persiste datos y la red comunica contenedores">
+                <defs>
+                  <marker id="da-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 L10 5 L0 10 z" fill="#9aa0ab"/>
+                  </marker>
+                </defs>
+
+                <!-- Dockerfile -->
+                <rect class="box" x="16" y="34" width="120" height="82" rx="6"/>
+                <text class="t" x="76" y="56" text-anchor="middle">Dockerfile</text>
+                <text class="s" x="28" y="76">FROM python</text>
+                <text class="s" x="28" y="90">COPY . /app</text>
+                <text class="s" x="28" y="104">CMD ["python"]</text>
+
+                <!-- build arrow -->
+                <path class="ar" d="M138 75 L194 75"/>
+                <text class="lbl" x="166" y="68" text-anchor="middle">build</text>
+
+                <!-- Imagen -->
+                <rect class="box" x="196" y="22" width="156" height="106" rx="6"/>
+                <rect class="img-hd" x="196" y="22" width="156" height="22" rx="6"/>
+                <rect class="img-hd" x="196" y="33" width="156" height="11"/>
+                <text class="t w" x="274" y="38" text-anchor="middle">IMAGEN (plantilla)</text>
+                <rect class="lay" x="208" y="54" width="132" height="20" rx="3"/>
+                <rect class="lay" x="208" y="78" width="132" height="20" rx="3"/>
+                <rect class="lay" x="208" y="102" width="132" height="20" rx="3"/>
+                <text class="s" x="274" y="68" text-anchor="middle">capa · solo lectura</text>
+                <text class="s" x="274" y="92" text-anchor="middle">capa · solo lectura</text>
+                <text class="s" x="274" y="116" text-anchor="middle">capa base</text>
+
+                <!-- run arrow -->
+                <path class="ar" d="M354 75 L408 75"/>
+                <text class="lbl" x="381" y="68" text-anchor="middle">run</text>
+
+                <!-- Contenedor -->
+                <rect class="cont" x="410" y="22" width="160" height="106" rx="6"/>
+                <rect class="cont-hd" x="410" y="22" width="160" height="22" rx="6"/>
+                <rect class="cont-hd" x="410" y="33" width="160" height="11"/>
+                <text class="t w" x="490" y="38" text-anchor="middle">CONTENEDOR</text>
+                <text class="s g" x="490" y="62" text-anchor="middle">▲ capa de escritura</text>
+                <text class="s" x="490" y="80" text-anchor="middle">(efímera)</text>
+                <text class="s" x="490" y="104" text-anchor="middle">tu app en marcha</text>
+                <text class="s" x="490" y="120" text-anchor="middle">PID 1 · aislado</text>
+
+                <!-- Volumen (persistencia) -->
+                <path class="vol" d="M150 214 a55 14 0 0 1 110 0 v54 a55 14 0 0 1 -110 0 z"/>
+                <ellipse class="vol" cx="205" cy="214" rx="55" ry="14"/>
+                <text class="t" x="205" y="210" text-anchor="middle">VOLUMEN</text>
+                <text class="s g" x="205" y="250" text-anchor="middle">datos persisten</text>
+                <text class="s" x="205" y="266" text-anchor="middle">aunque borres</text>
+                <text class="s" x="205" y="280" text-anchor="middle">el contenedor</text>
+                <path class="ar d" d="M468 130 L240 200"/>
+                <text class="lbl" x="318" y="158" text-anchor="middle">-v montar</text>
+
+                <!-- Red (comunicación) -->
+                <rect class="net" x="430" y="186" width="300" height="100" rx="8"/>
+                <text class="lbl" x="446" y="204" fill="#1E9B51">RED (bridge)</text>
+                <rect class="cont" x="452" y="216" width="92" height="48" rx="5"/>
+                <text class="s" x="498" y="244" text-anchor="middle">web</text>
+                <rect class="cont" x="616" y="216" width="92" height="48" rx="5"/>
+                <text class="s" x="662" y="244" text-anchor="middle">db</text>
+                <path class="net-ln" d="M544 240 L616 240"/>
+                <text class="s" x="580" y="232" text-anchor="middle">por nombre</text>
+                <path class="ar d" d="M540 130 L560 182"/>
+                <text class="lbl" x="566" y="160" text-anchor="middle">--network</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-install">
+            <div class="tile-h"><span class="td"></span><h3>Verificar la instalación</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Comprueba que la CLI ve al daemon y lanza el contenedor de prueba. En Windows/Mac, Docker Desktop arranca el daemon; en Linux, el servicio <code>docker</code>.</p>
+              <figure class="code" data-copy="docker version          # cliente + daemon&#10;docker info             # estado del sistema&#10;docker run hello-world  # prueba completa&#10;docker ps               # contenedores activos">
+                <figcaption><span class="lang">docker · check</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">version</span>          <span class="t-com"># cliente + daemon</span>
+<span class="t-fn">docker</span> <span class="t-kw">info</span>             <span class="t-com"># estado del sistema</span>
+<span class="t-fn">docker</span> <span class="t-kw">run</span> hello-world  <span class="t-com"># prueba completa</span>
+<span class="t-fn">docker</span> <span class="t-kw">ps</span>               <span class="t-com"># activos</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Permisos en Linux</span>Añade tu usuario al grupo <code>docker</code> (<code>sudo usermod -aG docker $USER</code>) para no escribir <code>sudo</code> en cada comando. Cierra y reabre sesión.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 — IMÁGENES ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Imágenes</h2><span class="meta">la plantilla<br>inmutable</span></div>
+
+        <div class="cols">
+          <div class="tile" id="im-pull">
+            <div class="tile-h"><span class="td"></span><h3>Obtener &amp; listar imágenes</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Las imágenes se nombran <code>repo:tag</code>. Sin tag, Docker asume <code>:latest</code> (no fijes producción a <code>latest</code>).</p>
+              <figure class="code" data-copy="docker pull nginx:1.27   # bajar imagen&#10;docker images           # listar locales&#10;docker image inspect nginx&#10;docker rmi nginx:1.27   # borrar imagen">
+                <figcaption><span class="lang">docker image</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">pull</span> nginx:<span class="t-num">1.27</span>   <span class="t-com"># bajar</span>
+<span class="t-fn">docker</span> <span class="t-kw">images</span>           <span class="t-com"># listar</span>
+<span class="t-fn">docker</span> <span class="t-kw">image</span> inspect nginx
+<span class="t-fn">docker</span> <span class="t-kw">rmi</span> nginx:<span class="t-num">1.27</span>   <span class="t-com"># borrar</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">tag = versión</span>Usa tags concretos (<code>node:20-alpine</code>) para builds reproducibles.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="im-build">
+            <div class="tile-h"><span class="td"></span><h3>Construir desde un Dockerfile</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>build</code> lee el <code>Dockerfile</code> del contexto (el <code>.</code> final) y produce una imagen etiquetada con <code>-t</code>.</p>
+              <figure class="code" data-copy="docker build -t miapp:1.0 .&#10;docker build -t miapp:1.0 -f Dockerfile.prod .&#10;docker build --no-cache -t miapp:1.0 .&#10;docker history miapp:1.0   # ver capas">
+                <figcaption><span class="lang">docker build</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">build</span> <span class="t-flag">-t</span> miapp:<span class="t-num">1.0</span> .
+<span class="t-fn">docker</span> <span class="t-kw">build</span> <span class="t-flag">-t</span> miapp:<span class="t-num">1.0</span> <span class="t-flag">-f</span> Dockerfile.prod .
+<span class="t-fn">docker</span> <span class="t-kw">build</span> <span class="t-flag">--no-cache</span> <span class="t-flag">-t</span> miapp:<span class="t-num">1.0</span> .
+<span class="t-fn">docker</span> <span class="t-kw">history</span> miapp:<span class="t-num">1.0</span>   <span class="t-com"># capas</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">El contexto importa</span>El <code>.</code> es el <b>contexto de build</b>: todo se envía al daemon. Usa <code>.dockerignore</code> para no enviar <code>node_modules</code> ni <code>.git</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="im-push">
+            <div class="tile-h"><span class="td"></span><h3>Etiquetar &amp; publicar en un registry</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para subir a un registry, la imagen debe llevar el prefijo del registry/usuario. <code>tag</code> crea un alias; <code>push</code> la sube tras <code>login</code>.</p>
+              <figure class="code" data-copy="docker login                        # Docker Hub&#10;docker tag miapp:1.0 usuario/miapp:1.0&#10;docker push usuario/miapp:1.0&#10;# GitHub Container Registry:&#10;docker tag miapp:1.0 ghcr.io/org/miapp:1.0&#10;docker push ghcr.io/org/miapp:1.0">
+                <figcaption><span class="lang">docker push</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">login</span>                  <span class="t-com"># Docker Hub</span>
+<span class="t-fn">docker</span> <span class="t-kw">tag</span> miapp:<span class="t-num">1.0</span> usuario/miapp:<span class="t-num">1.0</span>
+<span class="t-fn">docker</span> <span class="t-kw">push</span> usuario/miapp:<span class="t-num">1.0</span>
+<span class="t-com"># GitHub Container Registry:</span>
+<span class="t-fn">docker</span> <span class="t-kw">tag</span> miapp:<span class="t-num">1.0</span> ghcr.io/org/miapp:<span class="t-num">1.0</span>
+<span class="t-fn">docker</span> <span class="t-kw">push</span> ghcr.io/org/miapp:<span class="t-num">1.0</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 — CONTENEDORES ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Contenedores</h2><span class="meta">la imagen<br>en ejecución</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="co-run">
+            <div class="tile-h"><span class="td"></span><h3>docker run — el comando estrella</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>run</code> = crear + arrancar un contenedor desde una imagen. Sus flags resuelven el 90% de los casos:</p>
+              <div class="cols">
+                <figure class="code" data-copy="docker run -d -p 8080:80 --name web nginx&#10;docker run -it ubuntu bash      # shell interactiva&#10;docker run --rm alpine echo hola  # y se borra&#10;docker run -e ENV=prod -v datos:/var/lib miapp">
+                  <figcaption><span class="lang">docker run</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-d -p</span> <span class="t-num">8080:80</span> <span class="t-flag">--name</span> web nginx
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-it</span> ubuntu bash      <span class="t-com"># shell</span>
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">--rm</span> alpine echo hola
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-e</span> ENV=prod <span class="t-flag">-v</span> datos:/var/lib miapp</pre>
+                </figure>
+                <table class="tbl">
+                  <tr><th>Flag</th><th>Qué hace</th></tr>
+                  <tr><td class="fn">-d</td><td>detached (en segundo plano)</td></tr>
+                  <tr><td class="fn">-p H:C</td><td>publica puerto host:contenedor</td></tr>
+                  <tr><td class="fn">-it</td><td>interactivo + TTY (shell)</td></tr>
+                  <tr><td class="fn">--name</td><td>nombre legible al contenedor</td></tr>
+                  <tr><td class="fn">-e</td><td>variable de entorno</td></tr>
+                  <tr><td class="fn">-v</td><td>monta volumen / carpeta</td></tr>
+                  <tr><td class="fn">--rm</td><td>auto-borrar al salir</td></tr>
+                  <tr><td class="fn">--restart</td><td>política de reinicio</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="co-manage">
+            <div class="tile-h"><span class="td"></span><h3>Ver, entrar y depurar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>logs</code> y <code>exec</code> son tus ojos dentro del contenedor en marcha.</p>
+              <figure class="code" data-copy="docker ps               # activos&#10;docker ps -a            # todos (incl. parados)&#10;docker logs -f web      # logs en vivo&#10;docker exec -it web sh  # abrir shell dentro&#10;docker stats            # CPU/RAM en vivo">
+                <figcaption><span class="lang">docker · inspección</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">ps</span>               <span class="t-com"># activos</span>
+<span class="t-fn">docker</span> <span class="t-kw">ps</span> <span class="t-flag">-a</span>            <span class="t-com"># todos</span>
+<span class="t-fn">docker</span> <span class="t-kw">logs</span> <span class="t-flag">-f</span> web      <span class="t-com"># en vivo</span>
+<span class="t-fn">docker</span> <span class="t-kw">exec</span> <span class="t-flag">-it</span> web sh  <span class="t-com"># shell dentro</span>
+<span class="t-fn">docker</span> <span class="t-kw">stats</span>            <span class="t-com"># CPU/RAM</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="co-life">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo de vida: parar &amp; borrar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Parar no borra: el contenedor sigue existiendo (y ocupa espacio) hasta que lo eliminas con <code>rm</code>.</p>
+              <figure class="code" data-copy="docker stop web         # SIGTERM (limpio)&#10;docker start web        # re-arrancar&#10;docker restart web&#10;docker rm web           # borrar (parado)&#10;docker rm -f web        # forzar (en marcha)">
+                <figcaption><span class="lang">docker · ciclo</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">stop</span> web         <span class="t-com"># SIGTERM</span>
+<span class="t-fn">docker</span> <span class="t-kw">start</span> web        <span class="t-com"># re-arrancar</span>
+<span class="t-fn">docker</span> <span class="t-kw">restart</span> web
+<span class="t-fn">docker</span> <span class="t-kw">rm</span> web           <span class="t-com"># borrar</span>
+<span class="t-fn">docker</span> <span class="t-kw">rm</span> <span class="t-flag">-f</span> web        <span class="t-com"># forzar</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Estado = efímero</span>Trata los contenedores como <b>desechables</b>: todo dato que deba sobrevivir va en un <b>volumen</b> (sección 04), nunca en la capa de escritura.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 — DOCKERFILE ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Dockerfile</h2><span class="meta">la receta<br>de la imagen</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="df-inst">
+            <div class="tile-h"><span class="td"></span><h3>Instrucciones esenciales</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Instrucción</th><th>Para qué</th></tr>
+                <tr><td class="fn">FROM</td><td>imagen base (siempre la 1.ª línea)</td></tr>
+                <tr><td class="fn">WORKDIR</td><td>directorio de trabajo dentro</td></tr>
+                <tr><td class="fn">COPY</td><td>copia archivos del contexto a la imagen</td></tr>
+                <tr><td class="fn">ADD</td><td>como COPY + URLs y .tar (usa COPY casi siempre)</td></tr>
+                <tr><td class="fn">RUN</td><td>ejecuta un comando al construir (crea capa)</td></tr>
+                <tr><td class="fn">ENV</td><td>variable de entorno persistente</td></tr>
+                <tr><td class="fn">ARG</td><td>variable solo durante el build</td></tr>
+                <tr><td class="fn">EXPOSE</td><td>documenta el puerto (no lo publica)</td></tr>
+                <tr><td class="fn">USER</td><td>usuario no-root para ejecutar</td></tr>
+                <tr><td class="fn">CMD</td><td>comando por defecto al arrancar</td></tr>
+                <tr><td class="fn">ENTRYPOINT</td><td>ejecutable fijo del contenedor</td></tr>
+                <tr><td class="fn">HEALTHCHECK</td><td>cómo Docker comprueba que está sano</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="df-ej">
+            <div class="tile-h"><span class="td"></span><h3>Dockerfile real (Node)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Copia primero el manifiesto de dependencias y luego el código: así Docker <b>cachea</b> el <code>npm install</code> mientras solo cambie tu código.</p>
+              <figure class="code" data-copy="FROM node:20-alpine&#10;WORKDIR /app&#10;COPY package*.json ./&#10;RUN npm ci --omit=dev&#10;COPY . .&#10;EXPOSE 3000&#10;USER node&#10;CMD [&quot;node&quot;, &quot;server.js&quot;]">
+                <figcaption><span class="lang">Dockerfile</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">FROM</span> node:20-alpine
+<span class="t-kw">WORKDIR</span> /app
+<span class="t-kw">COPY</span> package*.json ./
+<span class="t-kw">RUN</span> npm ci <span class="t-flag">--omit=dev</span>
+<span class="t-kw">COPY</span> . .
+<span class="t-kw">EXPOSE</span> <span class="t-num">3000</span>
+<span class="t-kw">USER</span> node
+<span class="t-kw">CMD</span> [<span class="t-str">"node"</span>, <span class="t-str">"server.js"</span>]</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="df-cmd">
+            <div class="tile-h"><span class="td"></span><h3>CMD vs ENTRYPOINT</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El más confuso. Regla práctica:</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">CMD</span><span class="dv">argumentos <b>por defecto</b>, fáciles de <i>sobrescribir</i> en <code>docker run</code>.</span></div>
+                <div class="di"><span class="dk">ENTRYPOINT</span><span class="dv">el ejecutable <b>fijo</b>; lo que escribas en <code>run</code> se le pasa como argumentos.</span></div>
+                <div class="di"><span class="dk">Juntos</span><span class="dv">ENTRYPOINT = binario, CMD = sus flags por defecto.</span></div>
+              </div>
+              <figure class="code" data-copy="ENTRYPOINT [&quot;python&quot;, &quot;app.py&quot;]&#10;CMD [&quot;--port&quot;, &quot;8000&quot;]   # flags por defecto&#10;# docker run img --port 9000  -> sobrescribe CMD">
+                <figcaption><span class="lang">Dockerfile</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">ENTRYPOINT</span> [<span class="t-str">"python"</span>, <span class="t-str">"app.py"</span>]
+<span class="t-kw">CMD</span> [<span class="t-str">"--port"</span>, <span class="t-str">"8000"</span>]   <span class="t-com"># default</span>
+<span class="t-com"># run img --port 9000 → cambia CMD</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="df-multi">
+            <div class="tile-h"><span class="td"></span><h3>Multi-stage build — imágenes diminutas</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Compila en una etapa pesada (con compiladores) y copia <b>solo el resultado</b> a una imagen final mínima. La imagen de producción no carga las herramientas de build.</p>
+              <figure class="code" data-copy="# etapa 1: build&#10;FROM node:20 AS build&#10;WORKDIR /app&#10;COPY . .&#10;RUN npm ci &amp;&amp; npm run build&#10;&#10;# etapa 2: runtime mínimo&#10;FROM nginx:alpine&#10;COPY --from=build /app/dist /usr/share/nginx/html">
+                <figcaption><span class="lang">Dockerfile · multi-stage</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># etapa 1: build</span>
+<span class="t-kw">FROM</span> node:20 <span class="t-kw">AS</span> build
+<span class="t-kw">WORKDIR</span> /app
+<span class="t-kw">COPY</span> . .
+<span class="t-kw">RUN</span> npm ci <span class="t-op">&amp;&amp;</span> npm run build
+
+<span class="t-com"># etapa 2: runtime mínimo</span>
+<span class="t-kw">FROM</span> nginx:alpine
+<span class="t-kw">COPY</span> <span class="t-flag">--from=build</span> /app/dist /usr/share/nginx/html</pre>
+              </figure>
+              <div class="tip"><span class="lab">Orden = caché</span>Cada instrucción es una capa cacheada. Pon lo que <b>menos cambia arriba</b> (deps) y tu código abajo: así un cambio de código no invalida la instalación de dependencias.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 — DATOS & REDES ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Datos &amp; redes</h2><span class="meta">persistir<br>y conectar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="dr-vol">
+            <div class="tile-h"><span class="td"></span><h3>Volúmenes (datos persistentes)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>volumen</b> lo gestiona Docker y sobrevive a la muerte del contenedor. Es la forma recomendada de guardar bases de datos.</p>
+              <figure class="code" data-copy="docker volume create datos&#10;docker run -v datos:/var/lib/mysql mysql&#10;docker volume ls&#10;docker volume inspect datos&#10;docker volume rm datos">
+                <figcaption><span class="lang">docker volume</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">volume</span> create datos
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-v</span> datos:/var/lib/mysql mysql
+<span class="t-fn">docker</span> <span class="t-kw">volume</span> ls
+<span class="t-fn">docker</span> <span class="t-kw">volume</span> inspect datos
+<span class="t-fn">docker</span> <span class="t-kw">volume</span> rm datos</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="dr-mount">
+            <div class="tile-h"><span class="td"></span><h3>Bind mounts (carpeta del host)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>bind mount</b> mapea una carpeta de tu máquina dentro del contenedor: ideal en <b>desarrollo</b> para ver cambios al instante.</p>
+              <figure class="code" data-copy="# monta el cwd en /app (dev con recarga)&#10;docker run -v $(pwd):/app -p 3000:3000 miapp&#10;# solo lectura:&#10;docker run -v $(pwd)/conf:/etc/conf:ro nginx">
+                <figcaption><span class="lang">docker · bind</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># cwd en /app (dev, recarga)</span>
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-v</span> $(pwd):/app <span class="t-flag">-p</span> <span class="t-num">3000:3000</span> miapp
+<span class="t-com"># solo lectura (:ro):</span>
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-v</span> $(pwd)/conf:/etc/conf:ro nginx</pre>
+              </figure>
+              <div class="tip"><span class="lab">Volumen vs bind</span><b>Volumen</b> = datos de producción gestionados por Docker. <b>Bind</b> = tu código en desarrollo.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="dr-net">
+            <div class="tile-h"><span class="td"></span><h3>Redes — contenedores que se hablan</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Crea una red <b>bridge</b> propia y conecta varios contenedores: dentro de ella se resuelven por <b>nombre</b> (DNS interno), sin exponer puertos al host.</p>
+              <div class="cols">
+                <figure class="code" data-copy="docker network create appnet&#10;docker run -d --name db --network appnet postgres&#10;docker run -d --name api --network appnet miapi&#10;# 'api' llega a la base de datos por el host 'db'">
+                  <figcaption><span class="lang">docker network</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">network</span> create appnet
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-d --name</span> db <span class="t-flag">--network</span> appnet postgres
+<span class="t-fn">docker</span> <span class="t-kw">run</span> <span class="t-flag">-d --name</span> api <span class="t-flag">--network</span> appnet miapi
+<span class="t-com"># 'api' alcanza la BD por el host 'db'</span></pre>
+                </figure>
+                <table class="tbl">
+                  <tr><th>Driver</th><th>Cuándo</th></tr>
+                  <tr><td class="k">bridge</td><td>por defecto; red privada entre contenedores</td></tr>
+                  <tr><td class="k">host</td><td>comparte la red del host (sin aislar)</td></tr>
+                  <tr><td class="k">none</td><td>sin red</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 — COMPOSE ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Docker Compose</h2><span class="meta">varios servicios<br>en un archivo</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="cp-file">
+            <div class="tile-h"><span class="td"></span><h3>compose.yaml — la idea</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Compose</b> declara varios contenedores (servicios), sus redes y volúmenes en un solo YAML. Un <code>docker compose up</code> levanta todo el stack. Crea automáticamente una red donde los servicios se resuelven por su nombre.</p>
+              <div class="zones" aria-hidden="true">
+                <div class="zone z1"><div class="zt">services</div><div class="zc">contenedores</div><div class="zd">web, api, db…</div></div>
+                <div class="zone z2"><div class="zt">volumes</div><div class="zc">persistencia</div><div class="zd">datos de la BD</div></div>
+                <div class="zone z3"><div class="zt">networks</div><div class="zc">conexión</div><div class="zd">DNS por nombre</div></div>
+                <div class="zone z4"><div class="zt">up / down</div><div class="zc">un comando</div><div class="zd">todo el stack</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="cp-cmd">
+            <div class="tile-h"><span class="td"></span><h3>Comandos de Compose</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Es <code>docker compose</code> (v2, integrado), no el viejo <code>docker-compose</code> con guion.</p>
+              <figure class="code" data-copy="docker compose up -d      # levantar en background&#10;docker compose ps         # estado&#10;docker compose logs -f    # logs de todo&#10;docker compose exec api sh&#10;docker compose down       # parar y borrar&#10;docker compose down -v    # ...y los volúmenes">
+                <figcaption><span class="lang">docker compose</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">compose</span> up <span class="t-flag">-d</span>      <span class="t-com"># levantar</span>
+<span class="t-fn">docker</span> <span class="t-kw">compose</span> ps         <span class="t-com"># estado</span>
+<span class="t-fn">docker</span> <span class="t-kw">compose</span> logs <span class="t-flag">-f</span>    <span class="t-com"># logs</span>
+<span class="t-fn">docker</span> <span class="t-kw">compose</span> exec api sh
+<span class="t-fn">docker</span> <span class="t-kw">compose</span> down       <span class="t-com"># parar+borrar</span>
+<span class="t-fn">docker</span> <span class="t-kw">compose</span> down <span class="t-flag">-v</span>    <span class="t-com"># +volúmenes</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cp-ej">
+            <div class="tile-h"><span class="td"></span><h3>Ejemplo: web + base de datos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <figure class="code" data-copy="services:&#10;  web:&#10;    build: .&#10;    ports: [&quot;8000:8000&quot;]&#10;    environment:&#10;      DB_HOST: db&#10;    depends_on: [db]&#10;  db:&#10;    image: postgres:16&#10;    volumes:&#10;      - pgdata:/var/lib/postgresql/data&#10;volumes:&#10;  pgdata:">
+                <figcaption><span class="lang">compose.yaml</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">services:</span>
+  <span class="t-fn">web:</span>
+    build: .
+    ports: [<span class="t-str">"8000:8000"</span>]
+    environment:
+      DB_HOST: db
+    depends_on: [db]
+  <span class="t-fn">db:</span>
+    image: postgres:<span class="t-num">16</span>
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+<span class="t-kw">volumes:</span>
+  pgdata:</pre>
+              </figure>
+              <div class="tip"><span class="lab">depends_on</span>Ordena el arranque, pero <b>no</b> espera a que la BD esté lista. Usa un <code>healthcheck</code> + <code>condition: service_healthy</code> para eso.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 — LIMPIEZA ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Limpieza &amp; buenas prácticas</h2><span class="meta">recuperar disco<br>y producción sólida</span></div>
+
+        <div class="cols">
+          <div class="tile" id="lp-prune">
+            <div class="tile-h"><span class="td"></span><h3>prune — recuperar espacio</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Docker acumula imágenes, contenedores parados, volúmenes y caché de build. <code>prune</code> los limpia.</p>
+              <figure class="code" data-copy="docker system df          # cuánto ocupa&#10;docker container prune    # contenedores parados&#10;docker image prune -a     # imágenes sin uso&#10;docker volume prune       # volúmenes huérfanos&#10;docker system prune -a    # todo de golpe">
+                <figcaption><span class="lang">docker prune</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">system</span> df          <span class="t-com"># uso de disco</span>
+<span class="t-fn">docker</span> <span class="t-kw">container</span> prune    <span class="t-com"># parados</span>
+<span class="t-fn">docker</span> <span class="t-kw">image</span> prune <span class="t-flag">-a</span>     <span class="t-com"># sin uso</span>
+<span class="t-fn">docker</span> <span class="t-kw">volume</span> prune       <span class="t-com"># huérfanos</span>
+<span class="t-fn">docker</span> <span class="t-kw">system</span> prune <span class="t-flag">-a</span>    <span class="t-com"># todo</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Cuidado</span><code>volume prune</code> y <code>system prune -a --volumes</code> borran <b>datos</b>. Revisa antes de ejecutar en un servidor con bases de datos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="lp-debug">
+            <div class="tile-h"><span class="td"></span><h3>inspect · stats · cp</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>inspect</code> vuelca toda la config en JSON; con <code>--format</code> extraes un campo.</p>
+              <figure class="code" data-copy="docker inspect web&#10;docker inspect -f '{{.State.Status}}' web&#10;docker cp web:/app/log.txt ./log.txt&#10;docker top web            # procesos dentro">
+                <figcaption><span class="lang">docker · debug</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">docker</span> <span class="t-kw">inspect</span> web
+<span class="t-fn">docker</span> <span class="t-kw">inspect</span> <span class="t-flag">-f</span> <span class="t-str">'{{.State.Status}}'</span> web
+<span class="t-fn">docker</span> <span class="t-kw">cp</span> web:/app/log.txt ./log.txt
+<span class="t-fn">docker</span> <span class="t-kw">top</span> web            <span class="t-com"># procesos</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="lp-best">
+            <div class="tile-h"><span class="td"></span><h3>Checklist de buenas prácticas</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">Imágenes finas</span><span class="dv">parte de <code>-slim</code> / <code>alpine</code> y usa multi-stage. Menos peso = menos superficie de ataque.</span></div>
+                <div class="di"><span class="dk">.dockerignore</span><span class="dv">excluye <code>.git</code>, <code>node_modules</code>, secretos y artefactos del contexto.</span></div>
+                <div class="di"><span class="dk">No-root</span><span class="dv">añade <code>USER</code> no privilegiado; nunca corras como root sin motivo.</span></div>
+                <div class="di"><span class="dk">Tags fijos</span><span class="dv">fija versiones (<code>:1.27</code>) en producción; <code>:latest</code> rompe builds reproducibles.</span></div>
+                <div class="di"><span class="dk">Sin secretos</span><span class="dv">nada de claves en el Dockerfile (quedan en las capas); usa variables/secrets en runtime.</span></div>
+                <div class="di"><span class="dk">Un proceso</span><span class="dv">un contenedor = una responsabilidad; orquesta con Compose, no metas todo dentro.</span></div>
+                <div class="di"><span class="dk">Caché de capas</span><span class="dv">copia dependencias antes que el código para reusar la caché del build.</span></div>
+                <div class="di"><span class="dk">Healthcheck</span><span class="dv">define <code>HEALTHCHECK</code> para que el orquestador sepa si reiniciar.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>Docker · Hoja de referencia</b> — del <span class="mono">Dockerfile</span> al contenedor en producción. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">build · ship · run · v1.2 · jun 2026 · clic en cualquier comando para copiarlo</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+</body>
+</html>

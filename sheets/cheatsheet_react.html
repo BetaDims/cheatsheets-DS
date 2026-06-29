@@ -1,0 +1,1714 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#E8ECEF; --surface:#FFFFFF; --surface-2:#F2F6F8;
+    --ink:#16242B; --ink-soft:#4E606A; --ink-faint:#86969F;
+    --line:#E1E8EB; --line-strong:#CDD8DD; --header-bg:#EEF3F5;
+    /* marca React */
+    --rc:#149ECA; --rc-deep:#0E7490; --rc-tint:rgba(20,158,202,.14);
+    /* acentos de sección (texto sobre blanco) */
+    --s1:#0E7490; --s2:#2563A8; --s3:#178A4C; --s4:#B5700A;
+    --s5:#6B4BB8; --s6:#C0392B; --s7:#9A2C70; --s8:#46566A;
+    /* niveles B/I/A (universales) */
+    --lvl-b:#38B26C; --lvl-i:#F2C811; --lvl-a:#F0796B;
+    /* bloque de código oscuro */
+    --code-bg:#102229; --code-ink:#E6EEF1; --code-dim:#6F8891;
+    --c-kw:#E48FB0; --c-fn:#7FC4DE; --c-str:#9FD18B;
+    --c-num:#FFD96B; --c-com:#6F8891; --c-prop:#D9C28A;
+    --c-tag:#62B8D6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:18px}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--line-strong) .5px,transparent .5px);
+    background-size:24px 24px}
+  code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-variant-ligatures:none}
+  ::selection{background:var(--rc-tint)}
+  .wrap{max-width:1320px;margin:0 auto;padding:22px 20px 0}
+
+  /* ---------- APP CHROME (navegador/DevTools) ---------- */
+  .app{background:var(--surface);border:1px solid var(--line-strong);
+    border-radius:14px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 14px 34px rgba(16,34,41,.10)}
+  .titlebar{display:flex;align-items:center;gap:10px;
+    padding:9px 14px;background:linear-gradient(180deg,#15333d,#0E7490);
+    color:#DAF0F6;font-size:12.5px}
+  .titlebar .wbtn{display:flex;gap:6px}
+  .titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#5a8c99}
+  .titlebar .wbtn i:nth-child(1){background:#F0796B}
+  .titlebar .wbtn i:nth-child(2){background:#FFD96B}
+  .titlebar .wbtn i:nth-child(3){background:#38B26C}
+  .titlebar .mark{display:inline-grid;place-items:center;width:22px;height:22px;
+    border-radius:6px;background:rgba(255,255,255,.13);
+    font-family:"JetBrains Mono",monospace;font-size:14px;color:#9FE7F4}
+  .titlebar .fname b{color:#fff;font-weight:700}
+  .titlebar .grow{flex:1}
+  .titlebar .url{font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:#CDEAF1;background:rgba(255,255,255,.12);padding:3px 11px;
+    border-radius:20px;max-width:260px;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap}
+  .titlebar .vtag{font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:#A9DCE6;background:rgba(255,255,255,.10);padding:2px 8px;border-radius:6px}
+
+  .ribbon{display:flex;gap:2px;padding:6px 12px 0;background:var(--header-bg);
+    border-bottom:1px solid var(--line)}
+  .ribbon span{font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--ink-faint);padding:7px 14px;border-radius:8px 8px 0 0}
+  .ribbon span.on{background:var(--surface);color:var(--rc-deep);font-weight:600;
+    border:1px solid var(--line);border-bottom-color:var(--surface);
+    margin-bottom:-1px}
+
+  .fxbar{display:flex;align-items:center;gap:0;padding:8px 12px;
+    background:var(--surface);border-bottom:1px solid var(--line)}
+  .fxbar .namebox{font-family:"JetBrains Mono",monospace;font-size:12px;
+    color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:6px;padding:4px 9px;min-width:78px;text-align:center}
+  .fxbar .fxlabel{font-family:"JetBrains Mono",monospace;font-style:italic;
+    color:var(--rc-deep);padding:0 12px;font-size:13px}
+  .fxbar .fxc{font-family:"JetBrains Mono",monospace;font-size:12.5px;
+    color:var(--ink);border-left:1px solid var(--line);padding-left:12px;flex:1;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fxbar .fxc b{color:var(--rc-deep)}
+
+  .hero{padding:24px 26px 20px}
+  .kick{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--rc-deep);font-weight:600}
+  .hero h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    letter-spacing:-.02em;font-size:clamp(26px,4vw,40px);line-height:1.05;
+    margin:9px 0 4px}
+  .hero h1 em{font-style:normal;color:var(--rc)}
+  .hero .lede{color:var(--ink-soft);max-width:66ch;margin-top:7px;font-size:14.5px}
+  .hero .lede b{color:var(--ink)}
+  .quote{margin:15px 0 4px;padding:9px 15px;border-left:3px solid var(--rc);
+    background:var(--rc-tint);border-radius:0 9px 9px 0;
+    font-size:13.5px;color:var(--ink-soft);max-width:70ch}
+  .quote b{color:var(--rc-deep);font-weight:600}
+  .quote span{font-style:italic}
+
+  .lvl-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px}
+  .lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;
+    color:var(--ink-soft)}
+  .lvlpill b{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;
+    width:18px;height:18px;border-radius:5px;display:grid;place-items:center;
+    color:#1a1a1a;background:var(--c)}
+
+  .tabbar{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+  .tab{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;
+    text-decoration:none;color:var(--ink-soft);background:var(--surface-2);
+    border:1px solid var(--line);border-radius:8px;padding:6px 11px;
+    border-bottom:2px solid var(--tc);transition:.15s}
+  .tab:hover{color:var(--ink);background:#fff;transform:translateY(-1px)}
+  .tab b{color:var(--tc);font-weight:700}
+
+  /* ---------- SHELL ---------- */
+  .shell{display:grid;grid-template-columns:236px 1fr;gap:22px;
+    margin-top:22px;padding-bottom:60px}
+  .toc{position:sticky;top:14px;align-self:start;max-height:calc(100vh - 28px);
+    overflow:auto;padding-right:4px}
+  .toc-h{display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--ink-soft);margin:16px 0 5px}
+  .toc-h:first-child{margin-top:2px}
+  .toc-h .sq{width:11px;height:11px;border-radius:3px;background:var(--seg)}
+  .toc a{display:block;text-decoration:none;color:var(--ink-soft);font-size:13px;
+    padding:4px 9px;border-left:2px solid var(--line);margin-left:4px;
+    transition:.13s}
+  .toc a:hover{color:var(--ink);border-left-color:var(--seg)}
+  .toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg);
+    background:var(--surface);border-radius:0 6px 6px 0}
+
+  main{min-width:0}
+  .mtabs{display:none}
+
+  .sheet-sec{margin-bottom:34px}
+  .sec-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;
+    padding-bottom:9px;border-bottom:2px solid var(--seg)}
+  .sec-tab{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:13px;
+    color:#fff;background:var(--seg);border-radius:7px;padding:3px 9px;
+    letter-spacing:.02em}
+  .sec-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    font-size:20px;letter-spacing:-.01em}
+  .sec-head .rng{margin-left:auto;font-family:"JetBrains Mono",monospace;
+    font-size:11px;color:var(--ink-faint)}
+
+  .block{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;margin-bottom:14px}
+  .tile-h{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .tile-h .td{width:9px;height:9px;border-radius:50%;background:var(--seg);flex:none}
+  .block h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    font-size:15px;flex:1}
+  .block p.note{color:var(--ink-soft);font-size:13.5px;margin-bottom:9px}
+  .block p.note:last-child{margin-bottom:0}
+  .block p.note b{color:var(--ink)}
+  .block p.note code,.why code{background:var(--surface-2);padding:1px 5px;
+    border-radius:4px;font-size:12px;color:var(--rc-deep)}
+  .why{font-size:12.5px;color:var(--ink-soft);border-left:2px solid var(--seg);
+    padding:3px 0 3px 11px;margin-top:10px;
+    background:linear-gradient(90deg,var(--rc-tint),transparent);
+    border-radius:0 6px 6px 0}
+  .why b{color:var(--rc-deep)}
+
+  .lvl{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;
+    width:19px;height:19px;border-radius:5px;display:grid;place-items:center;
+    color:#1a1a1a;flex:none}
+  .lvl.b{background:var(--lvl-b);color:#fff}
+  .lvl.i{background:var(--lvl-i)}
+  .lvl.a{background:var(--lvl-a);color:#fff}
+
+  /* code */
+  figure.code{margin:9px 0 0;border-radius:9px;overflow:hidden;
+    border:1px solid #1d3940;background:var(--code-bg);position:relative}
+  figure.code figcaption{font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    color:var(--code-dim);padding:6px 12px;border-bottom:1px solid #1d3940;
+    display:flex;align-items:center;gap:7px}
+  figure.code figcaption .dot{width:8px;height:8px;border-radius:50%;
+    background:var(--rc)}
+  figure.code pre{margin:0;padding:11px 13px;white-space:pre-wrap;
+    overflow-x:hidden;overflow-wrap:anywhere;
+    font-size:12.3px;line-height:1.62;color:var(--code-ink);cursor:pointer}
+  figure.code:hover{border-color:var(--rc)}
+  figure.code.copied{outline:2px solid var(--lvl-b)}
+  .k{color:var(--c-kw)} .fn{color:var(--c-fn)} .s{color:var(--c-str)}
+  .n{color:var(--c-num)} .c{color:var(--c-com)} .pr{color:var(--c-prop)}
+  .t{color:var(--c-tag)}
+
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  .tbl th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);
+    padding:5px 9px;border-bottom:1px solid var(--line-strong)}
+  .tbl td{padding:6px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl td:first-child{white-space:nowrap}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl code{background:var(--surface-2);padding:1px 5px;border-radius:4px;
+    font-size:12px;color:var(--rc-deep)}
+  .ph{font-style:italic;border-bottom:1px dotted var(--ink-faint);
+    color:var(--ink-soft)}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+  .tile{display:flex;flex-direction:column}
+  .tile-b{flex:1}
+  .tile.wide{grid-column:1 / -1}
+
+  ul.tips{list-style:none;margin-top:4px}
+  ul.tips li{position:relative;padding:3px 0 3px 18px;font-size:13.2px;
+    color:var(--ink-soft)}
+  ul.tips li::before{content:"";position:absolute;left:2px;top:10px;width:6px;
+    height:6px;border-radius:2px;background:var(--seg)}
+  ul.tips li b{color:var(--ink)}
+  ul.tips li code{background:var(--surface-2);padding:1px 5px;border-radius:4px;
+    font-size:12px;color:var(--rc-deep)}
+
+  /* signature diagram */
+  .diagram{background:var(--surface-2);border:1px dashed var(--line-strong);
+    border-radius:11px;padding:14px;margin-top:4px}
+  .diagram svg{width:100%;height:auto;display:block}
+
+  /* swap */
+  .swap{display:inline-flex;gap:3px;padding:3px;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:9px;margin-bottom:10px}
+  .swbtn{font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);
+    background:transparent;border:none;border-radius:7px;padding:6px 13px;
+    cursor:pointer;transition:.15s;font-family:"JetBrains Mono",monospace}
+  .swbtn.on{background:var(--surface);color:var(--rc-deep);
+    box-shadow:0 1px 3px rgba(40,46,66,.12)}
+  .swview.hidden{display:none}
+
+  footer{border-top:1px solid var(--line-strong);padding:18px 4px 40px;
+    color:var(--ink-faint);font-size:12.5px}
+  footer .mono{font-family:"JetBrains Mono",monospace;font-size:11px;
+    margin-top:5px;color:var(--ink-faint)}
+
+  #toast{position:fixed;bottom:26px;left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--rc-deep);color:#fff;font-size:13px;font-weight:600;
+    padding:9px 18px;border-radius:9px;opacity:0;pointer-events:none;
+    transition:.22s;z-index:50;box-shadow:0 8px 24px rgba(16,34,41,.28)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .sheet-sec{opacity:0;transform:translateY(8px);
+    animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards}
+  .sheet-sec:nth-child(1){animation-delay:.03s}
+  .sheet-sec:nth-child(2){animation-delay:.07s}
+  .sheet-sec:nth-child(3){animation-delay:.10s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  @media(max-width:860px){
+    .shell{grid-template-columns:1fr}
+    .toc{display:none}
+    .cols{grid-template-columns:1fr}
+    .titlebar .url{display:none}
+    .mtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+    .mtabs a{font-family:"JetBrains Mono",monospace;font-size:11.5px;
+      text-decoration:none;color:var(--ink-soft);background:var(--surface);
+      border:1px solid var(--line);border-radius:7px;padding:5px 9px;
+      border-bottom:2px solid var(--tc)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .sheet-sec{animation:none;opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head><body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="mark">⚛</span>
+      <span class="fname"><b>React</b> · App.jsx — Hoja de referencia</span>
+      <span class="grow"></span>
+      <span class="url">localhost:5173</span>
+      <span class="vtag">React 19 · 2026</span>
+    </div>
+    <div class="ribbon">
+      <span class="on">Componentes</span><span>Estado</span><span>Hooks</span>
+    </div>
+    <div class="fxbar">
+      <span class="namebox">App.jsx</span>
+      <span class="fxlabel">⚛</span>
+      <span class="fxc"><b>function</b> App()&nbsp;{
+        <b>return</b> &lt;Hola/&gt; }</span>
+    </div>
+    <div class="hero">
+      <div class="kick">Referencia rápida · Básico → Avanzado</div>
+      <h1>React, de los <em>componentes</em> a
+        los <em>hooks</em>.</h1>
+      <p class="lede">Construye interfaces declarativas con componentes
+        reutilizables. Esta hoja cubre <b>JSX</b>, <b>props</b>, estado con
+        <b>useState</b>, efectos, formularios, los hooks clave,
+        <b>React Router</b>, estado global (Context/Redux), fetching y un
+        vistazo a <b>Next.js</b>.
+        <b>Clic en cualquier snippet para copiarlo.</b></p>
+      <div class="quote"><span>"Learn once, write anywhere."</span> —
+        <b>React</b></div>
+      <div class="lvl-legend">
+        <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+        <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+        <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+      </div>
+      <div class="tabbar">
+        <a class="tab" href="#s1" style="--tc:var(--s1)"><b>01</b> Componentes &amp; JSX</a>
+        <a class="tab" href="#s2" style="--tc:var(--s2)"><b>02</b> Estado &amp; eventos</a>
+        <a class="tab" href="#s3" style="--tc:var(--s3)"><b>03</b> Efectos &amp; refs</a>
+        <a class="tab" href="#s4" style="--tc:var(--s4)"><b>04</b> Formularios</a>
+        <a class="tab" href="#s5" style="--tc:var(--s5)"><b>05</b> Hooks avanzados</a>
+        <a class="tab" href="#s6" style="--tc:var(--s6)"><b>06</b> React Router</a>
+        <a class="tab" href="#s7" style="--tc:var(--s7)"><b>07</b> Estado global &amp; datos</a>
+        <a class="tab" href="#s8" style="--tc:var(--s8)"><b>08</b> Next.js</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Componentes</div>
+      <a href="#s1" style="--seg:var(--s1)">Qué es un componente</a>
+      <a href="#arbol" style="--seg:var(--s1)">Árbol de componentes</a>
+      <a href="#jsx" style="--seg:var(--s1)">Reglas de JSX</a>
+      <a href="#props" style="--seg:var(--s1)">Props</a>
+      <a href="#compos" style="--seg:var(--s1)">children &amp; composición</a>
+      <a href="#convenciones" style="--seg:var(--s1)">Convenciones</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Estado &amp; eventos</div>
+      <a href="#usestate" style="--seg:var(--s2)">useState</a>
+      <a href="#eventos" style="--seg:var(--s2)">Eventos</a>
+      <a href="#prev" style="--seg:var(--s2)">Estado previo</a>
+      <a href="#cond" style="--seg:var(--s2)">Render condicional</a>
+      <a href="#listas" style="--seg:var(--s2)">Listas &amp; key</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Efectos &amp; refs</div>
+      <a href="#useeffect" style="--seg:var(--s3)">useEffect</a>
+      <a href="#cleanup" style="--seg:var(--s3)">Limpieza &amp; deps</a>
+      <a href="#useref" style="--seg:var(--s3)">useRef</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Formularios</div>
+      <a href="#controlado" style="--seg:var(--s4)">Input controlado</a>
+      <a href="#submit" style="--seg:var(--s4)">Submit &amp; validación</a>
+      <a href="#lifting" style="--seg:var(--s4)">Levantar el estado</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Hooks avanzados</div>
+      <a href="#reglas" style="--seg:var(--s5)">Reglas de los hooks</a>
+      <a href="#usecontext" style="--seg:var(--s5)">useContext</a>
+      <a href="#usereducer" style="--seg:var(--s5)">useReducer</a>
+      <a href="#memo" style="--seg:var(--s5)">useMemo / useCallback</a>
+      <a href="#custom" style="--seg:var(--s5)">Custom hooks</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · React Router</div>
+      <a href="#rutas" style="--seg:var(--s6)">Definir rutas</a>
+      <a href="#nav" style="--seg:var(--s6)">Link &amp; params</a>
+      <a href="#nested" style="--seg:var(--s6)">Rutas anidadas</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Estado global &amp; datos</div>
+      <a href="#ctx-redux" style="--seg:var(--s7)">Context vs Redux</a>
+      <a href="#rtk" style="--seg:var(--s7)">Redux Toolkit</a>
+      <a href="#fetch" style="--seg:var(--s7)">Fetching de datos</a>
+
+      <div class="toc-h" style="--seg:var(--s8)"><span class="sq"></span>08 · Next.js</div>
+      <a href="#next-router" style="--seg:var(--s8)">App Router</a>
+      <a href="#rsc" style="--seg:var(--s8)">Server vs Client</a>
+      <a href="#next-data" style="--seg:var(--s8)">Datos &amp; SSR</a>
+    </nav>
+
+    <main>
+      <div class="mtabs">
+        <a href="#s1" style="--tc:var(--s1)">01 Componentes</a>
+        <a href="#s2" style="--tc:var(--s2)">02 Estado</a>
+        <a href="#s3" style="--tc:var(--s3)">03 Efectos</a>
+        <a href="#s4" style="--tc:var(--s4)">04 Formularios</a>
+        <a href="#s5" style="--tc:var(--s5)">05 Hooks</a>
+        <a href="#s6" style="--tc:var(--s6)">06 Router</a>
+        <a href="#s7" style="--tc:var(--s7)">07 Estado global</a>
+        <a href="#s8" style="--tc:var(--s8)">08 Next.js</a>
+      </div>
+
+      <!-- ===== 01 COMPONENTES & JSX ===== -->
+      <div class="sheet-sec" id="s1" style="--seg:var(--s1)">
+        <div class="sec-head"><span class="sec-tab">01</span>
+          <h2>Componentes &amp; JSX</h2>
+          <span class="rng">B · fundamentos</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Qué es un componente</h3><span class="lvl b">B</span></div>
+          <p class="note">Una <b>función</b> que devuelve <b>JSX</b> (la UI).
+            Su nombre va en <b>PascalCase</b>. Se reutiliza como una etiqueta
+            propia y se compone con otros componentes.</p>
+          <figure class="code" data-copy="function Welcome() {
+  return <h1>Hola, React</h1>
+}
+
+// uso: como una etiqueta más
+function App() {
+  return <Welcome />
+}">
+            <figcaption><span class="dot"></span>Welcome.jsx</figcaption>
+<pre><span class="k">function</span> <span class="fn">Welcome</span>() {
+  <span class="k">return</span> <span class="t">&lt;h1&gt;</span>Hola, React<span class="t">&lt;/h1&gt;</span>
+}
+
+<span class="c">// uso: como una etiqueta mas</span>
+<span class="k">function</span> <span class="fn">App</span>() {
+  <span class="k">return</span> <span class="t">&lt;Welcome /&gt;</span>
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué:</b> componentes pequeños y con un solo
+            propósito se prueban, reutilizan y razonan mejor. Empieza
+            dividiendo la UI en piezas.</div>
+        </section>
+
+        <section class="block" id="arbol">
+          <div class="tile-h"><span class="td"></span>
+            <h3>El árbol de componentes</h3><span class="lvl b">B</span></div>
+          <p class="note">React renderiza una <b>jerarquía</b>: un componente
+            raíz que contiene otros. Los datos bajan por <b>props</b>; los
+            eventos suben por <b>callbacks</b>.</p>
+          <div class="diagram">
+            <svg viewBox="0 0 720 280" role="img"
+              aria-label="Árbol de componentes con flujo de props hacia abajo y eventos hacia arriba">
+              <defs>
+                <marker id="ad" markerWidth="9" markerHeight="9"
+                  refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L7,3 L0,6 Z" fill="#149ECA"/>
+                </marker>
+                <marker id="au" markerWidth="9" markerHeight="9"
+                  refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L7,3 L0,6 Z" fill="#B5700A"/>
+                </marker>
+              </defs>
+              <!-- App -->
+              <rect x="300" y="20" width="120" height="44" rx="10"
+                fill="#0E7490"/>
+              <text x="360" y="47" fill="#fff" text-anchor="middle"
+                font-family="Bricolage Grotesque,sans-serif" font-weight="700"
+                font-size="15">App</text>
+              <!-- nivel 2 -->
+              <rect x="90" y="120" width="150" height="44" rx="10"
+                fill="#fff" stroke="#149ECA" stroke-width="2"/>
+              <text x="165" y="147" fill="#16242B" text-anchor="middle"
+                font-family="Bricolage Grotesque,sans-serif" font-weight="700"
+                font-size="14">Header</text>
+              <rect x="285" y="120" width="150" height="44" rx="10"
+                fill="#fff" stroke="#149ECA" stroke-width="2"/>
+              <text x="360" y="147" fill="#16242B" text-anchor="middle"
+                font-family="Bricolage Grotesque,sans-serif" font-weight="700"
+                font-size="14">TodoList</text>
+              <rect x="480" y="120" width="150" height="44" rx="10"
+                fill="#fff" stroke="#149ECA" stroke-width="2"/>
+              <text x="555" y="147" fill="#16242B" text-anchor="middle"
+                font-family="Bricolage Grotesque,sans-serif" font-weight="700"
+                font-size="14">Footer</text>
+              <!-- nivel 3 -->
+              <rect x="240" y="212" width="110" height="40" rx="9"
+                fill="#F2F6F8" stroke="#9AB6BF" stroke-width="1.5"/>
+              <text x="295" y="237" fill="#4E606A" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="12">TodoItem</text>
+              <rect x="370" y="212" width="110" height="40" rx="9"
+                fill="#F2F6F8" stroke="#9AB6BF" stroke-width="1.5"/>
+              <text x="425" y="237" fill="#4E606A" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="12">TodoItem</text>
+              <!-- aristas -->
+              <line x1="345" y1="64" x2="180" y2="118" stroke="#9AB6BF"
+                stroke-width="1.6"/>
+              <line x1="360" y1="64" x2="360" y2="118" stroke="#9AB6BF"
+                stroke-width="1.6"/>
+              <line x1="375" y1="64" x2="545" y2="118" stroke="#9AB6BF"
+                stroke-width="1.6"/>
+              <line x1="345" y1="164" x2="300" y2="210" stroke="#9AB6BF"
+                stroke-width="1.6"/>
+              <line x1="375" y1="164" x2="420" y2="210" stroke="#9AB6BF"
+                stroke-width="1.6"/>
+              <!-- flujo props / eventos -->
+              <line x1="660" y1="60" x2="660" y2="210" stroke="#149ECA"
+                stroke-width="2" marker-end="url(#ad)"/>
+              <text x="676" y="120" fill="#0E7490"
+                font-family="JetBrains Mono,monospace" font-size="11"
+                transform="rotate(90 676 120)">props ▾</text>
+              <line x1="40" y1="210" x2="40" y2="60" stroke="#B5700A"
+                stroke-width="2" marker-end="url(#au)"/>
+              <text x="24" y="140" fill="#B5700A"
+                font-family="JetBrains Mono,monospace" font-size="11"
+                transform="rotate(-90 24 140)">eventos ▴</text>
+            </svg>
+          </div>
+          <div class="why"><b>Flujo de datos:</b> es <b>unidireccional</b>. El
+            estado vive arriba y desciende; para cambiarlo desde abajo se
+            pasa una función como prop.</div>
+        </section>
+
+        <section class="block" id="jsx">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Reglas de JSX</h3><span class="lvl b">B</span></div>
+          <ul class="tips">
+            <li>Devuelve <b>un solo</b> nodo raíz; usa
+              <code>&lt;&gt;…&lt;/&gt;</code> (Fragment) si hace falta.</li>
+            <li>Atributos en <b>camelCase</b>: <code>className</code>,
+              <code>onClick</code>, <code>htmlFor</code>.</li>
+            <li>Expresiones JS entre <b>llaves</b>: <code>{valor}</code>.</li>
+            <li>Cierra siempre las etiquetas: <code>&lt;img /&gt;</code>.</li>
+          </ul>
+          <figure class="code" data-copy="function Card({ title }) {
+  return (
+    <>
+      <h2 className='card'>{title}</h2>
+      <img src='/logo.png' alt='logo' />
+    </>
+  )
+}">
+            <figcaption><span class="dot"></span>JSX: raíz, llaves, camelCase</figcaption>
+<pre><span class="k">function</span> <span class="fn">Card</span>({ title }) {
+  <span class="k">return</span> (
+    <span class="t">&lt;&gt;</span>
+      <span class="t">&lt;h2</span> <span class="pr">className</span>=<span class="s">'card'</span><span class="t">&gt;</span>{title}<span class="t">&lt;/h2&gt;</span>
+      <span class="t">&lt;img</span> <span class="pr">src</span>=<span class="s">'/logo.png'</span> <span class="pr">alt</span>=<span class="s">'logo'</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué llaves:</b> dentro del JSX, todo lo que
+            sea JavaScript (variables, llamadas, ternarios) va en
+            <code>{ }</code>; el resto es marcado literal.</div>
+        </section>
+
+        <section class="block" id="props">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Props: datos hacia abajo</h3><span class="lvl b">B</span></div>
+          <p class="note">Las <b>props</b> son los argumentos del componente.
+            Son de <b>solo lectura</b>: nunca las mutes. Desestructura y da
+            valores por defecto.</p>
+          <figure class="code" data-copy="function Avatar({ name, size = 48 }) {
+  return (
+    <img
+      width={size}
+      alt={name}
+    />
+  )
+}
+
+// uso
+<Avatar name='Ada' size={64} />">
+            <figcaption><span class="dot"></span>props + valor por defecto</figcaption>
+<pre><span class="k">function</span> <span class="fn">Avatar</span>({ name, size = <span class="n">48</span> }) {
+  <span class="k">return</span> (
+    <span class="t">&lt;img</span>
+      <span class="pr">width</span>={size}
+      <span class="pr">alt</span>={name}
+    <span class="t">/&gt;</span>
+  )
+}
+
+<span class="c">// uso</span>
+<span class="t">&lt;Avatar</span> <span class="pr">name</span>=<span class="s">'Ada'</span> <span class="pr">size</span>={<span class="n">64</span>} <span class="t">/&gt;</span></pre>
+          </figure>
+          <div class="why"><b>Regla:</b> los datos fluyen del padre al hijo.
+            Si un hijo necesita cambiar algo, recibe una función del padre y
+            la llama (no toca la prop).</div>
+        </section>
+
+        <section class="block" id="compos">
+          <div class="tile-h"><span class="td"></span>
+            <h3>children &amp; composición</h3><span class="lvl i">I</span></div>
+          <p class="note">La prop especial <code>children</code> deja anidar
+            contenido. Componer (envolver) es preferible a heredar.</p>
+          <figure class="code" data-copy="function Panel({ children }) {
+  return (
+    <div className='panel'>
+      {children}
+    </div>
+  )
+}
+
+// uso: lo de dentro = children
+<Panel>
+  <p>Contenido anidado</p>
+</Panel>">
+            <figcaption><span class="dot"></span>slot con children</figcaption>
+<pre><span class="k">function</span> <span class="fn">Panel</span>({ children }) {
+  <span class="k">return</span> (
+    <span class="t">&lt;div</span> <span class="pr">className</span>=<span class="s">'panel'</span><span class="t">&gt;</span>
+      {children}
+    <span class="t">&lt;/div&gt;</span>
+  )
+}
+
+<span class="c">// uso: lo de dentro = children</span>
+<span class="t">&lt;Panel&gt;</span>
+  <span class="t">&lt;p&gt;</span>Contenido anidado<span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/Panel&gt;</span></pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> usa <code>children</code> para
+            layouts, tarjetas y modales genéricos: el envoltorio no necesita
+            saber qué contiene.</div>
+        </section>
+
+        <section class="block" id="convenciones">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Convenciones</h3><span class="lvl b">B</span></div>
+          <p class="note">En los snippets, <span class="ph">así</span> =
+            reemplázalo por tu valor.</p>
+          <table class="tbl">
+            <tr><td><span class="ph">prop</span></td>
+              <td>nombre de una propiedad del componente</td></tr>
+            <tr><td><span class="ph">state</span></td>
+              <td>variable de estado (la que devuelve useState)</td></tr>
+            <tr><td><span class="ph">handler</span></td>
+              <td>función manejadora, ej. <code>handleClick</code></td></tr>
+            <tr><td><span class="ph">deps</span></td>
+              <td>array de dependencias de un hook</td></tr>
+          </table>
+        </section>
+      </div>
+
+      <!-- ===== 02 ESTADO & EVENTOS ===== -->
+      <div class="sheet-sec" id="s2" style="--seg:var(--s2)">
+        <div class="sec-head"><span class="sec-tab">02</span>
+          <h2>Estado &amp; eventos</h2>
+          <span class="rng">B → I · interactividad</span></div>
+
+        <section class="block" id="usestate">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useState: memoria del componente</h3><span class="lvl b">B</span></div>
+          <p class="note">Devuelve un par: el <b>valor</b> y su
+            <b>setter</b>. Llamar al setter re-renderiza el componente con el
+            nuevo valor.</p>
+          <figure class="code" data-copy="import { useState } from 'react'
+
+function Counter() {
+  const [count, setCount] =
+    useState(0)
+  return (
+    <button onClick={() =>
+      setCount(count + 1)}>
+      {count}
+    </button>
+  )
+}">
+            <figcaption><span class="dot"></span>contador con estado</figcaption>
+<pre><span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">function</span> <span class="fn">Counter</span>() {
+  <span class="k">const</span> [count, setCount] =
+    <span class="fn">useState</span>(<span class="n">0</span>)
+  <span class="k">return</span> (
+    <span class="t">&lt;button</span> <span class="pr">onClick</span>={() =&gt;
+      <span class="fn">setCount</span>(count + <span class="n">1</span>)}<span class="t">&gt;</span>
+      {count}
+    <span class="t">&lt;/button&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué no una variable normal:</b> una variable
+            local se pierde en cada render. El estado lo conserva React entre
+            renders y dispara la actualización de la UI.</div>
+        </section>
+
+        <section class="block" id="eventos">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Manejar eventos</h3><span class="lvl b">B</span></div>
+          <p class="note">Pasa la <b>función</b>, no la llames:
+            <code>onClick={handler}</code>, no
+            <code>onClick={handler()}</code>.</p>
+          <figure class="code" data-copy="function Form() {
+  function handleClick(e) {
+    e.preventDefault()
+    console.log('clic')
+  }
+  return (
+    <button onClick={handleClick}>
+      Enviar
+    </button>
+  )
+}">
+            <figcaption><span class="dot"></span>onClick con handler</figcaption>
+<pre><span class="k">function</span> <span class="fn">Form</span>() {
+  <span class="k">function</span> <span class="fn">handleClick</span>(e) {
+    e.<span class="fn">preventDefault</span>()
+    console.<span class="fn">log</span>(<span class="s">'clic'</span>)
+  }
+  <span class="k">return</span> (
+    <span class="t">&lt;button</span> <span class="pr">onClick</span>={handleClick}<span class="t">&gt;</span>
+      Enviar
+    <span class="t">&lt;/button&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Atajo:</b> usa una flecha inline
+            <code>onClick={() =&gt; fn(id)}</code> cuando necesites pasar
+            argumentos.</div>
+        </section>
+
+        <section class="block" id="prev">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Actualizar según el estado previo</h3><span class="lvl i">I</span></div>
+          <p class="note">Si el nuevo valor depende del anterior, pasa una
+            <b>función</b> al setter. Evita errores cuando hay varias
+            actualizaciones seguidas.</p>
+          <div class="cols">
+            <figure class="code tile" data-copy="// ✗ puede quedar desfasado
+setCount(count + 1)
+setCount(count + 1)">
+              <figcaption><span class="dot"></span>frágil</figcaption>
+<pre class="tile-b"><span class="c">// puede quedar desfasado</span>
+<span class="fn">setCount</span>(count + <span class="n">1</span>)
+<span class="fn">setCount</span>(count + <span class="n">1</span>)</pre>
+            </figure>
+            <figure class="code tile" data-copy="// ✓ usa el valor más reciente
+setCount(c => c + 1)
+setCount(c => c + 1)">
+              <figcaption><span class="dot"></span>correcto</figcaption>
+<pre class="tile-b"><span class="c">// usa el valor reciente</span>
+<span class="fn">setCount</span>(c =&gt; c + <span class="n">1</span>)
+<span class="fn">setCount</span>(c =&gt; c + <span class="n">1</span>)</pre>
+            </figure>
+          </div>
+          <p class="note">Para objetos y arrays, crea una <b>copia nueva</b>
+            (inmutabilidad); no mutes el estado actual.</p>
+          <figure class="code" data-copy="// objeto: copia + sobrescribe
+setUser(u => ({ ...u, age: 30 }))
+
+// array: añadir sin mutar
+setList(l => [...l, nuevo])">
+            <figcaption><span class="dot"></span>actualizar sin mutar</figcaption>
+<pre><span class="c">// objeto: copia + sobrescribe</span>
+<span class="fn">setUser</span>(u =&gt; ({ ...u, age: <span class="n">30</span> }))
+
+<span class="c">// array: anadir sin mutar</span>
+<span class="fn">setList</span>(l =&gt; [...l, nuevo])</pre>
+          </figure>
+          <div class="why"><b>Por qué inmutable:</b> React compara
+            referencias para decidir si re-renderiza; mutar el mismo objeto
+            no cambia la referencia y la UI no se actualiza.</div>
+        </section>
+
+        <section class="block" id="cond">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Renderizado condicional</h3><span class="lvl b">B</span></div>
+          <figure class="code" data-copy="// ternario: A o B
+{isOpen ? <Panel /> : null}
+
+// && : muestra si es verdadero
+{error && <p>{error}</p>}
+
+// variable previa para casos largos
+let content = <Login />
+if (user) content = <Home />">
+            <figcaption><span class="dot"></span>tres formas habituales</figcaption>
+<pre><span class="c">// ternario: A o B</span>
+{isOpen ? <span class="t">&lt;Panel /&gt;</span> : <span class="k">null</span>}
+
+<span class="c">// && : muestra si es verdadero</span>
+{error &amp;&amp; <span class="t">&lt;p&gt;</span>{error}<span class="t">&lt;/p&gt;</span>}
+
+<span class="c">// variable para casos largos</span>
+<span class="k">let</span> content = <span class="t">&lt;Login /&gt;</span>
+<span class="k">if</span> (user) content = <span class="t">&lt;Home /&gt;</span></pre>
+          </figure>
+          <div class="why"><b>Ojo con <code>&amp;&amp;</code>:</b> si la
+            izquierda es <code>0</code>, React imprime el 0. Convierte a
+            booleano: <code>{list.length &gt; 0 &amp;&amp; …}</code>.</div>
+        </section>
+
+        <section class="block" id="listas">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Listas con map &amp; key</h3><span class="lvl b">B</span></div>
+          <p class="note">Renderiza colecciones con <code>.map()</code>. Cada
+            elemento necesita una <b>key</b> estable y única.</p>
+          <figure class="code" data-copy="function List({ items }) {
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          {item.text}
+        </li>
+      ))}
+    </ul>
+  )
+}">
+            <figcaption><span class="dot"></span>lista con key</figcaption>
+<pre><span class="k">function</span> <span class="fn">List</span>({ items }) {
+  <span class="k">return</span> (
+    <span class="t">&lt;ul&gt;</span>
+      {items.<span class="fn">map</span>(item =&gt; (
+        <span class="t">&lt;li</span> <span class="pr">key</span>={item.id}<span class="t">&gt;</span>
+          {item.text}
+        <span class="t">&lt;/li&gt;</span>
+      ))}
+    <span class="t">&lt;/ul&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué la key:</b> identifica cada elemento
+            entre renders para reordenar/actualizar sin recrear todo. Usa el
+            <b>id</b> del dato, <b>no</b> el índice del array (cambia al
+            insertar o borrar).</div>
+        </section>
+      </div>
+
+      <!-- ===== 03 EFECTOS & REFS ===== -->
+      <div class="sheet-sec" id="s3" style="--seg:var(--s3)">
+        <div class="sec-head"><span class="sec-tab">03</span>
+          <h2>Efectos &amp; refs</h2>
+          <span class="rng">I · sincronizar con el exterior</span></div>
+
+        <section class="block" id="useeffect">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useEffect: efectos secundarios</h3><span class="lvl i">I</span></div>
+          <p class="note">Sincroniza el componente con sistemas externos
+            (red, timers, suscripciones, DOM). Corre <b>después</b> del
+            render.</p>
+          <figure class="code" data-copy="import { useEffect } from 'react'
+
+useEffect(() => {
+  document.title = `(${count})`
+}, [count])  // re-ejecuta si cambia">
+            <figcaption><span class="dot"></span>efecto con dependencias</figcaption>
+<pre><span class="k">import</span> { useEffect } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="fn">useEffect</span>(() =&gt; {
+  document.title = <span class="s">`(${count})`</span>
+}, [count])  <span class="c">// si cambia</span></pre>
+          </figure>
+          <div class="why"><b>Cuándo NO usarlo:</b> no para transformar datos
+            para el render (hazlo en el cuerpo) ni para responder a eventos
+            de usuario (hazlo en el handler). useEffect es para
+            <b>sincronizar</b>, no para "hacer cosas".</div>
+        </section>
+
+        <section class="block" id="cleanup">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Limpieza &amp; array de dependencias</h3><span class="lvl i">I</span></div>
+          <p class="note">Devuelve una función de <b>limpieza</b> para
+            deshacer el efecto (timers, listeners) antes de re-ejecutar o al
+            desmontar.</p>
+          <figure class="code" data-copy="useEffect(() => {
+  const id = setInterval(tick, 1000)
+  return () => clearInterval(id)
+}, [])  // [] = solo al montar">
+            <figcaption><span class="dot"></span>efecto con limpieza</figcaption>
+<pre><span class="fn">useEffect</span>(() =&gt; {
+  <span class="k">const</span> id = <span class="fn">setInterval</span>(tick, <span class="n">1000</span>)
+  <span class="k">return</span> () =&gt; <span class="fn">clearInterval</span>(id)
+}, [])  <span class="c">// [] = solo al montar</span></pre>
+          </figure>
+          <table class="tbl">
+            <tr><th>deps</th><th>Cuándo corre</th></tr>
+            <tr><td><code>[]</code></td><td>una vez, al montar</td></tr>
+            <tr><td><code>[a, b]</code></td><td>al montar y si a o b cambian</td></tr>
+            <tr><td>sin array</td><td>tras cada render (raro)</td></tr>
+          </table>
+          <div class="why"><b>Regla:</b> incluye en <code>deps</code> toda
+            variable reactiva usada dentro. Omitirla causa bugs por valores
+            "viejos" (stale closures).</div>
+        </section>
+
+        <section class="block" id="useref">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useRef: valor que no re-renderiza</h3><span class="lvl i">I</span></div>
+          <p class="note">Una "caja" mutable (<code>.current</code>) que
+            persiste entre renders <b>sin</b> provocar re-render. Dos usos:
+            acceder al <b>DOM</b> y guardar un valor mutable.</p>
+          <figure class="code" data-copy="import { useRef } from 'react'
+
+function Input() {
+  const ref = useRef(null)
+  return (
+    <>
+      <input ref={ref} />
+      <button onClick={() =>
+        ref.current.focus()}>
+        Foco
+      </button>
+    </>
+  )
+}">
+            <figcaption><span class="dot"></span>ref al DOM</figcaption>
+<pre><span class="k">import</span> { useRef } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">function</span> <span class="fn">Input</span>() {
+  <span class="k">const</span> ref = <span class="fn">useRef</span>(<span class="k">null</span>)
+  <span class="k">return</span> (
+    <span class="t">&lt;&gt;</span>
+      <span class="t">&lt;input</span> <span class="pr">ref</span>={ref} <span class="t">/&gt;</span>
+      <span class="t">&lt;button</span> <span class="pr">onClick</span>={() =&gt;
+        ref.current.<span class="fn">focus</span>()}<span class="t">&gt;</span>
+        Foco
+      <span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;/&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>ref vs state:</b> usa <b>state</b> para datos
+            que se ven en la UI; <b>ref</b> para lo que no debe disparar
+            render (un id de timer, el nodo DOM, un valor previo).</div>
+        </section>
+      </div>
+
+      <!-- ===== 04 FORMULARIOS ===== -->
+      <div class="sheet-sec" id="s4" style="--seg:var(--s4)">
+        <div class="sec-head"><span class="sec-tab">04</span>
+          <h2>Formularios controlados</h2>
+          <span class="rng">I · entrada de usuario</span></div>
+
+        <section class="block" id="controlado">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Input controlado</h3><span class="lvl i">I</span></div>
+          <p class="note">El estado es la <b>única fuente de verdad</b>: el
+            input lee su <code>value</code> del estado y lo actualiza en
+            <code>onChange</code>.</p>
+          <figure class="code" data-copy="function NameField() {
+  const [name, setName] = useState('')
+  return (
+    <input
+      value={name}
+      onChange={e =>
+        setName(e.target.value)}
+    />
+  )
+}">
+            <figcaption><span class="dot"></span>value + onChange</figcaption>
+<pre><span class="k">function</span> <span class="fn">NameField</span>() {
+  <span class="k">const</span> [name, setName] = <span class="fn">useState</span>(<span class="s">''</span>)
+  <span class="k">return</span> (
+    <span class="t">&lt;input</span>
+      <span class="pr">value</span>={name}
+      <span class="pr">onChange</span>={e =&gt;
+        <span class="fn">setName</span>(e.target.value)}
+    <span class="t">/&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Varios campos:</b> usa un objeto en el estado y
+            actualízalo por <code>name</code>:
+            <code>setForm(f =&gt; ({...f, [e.target.name]: v}))</code>.</div>
+        </section>
+
+        <section class="block" id="submit">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Submit &amp; validación</h3><span class="lvl i">I</span></div>
+          <figure class="code" data-copy="function Login() {
+  const [email, setEmail] = useState('')
+  const [err, setErr] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!email.includes('@')) {
+      setErr('Email no válido')
+      return
+    }
+    setErr('')
+    // enviar...
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={email}
+        onChange={e =>
+          setEmail(e.target.value)} />
+      {err && <p>{err}</p>}
+      <button>Entrar</button>
+    </form>
+  )
+}">
+            <figcaption><span class="dot"></span>formulario con validación</figcaption>
+<pre><span class="k">function</span> <span class="fn">Login</span>() {
+  <span class="k">const</span> [email, setEmail] = <span class="fn">useState</span>(<span class="s">''</span>)
+  <span class="k">const</span> [err, setErr] = <span class="fn">useState</span>(<span class="s">''</span>)
+
+  <span class="k">function</span> <span class="fn">handleSubmit</span>(e) {
+    e.<span class="fn">preventDefault</span>()
+    <span class="k">if</span> (!email.<span class="fn">includes</span>(<span class="s">'@'</span>)) {
+      <span class="fn">setErr</span>(<span class="s">'Email no valido'</span>)
+      <span class="k">return</span>
+    }
+    <span class="fn">setErr</span>(<span class="s">''</span>)
+    <span class="c">// enviar...</span>
+  }
+
+  <span class="k">return</span> (
+    <span class="t">&lt;form</span> <span class="pr">onSubmit</span>={handleSubmit}<span class="t">&gt;</span>
+      <span class="t">&lt;input</span> <span class="pr">value</span>={email}
+        <span class="pr">onChange</span>={e =&gt;
+          <span class="fn">setEmail</span>(e.target.value)} <span class="t">/&gt;</span>
+      {err &amp;&amp; <span class="t">&lt;p&gt;</span>{err}<span class="t">&lt;/p&gt;</span>}
+      <span class="t">&lt;button&gt;</span>Entrar<span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;/form&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Siempre</b> <code>e.preventDefault()</code> en
+            el submit para que el navegador no recargue la página.</div>
+        </section>
+
+        <section class="block" id="lifting">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Levantar el estado (lifting state up)</h3><span class="lvl i">I</span></div>
+          <p class="note">Cuando dos hermanos necesitan compartir datos, sube
+            el estado al <b>ancestro común</b>. El padre guarda el estado y
+            pasa valor + setter a los hijos.</p>
+          <figure class="code" data-copy="function Parent() {
+  const [text, setText] = useState('')
+  return (
+    <>
+      <Input value={text}
+        onChange={setText} />
+      <Preview text={text} />
+    </>
+  )
+}">
+            <figcaption><span class="dot"></span>estado en el padre</figcaption>
+<pre><span class="k">function</span> <span class="fn">Parent</span>() {
+  <span class="k">const</span> [text, setText] = <span class="fn">useState</span>(<span class="s">''</span>)
+  <span class="k">return</span> (
+    <span class="t">&lt;&gt;</span>
+      <span class="t">&lt;Input</span> <span class="pr">value</span>={text}
+        <span class="pr">onChange</span>={setText} <span class="t">/&gt;</span>
+      <span class="t">&lt;Preview</span> <span class="pr">text</span>={text} <span class="t">/&gt;</span>
+    <span class="t">&lt;/&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué:</b> mantiene una sola fuente de verdad.
+            Si la compartición se vuelve incómoda (prop drilling), pasa a
+            <b>Context</b> (sección 07).</div>
+        </section>
+      </div>
+
+      <!-- ===== 05 HOOKS AVANZADOS ===== -->
+      <div class="sheet-sec" id="s5" style="--seg:var(--s5)">
+        <div class="sec-head"><span class="sec-tab">05</span>
+          <h2>Hooks avanzados</h2>
+          <span class="rng">I → A · lógica reutilizable</span></div>
+
+        <section class="block" id="reglas">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Reglas de los hooks</h3><span class="lvl i">I</span></div>
+          <ul class="tips">
+            <li>Llámalos solo en el <b>nivel superior</b>: nunca dentro de
+              <code>if</code>, bucles o funciones anidadas.</li>
+            <li>Solo desde <b>componentes</b> o desde otros
+              <b>custom hooks</b>.</li>
+            <li>El nombre de un hook empieza por <code>use</code>.</li>
+          </ul>
+          <div class="why"><b>Por qué:</b> React identifica cada hook por su
+            <b>orden</b> de llamada. Llamarlos condicionalmente desordena ese
+            registro y rompe el estado. El plugin ESLint
+            <code>react-hooks</code> lo vigila por ti.</div>
+        </section>
+
+        <section class="block" id="usecontext">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useContext: evitar prop drilling</h3><span class="lvl i">I</span></div>
+          <p class="note">Comparte datos con un subárbol sin pasar props
+            nivel a nivel. Crea el contexto, envuelve con
+            <code>Provider</code> y consúmelo con <code>useContext</code>.</p>
+          <figure class="code" data-copy="const ThemeCtx = createContext('light')
+
+function App() {
+  return (
+    <ThemeCtx.Provider value='dark'>
+      <Toolbar />
+    </ThemeCtx.Provider>
+  )
+}
+
+function Toolbar() {
+  const theme = useContext(ThemeCtx)
+  return <div className={theme} />
+}">
+            <figcaption><span class="dot"></span>create / Provider / useContext</figcaption>
+<pre><span class="k">const</span> ThemeCtx = <span class="fn">createContext</span>(<span class="s">'light'</span>)
+
+<span class="k">function</span> <span class="fn">App</span>() {
+  <span class="k">return</span> (
+    <span class="t">&lt;ThemeCtx.Provider</span> <span class="pr">value</span>=<span class="s">'dark'</span><span class="t">&gt;</span>
+      <span class="t">&lt;Toolbar /&gt;</span>
+    <span class="t">&lt;/ThemeCtx.Provider&gt;</span>
+  )
+}
+
+<span class="k">function</span> <span class="fn">Toolbar</span>() {
+  <span class="k">const</span> theme = <span class="fn">useContext</span>(ThemeCtx)
+  <span class="k">return</span> <span class="t">&lt;div</span> <span class="pr">className</span>={theme} <span class="t">/&gt;</span>
+}</pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> datos "globales" de baja frecuencia
+            (tema, usuario, idioma). Para estado que cambia mucho, Context
+            puede re-renderizar de más: ahí piensa en Redux (sección 07).</div>
+        </section>
+
+        <section class="block" id="usereducer">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useReducer: estado complejo</h3><span class="lvl a">A</span></div>
+          <p class="note">Centraliza la lógica de transición de estado en una
+            función pura <code>reducer(state, action)</code>. Mejor que
+            varios <code>useState</code> entrelazados.</p>
+          <figure class="code" data-copy="function reducer(state, action) {
+  switch (action.type) {
+    case 'inc':
+      return { n: state.n + 1 }
+    case 'reset':
+      return { n: 0 }
+    default:
+      return state
+  }
+}
+
+const [state, dispatch] =
+  useReducer(reducer, { n: 0 })
+
+dispatch({ type: 'inc' })">
+            <figcaption><span class="dot"></span>reducer + dispatch</figcaption>
+<pre><span class="k">function</span> <span class="fn">reducer</span>(state, action) {
+  <span class="k">switch</span> (action.type) {
+    <span class="k">case</span> <span class="s">'inc'</span>:
+      <span class="k">return</span> { n: state.n + <span class="n">1</span> }
+    <span class="k">case</span> <span class="s">'reset'</span>:
+      <span class="k">return</span> { n: <span class="n">0</span> }
+    <span class="k">default</span>:
+      <span class="k">return</span> state
+  }
+}
+
+<span class="k">const</span> [state, dispatch] =
+  <span class="fn">useReducer</span>(reducer, { n: <span class="n">0</span> })
+
+<span class="fn">dispatch</span>({ type: <span class="s">'inc'</span> })</pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> varias subpartes del estado que
+            cambian juntas, o transiciones con muchos casos. El reducer es
+            testeable de forma aislada.</div>
+        </section>
+
+        <section class="block" id="memo">
+          <div class="tile-h"><span class="td"></span>
+            <h3>useMemo / useCallback</h3><span class="lvl a">A</span></div>
+          <p class="note"><b>useMemo</b> memoriza un <b>valor</b> calculado;
+            <b>useCallback</b> memoriza una <b>función</b>. Ambos solo
+            recalculan si cambian sus deps.</p>
+          <div class="cols">
+            <figure class="code tile" data-copy="const total = useMemo(
+  () => items
+    .reduce(sum, 0),
+  [items]
+)">
+              <figcaption><span class="dot"></span>useMemo (valor)</figcaption>
+<pre class="tile-b"><span class="k">const</span> total = <span class="fn">useMemo</span>(
+  () =&gt; items
+    .<span class="fn">reduce</span>(sum, <span class="n">0</span>),
+  [items]
+)</pre>
+            </figure>
+            <figure class="code tile" data-copy="const onSave = useCallback(
+  () => save(id),
+  [id]
+)">
+              <figcaption><span class="dot"></span>useCallback (función)</figcaption>
+<pre class="tile-b"><span class="k">const</span> onSave = <span class="fn">useCallback</span>(
+  () =&gt; <span class="fn">save</span>(id),
+  [id]
+)</pre>
+            </figure>
+          </div>
+          <div class="why"><b>Cuándo memorizar:</b> NO por defecto. Úsalo si
+            (a) el cálculo es realmente caro, o (b) pasas el valor/función a
+            un hijo envuelto en <code>React.memo</code> y quieres evitar su
+            re-render. Memorizar de más añade complejidad sin ganancia.</div>
+        </section>
+
+        <section class="block" id="custom">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Custom hooks</h3><span class="lvl a">A</span></div>
+          <p class="note">Extrae lógica con estado a una función
+            <code>useAlgo()</code> reutilizable. Puede usar otros hooks y
+            devolver lo que quieras.</p>
+          <figure class="code" data-copy="function useToggle(initial = false) {
+  const [on, setOn] = useState(initial)
+  const toggle = () => setOn(o => !o)
+  return [on, toggle]
+}
+
+// uso
+const [open, toggleOpen] =
+  useToggle()">
+            <figcaption><span class="dot"></span>useToggle.js</figcaption>
+<pre><span class="k">function</span> <span class="fn">useToggle</span>(initial = <span class="k">false</span>) {
+  <span class="k">const</span> [on, setOn] = <span class="fn">useState</span>(initial)
+  <span class="k">const</span> toggle = () =&gt; <span class="fn">setOn</span>(o =&gt; !o)
+  <span class="k">return</span> [on, toggle]
+}
+
+<span class="c">// uso</span>
+<span class="k">const</span> [open, toggleOpen] =
+  <span class="fn">useToggle</span>()</pre>
+          </figure>
+          <div class="why"><b>Por qué:</b> comparten <b>lógica</b>, no estado:
+            cada componente que llama al hook obtiene su propia copia. Ideal
+            para fetch, formularios, suscripciones, etc.</div>
+        </section>
+      </div>
+
+      <!-- ===== 06 REACT ROUTER ===== -->
+      <div class="sheet-sec" id="s6" style="--seg:var(--s6)">
+        <div class="sec-head"><span class="sec-tab">06</span>
+          <h2>React Router</h2>
+          <span class="rng">I · navegación SPA</span></div>
+
+        <section class="block" id="rutas">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Definir rutas</h3><span class="lvl i">I</span></div>
+          <p class="note">Mapea URLs a componentes. Instala
+            <code>react-router-dom</code> y envuelve la app en un router.</p>
+          <figure class="code" data-copy="import {
+  BrowserRouter, Routes, Route
+} from 'react-router-dom'
+
+<BrowserRouter>
+  <Routes>
+    <Route path='/' element={<Home />} />
+    <Route path='/about'
+      element={<About />} />
+    <Route path='*'
+      element={<NotFound />} />
+  </Routes>
+</BrowserRouter>">
+            <figcaption><span class="dot"></span>Routes / Route</figcaption>
+<pre><span class="k">import</span> {
+  BrowserRouter, Routes, Route
+} <span class="k">from</span> <span class="s">'react-router-dom'</span>
+
+<span class="t">&lt;BrowserRouter&gt;</span>
+  <span class="t">&lt;Routes&gt;</span>
+    <span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'/'</span> <span class="pr">element</span>={<span class="t">&lt;Home /&gt;</span>} <span class="t">/&gt;</span>
+    <span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'/about'</span>
+      <span class="pr">element</span>={<span class="t">&lt;About /&gt;</span>} <span class="t">/&gt;</span>
+    <span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'*'</span>
+      <span class="pr">element</span>={<span class="t">&lt;NotFound /&gt;</span>} <span class="t">/&gt;</span>
+  <span class="t">&lt;/Routes&gt;</span>
+<span class="t">&lt;/BrowserRouter&gt;</span></pre>
+          </figure>
+          <div class="why"><b><code>path='*'</code></b> captura cualquier ruta
+            no encontrada: úsalo para tu página 404.</div>
+        </section>
+
+        <section class="block" id="nav">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Link, params &amp; navegación</h3><span class="lvl i">I</span></div>
+          <p class="note">Navega con <code>&lt;Link&gt;</code> (sin recargar).
+            Lee parámetros de la URL con <code>useParams</code> y navega por
+            código con <code>useNavigate</code>.</p>
+          <figure class="code" data-copy="// ruta con parámetro
+<Route path='/user/:id'
+  element={<User />} />
+
+// dentro de User
+import {
+  useParams, useNavigate
+} from 'react-router-dom'
+
+const { id } = useParams()
+const navigate = useNavigate()
+navigate('/')  // ir a inicio">
+            <figcaption><span class="dot"></span>:id, useParams, useNavigate</figcaption>
+<pre><span class="c">// ruta con parametro</span>
+<span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'/user/:id'</span>
+  <span class="pr">element</span>={<span class="t">&lt;User /&gt;</span>} <span class="t">/&gt;</span>
+
+<span class="c">// dentro de User</span>
+<span class="k">import</span> {
+  useParams, useNavigate
+} <span class="k">from</span> <span class="s">'react-router-dom'</span>
+
+<span class="k">const</span> { id } = <span class="fn">useParams</span>()
+<span class="k">const</span> navigate = <span class="fn">useNavigate</span>()
+<span class="fn">navigate</span>(<span class="s">'/'</span>)  <span class="c">// ir a inicio</span></pre>
+          </figure>
+          <div class="why"><b><code>Link</code> vs <code>a</code>:</b>
+            <code>&lt;Link to='/x'&gt;</code> cambia la vista sin recargar la
+            página; un <code>&lt;a&gt;</code> normal recarga toda la app.</div>
+        </section>
+
+        <section class="block" id="nested">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Rutas anidadas &amp; Outlet</h3><span class="lvl i">I</span></div>
+          <p class="note">Una ruta padre con <b>layout</b> común renderiza a
+            sus hijas donde pongas <code>&lt;Outlet /&gt;</code>.</p>
+          <figure class="code" data-copy="<Route path='/panel'
+  element={<Layout />}>
+  <Route index
+    element={<Resumen />} />
+  <Route path='ajustes'
+    element={<Ajustes />} />
+</Route>
+
+// en Layout
+<nav>...</nav>
+<Outlet />  // aquí van las hijas">
+            <figcaption><span class="dot"></span>ruta padre + Outlet</figcaption>
+<pre><span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'/panel'</span>
+  <span class="pr">element</span>={<span class="t">&lt;Layout /&gt;</span>}<span class="t">&gt;</span>
+  <span class="t">&lt;Route</span> <span class="pr">index</span>
+    <span class="pr">element</span>={<span class="t">&lt;Resumen /&gt;</span>} <span class="t">/&gt;</span>
+  <span class="t">&lt;Route</span> <span class="pr">path</span>=<span class="s">'ajustes'</span>
+    <span class="pr">element</span>={<span class="t">&lt;Ajustes /&gt;</span>} <span class="t">/&gt;</span>
+<span class="t">&lt;/Route&gt;</span>
+
+<span class="c">// en Layout</span>
+<span class="t">&lt;nav&gt;</span>...<span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;Outlet /&gt;</span>  <span class="c">// aqui las hijas</span></pre>
+          </figure>
+          <div class="why"><b><code>index</code></b> marca la hija por defecto
+            cuando la URL coincide exactamente con el padre.</div>
+        </section>
+      </div>
+
+      <!-- ===== 07 ESTADO GLOBAL & DATOS ===== -->
+      <div class="sheet-sec" id="s7" style="--seg:var(--s7)">
+        <div class="sec-head"><span class="sec-tab">07</span>
+          <h2>Estado global &amp; datos</h2>
+          <span class="rng">I → A · escalar el estado</span></div>
+
+        <section class="block" id="ctx-redux">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Context vs Redux Toolkit</h3><span class="lvl a">A</span></div>
+          <p class="note">Dos formas de compartir estado global. Compara y
+            elige según frecuencia de cambios y tamaño de la app.</p>
+          <div class="swap" role="tablist" aria-label="Comparar enfoques">
+            <button class="swbtn on" data-view="ctx" role="tab"
+              aria-selected="true">Context + Reducer</button>
+            <button class="swbtn" data-view="rdx" role="tab"
+              aria-selected="false">Redux Toolkit</button>
+          </div>
+          <div class="swapwrap">
+            <div class="swview" id="view-ctx">
+              <figure class="code" data-copy="const Store = createContext()
+
+function Provider({ children }) {
+  const [state, dispatch] =
+    useReducer(reducer, init)
+  return (
+    <Store.Provider
+      value={{ state, dispatch }}>
+      {children}
+    </Store.Provider>
+  )
+}">
+                <figcaption><span class="dot"></span>store casero</figcaption>
+<pre><span class="k">const</span> Store = <span class="fn">createContext</span>()
+
+<span class="k">function</span> <span class="fn">Provider</span>({ children }) {
+  <span class="k">const</span> [state, dispatch] =
+    <span class="fn">useReducer</span>(reducer, init)
+  <span class="k">return</span> (
+    <span class="t">&lt;Store.Provider</span>
+      <span class="pr">value</span>={{ state, dispatch }}<span class="t">&gt;</span>
+      {children}
+    <span class="t">&lt;/Store.Provider&gt;</span>
+  )
+}</pre>
+              </figure>
+            </div>
+            <div class="swview hidden" id="view-rdx">
+              <figure class="code" data-copy="import {
+  configureStore
+} from '@reduxjs/toolkit'
+
+const store = configureStore({
+  reducer: { cart: cartReducer }
+})
+
+// en main.jsx
+<Provider store={store}>
+  <App />
+</Provider>">
+                <figcaption><span class="dot"></span>store de RTK</figcaption>
+<pre><span class="k">import</span> {
+  configureStore
+} <span class="k">from</span> <span class="s">'@reduxjs/toolkit'</span>
+
+<span class="k">const</span> store = <span class="fn">configureStore</span>({
+  reducer: { cart: cartReducer }
+})
+
+<span class="c">// en main.jsx</span>
+<span class="t">&lt;Provider</span> <span class="pr">store</span>={store}<span class="t">&gt;</span>
+  <span class="t">&lt;App /&gt;</span>
+<span class="t">&lt;/Provider&gt;</span></pre>
+              </figure>
+            </div>
+          </div>
+          <p class="note" id="swapnote"><b>Context + Reducer:</b> cero
+            dependencias, ideal para estado global sencillo y de cambios poco
+            frecuentes (tema, auth). Puede re-renderizar de más si crece.</p>
+        </section>
+
+        <section class="block" id="rtk">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Redux Toolkit: slice + hooks</h3><span class="lvl a">A</span></div>
+          <p class="note">Un <b>slice</b> agrupa estado + reducers. RTK usa
+            Immer, así que puedes "mutar" el borrador con seguridad.</p>
+          <figure class="code" data-copy="import {
+  createSlice
+} from '@reduxjs/toolkit'
+
+const cart = createSlice({
+  name: 'cart',
+  initialState: { items: [] },
+  reducers: {
+    add(state, action) {
+      state.items.push(action.payload)
+    }
+  }
+})
+export const { add } = cart.actions">
+            <figcaption><span class="dot"></span>cartSlice.js</figcaption>
+<pre><span class="k">import</span> {
+  createSlice
+} <span class="k">from</span> <span class="s">'@reduxjs/toolkit'</span>
+
+<span class="k">const</span> cart = <span class="fn">createSlice</span>({
+  name: <span class="s">'cart'</span>,
+  initialState: { items: [] },
+  reducers: {
+    <span class="fn">add</span>(state, action) {
+      state.items.<span class="fn">push</span>(action.payload)
+    }
+  }
+})
+<span class="k">export const</span> { add } = cart.actions</pre>
+          </figure>
+          <figure class="code" data-copy="// en un componente
+import {
+  useSelector, useDispatch
+} from 'react-redux'
+
+const items =
+  useSelector(s => s.cart.items)
+const dispatch = useDispatch()
+dispatch(add({ id: 1 }))">
+            <figcaption><span class="dot"></span>useSelector / useDispatch</figcaption>
+<pre><span class="c">// en un componente</span>
+<span class="k">import</span> {
+  useSelector, useDispatch
+} <span class="k">from</span> <span class="s">'react-redux'</span>
+
+<span class="k">const</span> items =
+  <span class="fn">useSelector</span>(s =&gt; s.cart.items)
+<span class="k">const</span> dispatch = <span class="fn">useDispatch</span>()
+<span class="fn">dispatch</span>(<span class="fn">add</span>({ id: <span class="n">1</span> }))</pre>
+          </figure>
+          <div class="why"><b>Cuándo Redux:</b> apps grandes, estado
+            compartido y cambiante, necesidad de DevTools/time-travel y
+            lógica predecible. Si no, Context basta.</div>
+        </section>
+
+        <section class="block" id="fetch">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Fetching de datos</h3><span class="lvl i">I</span></div>
+          <p class="note">Patrón clásico con useEffect: estados de
+            <b>datos</b>, <b>cargando</b> y <b>error</b>.</p>
+          <figure class="code" data-copy="function Users() {
+  const [data, setData] = useState([])
+  const [loading, setLoading] =
+    useState(true)
+
+  useEffect(() => {
+    let active = true
+    fetch('/api/users')
+      .then(r => r.json())
+      .then(d => {
+        if (active) setData(d)
+      })
+      .finally(() =>
+        setLoading(false))
+    return () => { active = false }
+  }, [])
+
+  if (loading) return <Spinner />
+  return <List items={data} />
+}">
+            <figcaption><span class="dot"></span>fetch en useEffect</figcaption>
+<pre><span class="k">function</span> <span class="fn">Users</span>() {
+  <span class="k">const</span> [data, setData] = <span class="fn">useState</span>([])
+  <span class="k">const</span> [loading, setLoading] =
+    <span class="fn">useState</span>(<span class="k">true</span>)
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="k">let</span> active = <span class="k">true</span>
+    <span class="fn">fetch</span>(<span class="s">'/api/users'</span>)
+      .<span class="fn">then</span>(r =&gt; r.<span class="fn">json</span>())
+      .<span class="fn">then</span>(d =&gt; {
+        <span class="k">if</span> (active) <span class="fn">setData</span>(d)
+      })
+      .<span class="fn">finally</span>(() =&gt;
+        <span class="fn">setLoading</span>(<span class="k">false</span>))
+    <span class="k">return</span> () =&gt; { active = <span class="k">false</span> }
+  }, [])
+
+  <span class="k">if</span> (loading) <span class="k">return</span> <span class="t">&lt;Spinner /&gt;</span>
+  <span class="k">return</span> <span class="t">&lt;List</span> <span class="pr">items</span>={data} <span class="t">/&gt;</span>
+}</pre>
+          </figure>
+          <div class="why"><b>En serio:</b> para producción usa una librería
+            (<b>TanStack Query</b>, RTK Query): te dan caché, reintentos y
+            estados de carga sin reinventarlos. El flag <code>active</code>
+            evita actualizar tras desmontar.</div>
+        </section>
+      </div>
+
+      <!-- ===== 08 NEXT.JS ===== -->
+      <div class="sheet-sec" id="s8" style="--seg:var(--s8)">
+        <div class="sec-head"><span class="sec-tab">08</span>
+          <h2>Un vistazo a Next.js</h2>
+          <span class="rng">A · React en el servidor</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Qué aporta Next.js</h3><span class="lvl a">A</span></div>
+          <p class="note">Un framework sobre React con <b>enrutado por
+            archivos</b>, renderizado en servidor (<b>SSR</b>), Server
+            Components, optimización y backend integrado.</p>
+          <ul class="tips">
+            <li><b>SSR/SSG:</b> HTML listo desde el servidor → mejor SEO y
+              primera carga.</li>
+            <li><b>App Router:</b> rutas según carpetas en
+              <code>app/</code>.</li>
+            <li><b>Server Components</b> por defecto: menos JS al cliente.</li>
+          </ul>
+        </section>
+
+        <section class="block" id="next-router">
+          <div class="tile-h"><span class="td"></span>
+            <h3>App Router: rutas por carpetas</h3><span class="lvl a">A</span></div>
+          <p class="note">Cada carpeta en <code>app/</code> con un
+            <code>page.jsx</code> es una ruta. <code>[id]</code> es un
+            segmento dinámico; <code>layout.jsx</code> envuelve a sus
+            hijas.</p>
+          <figure class="code" data-copy="app/
+  layout.jsx      // raíz común
+  page.jsx        // ruta /
+  about/
+    page.jsx      // ruta /about
+  blog/
+    [slug]/
+      page.jsx    // ruta /blog/:slug">
+            <figcaption><span class="dot"></span>estructura de app/</figcaption>
+<pre>app/
+  layout.jsx      <span class="c">// raiz comun</span>
+  page.jsx        <span class="c">// ruta /</span>
+  about/
+    page.jsx      <span class="c">// ruta /about</span>
+  blog/
+    [slug]/
+      page.jsx    <span class="c">// /blog/:slug</span></pre>
+          </figure>
+          <div class="why"><b>Convención = configuración:</b> no declaras
+            rutas en código; la estructura de carpetas <i>es</i> el mapa de
+            rutas.</div>
+        </section>
+
+        <section class="block" id="rsc">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Server vs Client Components</h3><span class="lvl a">A</span></div>
+          <p class="note">En App Router todo es <b>Server Component</b> por
+            defecto (corre en el servidor, sin JS al cliente). Añade
+            <code>'use client'</code> arriba para los que necesiten estado,
+            efectos o eventos.</p>
+          <figure class="code" data-copy="'use client'
+import { useState } from 'react'
+
+export default function Like() {
+  const [n, setN] = useState(0)
+  return (
+    <button onClick={() =>
+      setN(n + 1)}>
+      ♥ {n}
+    </button>
+  )
+}">
+            <figcaption><span class="dot"></span>Client Component</figcaption>
+<pre><span class="s">'use client'</span>
+<span class="k">import</span> { useState } <span class="k">from</span> <span class="s">'react'</span>
+
+<span class="k">export default function</span> <span class="fn">Like</span>() {
+  <span class="k">const</span> [n, setN] = <span class="fn">useState</span>(<span class="n">0</span>)
+  <span class="k">return</span> (
+    <span class="t">&lt;button</span> <span class="pr">onClick</span>={() =&gt;
+      <span class="fn">setN</span>(n + <span class="n">1</span>)}<span class="t">&gt;</span>
+      ♥ {n}
+    <span class="t">&lt;/button&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Regla práctica:</b> deja servidor por defecto
+            (datos, peso menor) y marca como cliente solo las hojas
+            interactivas del árbol.</div>
+        </section>
+
+        <section class="block" id="next-data">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Datos &amp; SSR</h3><span class="lvl a">A</span></div>
+          <p class="note">En un Server Component puedes usar
+            <code>async/await</code> directamente: el fetch corre en el
+            servidor antes de enviar el HTML.</p>
+          <figure class="code" data-copy="// Server Component (sin 'use client')
+export default async function Page() {
+  const res =
+    await fetch('https://api/posts')
+  const posts = await res.json()
+  return (
+    <ul>
+      {posts.map(p =>
+        <li key={p.id}>{p.title}</li>
+      )}
+    </ul>
+  )
+}">
+            <figcaption><span class="dot"></span>fetch en el servidor</figcaption>
+<pre><span class="c">// Server Component</span>
+<span class="k">export default async function</span> <span class="fn">Page</span>() {
+  <span class="k">const</span> res =
+    <span class="k">await</span> <span class="fn">fetch</span>(<span class="s">'https://api/posts'</span>)
+  <span class="k">const</span> posts = <span class="k">await</span> res.<span class="fn">json</span>()
+  <span class="k">return</span> (
+    <span class="t">&lt;ul&gt;</span>
+      {posts.<span class="fn">map</span>(p =&gt;
+        <span class="t">&lt;li</span> <span class="pr">key</span>={p.id}<span class="t">&gt;</span>{p.title}<span class="t">&lt;/li&gt;</span>
+      )}
+    <span class="t">&lt;/ul&gt;</span>
+  )
+}</pre>
+          </figure>
+          <div class="why"><b>Por qué importa:</b> el dato llega ya renderizado
+            (sin spinner inicial ni waterfall en el cliente), con mejor SEO y
+            menos JavaScript enviado.</div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    React · Hoja de referencia — de los componentes a los hooks, Router,
+    estado global y Next.js.
+    <div class="mono">Basado en "React - The Complete Guide
+      (incl. Next.js, Redux)" · React 19 · 2026 · clic para copiar</div>
+  </footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg;
+    toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    el.style.cursor='pointer';
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){
+        await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  // scrollspy
+  var links=Array.prototype.slice.call(
+    document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){
+    var id=a.getAttribute('href').slice(1);
+    var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){
+      obs.observe(document.getElementById(id));});
+  }
+
+  // swap (Context vs Redux)
+  var notes={
+    ctx:'<b>Context + Reducer:</b> cero dependencias, ideal para estado '+
+      'global sencillo y de cambios poco frecuentes (tema, auth). Puede '+
+      're-renderizar de más si crece.',
+    rdx:'<b>Redux Toolkit:</b> store central con DevTools, middleware y '+
+      'lógica predecible. La mejor opción para estado grande, compartido '+
+      'y que cambia a menudo.'
+  };
+  var btns=document.querySelectorAll('.swbtn');
+  if(btns.length){
+    btns.forEach(function(b){ b.addEventListener('click',function(){
+      var k=b.getAttribute('data-view');
+      btns.forEach(function(x){var on=(x===b);x.classList.toggle('on',on);
+        x.setAttribute('aria-selected',on?'true':'false');});
+      document.querySelectorAll('.swview').forEach(function(v){
+        v.classList.toggle('hidden', v.id!=='view-'+k); });
+      var note=document.getElementById('swapnote');
+      if(note&&notes[k])note.innerHTML=notes[k];
+    });});
+  }
+})();
+</script>
+</body></html>

@@ -1,0 +1,1336 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electron · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#E7EBEC; --surface:#FFFFFF; --surface-2:#F3F6F7;
+    --ink:#1B2327; --ink-soft:#51606A; --ink-faint:#8A99A2;
+    --line:#E2E8EA; --line-strong:#CFD9DC; --header-bg:#EFF3F4;
+    /* marca Electron */
+    --el:#47848F; --el-deep:#2F5D67; --el-tint:rgba(71,132,143,.14);
+    /* acentos de sección (texto sobre blanco) */
+    --s1:#2F5D67; --s2:#2563A8; --s3:#178A4C; --s4:#B5700A;
+    --s5:#6B4BB8; --s6:#C0392B; --s7:#0E7C86; --s8:#46566A;
+    /* niveles B/I/A (universales) */
+    --lvl-b:#38B26C; --lvl-i:#F2C811; --lvl-a:#F0796B;
+    /* bloque de código oscuro */
+    --code-bg:#1E2A2E; --code-ink:#E6EDEE; --code-dim:#7C8E94;
+    --c-kw:#E48FB0; --c-fn:#86BBC9; --c-str:#9FD18B;
+    --c-num:#FFD96B; --c-com:#778A90; --c-prop:#D9C28A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:18px}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--line-strong) .5px,transparent .5px);
+    background-size:24px 24px}
+  code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-variant-ligatures:none}
+  ::selection{background:var(--el-tint)}
+  .wrap{max-width:1320px;margin:0 auto;padding:22px 20px 0}
+
+  /* ---------- APP CHROME ---------- */
+  .app{background:var(--surface);border:1px solid var(--line-strong);
+    border-radius:14px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 14px 34px rgba(31,49,55,.10)}
+  .titlebar{display:flex;align-items:center;gap:10px;
+    padding:9px 14px;background:linear-gradient(180deg,#356069,#2F5D67);
+    color:#DCEAEC;font-size:12.5px}
+  .titlebar .mark{display:inline-grid;place-items:center;width:22px;height:22px;
+    border-radius:6px;background:rgba(255,255,255,.13);
+    font-family:"JetBrains Mono",monospace;font-size:13px;color:#9FE3EE}
+  .titlebar .fname b{color:#fff;font-weight:700}
+  .titlebar .grow{flex:1}
+  .titlebar .vtag{font-family:"JetBrains Mono",monospace;font-size:11px;
+    color:#A9CDD2;background:rgba(255,255,255,.10);padding:2px 8px;border-radius:6px}
+  .titlebar .wbtn{display:flex;gap:6px;margin-left:6px}
+  .titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#5a8089}
+  .titlebar .wbtn i:nth-child(1){background:#F0796B}
+  .titlebar .wbtn i:nth-child(2){background:#FFD96B}
+  .titlebar .wbtn i:nth-child(3){background:#38B26C}
+
+  .ribbon{display:flex;gap:2px;padding:6px 12px 0;background:var(--header-bg);
+    border-bottom:1px solid var(--line)}
+  .ribbon span{font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--ink-faint);padding:7px 14px;border-radius:8px 8px 0 0}
+  .ribbon span.on{background:var(--surface);color:var(--el-deep);font-weight:600;
+    border:1px solid var(--line);border-bottom-color:var(--surface);
+    margin-bottom:-1px}
+
+  .fxbar{display:flex;align-items:center;gap:0;padding:8px 12px;
+    background:var(--surface);border-bottom:1px solid var(--line)}
+  .fxbar .namebox{font-family:"JetBrains Mono",monospace;font-size:12px;
+    color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:6px;padding:4px 9px;min-width:78px;text-align:center}
+  .fxbar .fxlabel{font-family:"JetBrains Mono",monospace;font-style:italic;
+    color:var(--el-deep);padding:0 12px;font-size:13px}
+  .fxbar .fxc{font-family:"JetBrains Mono",monospace;font-size:12.5px;
+    color:var(--ink);border-left:1px solid var(--line);padding-left:12px;flex:1}
+  .fxbar .fxc b{color:var(--el-deep)}
+
+  .hero{padding:24px 26px 20px}
+  .kick{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--el-deep);font-weight:600}
+  .hero h1{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.02em;
+    font-size:clamp(26px,4vw,40px);line-height:1.05;margin:9px 0 4px}
+  .hero h1 em{font-style:normal;color:var(--el)}
+  .hero .lede{color:var(--ink-soft);max-width:65ch;margin-top:7px;font-size:14.5px}
+  .hero .lede b{color:var(--ink)}
+  .quote{margin:15px 0 4px;padding:9px 15px;border-left:3px solid var(--el);
+    background:var(--el-tint);border-radius:0 9px 9px 0;
+    font-size:13.5px;color:var(--ink-soft);max-width:70ch}
+  .quote b{color:var(--el-deep);font-weight:600}
+  .quote span{font-style:italic}
+
+  .lvl-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px}
+  .lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;
+    color:var(--ink-soft)}
+  .lvlpill b{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;
+    width:18px;height:18px;border-radius:5px;display:grid;place-items:center;
+    color:#1a1a1a;background:var(--c)}
+
+  .tabbar{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+  .tab{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;
+    text-decoration:none;color:var(--ink-soft);background:var(--surface-2);
+    border:1px solid var(--line);border-radius:8px;padding:6px 11px;
+    border-bottom:2px solid var(--tc);transition:.15s}
+  .tab:hover{color:var(--ink);background:#fff;transform:translateY(-1px)}
+  .tab b{color:var(--tc);font-weight:700}
+
+  /* ---------- SHELL ---------- */
+  .shell{display:grid;grid-template-columns:236px 1fr;gap:22px;
+    margin-top:22px;padding-bottom:60px}
+  .toc{position:sticky;top:14px;align-self:start;max-height:calc(100vh - 28px);
+    overflow:auto;padding-right:4px}
+  .toc-h{display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;
+    font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--ink-soft);margin:16px 0 5px}
+  .toc-h:first-child{margin-top:2px}
+  .toc-h .sq{width:11px;height:11px;border-radius:3px;background:var(--seg)}
+  .toc a{display:block;text-decoration:none;color:var(--ink-soft);font-size:13px;
+    padding:4px 9px;border-left:2px solid var(--line);margin-left:4px;
+    transition:.13s}
+  .toc a:hover{color:var(--ink);border-left-color:var(--seg)}
+  .toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg);
+    background:var(--surface);border-radius:0 6px 6px 0}
+
+  main{min-width:0}
+  .mtabs{display:none}
+
+  .sheet-sec{margin-bottom:34px}
+  .sec-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;
+    padding-bottom:9px;border-bottom:2px solid var(--seg)}
+  .sec-tab{font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;
+    color:#fff;background:var(--seg);border-radius:7px;padding:3px 9px;
+    letter-spacing:.02em}
+  .sec-head h2{font-family:"Archivo",sans-serif;font-weight:700;font-size:20px;
+    letter-spacing:-.01em}
+  .sec-head .rng{margin-left:auto;font-family:"JetBrains Mono",monospace;
+    font-size:11px;color:var(--ink-faint)}
+
+  .block{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;margin-bottom:14px}
+  .tile-h{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .tile-h .td{width:9px;height:9px;border-radius:50%;background:var(--seg);flex:none}
+  .block h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;
+    flex:1}
+  .block p.note{color:var(--ink-soft);font-size:13.5px;margin-bottom:9px}
+  .block p.note:last-child{margin-bottom:0}
+  .block p.note b{color:var(--ink)}
+  .why{font-size:12.5px;color:var(--ink-soft);border-left:2px solid var(--seg);
+    padding:3px 0 3px 11px;margin-top:10px;background:linear-gradient(90deg,var(--el-tint),transparent);
+    border-radius:0 6px 6px 0}
+  .why b{color:var(--el-deep)}
+
+  .lvl{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;
+    width:19px;height:19px;border-radius:5px;display:grid;place-items:center;
+    color:#1a1a1a;flex:none}
+  .lvl.b{background:var(--lvl-b);color:#fff}
+  .lvl.i{background:var(--lvl-i)}
+  .lvl.a{background:var(--lvl-a);color:#fff}
+
+  /* code */
+  figure.code{margin:9px 0 0;border-radius:9px;overflow:hidden;
+    border:1px solid #2a3a40;background:var(--code-bg);position:relative}
+  figure.code figcaption{font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    color:var(--code-dim);padding:6px 12px;border-bottom:1px solid #2a3a40;
+    display:flex;align-items:center;gap:7px}
+  figure.code figcaption .dot{width:8px;height:8px;border-radius:50%;
+    background:var(--el)}
+  figure.code pre{margin:0;padding:11px 13px;white-space:pre-wrap;
+    overflow-x:hidden;overflow-wrap:anywhere;
+    font-size:12.3px;line-height:1.62;color:var(--code-ink);cursor:pointer}
+  figure.code:hover{border-color:var(--el)}
+  figure.code.copied{outline:2px solid var(--lvl-b)}
+  .k{color:var(--c-kw)} .fn{color:var(--c-fn)} .s{color:var(--c-str)}
+  .n{color:var(--c-num)} .c{color:var(--c-com)} .pr{color:var(--c-prop)}
+
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  .tbl th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--ink-faint);
+    padding:5px 9px;border-bottom:1px solid var(--line-strong)}
+  .tbl td{padding:6px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl td:first-child{white-space:nowrap}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl code{background:var(--surface-2);padding:1px 5px;border-radius:4px;
+    font-size:12px;color:var(--el-deep)}
+  .ph{font-style:italic;border-bottom:1px dotted var(--ink-faint);
+    color:var(--ink-soft)}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+  .tile{display:flex;flex-direction:column}
+  .tile-b{flex:1}
+  .tile.wide{grid-column:1 / -1}
+  .keys b{font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    background:var(--surface-2);border:1px solid var(--line-strong);
+    border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink)}
+
+  ul.tips{list-style:none;margin-top:4px}
+  ul.tips li{position:relative;padding:3px 0 3px 18px;font-size:13.2px;
+    color:var(--ink-soft)}
+  ul.tips li::before{content:"";position:absolute;left:2px;top:10px;width:6px;
+    height:6px;border-radius:2px;background:var(--seg)}
+  ul.tips li b{color:var(--ink)}
+
+  /* signature diagram */
+  .diagram{background:var(--surface-2);border:1px dashed var(--line-strong);
+    border-radius:11px;padding:14px;margin-top:4px}
+  .diagram svg{width:100%;height:auto;display:block}
+
+  /* swap */
+  .swap{display:inline-flex;gap:3px;padding:3px;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:9px;margin-bottom:10px}
+  .swbtn{font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);
+    background:transparent;border:none;border-radius:7px;padding:6px 13px;
+    cursor:pointer;transition:.15s;font-family:"JetBrains Mono",monospace}
+  .swbtn.on{background:var(--surface);color:var(--el-deep);
+    box-shadow:0 1px 3px rgba(40,46,66,.12)}
+  .swview.hidden{display:none}
+
+  footer{border-top:1px solid var(--line-strong);padding:18px 4px 40px;
+    color:var(--ink-faint);font-size:12.5px}
+  footer .mono{font-family:"JetBrains Mono",monospace;font-size:11px;
+    margin-top:5px;color:var(--ink-faint)}
+
+  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--el-deep);color:#fff;font-size:13px;font-weight:600;
+    padding:9px 18px;border-radius:9px;opacity:0;pointer-events:none;
+    transition:.22s;z-index:50;box-shadow:0 8px 24px rgba(31,49,55,.28)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .sheet-sec{opacity:0;transform:translateY(8px);
+    animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards}
+  .sheet-sec:nth-child(1){animation-delay:.03s}
+  .sheet-sec:nth-child(2){animation-delay:.07s}
+  .sheet-sec:nth-child(3){animation-delay:.10s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  @media(max-width:860px){
+    .shell{grid-template-columns:1fr}
+    .toc{display:none}
+    .cols{grid-template-columns:1fr}
+    .mtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+    .mtabs a{font-family:"JetBrains Mono",monospace;font-size:11.5px;
+      text-decoration:none;color:var(--ink-soft);background:var(--surface);
+      border:1px solid var(--line);border-radius:7px;padding:5px 9px;
+      border-bottom:2px solid var(--tc)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .sheet-sec{animation:none;opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head><body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="mark">⌬</span>
+      <span class="fname"><b>Electron</b> · main.js — Hoja de referencia</span>
+      <span class="grow"></span>
+      <span class="vtag">Electron 37 · 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+    <div class="ribbon">
+      <span class="on">Main</span><span>Renderer</span><span>IPC</span>
+    </div>
+    <div class="fxbar">
+      <span class="namebox">main.js</span>
+      <span class="fxlabel">⇄</span>
+      <span class="fxc"><b>main</b> ⇄ <b>renderer</b> · puente seguro
+        vía <b>preload</b> + IPC</span>
+    </div>
+    <div class="hero">
+      <div class="kick">Referencia rápida · Básico → Avanzado</div>
+      <h1>Electron, del <em>navegador</em> al
+        <em>escritorio</em>.</h1>
+      <p class="lede">Construye apps de escritorio multiplataforma con
+        HTML, CSS y JavaScript. Esta hoja cubre la arquitectura de
+        procesos, <b>BrowserWindow</b>, <b>IPC</b>, <b>preload</b>,
+        menús, diálogos, empaquetado y seguridad.
+        <b>Clic en cualquier snippet para copiarlo.</b></p>
+      <div class="quote"><span>"If you can build a website, you can
+        build a desktop app."</span> — <b>Electron</b></div>
+      <div class="lvl-legend">
+        <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+        <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+        <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+      </div>
+      <div class="tabbar">
+        <a class="tab" href="#s1" style="--tc:var(--s1)"><b>01</b> Arquitectura</a>
+        <a class="tab" href="#s2" style="--tc:var(--s2)"><b>02</b> App &amp; ciclo</a>
+        <a class="tab" href="#s3" style="--tc:var(--s3)"><b>03</b> BrowserWindow</a>
+        <a class="tab" href="#s4" style="--tc:var(--s4)"><b>04</b> IPC</a>
+        <a class="tab" href="#s5" style="--tc:var(--s5)"><b>05</b> Preload</a>
+        <a class="tab" href="#s6" style="--tc:var(--s6)"><b>06</b> Menús &amp; Tray</a>
+        <a class="tab" href="#s7" style="--tc:var(--s7)"><b>07</b> Diálogos &amp; FS</a>
+        <a class="tab" href="#s8" style="--tc:var(--s8)"><b>08</b> Build &amp; seguridad</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Arquitectura</div>
+      <a href="#s1" style="--seg:var(--s1)">Dos procesos</a>
+      <a href="#arq-firma" style="--seg:var(--s1)">Diagrama main ⇄ renderer</a>
+      <a href="#arq-tabla" style="--seg:var(--s1)">Main vs Renderer</a>
+      <a href="#convenciones" style="--seg:var(--s1)">Convenciones</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · App &amp; ciclo</div>
+      <a href="#s2" style="--seg:var(--s2)">Estructura mínima</a>
+      <a href="#app-life" style="--seg:var(--s2)">Ciclo de vida</a>
+      <a href="#app-paths" style="--seg:var(--s2)">Rutas &amp; metadatos</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · BrowserWindow</div>
+      <a href="#s3" style="--seg:var(--s3)">Crear ventana</a>
+      <a href="#bw-load" style="--seg:var(--s3)">Cargar contenido</a>
+      <a href="#bw-mas" style="--seg:var(--s3)">Varias ventanas</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · IPC</div>
+      <a href="#s4" style="--seg:var(--s4)">invoke / handle</a>
+      <a href="#ipc-swap" style="--seg:var(--s4)">Patrones de IPC</a>
+      <a href="#ipc-back" style="--seg:var(--s4)">main → renderer</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Preload</div>
+      <a href="#s5" style="--seg:var(--s5)">contextBridge</a>
+      <a href="#pre-sec" style="--seg:var(--s5)">contextIsolation</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Menús &amp; Tray</div>
+      <a href="#s6" style="--seg:var(--s6)">Menú de app</a>
+      <a href="#menu-ctx" style="--seg:var(--s6)">Contexto &amp; atajos</a>
+      <a href="#tray" style="--seg:var(--s6)">Tray (bandeja)</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Diálogos &amp; FS</div>
+      <a href="#s7" style="--seg:var(--s7)">dialog</a>
+      <a href="#fs-shell" style="--seg:var(--s7)">shell &amp; archivos</a>
+      <a href="#notif" style="--seg:var(--s7)">Notificaciones</a>
+
+      <div class="toc-h" style="--seg:var(--s8)"><span class="sq"></span>08 · Build &amp; seguridad</div>
+      <a href="#s8" style="--seg:var(--s8)">Empaquetado</a>
+      <a href="#update" style="--seg:var(--s8)">Auto-update</a>
+      <a href="#seg" style="--seg:var(--s8)">Checklist seguridad</a>
+    </nav>
+
+    <main>
+      <div class="mtabs">
+        <a href="#s1" style="--tc:var(--s1)">01 Arquitectura</a>
+        <a href="#s2" style="--tc:var(--s2)">02 App</a>
+        <a href="#s3" style="--tc:var(--s3)">03 BrowserWindow</a>
+        <a href="#s4" style="--tc:var(--s4)">04 IPC</a>
+        <a href="#s5" style="--tc:var(--s5)">05 Preload</a>
+        <a href="#s6" style="--tc:var(--s6)">06 Menús</a>
+        <a href="#s7" style="--tc:var(--s7)">07 Diálogos</a>
+        <a href="#s8" style="--tc:var(--s8)">08 Build</a>
+      </div>
+
+      <!-- ===== 01 ARQUITECTURA ===== -->
+      <div class="sheet-sec" id="s1" style="--seg:var(--s1)">
+        <div class="sec-head"><span class="sec-tab">01</span>
+          <h2>Arquitectura: proceso main ⇄ renderer</h2>
+          <span class="rng">B · concepto clave</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Dos procesos, una app</h3><span class="lvl b">B</span></div>
+          <p class="note">Electron une <b>Node.js</b> y <b>Chromium</b>.
+            Toda app tiene un único <b>proceso main</b> (arranca con
+            <code>main.js</code>, controla ventanas y el sistema) y uno o
+            más <b>procesos renderer</b> (cada ventana = una página web
+            con su propio DOM).</p>
+          <p class="note">El renderer <b>no</b> debe tocar el sistema
+            directamente: pide cosas al main mediante <b>IPC</b>, a través
+            de un script <b>preload</b> que actúa de puente seguro.</p>
+          <div class="why"><b>Por qué importa:</b> separar UI de privilegios
+            es el modelo de seguridad de Electron. Romperlo (activar
+            <code>nodeIntegration</code>) expone tu app a ejecución de
+            código si cargas contenido remoto.</div>
+        </section>
+
+        <section class="block" id="arq-firma">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Diagrama del flujo</h3><span class="lvl b">B</span></div>
+          <div class="diagram">
+            <svg viewBox="0 0 720 270" role="img"
+              aria-label="Diagrama proceso main y renderer con preload e IPC">
+              <defs>
+                <marker id="ar" markerWidth="9" markerHeight="9"
+                  refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L7,3 L0,6 Z" fill="#47848F"/>
+                </marker>
+                <marker id="ar2" markerWidth="9" markerHeight="9"
+                  refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L7,3 L0,6 Z" fill="#B5700A"/>
+                </marker>
+              </defs>
+              <!-- MAIN -->
+              <rect x="14" y="40" width="250" height="190" rx="14"
+                fill="#fff" stroke="#2F5D67" stroke-width="2"/>
+              <rect x="14" y="40" width="250" height="34" rx="14"
+                fill="#2F5D67"/>
+              <rect x="14" y="58" width="250" height="16" fill="#2F5D67"/>
+              <text x="34" y="62" fill="#fff" font-family="Archivo,sans-serif"
+                font-weight="700" font-size="15">PROCESO MAIN</text>
+              <text x="34" y="100" fill="#1B2327"
+                font-family="JetBrains Mono,monospace" font-size="12.5">main.js</text>
+              <text x="34" y="126" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• Node.js completo + SO</text>
+              <text x="34" y="148" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• app · BrowserWindow</text>
+              <text x="34" y="170" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• Menu · Tray · dialog</text>
+              <text x="34" y="192" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• fs · shell · ipcMain</text>
+              <!-- RENDERER -->
+              <rect x="456" y="40" width="250" height="190" rx="14"
+                fill="#fff" stroke="#178A4C" stroke-width="2"/>
+              <rect x="456" y="40" width="250" height="34" rx="14"
+                fill="#178A4C"/>
+              <rect x="456" y="58" width="250" height="16" fill="#178A4C"/>
+              <text x="476" y="62" fill="#fff" font-family="Archivo,sans-serif"
+                font-weight="700" font-size="15">PROCESO RENDERER</text>
+              <text x="476" y="100" fill="#1B2327"
+                font-family="JetBrains Mono,monospace" font-size="12.5">index.html</text>
+              <text x="476" y="126" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• Chromium + DOM</text>
+              <text x="476" y="148" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• tu UI (HTML/CSS/JS)</text>
+              <text x="476" y="170" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• sin acceso al SO</text>
+              <text x="476" y="192" fill="#51606A"
+                font-family="Hanken Grotesk,sans-serif" font-size="12.5">• window.api (preload)</text>
+              <!-- PRELOAD bridge -->
+              <rect x="300" y="96" width="120" height="78" rx="11"
+                fill="#6B4BB8" opacity="0.12" stroke="#6B4BB8"
+                stroke-dasharray="4 3"/>
+              <text x="360" y="124" fill="#6B4BB8" text-anchor="middle"
+                font-family="Archivo,sans-serif" font-weight="700"
+                font-size="13">preload</text>
+              <text x="360" y="144" fill="#6B4BB8" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="10">contextBridge</text>
+              <!-- arrows -->
+              <line x1="264" y1="118" x2="298" y2="118" stroke="#47848F"
+                stroke-width="2" marker-end="url(#ar)"/>
+              <line x1="422" y1="118" x2="454" y2="118" stroke="#47848F"
+                stroke-width="2" marker-end="url(#ar)"/>
+              <line x1="454" y1="152" x2="422" y2="152" stroke="#B5700A"
+                stroke-width="2" marker-end="url(#ar2)"/>
+              <line x1="298" y1="152" x2="264" y2="152" stroke="#B5700A"
+                stroke-width="2" marker-end="url(#ar2)"/>
+              <text x="360" y="225" fill="#47848F" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="11">invoke ▸ handle  ·  send ◂ on</text>
+              <text x="360" y="245" fill="#8A99A2" text-anchor="middle"
+                font-family="Hanken Grotesk,sans-serif" font-size="11">canales IPC tipados y acotados</text>
+            </svg>
+          </div>
+          <div class="why"><b>Lee el diagrama:</b> el renderer nunca llama
+            a Node; invoca <code>window.api.*</code> que el preload expuso,
+            y eso viaja por un canal IPC hasta el main, que responde.</div>
+        </section>
+
+        <section class="block" id="arq-tabla">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Main vs Renderer de un vistazo</h3><span class="lvl i">I</span></div>
+          <table class="tbl">
+            <tr><th></th><th>Main</th><th>Renderer</th></tr>
+            <tr><td>Entorno</td><td>Node.js</td><td>Chromium / DOM</td></tr>
+            <tr><td>Cuántos</td><td>1 por app</td><td>1 por ventana</td></tr>
+            <tr><td>Acceso SO</td><td>Total</td><td>Ninguno (ideal)</td></tr>
+            <tr><td>Módulos</td><td><code>app</code>,<code>dialog</code></td>
+              <td><code>window.api</code></td></tr>
+            <tr><td>Arranque</td><td><code>main</code> en pkg</td>
+              <td>HTML cargado</td></tr>
+          </table>
+          <div class="why"><b>Cuándo:</b> pon en el main todo lo que toque
+            disco, red privilegiada o nativo; deja en el renderer solo la
+            interfaz.</div>
+        </section>
+
+        <section class="block" id="convenciones">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Convenciones</h3><span class="lvl b">B</span></div>
+          <p class="note">En los snippets, <span class="ph">así</span> =
+            reemplázalo por tu valor.</p>
+          <table class="tbl">
+            <tr><td><span class="ph">canal</span></td>
+              <td>nombre del canal IPC, ej. <code>'dialog:open'</code></td></tr>
+            <tr><td><span class="ph">ruta</span></td>
+              <td>ruta a un archivo o carpeta</td></tr>
+            <tr><td><span class="ph">cb</span></td>
+              <td>función callback que recibe el dato</td></tr>
+            <tr><td><span class="ph">com.tu.app</span></td>
+              <td>appId en estilo DNS inverso</td></tr>
+          </table>
+        </section>
+      </div>
+
+      <!-- ===== 02 APP & CICLO ===== -->
+      <div class="sheet-sec" id="s2" style="--seg:var(--s2)">
+        <div class="sec-head"><span class="sec-tab">02</span>
+          <h2>App, ciclo de vida &amp; estructura</h2>
+          <span class="rng">B → I</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Estructura mínima de proyecto</h3><span class="lvl b">B</span></div>
+          <p class="note">Tres archivos bastan para arrancar.
+            <code>main</code> en <code>package.json</code> apunta al
+            proceso main.</p>
+          <figure class="code" data-copy='{
+  "name": "miapp",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": { "electron": "^31" }
+}'>
+            <figcaption><span class="dot"></span>package.json</figcaption>
+<pre><span class="pr">"name"</span>: <span class="s">"miapp"</span>,
+<span class="pr">"main"</span>: <span class="s">"main.js"</span>,
+<span class="pr">"scripts"</span>: {
+  <span class="pr">"start"</span>: <span class="s">"electron ."</span>
+},
+<span class="pr">"devDependencies"</span>: {
+  <span class="pr">"electron"</span>: <span class="s">"^31"</span>
+}</pre>
+          </figure>
+          <div class="why"><b>Cómo:</b> <code>npm i -D electron</code> y
+            luego <code>npm start</code>. Nunca instales Electron como
+            dependencia de producción.</div>
+        </section>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>main.js mínimo</h3><span class="lvl b">B</span></div>
+          <figure class="code" data-copy="const { app, BrowserWindow } =
+  require('electron')
+
+function createWindow() {
+  const win = new BrowserWindow({
+    width: 1000,
+    height: 700,
+    webPreferences: {
+      preload: __dirname + '/preload.js'
+    }
+  })
+  win.loadFile('index.html')
+}
+
+app.whenReady().then(createWindow)">
+            <figcaption><span class="dot"></span>main.js</figcaption>
+<pre><span class="k">const</span> { app, BrowserWindow } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+<span class="k">function</span> <span class="fn">createWindow</span>() {
+  <span class="k">const</span> win = <span class="k">new</span> <span class="fn">BrowserWindow</span>({
+    width: <span class="n">1000</span>,
+    height: <span class="n">700</span>,
+    webPreferences: {
+      preload: __dirname + <span class="s">'/preload.js'</span>
+    }
+  })
+  win.<span class="fn">loadFile</span>(<span class="s">'index.html'</span>)
+}
+
+app.<span class="fn">whenReady</span>().<span class="fn">then</span>(createWindow)</pre>
+          </figure>
+        </section>
+
+        <section class="block" id="app-life">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Ciclo de vida (eventos clave)</h3><span class="lvl i">I</span></div>
+          <p class="note">macOS y Windows/Linux se comportan distinto al
+            cerrar la última ventana. Maneja ambos.</p>
+          <figure class="code" data-copy="app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin')
+    app.quit()
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows()
+      .length === 0) createWindow()
+})">
+            <figcaption><span class="dot"></span>main.js · eventos</figcaption>
+<pre>app.<span class="fn">on</span>(<span class="s">'window-all-closed'</span>, () => {
+  <span class="k">if</span> (process.platform !== <span class="s">'darwin'</span>)
+    app.<span class="fn">quit</span>()
+})
+
+app.<span class="fn">on</span>(<span class="s">'activate'</span>, () => {
+  <span class="k">if</span> (BrowserWindow.<span class="fn">getAllWindows</span>()
+      .length === <span class="n">0</span>) <span class="fn">createWindow</span>()
+})</pre>
+          </figure>
+          <table class="tbl">
+            <tr><th>Evento</th><th>Cuándo</th></tr>
+            <tr><td><code>ready</code></td><td>app lista (usa whenReady)</td></tr>
+            <tr><td><code>activate</code></td><td>clic en dock (macOS)</td></tr>
+            <tr><td><code>before-quit</code></td><td>antes de cerrar todo</td></tr>
+            <tr><td><code>window-all-closed</code></td><td>sin ventanas</td></tr>
+          </table>
+          <div class="why"><b>Por qué:</b> en macOS las apps siguen vivas
+            sin ventanas; salir ahí rompe la convención del sistema.</div>
+        </section>
+
+        <section class="block" id="app-paths">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Rutas del sistema &amp; metadatos</h3><span class="lvl i">I</span></div>
+          <figure class="code" data-copy="app.getPath('userData') // config app
+app.getPath('downloads')
+app.getPath('home')
+app.getVersion()
+app.setName('MiApp')
+app.isPackaged // ¿build o dev?">
+            <figcaption><span class="dot"></span>app paths</figcaption>
+<pre>app.<span class="fn">getPath</span>(<span class="s">'userData'</span>) <span class="c">// config app</span>
+app.<span class="fn">getPath</span>(<span class="s">'downloads'</span>)
+app.<span class="fn">getPath</span>(<span class="s">'home'</span>)
+app.<span class="fn">getVersion</span>()
+app.<span class="fn">setName</span>(<span class="s">'MiApp'</span>)
+app.isPackaged <span class="c">// ¿build o dev?</span></pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> guarda ajustes y datos en
+            <code>userData</code>, nunca junto al ejecutable (suele ser de
+            solo lectura tras instalar).</div>
+        </section>
+      </div>
+
+      <!-- ===== 03 BROWSERWINDOW ===== -->
+      <div class="sheet-sec" id="s3" style="--seg:var(--s3)">
+        <div class="sec-head"><span class="sec-tab">03</span>
+          <h2>BrowserWindow &amp; ventanas</h2>
+          <span class="rng">B → I</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Crear una ventana bien</h3><span class="lvl b">B</span></div>
+          <figure class="code" data-copy="const win = new BrowserWindow({
+  width: 1000, height: 700,
+  minWidth: 600, minHeight: 400,
+  frame: true,   // barra nativa
+  show: false,   // evita parpadeo
+  backgroundColor: '#fff',
+  webPreferences: {
+    preload: preloadPath,
+    contextIsolation: true,
+    nodeIntegration: false
+  }
+})">
+            <figcaption><span class="dot"></span>opciones comunes</figcaption>
+<pre><span class="k">const</span> win = <span class="k">new</span> <span class="fn">BrowserWindow</span>({
+  width: <span class="n">1000</span>, height: <span class="n">700</span>,
+  minWidth: <span class="n">600</span>, minHeight: <span class="n">400</span>,
+  frame: <span class="k">true</span>,   <span class="c">// barra nativa</span>
+  show: <span class="k">false</span>,   <span class="c">// evita parpadeo</span>
+  backgroundColor: <span class="s">'#fff'</span>,
+  webPreferences: {
+    preload: preloadPath,
+    contextIsolation: <span class="k">true</span>,
+    nodeIntegration: <span class="k">false</span>
+  }
+})</pre>
+          </figure>
+          <div class="why"><b>Patrón anti-parpadeo:</b> crea con
+            <code>show:false</code> y muestra al estar lista.</div>
+          <figure class="code" data-copy="win.once('ready-to-show', () => {
+  win.show()
+})">
+            <figcaption><span class="dot"></span>mostrar sin flash</figcaption>
+<pre>win.<span class="fn">once</span>(<span class="s">'ready-to-show'</span>, () => {
+  win.<span class="fn">show</span>()
+})</pre>
+          </figure>
+        </section>
+
+        <section class="block" id="bw-load">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Cargar contenido &amp; DevTools</h3><span class="lvl b">B</span></div>
+          <div class="cols">
+            <figure class="code tile" data-copy="win.loadFile('index.html')
+win.loadURL('https://miapp.dev')
+win.webContents
+  .openDevTools()">
+              <figcaption><span class="dot"></span>cargar</figcaption>
+<pre class="tile-b">win.<span class="fn">loadFile</span>(<span class="s">'index.html'</span>)
+win.<span class="fn">loadURL</span>(<span class="s">'https://miapp.dev'</span>)
+win.webContents
+  .<span class="fn">openDevTools</span>()</pre>
+            </figure>
+            <figure class="code tile" data-copy="win.maximize()
+win.setFullScreen(true)
+win.reload()
+win.close()">
+              <figcaption><span class="dot"></span>controlar</figcaption>
+<pre class="tile-b">win.<span class="fn">maximize</span>()
+win.<span class="fn">setFullScreen</span>(<span class="k">true</span>)
+win.<span class="fn">reload</span>()
+win.<span class="fn">close</span>()</pre>
+            </figure>
+          </div>
+          <div class="why"><b>loadFile vs loadURL:</b> usa
+            <code>loadFile</code> para tu HTML local; <code>loadURL</code>
+            para dev-server (Vite) o contenido remoto de confianza.</div>
+        </section>
+
+        <section class="block" id="bw-mas">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Ventanas hijas &amp; modales</h3><span class="lvl i">I</span></div>
+          <figure class="code" data-copy="const child = new BrowserWindow({
+  parent: win,    // depende de win
+  modal: true,    // bloquea al padre
+  width: 420, height: 300
+})
+child.loadFile('about.html')">
+            <figcaption><span class="dot"></span>ventana modal</figcaption>
+<pre><span class="k">const</span> child = <span class="k">new</span> <span class="fn">BrowserWindow</span>({
+  parent: win,    <span class="c">// depende de win</span>
+  modal: <span class="k">true</span>,    <span class="c">// bloquea al padre</span>
+  width: <span class="n">420</span>, height: <span class="n">300</span>
+})
+child.<span class="fn">loadFile</span>(<span class="s">'about.html'</span>)</pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> usa modales para "Acerca de" o
+            preferencias; ventanas hijas no modales para paneles
+            secundarios que conviven con la principal.</div>
+        </section>
+      </div>
+
+      <!-- ===== 04 IPC ===== -->
+      <div class="sheet-sec" id="s4" style="--seg:var(--s4)">
+        <div class="sec-head"><span class="sec-tab">04</span>
+          <h2>IPC: comunicación entre procesos</h2>
+          <span class="rng">I → A · núcleo</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>invoke / handle (recomendado)</h3><span class="lvl i">I</span></div>
+          <p class="note">El renderer <b>pide</b> y <b>espera</b> una
+            respuesta (promesa). Es el patrón por defecto.</p>
+          <figure class="code" data-copy="// main.js
+const { ipcMain, dialog } =
+  require('electron')
+
+ipcMain.handle('dialog:open', async () => {
+  const r = await dialog.showOpenDialog({
+    properties: ['openFile']
+  })
+  return r.filePaths[0]  // valor de vuelta
+})">
+            <figcaption><span class="dot"></span>main · handle</figcaption>
+<pre><span class="c">// main.js</span>
+<span class="k">const</span> { ipcMain, dialog } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+ipcMain.<span class="fn">handle</span>(<span class="s">'dialog:open'</span>, <span class="k">async</span> () => {
+  <span class="k">const</span> r = <span class="k">await</span> dialog.<span class="fn">showOpenDialog</span>({
+    properties: [<span class="s">'openFile'</span>]
+  })
+  <span class="k">return</span> r.filePaths[<span class="n">0</span>]  <span class="c">// vuelta</span>
+})</pre>
+          </figure>
+          <figure class="code" data-copy="// renderer (vía preload)
+const file =
+  await window.api.openFile()
+console.log(file)">
+            <figcaption><span class="dot"></span>renderer · invoke</figcaption>
+<pre><span class="c">// renderer (vía preload)</span>
+<span class="k">const</span> file =
+  <span class="k">await</span> window.api.<span class="fn">openFile</span>()
+console.<span class="fn">log</span>(file)</pre>
+          </figure>
+        </section>
+
+        <section class="block" id="ipc-swap">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Dos patrones de IPC</h3><span class="lvl a">A</span></div>
+          <div class="swap" role="tablist" aria-label="Patrón IPC">
+            <button class="swbtn on" data-view="inv" role="tab"
+              aria-selected="true">invoke / handle</button>
+            <button class="swbtn" data-view="snd" role="tab"
+              aria-selected="false">send / on</button>
+          </div>
+          <div class="swapwrap">
+            <div class="swview" id="view-inv">
+              <figure class="code" data-copy="// preload
+openFile: () =>
+  ipcRenderer.invoke('dialog:open')
+// main
+ipcMain.handle('dialog:open', fn)">
+                <figcaption><span class="dot"></span>petición ⇄ respuesta</figcaption>
+<pre><span class="c">// preload</span>
+openFile: () =>
+  ipcRenderer.<span class="fn">invoke</span>(<span class="s">'dialog:open'</span>)
+<span class="c">// main</span>
+ipcMain.<span class="fn">handle</span>(<span class="s">'dialog:open'</span>, fn)</pre>
+              </figure>
+            </div>
+            <div class="swview hidden" id="view-snd">
+              <figure class="code" data-copy="// preload
+log: (msg) =>
+  ipcRenderer.send('log', msg)
+// main
+ipcMain.on('log', (e, msg) => {
+  console.log(msg)
+})">
+                <figcaption><span class="dot"></span>disparar y olvidar</figcaption>
+<pre><span class="c">// preload</span>
+log: (msg) =>
+  ipcRenderer.<span class="fn">send</span>(<span class="s">'log'</span>, msg)
+<span class="c">// main</span>
+ipcMain.<span class="fn">on</span>(<span class="s">'log'</span>, (e, msg) => {
+  console.<span class="fn">log</span>(msg)
+})</pre>
+              </figure>
+            </div>
+          </div>
+          <p class="note" id="swapnote"><b>invoke/handle:</b> dos vías con
+            valor de retorno (async). Úsalo siempre que necesites una
+            respuesta.</p>
+        </section>
+
+        <section class="block" id="ipc-back">
+          <div class="tile-h"><span class="td"></span>
+            <h3>main → renderer (empujar datos)</h3><span class="lvl a">A</span></div>
+          <figure class="code" data-copy="// main: envía a una ventana
+win.webContents.send('cpu', valor)
+
+// preload: suscribe el renderer
+onCpu: (cb) =>
+  ipcRenderer.on('cpu',
+    (e, v) => cb(v))">
+            <figcaption><span class="dot"></span>push del main</figcaption>
+<pre><span class="c">// main: envía a una ventana</span>
+win.webContents.<span class="fn">send</span>(<span class="s">'cpu'</span>, valor)
+
+<span class="c">// preload: suscribe el renderer</span>
+onCpu: (cb) =>
+  ipcRenderer.<span class="fn">on</span>(<span class="s">'cpu'</span>,
+    (e, v) => <span class="fn">cb</span>(v))</pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> para flujos en tiempo real
+            (monitor de CPU, progreso, notificaciones del sistema). Pasa
+            el callback expuesto y limpia listeners si la vista se
+            desmonta.</div>
+        </section>
+      </div>
+
+      <!-- ===== 05 PRELOAD ===== -->
+      <div class="sheet-sec" id="s5" style="--seg:var(--s5)">
+        <div class="sec-head"><span class="sec-tab">05</span>
+          <h2>Preload &amp; contextBridge</h2>
+          <span class="rng">I → A · seguridad</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>El puente seguro</h3><span class="lvl i">I</span></div>
+          <p class="note">El preload corre <b>antes</b> de tu web, con
+            acceso a <code>ipcRenderer</code>. Expone una API mínima en
+            <code>window</code> con <b>contextBridge</b> — nunca todo Node.</p>
+          <figure class="code" data-copy="// preload.js
+const { contextBridge, ipcRenderer } =
+  require('electron')
+
+contextBridge.exposeInMainWorld('api', {
+  openFile: () =>
+    ipcRenderer.invoke('dialog:open'),
+  onCpu: (cb) =>
+    ipcRenderer.on('cpu',
+      (e, v) => cb(v))
+})">
+            <figcaption><span class="dot"></span>preload.js</figcaption>
+<pre><span class="c">// preload.js</span>
+<span class="k">const</span> { contextBridge, ipcRenderer } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+contextBridge.<span class="fn">exposeInMainWorld</span>(<span class="s">'api'</span>, {
+  openFile: () =>
+    ipcRenderer.<span class="fn">invoke</span>(<span class="s">'dialog:open'</span>),
+  onCpu: (cb) =>
+    ipcRenderer.<span class="fn">on</span>(<span class="s">'cpu'</span>,
+      (e, v) => <span class="fn">cb</span>(v))
+})</pre>
+          </figure>
+          <div class="why"><b>Regla de oro:</b> expón <b>funciones</b>
+            concretas, no <code>ipcRenderer</code> entero ni
+            <code>require</code>. Así el renderer solo puede usar los
+            canales que tú decides.</div>
+        </section>
+
+        <section class="block" id="pre-sec">
+          <div class="tile-h"><span class="td"></span>
+            <h3>contextIsolation &amp; aislamiento</h3><span class="lvl a">A</span></div>
+          <p class="note">Valores por defecto seguros desde Electron 12+.
+            No los desactives para cargar contenido remoto.</p>
+          <figure class="code" data-copy="webPreferences: {
+  preload: preloadPath,
+  contextIsolation: true, // por defecto
+  nodeIntegration: false, // por defecto
+  sandbox: true           // recomendado
+}">
+            <figcaption><span class="dot"></span>webPreferences seguras</figcaption>
+<pre>webPreferences: {
+  preload: preloadPath,
+  contextIsolation: <span class="k">true</span>, <span class="c">// default</span>
+  nodeIntegration: <span class="k">false</span>, <span class="c">// default</span>
+  sandbox: <span class="k">true</span>           <span class="c">// rec.</span>
+}</pre>
+          </figure>
+          <table class="tbl">
+            <tr><th>Opción</th><th>Qué hace</th></tr>
+            <tr><td><code>contextIsolation</code></td>
+              <td>aísla el preload del JS de la página</td></tr>
+            <tr><td><code>nodeIntegration</code></td>
+              <td>off = el renderer no ve Node</td></tr>
+            <tr><td><code>sandbox</code></td>
+              <td>limita el preload al SO</td></tr>
+          </table>
+          <div class="why"><b>Por qué:</b> con aislamiento, un XSS en tu UI
+            no obtiene acceso a <code>fs</code> ni a procesos del SO.</div>
+        </section>
+      </div>
+
+      <!-- ===== 06 MENÚS & TRAY ===== -->
+      <div class="sheet-sec" id="s6" style="--seg:var(--s6)">
+        <div class="sec-head"><span class="sec-tab">06</span>
+          <h2>Menús, atajos &amp; Tray</h2>
+          <span class="rng">I</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Menú de aplicación</h3><span class="lvl i">I</span></div>
+          <p class="note">Construye desde una plantilla. Los
+            <code>role</code> dan comportamiento nativo gratis
+            (copiar, recargar, salir).</p>
+          <figure class="code" data-copy="const { Menu } = require('electron')
+
+const template = [
+  { role: 'fileMenu' },
+  {
+    label: 'Ver',
+    submenu: [
+      { role: 'reload' },
+      { role: 'toggleDevTools' },
+      { type: 'separator' },
+      {
+        label: 'Acerca de',
+        accelerator: 'CmdOrCtrl+I',
+        click: () => showAbout()
+      }
+    ]
+  }
+]
+
+Menu.setApplicationMenu(
+  Menu.buildFromTemplate(template))">
+            <figcaption><span class="dot"></span>menú + acelerador</figcaption>
+<pre><span class="k">const</span> { Menu } = <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+<span class="k">const</span> template = [
+  { role: <span class="s">'fileMenu'</span> },
+  {
+    label: <span class="s">'Ver'</span>,
+    submenu: [
+      { role: <span class="s">'reload'</span> },
+      { role: <span class="s">'toggleDevTools'</span> },
+      { type: <span class="s">'separator'</span> },
+      {
+        label: <span class="s">'Acerca de'</span>,
+        accelerator: <span class="s">'CmdOrCtrl+I'</span>,
+        click: () => <span class="fn">showAbout</span>()
+      }
+    ]
+  }
+]
+
+Menu.<span class="fn">setApplicationMenu</span>(
+  Menu.<span class="fn">buildFromTemplate</span>(template))</pre>
+          </figure>
+          <div class="why"><b>CmdOrCtrl</b> mapea ⌘ en macOS y Ctrl en el
+            resto: un acelerador, dos plataformas.</div>
+        </section>
+
+        <section class="block" id="menu-ctx">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Menú contextual &amp; atajo global</h3><span class="lvl a">A</span></div>
+          <div class="cols">
+            <figure class="code tile" data-copy="const ctx =
+  Menu.buildFromTemplate([
+    { role: 'copy' },
+    { role: 'paste' }
+  ])
+win.webContents.on(
+  'context-menu',
+  () => ctx.popup())">
+              <figcaption><span class="dot"></span>clic derecho</figcaption>
+<pre class="tile-b"><span class="k">const</span> ctx =
+  Menu.<span class="fn">buildFromTemplate</span>([
+    { role: <span class="s">'copy'</span> },
+    { role: <span class="s">'paste'</span> }
+  ])
+win.webContents.<span class="fn">on</span>(
+  <span class="s">'context-menu'</span>,
+  () => ctx.<span class="fn">popup</span>())</pre>
+            </figure>
+            <figure class="code tile" data-copy="const { globalShortcut } =
+  require('electron')
+
+app.whenReady().then(() => {
+  globalShortcut.register(
+    'CmdOrCtrl+Shift+K',
+    () => toggleWin())
+})">
+              <figcaption><span class="dot"></span>atajo global</figcaption>
+<pre class="tile-b"><span class="k">const</span> { globalShortcut } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+app.<span class="fn">whenReady</span>().<span class="fn">then</span>(() => {
+  globalShortcut.<span class="fn">register</span>(
+    <span class="s">'CmdOrCtrl+Shift+K'</span>,
+    () => <span class="fn">toggleWin</span>())
+})</pre>
+            </figure>
+          </div>
+          <div class="why"><b>Global vs acelerador de menú:</b> el global
+            funciona aunque la app no tenga el foco; libéralo en
+            <code>will-quit</code> con <code>unregisterAll()</code>.</div>
+        </section>
+
+        <section class="block" id="tray">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Tray (icono de bandeja)</h3><span class="lvl i">I</span></div>
+          <figure class="code" data-copy="const { Tray, Menu } =
+  require('electron')
+
+let tray  // mantén la referencia
+app.whenReady().then(() => {
+  tray = new Tray('icon.png')
+  tray.setToolTip('MiApp')
+  tray.setContextMenu(
+    Menu.buildFromTemplate([
+      { label: 'Abrir', click: show },
+      { role: 'quit' }
+    ]))
+})">
+            <figcaption><span class="dot"></span>Tray + menú</figcaption>
+<pre><span class="k">const</span> { Tray, Menu } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+<span class="k">let</span> tray  <span class="c">// mantén la referencia</span>
+app.<span class="fn">whenReady</span>().<span class="fn">then</span>(() => {
+  tray = <span class="k">new</span> <span class="fn">Tray</span>(<span class="s">'icon.png'</span>)
+  tray.<span class="fn">setToolTip</span>(<span class="s">'MiApp'</span>)
+  tray.<span class="fn">setContextMenu</span>(
+    Menu.<span class="fn">buildFromTemplate</span>([
+      { label: <span class="s">'Abrir'</span>, click: show },
+      { role: <span class="s">'quit'</span> }
+    ]))
+})</pre>
+          </figure>
+          <div class="why"><b>Ojo:</b> guarda <code>tray</code> en una
+            variable de módulo; si lo recoge el GC, el icono desaparece.</div>
+        </section>
+      </div>
+
+      <!-- ===== 07 DIÁLOGOS & FS ===== -->
+      <div class="sheet-sec" id="s7" style="--seg:var(--s7)">
+        <div class="sec-head"><span class="sec-tab">07</span>
+          <h2>Diálogos &amp; sistema de archivos</h2>
+          <span class="rng">B → I</span></div>
+
+        <section class="block">
+          <div class="tile-h"><span class="td"></span>
+            <h3>dialog (abrir / guardar / avisar)</h3><span class="lvl b">B</span></div>
+          <p class="note"><code>dialog</code> vive en el <b>main</b>.
+            Llámalo desde un <code>ipcMain.handle</code>.</p>
+          <figure class="code" data-copy="const { canceled, filePaths } =
+  await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'Imágenes',
+        extensions: ['jpg', 'png'] }
+    ]
+  })">
+            <figcaption><span class="dot"></span>abrir archivo</figcaption>
+<pre><span class="k">const</span> { canceled, filePaths } =
+  <span class="k">await</span> dialog.<span class="fn">showOpenDialog</span>({
+    properties: [<span class="s">'openFile'</span>],
+    filters: [
+      { name: <span class="s">'Imágenes'</span>,
+        extensions: [<span class="s">'jpg'</span>, <span class="s">'png'</span>] }
+    ]
+  })</pre>
+          </figure>
+          <div class="cols">
+            <figure class="code tile" data-copy="const { filePath } =
+  await dialog
+    .showSaveDialog({
+      defaultPath: 'nota.txt'
+    })">
+              <figcaption><span class="dot"></span>guardar</figcaption>
+<pre class="tile-b"><span class="k">const</span> { filePath } =
+  <span class="k">await</span> dialog
+    .<span class="fn">showSaveDialog</span>({
+      defaultPath: <span class="s">'nota.txt'</span>
+    })</pre>
+            </figure>
+            <figure class="code tile" data-copy="dialog.showMessageBox({
+  type: 'question',
+  buttons: ['Sí', 'No'],
+  message: '¿Borrar?'
+})">
+              <figcaption><span class="dot"></span>preguntar</figcaption>
+<pre class="tile-b">dialog.<span class="fn">showMessageBox</span>({
+  type: <span class="s">'question'</span>,
+  buttons: [<span class="s">'Sí'</span>, <span class="s">'No'</span>],
+  message: <span class="s">'¿Borrar?'</span>
+})</pre>
+            </figure>
+          </div>
+        </section>
+
+        <section class="block" id="fs-shell">
+          <div class="tile-h"><span class="td"></span>
+            <h3>shell &amp; lectura de archivos</h3><span class="lvl i">I</span></div>
+          <div class="cols">
+            <figure class="code tile" data-copy="const { shell } =
+  require('electron')
+
+shell.openExternal(url)
+shell.openPath(ruta)
+shell.showItemInFolder(ruta)
+shell.trashItem(ruta)">
+              <figcaption><span class="dot"></span>shell</figcaption>
+<pre class="tile-b"><span class="k">const</span> { shell } =
+  <span class="fn">require</span>(<span class="s">'electron'</span>)
+
+shell.<span class="fn">openExternal</span>(url)
+shell.<span class="fn">openPath</span>(ruta)
+shell.<span class="fn">showItemInFolder</span>(ruta)
+shell.<span class="fn">trashItem</span>(ruta)</pre>
+            </figure>
+            <figure class="code tile" data-copy="const fs =
+  require('fs/promises')
+
+ipcMain.handle('file:read',
+  (e, ruta) =>
+    fs.readFile(ruta, 'utf-8'))">
+              <figcaption><span class="dot"></span>leer (en main)</figcaption>
+<pre class="tile-b"><span class="k">const</span> fs =
+  <span class="fn">require</span>(<span class="s">'fs/promises'</span>)
+
+ipcMain.<span class="fn">handle</span>(<span class="s">'file:read'</span>,
+  (e, ruta) =>
+    fs.<span class="fn">readFile</span>(ruta, <span class="s">'utf-8'</span>))</pre>
+            </figure>
+          </div>
+          <div class="why"><b>Seguridad:</b> nunca uses <code>fs</code> en
+            el renderer. Léelo en el main tras validar la ruta, y devuelve
+            solo lo necesario por IPC.</div>
+        </section>
+
+        <section class="block" id="notif">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Notificaciones nativas</h3><span class="lvl b">B</span></div>
+          <figure class="code" data-copy="new Notification({
+  title: 'Listo',
+  body: 'Imagen optimizada'
+}).show()">
+            <figcaption><span class="dot"></span>Notification</figcaption>
+<pre><span class="k">new</span> <span class="fn">Notification</span>({
+  title: <span class="s">'Listo'</span>,
+  body: <span class="s">'Imagen optimizada'</span>
+}).<span class="fn">show</span>()</pre>
+          </figure>
+          <div class="why"><b>Cuándo:</b> avisa al terminar tareas largas.
+            En Windows fija un <code>appUserModelId</code> para que el icono
+            y el nombre salgan correctos.</div>
+        </section>
+      </div>
+
+      <!-- ===== 08 BUILD & SEGURIDAD ===== -->
+      <div class="sheet-sec" id="s8" style="--seg:var(--s8)">
+        <div class="sec-head"><span class="sec-tab">08</span>
+          <h2>Empaquetado, auto-update &amp; seguridad</h2>
+          <span class="rng">A · producción</span></div>
+
+        <section class="block" id="empaquetado">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Empaquetar con electron-builder</h3><span class="lvl a">A</span></div>
+          <p class="note">Genera instaladores por plataforma desde un
+            bloque <code>build</code> en <code>package.json</code>.</p>
+          <figure class="code" data-copy='"scripts": {
+  "dist": "electron-builder"
+},
+"build": {
+  "appId": "com.tu.app",
+  "mac": { "target": "dmg" },
+  "win": { "target": "nsis" },
+  "linux": { "target": "AppImage" }
+}'>
+            <figcaption><span class="dot"></span>package.json · build</figcaption>
+<pre><span class="pr">"scripts"</span>: {
+  <span class="pr">"dist"</span>: <span class="s">"electron-builder"</span>
+},
+<span class="pr">"build"</span>: {
+  <span class="pr">"appId"</span>: <span class="s">"com.tu.app"</span>,
+  <span class="pr">"mac"</span>: { <span class="pr">"target"</span>: <span class="s">"dmg"</span> },
+  <span class="pr">"win"</span>: { <span class="pr">"target"</span>: <span class="s">"nsis"</span> },
+  <span class="pr">"linux"</span>: { <span class="pr">"target"</span>: <span class="s">"AppImage"</span> }
+}</pre>
+          </figure>
+          <div class="why"><b>builder vs Forge:</b> <code>electron-builder</code>
+            es config declarativa + auto-update fácil;
+            <code>electron-forge</code> integra empaquetado y plugins en un
+            CLI oficial (<code>npm run make</code>). Elige uno.</div>
+        </section>
+
+        <section class="block" id="update">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Auto-update</h3><span class="lvl a">A</span></div>
+          <figure class="code" data-copy="const { autoUpdater } =
+  require('electron-updater')
+
+app.whenReady().then(() => {
+  autoUpdater
+    .checkForUpdatesAndNotify()
+})">
+            <figcaption><span class="dot"></span>electron-updater</figcaption>
+<pre><span class="k">const</span> { autoUpdater } =
+  <span class="fn">require</span>(<span class="s">'electron-updater'</span>)
+
+app.<span class="fn">whenReady</span>().<span class="fn">then</span>(() => {
+  autoUpdater
+    .<span class="fn">checkForUpdatesAndNotify</span>()
+})</pre>
+          </figure>
+          <div class="why"><b>Cómo:</b> publica releases (p. ej. en
+            GitHub); el updater compara versiones, descarga en segundo plano
+            e instala al reiniciar. Requiere apps <b>firmadas</b> para
+            funcionar sin avisos del SO.</div>
+        </section>
+
+        <section class="block" id="seg">
+          <div class="tile-h"><span class="td"></span>
+            <h3>Checklist de seguridad</h3><span class="lvl a">A</span></div>
+          <ul class="tips">
+            <li><b>contextIsolation: true</b> y
+              <b>nodeIntegration: false</b> (los defaults).</li>
+            <li>Activa <b>sandbox</b> en el renderer.</li>
+            <li>Expón una <b>API mínima</b> por contextBridge; nunca
+              <code>ipcRenderer</code> entero.</li>
+            <li><b>Valida</b> cada canal y argumento en el main; no confíes
+              en el renderer.</li>
+            <li>Carga solo contenido <b>de confianza</b>; usa HTTPS.</li>
+            <li>Limita la navegación: bloquea
+              <code>will-navigate</code> y <code>window-open</code>
+              a destinos no permitidos.</li>
+            <li>Define una <b>Content-Security-Policy</b>.</li>
+            <li>Mantén <b>Electron al día</b>: parchea Chromium/Node.</li>
+            <li>Abre enlaces externos con
+              <code>shell.openExternal</code>, no en una BrowserWindow.</li>
+          </ul>
+          <div class="why"><b>Regla mental:</b> trata tu propio renderer
+            como si fuera código no confiable. Toda la potencia vive en el
+            main, detrás de canales acotados.</div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    Hoja de referencia de <b>Electron</b> · construida desde tres cursos
+    (Electron From Scratch · Electron Masterclass · Master Electron) +
+    buenas prácticas oficiales de seguridad.
+    <div class="mono">main ⇄ renderer · preload · IPC · BrowserWindow ·
+      Tray · dialog · electron-builder — clic para copiar</div>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg;
+    toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){
+        await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  // scrollspy
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1);
+    var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+
+  // IPC swap
+  var notes={
+    inv:'<b>invoke/handle:</b> dos vías con valor de retorno (async). '+
+        'Úsalo siempre que necesites una respuesta.',
+    snd:'<b>send/on:</b> una vía, sin respuesta. Para eventos sueltos '+
+        'como logs o "comando ejecutado".'
+  };
+  var btns=document.querySelectorAll('.swbtn');
+  if(btns.length){
+    btns.forEach(function(b){ b.addEventListener('click',function(){
+      var k=b.getAttribute('data-view');
+      btns.forEach(function(x){var on=(x===b);x.classList.toggle('on',on);
+        x.setAttribute('aria-selected',on?'true':'false');});
+      document.querySelectorAll('.swview').forEach(function(v){
+        v.classList.toggle('hidden', v.id!=='view-'+k); });
+      var note=document.getElementById('swapnote');
+      if(note&&notes[k])note.innerHTML=notes[k];
+    });});
+  }
+})();
+</script>
+</body></html>

@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GD&amp;T · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9EAE3;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F4F5EF;
+  --rail:#F1F2EB;
+  --code-bg:#FBFBF7;
+  --line:#E0E1D6;
+  --line-soft:#ECEDE4;
+  --ink:#23241C;
+  --ink-soft:#54564A;
+  --ink-faint:#8A8C7C;
+  /* GD&T olive */
+  --gdt:#5B6E2F;
+  --gdt-deep:#44531F;
+  --gdt-tint:rgba(91,110,47,.14);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#2B6FD6;
+  --s2:#0E8A8A;
+  --s3:#B0840A;
+  --s4:#8E4EC6;
+  --s5:#C0398C;
+  --s6:#C0392B;
+  --s7:#5B6E2F;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* mono tokens (used in formula cards) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#8C8E7E;
+  --t-op:#54564A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(var(--line) .5px,transparent .5px);
+  background-size:24px 24px;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--gdt);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (plano de ingeniería) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(35,36,28,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F2F3EC;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--gdt),#7C9244);color:#fff;font-size:13px;flex:none}
+.logo svg{width:15px;height:15px;stroke:#fff;stroke-width:1.6;fill:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--gdt-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .scale{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:var(--gdt-deep);border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CCCEBF;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FBFBF7;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--gdt-deep);border-bottom-color:var(--gdt)}
+
+.fxbar{display:flex;align-items:stretch;background:#FBFBF7;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--gdt-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:9px;padding:10px 15px;font-family:"JetBrains Mono";font-size:14px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc .cell{border:1px solid var(--line-strong,#CFD0C2);padding:2px 9px;border-radius:3px;background:#fff}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gdt-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--gdt)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--gdt-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--gdt-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--gdt);background:linear-gradient(90deg,var(--gdt-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 25%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative}
+.rail .ri.on{color:var(--gdt-deep);background:var(--gdt-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--gdt)}
+.rail .ri svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(35,36,28,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(35,36,28,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.tile-h .gsym{flex:none;width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:grid;place-items:center;background:var(--canvas)}
+.tile-h .gsym svg{width:18px;height:18px;stroke:var(--seg);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--gdt-deep)}
+
+/* material-condition modifier glyph (guaranteed render) */
+.mod{display:inline-grid;place-items:center;width:16px;height:16px;border:1.6px solid currentColor;border-radius:50%;font-size:9.5px;font-weight:700;font-family:"JetBrains Mono";line-height:1;vertical-align:-3px;color:var(--gdt-deep)}
+.note .mod{color:var(--gdt-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(35,36,28,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--gdt);background:#F3F6EA}
+figure.code.copied .cphint{opacity:1;color:var(--gdt-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--t-op)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--gdt-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--gdt-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature: marco de control de características ===== */
+.fcf-wrap{margin:6px 0;border:1px dashed var(--gdt);border-radius:11px;padding:16px 14px 6px;background:linear-gradient(180deg,var(--gdt-tint),transparent)}
+.fcf-wrap svg{width:100%;height:auto;display:block}
+.fcf-svg .frame{fill:#fff;stroke:var(--ink);stroke-width:1.6}
+.fcf-svg .fdiv{stroke:var(--ink);stroke-width:1.6}
+.fcf-svg .ftxt{font-family:"JetBrains Mono";font-size:17px;font-weight:700;fill:var(--ink)}
+.fcf-svg .lead{stroke:var(--gdt-deep);stroke-width:1.1;stroke-dasharray:2 2}
+.fcf-svg .bal{fill:#fff;stroke:var(--gdt-deep);stroke-width:1.4}
+.fcf-svg .baltxt{font-family:"JetBrains Mono";font-size:11px;font-weight:700;fill:var(--gdt-deep);text-anchor:middle}
+.fcf-svg .gsvg{stroke:var(--ink);stroke-width:1.6;fill:none;stroke-linecap:round}
+.fcf-legend{display:grid;grid-template-columns:1fr 1fr;gap:5px 22px;margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+@media(max-width:620px){.fcf-legend{grid-template-columns:1fr}}
+.fcf-legend .lrow{display:flex;gap:9px;align-items:baseline;font-size:12.3px;color:var(--ink-soft);line-height:1.4}
+.fcf-legend .ln{flex:none;width:18px;height:18px;border-radius:50%;border:1.4px solid var(--gdt-deep);color:var(--gdt-deep);font-family:"JetBrains Mono";font-size:10px;font-weight:700;display:grid;place-items:center}
+.fcf-legend .lrow b{color:var(--ink);font-weight:600}
+
+/* ===== signature: tabla de 14 símbolos ===== */
+.symtbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.symtbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.symtbl td{padding:6px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle;color:var(--ink-soft)}
+.symtbl tr:last-child td{border-bottom:none}
+.symtbl td.nm{color:var(--ink);font-weight:600;white-space:nowrap}
+.symtbl .gcell{width:34px;text-align:center;padding:4px}
+.symtbl .gbox{width:28px;height:28px;border:1px solid var(--line);border-radius:6px;display:inline-grid;place-items:center;background:#fff}
+.symtbl .gbox svg{width:19px;height:19px;stroke:var(--c);stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.symtbl .cat{font-family:"JetBrains Mono";font-size:10px;font-weight:700;color:var(--c)}
+.symtbl .dy{color:var(--gdt-deep);font-weight:600}
+.symtbl .dn{color:var(--ink-faint)}
+
+/* ===== mini tolerance-zone diagram ===== */
+.zone{margin:8px 0;border:1px solid var(--line);border-radius:9px;background:var(--code-bg);padding:8px}
+.zone svg{width:100%;height:auto;display:block}
+.zone .zt{font-family:"JetBrains Mono";font-size:10px;fill:var(--ink-soft)}
+.zone .zsurf{stroke:var(--ink);stroke-width:1.8;fill:none}
+.zone .zband{fill:var(--seg);opacity:.16}
+.zone .zline{stroke:var(--seg);stroke-width:1.2;stroke-dasharray:4 3}
+.zone .zdatum{stroke:var(--ink);stroke-width:2.4}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#23241C;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(35,36,28,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span>
+      <span class="fname"><b>GD&amp;T</b> · plano.gdt</span>
+      <span class="grow"></span>
+      <span class="scale">ASME Y14.5 · mm</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Marco</span>
+      <span class="vt">Forma</span>
+      <span class="vt">Orientación</span>
+      <span class="vt">Ubicación</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">⌖</span>
+      <span class="fxc"><span class="cell">⌖</span><span class="cell">⌀0.1 <span class="mod" style="color:var(--ink)">M</span></span><span class="cell">A</span><span class="cell">B</span><span class="cell">C</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del símbolo al ajuste</div>
+      <h1>GD&amp;T, de la <em>forma</em><br>a la <em>función</em>.</h1>
+      <p class="lede">Acotación y tolerancias geométricas (<b>ASME Y14.5</b>) en una página: los <b>14 controles geométricos</b> por categoría, los <b>datums</b> y el marco de referencia (DRF), el <b>marco de control de características</b> leído pieza por pieza, las condiciones de material <b>MMC <span class="mod">M</span> / LMC <span class="mod">L</span> / RFS</b> con su <i>tolerancia adicional</i>, las <b>zonas de tolerancia</b>, el principio de <b>Taylor / envolvente</b> y el cálculo de <b>ajustes</b> (holgura / interferencia). Cada bloque con su símbolo real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier fórmula para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"Tolerance is the language of fit and function."</p>
+        <cite>— práctica de manufactura</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Marco</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Forma</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Perfil</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Orientación</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Ubicación</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Cabeceo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Modificadores</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Ajustes</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Marco</span><span class="sd">datums · FCF</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Forma</span><span class="sd">rectitud · plano</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Perfil</span><span class="sd">línea · superficie</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Orientación</span><span class="sd">∥ ⊥ ∠</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Ubicación</span><span class="sd">posición</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Cabeceo</span><span class="sd">circular · total</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Modificadores</span><span class="sd">MMC · bonus</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Ajustes</span><span class="sd">holgura</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="1"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.gdt</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Marco</div>
+      <a href="#g-datum" style="--seg:var(--s0)">Datums y referencias</a>
+      <a href="#g-drf" style="--seg:var(--s0)">Marco de referencia (DRF)</a>
+      <a href="#g-fcf" style="--seg:var(--s0)">Marco de control (FCF)</a>
+      <a href="#g-14" style="--seg:var(--s0)">Los 14 símbolos</a>
+      <a href="#g-leer" style="--seg:var(--s0)">Cómo se lee un FCF</a>
+      <a href="#g-aux" style="--seg:var(--s0)">Símbolos auxiliares</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Forma</div>
+      <a href="#g-rect" style="--seg:var(--s1)">Rectitud</a>
+      <a href="#g-plan" style="--seg:var(--s1)">Planitud</a>
+      <a href="#g-circ" style="--seg:var(--s1)">Redondez (circularidad)</a>
+      <a href="#g-cil" style="--seg:var(--s1)">Cilindricidad</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Perfil</div>
+      <a href="#g-pline" style="--seg:var(--s2)">Perfil de línea</a>
+      <a href="#g-psurf" style="--seg:var(--s2)">Perfil de superficie</a>
+      <a href="#g-pzona" style="--seg:var(--s2)">Zonas de perfil</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Orientación</div>
+      <a href="#g-par" style="--seg:var(--s3)">Paralelismo</a>
+      <a href="#g-perp" style="--seg:var(--s3)">Perpendicularidad</a>
+      <a href="#g-ang" style="--seg:var(--s3)">Angularidad</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Ubicación</div>
+      <a href="#g-pos" style="--seg:var(--s4)">Posición</a>
+      <a href="#g-conc" style="--seg:var(--s4)">Concentricidad</a>
+      <a href="#g-sim" style="--seg:var(--s4)">Simetría</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Cabeceo</div>
+      <a href="#g-runc" style="--seg:var(--s5)">Cabeceo circular</a>
+      <a href="#g-runt" style="--seg:var(--s5)">Cabeceo total</a>
+      <a href="#g-runm" style="--seg:var(--s5)">Cómo se mide</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Modificadores</div>
+      <a href="#g-mmc" style="--seg:var(--s6)">MMC / LMC / RFS</a>
+      <a href="#g-bonus" style="--seg:var(--s6)">Tolerancia adicional</a>
+      <a href="#g-zona" style="--seg:var(--s6)">Zonas de tolerancia</a>
+      <a href="#g-taylor" style="--seg:var(--s6)">Taylor / envolvente</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Ajustes</div>
+      <a href="#g-fit" style="--seg:var(--s7)">Tipos de ajuste</a>
+      <a href="#g-calc" style="--seg:var(--s7)">Cálculo de holgura</a>
+      <a href="#g-ej" style="--seg:var(--s7)">Ejemplo numérico</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Marco</a><a href="#e1">01 Forma</a><a href="#e2">02 Perfil</a><a href="#e3">03 Orient.</a>
+        <a href="#e4">04 Ubic.</a><a href="#e5">05 Cabeceo</a><a href="#e6">06 Modif.</a><a href="#e7">07 Ajustes</a>
+      </div>
+
+      <!-- ===== 00 MARCO ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Marco de referencia</h2><span class="meta">datums · DRF<br>el FCF</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-datum">
+            <div class="tile-h"><span class="td"></span><h3>Datums y referencias</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>datum</b> es el origen teóricamente perfecto (plano, eje o punto) desde el que se mide. La <b>característica de datum</b> es la superficie real de la pieza; el <b>datum simulado</b> es el patrón perfecto que la palpa (mármol, calibre, husillo).</p>
+              <table class="tbl">
+                <tr><th>Término</th><th>Qué es</th></tr>
+                <tr><td class="k">Datum</td><td>plano/eje/punto perfecto teórico</td></tr>
+                <tr><td class="k">Carac. de datum</td><td>la cara real etiquetada <code>A</code></td></tr>
+                <tr><td class="k">Datum simulado</td><td>el equipo que la materializa</td></tr>
+                <tr><td class="k">Marco datum</td><td>la etiqueta cuadrada con la letra</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Convención</span>Letras <code>A B C…</code> sin usar <code>I O Q</code> (se confunden con números). El orden A→B→C marca la jerarquía, no el alfabeto.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-drf">
+            <div class="tile-h"><span class="td"></span><h3>Marco de referencia (DRF)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>DRF</b> (Datum Reference Frame) inmoviliza la pieza con la regla <b>3-2-1</b>: el datum <b>primario</b> da 3 puntos de apoyo, el <b>secundario</b> 2 y el <b>terciario</b> 1, restando los <b>6 grados de libertad</b> (3 traslaciones + 3 giros).</p>
+              <table class="tbl">
+                <tr><th>Datum</th><th>Apoyos</th><th>Restringe</th></tr>
+                <tr><td class="k">Primario A</td><td>3 puntos</td><td>asienta el plano</td></tr>
+                <tr><td class="k">Secundario B</td><td>2 puntos</td><td>orienta</td></tr>
+                <tr><td class="k">Terciario C</td><td>1 punto</td><td>fija el último giro</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">El orden importa</span><code>| ⌖ | ⌀0.1 | A | B | C |</code> ≠ <code>| ⌖ | ⌀0.1 | B | A | C |</code>. Cambiar el orden cambia cómo se asienta la pieza y, con ello, la medición.</div>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE: feature control frame ===== -->
+          <div class="tile span" id="g-fcf">
+            <div class="tile-h"><span class="td"></span><h3>El marco de control de características (FCF) — anatomía</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>feature control frame</b> es la "frase" del GD&amp;T tal como aparece en el plano: una caja dividida en compartimentos que se lee de izquierda a derecha. Aquí, anotado parte por parte.</p>
+              <div class="fcf-wrap">
+                <svg class="fcf-svg" viewBox="0 0 480 150" role="img" aria-label="Marco de control de características anotado">
+                  <!-- frame -->
+                  <rect class="frame" x="80" y="48" width="320" height="40"/>
+                  <line class="fdiv" x1="128" y1="48" x2="128" y2="88"/>
+                  <line class="fdiv" x1="268" y1="48" x2="268" y2="88"/>
+                  <line class="fdiv" x1="312" y1="48" x2="312" y2="88"/>
+                  <line class="fdiv" x1="356" y1="48" x2="356" y2="88"/>
+                  <!-- cell 1: position symbol (drawn) -->
+                  <g class="gsvg" transform="translate(104,68)">
+                    <circle cx="0" cy="0" r="8"/><line x1="0" y1="-12" x2="0" y2="12"/><line x1="-12" y1="0" x2="12" y2="0"/>
+                  </g>
+                  <!-- cell 2: tolerance -->
+                  <text class="ftxt" x="140" y="74">⌀0.1</text>
+                  <!-- M modifier circle -->
+                  <g transform="translate(232,68)">
+                    <circle class="gsvg" cx="0" cy="0" r="11"/>
+                    <text class="ftxt" x="0" y="6" text-anchor="middle" font-size="14">M</text>
+                  </g>
+                  <!-- datums -->
+                  <text class="ftxt" x="290" y="74" text-anchor="middle">A</text>
+                  <text class="ftxt" x="334" y="74" text-anchor="middle">B</text>
+                  <text class="ftxt" x="378" y="74" text-anchor="middle">C</text>
+                  <!-- balloons top -->
+                  <line class="lead" x1="104" y1="34" x2="104" y2="48"/>
+                  <circle class="bal" cx="104" cy="24" r="10"/><text class="baltxt" x="104" y="28">1</text>
+                  <line class="lead" x1="150" y1="34" x2="140" y2="48"/>
+                  <circle class="bal" cx="150" cy="24" r="10"/><text class="baltxt" x="150" y="28">2</text>
+                  <line class="lead" x1="198" y1="34" x2="190" y2="48"/>
+                  <circle class="bal" cx="198" cy="24" r="10"/><text class="baltxt" x="198" y="28">3</text>
+                  <line class="lead" x1="246" y1="34" x2="232" y2="55"/>
+                  <circle class="bal" cx="246" cy="24" r="10"/><text class="baltxt" x="246" y="28">4</text>
+                  <!-- balloons bottom -->
+                  <line class="lead" x1="290" y1="88" x2="290" y2="102"/>
+                  <circle class="bal" cx="290" cy="112" r="10"/><text class="baltxt" x="290" y="116">5</text>
+                  <line class="lead" x1="334" y1="88" x2="334" y2="102"/>
+                  <circle class="bal" cx="334" cy="112" r="10"/><text class="baltxt" x="334" y="116">6</text>
+                  <line class="lead" x1="378" y1="88" x2="378" y2="102"/>
+                  <circle class="bal" cx="378" cy="112" r="10"/><text class="baltxt" x="378" y="116">7</text>
+                </svg>
+                <div class="fcf-legend">
+                  <div class="lrow"><span class="ln">1</span><span><b>Símbolo geométrico</b> — el control (aquí, <b>posición</b> ⌖).</span></div>
+                  <div class="lrow"><span class="ln">2</span><span><b>Símbolo de zona</b> — <code>⌀</code> = zona cilíndrica (diametral); sin él, la zona es entre planos.</span></div>
+                  <div class="lrow"><span class="ln">3</span><span><b>Valor de tolerancia</b> — el ancho/diámetro de la zona (0.1 mm).</span></div>
+                  <div class="lrow"><span class="ln">4</span><span><b>Modificador de material</b> — <span class="mod">M</span> MMC: habilita la tolerancia adicional.</span></div>
+                  <div class="lrow"><span class="ln">5</span><span><b>Datum primario A</b> — asienta la pieza (3 puntos).</span></div>
+                  <div class="lrow"><span class="ln">6</span><span><b>Datum secundario B</b> — la orienta (2 puntos).</span></div>
+                  <div class="lrow"><span class="ln">7</span><span><b>Datum terciario C</b> — fija el último grado (1 punto).</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE: tabla de los 14 símbolos ===== -->
+          <div class="tile span" id="g-14">
+            <div class="tile-h"><span class="td"></span><h3>Los 14 símbolos geométricos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Las cinco categorías de control. <b>Forma</b> y <b>perfil sin datum</b> no necesitan referencia; <b>orientación, ubicación y cabeceo</b> siempre llevan al menos un datum.</p>
+              <table class="symtbl">
+                <tr><th class="gcell">Símb.</th><th>Control</th><th>Categoría</th><th>Datum</th></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s1)"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg></span></td><td class="nm">Rectitud</td><td><span class="cat" style="--c:var(--s1)">Forma</span></td><td class="dn">no</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s1)"><svg viewBox="0 0 24 24"><path d="M7 16.5 L11 7.5 L21 7.5 L17 16.5 Z"/></svg></span></td><td class="nm">Planitud</td><td><span class="cat" style="--c:var(--s1)">Forma</span></td><td class="dn">no</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s1)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg></span></td><td class="nm">Circularidad</td><td><span class="cat" style="--c:var(--s1)">Forma</span></td><td class="dn">no</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s1)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5"/><line x1="4" y1="18" x2="9" y2="6"/><line x1="15" y1="18" x2="20" y2="6"/></svg></span></td><td class="nm">Cilindricidad</td><td><span class="cat" style="--c:var(--s1)">Forma</span></td><td class="dn">no</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s2)"><svg viewBox="0 0 24 24"><path d="M3 16 A 10 10 0 0 1 21 16"/></svg></span></td><td class="nm">Perfil de línea</td><td><span class="cat" style="--c:var(--s2)">Perfil</span></td><td class="dn">opc.</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s2)"><svg viewBox="0 0 24 24"><path d="M3 16 A 10 10 0 0 1 21 16"/><line x1="3" y1="16" x2="21" y2="16"/></svg></span></td><td class="nm">Perfil de superficie</td><td><span class="cat" style="--c:var(--s2)">Perfil</span></td><td class="dn">opc.</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s3)"><svg viewBox="0 0 24 24"><line x1="6" y1="18" x2="14" y2="6"/><line x1="11" y1="18" x2="19" y2="6"/></svg></span></td><td class="nm">Paralelismo</td><td><span class="cat" style="--c:var(--s3)">Orientación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s3)"><svg viewBox="0 0 24 24"><path d="M9 4 V19 M5 19 H20"/></svg></span></td><td class="nm">Perpendicularidad</td><td><span class="cat" style="--c:var(--s3)">Orientación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s3)"><svg viewBox="0 0 24 24"><path d="M5 19 H20 M5 19 L17 6"/></svg></span></td><td class="nm">Angularidad</td><td><span class="cat" style="--c:var(--s3)">Orientación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s4)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span></td><td class="nm">Posición</td><td><span class="cat" style="--c:var(--s4)">Ubicación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s4)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg></span></td><td class="nm">Concentricidad</td><td><span class="cat" style="--c:var(--s4)">Ubicación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s4)"><svg viewBox="0 0 24 24"><path d="M12 3 V21 M6 8.5 H18 M6 15.5 H18"/></svg></span></td><td class="nm">Simetría</td><td><span class="cat" style="--c:var(--s4)">Ubicación</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s5)"><svg viewBox="0 0 24 24"><path d="M6 18 L17 7"/><path d="M17 7 L11 7 M17 7 L17 13"/></svg></span></td><td class="nm">Cabeceo circular</td><td><span class="cat" style="--c:var(--s5)">Cabeceo</span></td><td class="dy">sí</td></tr>
+                <tr><td class="gcell"><span class="gbox" style="--c:var(--s5)"><svg viewBox="0 0 24 24"><path d="M4 18 L12 10"/><path d="M12 10 L7.5 10 M12 10 L12 14.5"/><path d="M10 18 L18 10"/><path d="M18 10 L13.5 10 M18 10 L18 14.5"/></svg></span></td><td class="nm">Cabeceo total</td><td><span class="cat" style="--c:var(--s5)">Cabeceo</span></td><td class="dy">sí</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="g-leer">
+            <div class="tile-h"><span class="td"></span><h3>Cómo se lee un FCF</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Se lee como una frase, de izquierda a derecha:</p>
+              <div class="tip"><span class="lab">Plantilla</span>"La <b>{característica}</b> debe estar dentro de una zona <b>{símbolo de zona}{tolerancia}</b> en condición <b>{modificador}</b>, respecto a los datums <b>{A, B, C}</b>."</div>
+              <p class="note" style="margin-top:11px"><code>⌖ ⌀0.1 <span class="mod">M</span> A B C</code> → "el eje debe quedar dentro de un cilindro de 0.1 de diámetro en MMC, respecto a A (primario), B y C".</p>
+              <div class="tip warn"><span class="lab">Sin ⌀</span>Sin el símbolo de diámetro, la zona es <b>entre dos planos paralelos</b> separados el valor de tolerancia, no un cilindro.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-aux">
+            <div class="tile-h"><span class="td"></span><h3>Símbolos auxiliares</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Símbolo</th><th>Significado</th></tr>
+                <tr><td class="fn">⌀</td><td>diámetro / zona cilíndrica</td></tr>
+                <tr><td class="fn">R</td><td>radio</td></tr>
+                <tr><td class="fn">SR</td><td>radio esférico</td></tr>
+                <tr><td class="fn"><span class="mod" style="color:var(--gdt-deep)">M</span></td><td>MMC — máximo material</td></tr>
+                <tr><td class="fn"><span class="mod" style="color:var(--gdt-deep)">L</span></td><td>LMC — mínimo material</td></tr>
+                <tr><td class="fn"><span class="mod" style="color:var(--gdt-deep)">P</span></td><td>zona de tolerancia proyectada</td></tr>
+                <tr><td class="fn">[50]</td><td>cota básica (teórica exacta)</td></tr>
+                <tr><td class="fn">CZ</td><td>zona común (combined zone)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Cota básica</span>Va en recuadro: define la geometría ideal. No tiene tolerancia propia; la controla el FCF.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 FORMA ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Tolerancias de forma</h2><span class="meta">sin datum<br>la pieza vs sí misma</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-rect">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/></svg></span><h3>Rectitud</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Controla cuánto se desvía una <b>línea</b> (un borde o el eje) de una recta perfecta. Zona: entre <b>dos rectas paralelas</b> (o un cilindro si se aplica al eje con <code>⌀</code>).</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de rectitud">
+                  <rect class="zband" x="20" y="28" width="200" height="14"/>
+                  <line class="zline" x1="20" y1="28" x2="220" y2="28"/>
+                  <line class="zline" x1="20" y1="42" x2="220" y2="42"/>
+                  <path class="zsurf" d="M20 38 Q70 30 120 37 T220 33"/>
+                  <text class="zt" x="20" y="58">eje real dentro de la franja t</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Ejes que deben deslizar/girar sin pandeo. Con <code>⌀ <span class="mod">M</span></code> en el eje admite tolerancia adicional.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-plan">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M7 16.5 L11 7.5 L21 7.5 L17 16.5 Z"/></svg></span><h3>Planitud</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Controla cuánto se aparta una <b>superficie</b> de un plano perfecto. Zona: el espacio entre <b>dos planos paralelos</b> separados la tolerancia <code>t</code>. Sin datum: la cara contra sí misma.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de planitud">
+                  <rect class="zband" x="20" y="26" width="200" height="18"/>
+                  <line class="zline" x1="20" y1="26" x2="220" y2="26"/>
+                  <line class="zline" x1="20" y1="44" x2="220" y2="44"/>
+                  <path class="zsurf" d="M20 40 Q60 27 110 36 T220 32"/>
+                  <text class="zt" x="20" y="60">superficie real entre dos planos</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Caras de junta, asientos, bases de máquina. Se mide con comparador sobre mármol o por palpado de área.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-circ">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg></span><h3>Redondez (circularidad)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">En cada <b>sección transversal</b>, cuánto se aleja el contorno de un círculo perfecto. Zona: entre <b>dos círculos concéntricos</b> separados <code>t</code>. Es 2D, sección a sección.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de circularidad">
+                  <circle class="zline" cx="120" cy="35" r="26"/>
+                  <circle class="zline" cx="120" cy="35" r="19"/>
+                  <path class="zsurf" d="M120 13 a22 22 0 1 0 .1 0" transform="rotate(8 120 35)"/>
+                  <text class="zt" x="14" y="62">entre dos círculos concéntricos</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Cojinetes, sellos, asientos de O-ring. No controla el diámetro, solo la "redondez" de cada corte.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-cil">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5"/><line x1="4" y1="18" x2="9" y2="6"/><line x1="15" y1="18" x2="20" y2="6"/></svg></span><h3>Cilindricidad</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La versión <b>3D</b> de la redondez: cuánto se aparta toda la <b>superficie cilíndrica</b> de un cilindro perfecto. Zona: entre <b>dos cilindros coaxiales</b> separados <code>t</code>. Engloba redondez + rectitud + conicidad.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de cilindricidad">
+                  <rect class="zline" x="40" y="18" width="160" height="34" rx="2" fill="none"/>
+                  <rect class="zband" x="46" y="24" width="148" height="22"/>
+                  <path class="zsurf" d="M50 28 Q120 22 190 30 M50 42 Q120 48 190 40"/>
+                  <text class="zt" x="40" y="64">entre dos cilindros coaxiales</text>
+                </svg>
+              </div>
+              <div class="tip warn"><span class="lab">Coste</span>La más exigente de forma: medirla bien requiere CMM o redondímetro. Úsala solo donde de verdad importe.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 PERFIL ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Tolerancias de perfil</h2><span class="meta">contornos<br>y superficies libres</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-pline">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M3 16 A 10 10 0 0 1 21 16"/></svg></span><h3>Perfil de línea</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Controla un <b>contorno 2D</b> (corte) frente a su perfil ideal definido por cotas básicas. Zona: una franja de ancho <code>t</code> que <b>sigue la forma</b>, comprobada sección a sección.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de perfil de línea">
+                  <path class="zline" d="M20 50 Q120 8 220 50" fill="none"/>
+                  <path class="zline" d="M20 60 Q120 18 220 60" fill="none"/>
+                  <path class="zsurf" d="M20 55 Q120 13 220 55" fill="none"/>
+                  <text class="zt" x="20" y="68">franja que sigue el contorno</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Levas, álabes, secciones de carrocería donde cada corte cuenta más que el sólido entero.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-psurf">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M3 16 A 10 10 0 0 1 21 16"/><line x1="3" y1="16" x2="21" y2="16"/></svg></span><h3>Perfil de superficie</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El control <b>más versátil</b>: la superficie 3D completa frente a su forma ideal. Con datums sitúa, orienta y da forma a la vez. Puede sustituir a casi cualquier otro control de superficie.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de perfil de superficie">
+                  <path class="zline" d="M20 46 Q120 12 220 46" fill="none"/>
+                  <path class="zline" d="M20 58 Q120 24 220 58" fill="none"/>
+                  <rect class="zband" x="20" y="12" width="0" height="0"/>
+                  <path class="zsurf" d="M20 52 Q120 18 220 52" fill="none"/>
+                  <line class="zdatum" x1="14" y1="64" x2="120" y2="64"/>
+                  <text class="zt" x="128" y="68">| A (con datum)</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Todo-en-uno</span>Una sola tolerancia de perfil con datums puede definir forma + orientación + ubicación de una cara compleja.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="g-pzona">
+            <div class="tile-h"><span class="td"></span><h3>Zonas de perfil: bilateral, unilateral, desigual</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La franja de tolerancia puede repartirse de varias formas respecto al perfil teórico (la línea de cotas básicas):</p>
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Reparto</th><th>Nota</th></tr>
+                <tr><td class="k">Bilateral</td><td>t/2 a cada lado</td><td>por defecto</td></tr>
+                <tr><td class="k">Unilateral</td><td>todo hacia un lado</td><td>símbolo de zona desplazada</td></tr>
+                <tr><td class="k">Desigual (U)</td><td>reparto definido con <code>U</code></td><td><code>U</code> = unequally disposed</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué</span>Útil cuando el material solo puede sobrar (o faltar) hacia un lado, p.ej. una cara que luego se recubre o mecaniza.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 ORIENTACIÓN ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Orientación</h2><span class="meta">ángulo respecto<br>a un datum</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-par">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><line x1="6" y1="18" x2="14" y2="6"/><line x1="11" y1="18" x2="19" y2="6"/></svg></span><h3>Paralelismo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Mantiene una superficie o eje <b>paralelo</b> a un datum (0°). Zona: dos planos (o un cilindro) paralelos al datum, separados <code>t</code>. <b>No</b> controla la distancia: eso lo hace una cota.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de paralelismo">
+                  <line class="zdatum" x1="20" y1="58" x2="220" y2="58"/>
+                  <text class="zt" x="20" y="68">datum A</text>
+                  <rect class="zband" x="30" y="22" width="180" height="12"/>
+                  <line class="zline" x1="30" y1="22" x2="210" y2="22"/>
+                  <line class="zline" x1="30" y1="34" x2="210" y2="34"/>
+                  <path class="zsurf" d="M30 30 Q120 24 210 29"/>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Guías, caras que deslizan paralelas, asientos de cojinete enfrentados.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-perp">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M9 4 V19 M5 19 H20"/></svg></span><h3>Perpendicularidad</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Mantiene la característica a <b>90°</b> exactos del datum. Zona: dos planos (o un cilindro con <code>⌀</code>) perpendiculares al datum, separados <code>t</code>.</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Zona de perpendicularidad">
+                  <line class="zdatum" x1="20" y1="60" x2="220" y2="60"/>
+                  <text class="zt" x="20" y="68">datum A</text>
+                  <rect class="zband" x="108" y="8" width="20" height="48"/>
+                  <line class="zline" x1="108" y1="8" x2="108" y2="56"/>
+                  <line class="zline" x1="128" y1="8" x2="128" y2="56"/>
+                  <path class="zsurf" d="M118 10 Q112 30 120 54"/>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Postes, agujeros respecto a una cara, columnas. Con <code>⌀ <span class="mod">M</span></code> en agujeros admite tolerancia adicional.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="g-ang">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M5 19 H20 M5 19 L17 6"/></svg></span><h3>Angularidad</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Generaliza el paralelismo/perpendicularidad a <b>cualquier ángulo</b> definido por una <b>cota básica</b> (p.ej. <code>[30°]</code>). Zona: dos planos paralelos inclinados ese ángulo respecto al datum, separados <code>t</code>.</p>
+              <div class="zone">
+                <svg viewBox="0 0 380 70" role="img" aria-label="Zona de angularidad">
+                  <line class="zdatum" x1="20" y1="60" x2="360" y2="60"/>
+                  <text class="zt" x="20" y="68">datum A — ángulo básico [30°]</text>
+                  <rect class="zband" x="150" y="10" width="120" height="14" transform="rotate(-30 210 35)"/>
+                  <line class="zline" x1="150" y1="14" x2="266" y2="14" transform="rotate(-30 210 35)"/>
+                  <line class="zline" x1="150" y1="28" x2="266" y2="28" transform="rotate(-30 210 35)"/>
+                  <path class="zsurf" d="M150 21 Q208 16 266 21" transform="rotate(-30 210 35)"/>
+                </svg>
+              </div>
+              <div class="tip warn"><span class="lab">Recuerda</span>El ángulo va en <b>cota básica</b> (recuadro), nunca con tolerancia ±. La tolerancia angular real la fija el ancho <code>t</code> de la zona.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 UBICACIÓN ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Ubicación</h2><span class="meta">dónde está<br>el elemento</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="g-pos">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg></span><h3>Posición — el caballo de batalla</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El control más usado: sitúa el <b>eje/centro</b> de un elemento de tamaño (agujero, perno) respecto a datums, en una posición definida por <b>cotas básicas</b>. Zona: normalmente un <b>cilindro</b> <code>⌀t</code> centrado en la posición teórica.</p>
+              <div class="cols">
+                <div class="zone">
+                  <svg viewBox="0 0 240 90" role="img" aria-label="Zona de posición cilíndrica">
+                    <line class="zdatum" x1="14" y1="78" x2="226" y2="78"/>
+                    <line class="zdatum" x1="20" y1="14" x2="20" y2="78"/>
+                    <text class="zt" x="26" y="74">B</text><text class="zt" x="200" y="74">básicas</text>
+                    <circle class="zline" cx="140" cy="40" r="22"/>
+                    <line class="zline" x1="140" y1="14" x2="140" y2="78"/>
+                    <line class="zline" x1="100" y1="40" x2="180" y2="40"/>
+                    <circle cx="146" cy="36" r="3.2" fill="var(--seg)"/>
+                    <text class="zt" x="92" y="20">eje real</text>
+                  </svg>
+                </div>
+                <div class="tile-b" style="padding:0">
+                  <p class="note">Frente a un ±X/±Y, la zona cilíndrica de posición da <b>~57% más de área</b> útil (círculo vs cuadrado inscrito) sin perder función.</p>
+                  <div class="tip"><span class="lab">Ventaja real</span>Permite el modificador <span class="mod">M</span>: cuanto más lejos del MMC esté el agujero, <b>más tolerancia de posición</b> ganas (bonus).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-conc">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg></span><h3>Concentricidad</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>eje medio</b> de un elemento debe coincidir con el eje de un datum. Controla puntos medios diametralmente opuestos, no la superficie. Zona: cilindro <code>⌀t</code> sobre el eje del datum.</p>
+              <div class="tip warn"><span class="lab">Casi obsoleta</span>Difícil y cara de medir (requiere puntos medios). Y14.5:2018 la <b>retiró</b>: en la práctica se prefiere <b>cabeceo</b> o <b>posición</b> sobre el eje.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-sim">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M12 3 V21 M6 8.5 H18 M6 15.5 H18"/></svg></span><h3>Simetría</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El plano medio de una ranura/saliente debe coincidir con un plano de datum. Zona: dos planos paralelos a <code>t/2</code> del plano central del datum.</p>
+              <div class="tip warn"><span class="lab">También retirada</span>Igual que concentricidad, eliminada en Y14.5:2018 por su dificultad de verificación. Sustitúyela por <b>posición</b> aplicada al elemento.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 CABECEO ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Cabeceo (runout)</h2><span class="meta">la pieza gira<br>sobre su eje</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-runc">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M6 18 L17 7"/><path d="M17 7 L11 7 M17 7 L17 13"/></svg></span><h3>Cabeceo circular</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Con la pieza <b>girando</b> sobre el eje de datum, la variación total leída por un comparador en <b>una sección</b> fija. Combina redondez + coaxialidad en esa sección (FIM ≤ <code>t</code>).</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Cabeceo circular">
+                  <line class="zdatum" x1="20" y1="35" x2="220" y2="35"/>
+                  <text class="zt" x="20" y="20">eje datum A-B</text>
+                  <circle class="zline" cx="150" cy="35" r="22"/>
+                  <circle class="zsurf" cx="153" cy="33" r="18" fill="none"/>
+                  <path class="zsurf" d="M150 11 L150 5 M147 9 L150 5 L153 9"/>
+                  <text class="zt" x="14" y="64">indicador en un plano fijo</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Barato y útil</span>Se mide con un simple comparador y dos puntas. Pilla excentricidad de forma directa.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-runt">
+            <div class="tile-h"><span class="gsym"><svg viewBox="0 0 24 24"><path d="M4 18 L12 10"/><path d="M12 10 L7.5 10 M12 10 L12 14.5"/><path d="M10 18 L18 10"/><path d="M18 10 L13.5 10 M18 10 L18 14.5"/></svg></span><h3>Cabeceo total</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Igual, pero el indicador <b>recorre toda la longitud</b> mientras la pieza gira. Controla la superficie entera: redondez + cilindricidad + rectitud + coaxialidad de una vez (FIM total ≤ <code>t</code>).</p>
+              <div class="zone">
+                <svg viewBox="0 0 240 70" role="img" aria-label="Cabeceo total">
+                  <line class="zdatum" x1="20" y1="35" x2="220" y2="35"/>
+                  <rect class="zline" x="60" y="20" width="140" height="30" fill="none"/>
+                  <path class="zsurf" d="M64 23 Q130 18 196 25 M64 47 Q130 52 196 45"/>
+                  <path class="zsurf" d="M40 14 L48 14 M44 11 L48 14 L44 17"/>
+                  <text class="zt" x="14" y="64">el palpador barre toda la cara</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Ejes de precisión, asientos de rodamiento que giran a altas rpm donde toda la superficie debe correr verdadera.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="g-runm">
+            <div class="tile-h"><span class="td"></span><h3>Cómo se mide el cabeceo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El cabeceo se define por la <b>lectura total del indicador</b> (FIM = Full Indicator Movement): la diferencia entre la lectura máxima y la mínima del comparador mientras la pieza completa <b>una vuelta</b> (circular) o un barrido axial completo (total).</p>
+              <table class="tbl">
+                <tr><th>Aspecto</th><th>Circular ↗</th><th>Total</th></tr>
+                <tr><td class="k">Palpador</td><td>fijo en un plano</td><td>recorre el eje</td></tr>
+                <tr><td class="k">Controla</td><td>redondez + coaxial</td><td>+ rectitud + cilindr.</td></tr>
+                <tr><td class="k">Coste</td><td>bajo</td><td>medio</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Datum eje</span>Casi siempre se referencia a un eje formado por <b>dos datums</b> (<code>A-B</code>), p.ej. los dos apoyos del eje.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 MODIFICADORES ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Material, bonus y zonas</h2><span class="meta">MMC · LMC<br>Taylor</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-mmc">
+            <div class="tile-h"><span class="td"></span><h3>MMC <span class="mod">M</span> / LMC <span class="mod">L</span> / RFS</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>modificador de material</b> dice en qué condición de tamaño se aplica la tolerancia geométrica.</p>
+              <table class="tbl">
+                <tr><th>Cond.</th><th>Agujero</th><th>Eje</th></tr>
+                <tr><td class="k">MMC <span class="mod">M</span></td><td>⌀ mínimo</td><td>⌀ máximo</td></tr>
+                <tr><td class="k">LMC <span class="mod">L</span></td><td>⌀ máximo</td><td>⌀ mínimo</td></tr>
+                <tr><td class="k">RFS</td><td colspan="2">por defecto, sin símbolo</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla mnemo</span><b>MMC</b> = más material (la pieza "más pesada"). <b>RFS</b> = la tolerancia es fija, sin bonus, independiente del tamaño.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-bonus">
+            <div class="tile-h"><span class="td"></span><h3>Tolerancia adicional (bonus)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Con <span class="mod">M</span> o <span class="mod">L</span>, al alejarse el tamaño real del límite de material, la pieza "sobra" y esa holgura se <b>suma</b> a la tolerancia geométrica.</p>
+              <figure class="code" data-copy="Bonus    = | tamano_real - tamano_MMC |&#10;Tol_total = Tol_geometrica + Bonus&#10;&#10;# Ej. agujero MMC = 10.0, real = 10.2&#10;# pos. geom. = 0.1&#10;Bonus    = |10.2 - 10.0| = 0.2&#10;Tol_total = 0.1 + 0.2 = 0.3">
+                <figcaption><span class="lang">cálculo · bonus</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># tolerancia adicional</span>
+Bonus     <span class="t-op">=</span> | tamaño_real <span class="t-op">-</span> tamaño_MMC |
+Tol_total <span class="t-op">=</span> Tol_geom <span class="t-op">+</span> Bonus
+
+<span class="t-com"># agujero MMC=10.0, real=10.2</span>
+<span class="t-com"># posición geom = 0.1</span>
+Bonus     <span class="t-op">=</span> |<span class="t-num">10.2</span> <span class="t-op">-</span> <span class="t-num">10.0</span>| <span class="t-op">=</span> <span class="t-num">0.2</span>
+Tol_total <span class="t-op">=</span> <span class="t-num">0.1</span> <span class="t-op">+</span> <span class="t-num">0.2</span> <span class="t-op">=</span> <span class="t-num">0.3</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué importa</span>El bonus abarata: piezas que parecían fuera de tolerancia geométrica pasan si su tamaño deja holgura funcional. Verificable con calibre funcional.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-zona">
+            <div class="tile-h"><span class="td"></span><h3>Zonas de tolerancia</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>forma</b> de la zona depende del control y del símbolo de zona:</p>
+              <table class="tbl">
+                <tr><th>Zona</th><th>Cuándo</th></tr>
+                <tr><td class="k">2 planos paralelos</td><td>planitud, perpend. de cara</td></tr>
+                <tr><td class="k">Cilindro ⌀t</td><td>posición/perp. de eje con <code>⌀</code></td></tr>
+                <tr><td class="k">2 círculos conc.</td><td>circularidad</td></tr>
+                <tr><td class="k">2 cilindros coax.</td><td>cilindricidad</td></tr>
+                <tr><td class="k">Franja del perfil</td><td>perfil de línea/superficie</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Proyectada <span class="mod">P</span></span>La zona puede <b>proyectarse</b> fuera de la pieza (p.ej. la altura de un perno roscado) para controlar el montaje, no el agujero.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-taylor">
+            <div class="tile-h"><span class="td"></span><h3>Principio de Taylor / envolvente</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>Regla #1</b> (condición de envolvente): un elemento de tamaño individual debe tener <b>forma perfecta en su MMC</b>. El límite de máximo material es una <b>envolvente perfecta</b> que la pieza no puede violar.</p>
+              <div class="tip"><span class="lab">En la práctica</span>Un calibre <b>pasa</b> del tamaño MMC verifica tamaño + forma a la vez. Solo cuando el elemento se aparta del MMC puede desviarse su forma.</div>
+              <div class="tip warn"><span class="lab">Taylor (pasa / no-pasa)</span>El extremo de máximo material se comprueba con calibre <b>pasa</b> (envolvente total); el de mínimo material, punto a punto con calibre <b>no-pasa</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 AJUSTES ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Ajustes</h2><span class="meta">agujero vs eje<br>holgura · interferencia</span></div>
+
+        <div class="cols">
+          <div class="tile" id="g-fit">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de ajuste</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La relación entre el agujero y el eje que entra en él define el ajuste:</p>
+              <table class="tbl">
+                <tr><th>Ajuste</th><th>Relación</th><th>Uso</th></tr>
+                <tr><td class="k">Holgura</td><td>siempre hay juego</td><td>gira / desliza</td></tr>
+                <tr><td class="k">Transición</td><td>juego o aprieto</td><td>centrado preciso</td></tr>
+                <tr><td class="k">Interferencia</td><td>siempre aprieto</td><td>prensado, fijo</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Sistemas ISO</span>Sistema <b>agujero-base</b> (H, el más común): se fija el agujero y se varía el eje. Sistema <b>eje-base</b> (h): al revés.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="g-calc">
+            <div class="tile-h"><span class="td"></span><h3>Cálculo de holgura / interferencia</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Con los límites de cada pieza, los extremos del ajuste salen de combinar agujero y eje en sus tamaños máx/mín. Positivo = holgura; negativo = interferencia.</p>
+              <figure class="code" data-copy="Holgura_max     = Agujero_max - Eje_min&#10;Holgura_min     = Agujero_min - Eje_max&#10;&#10;# si Holgura_min < 0 -> interferencia&#10;Juego (allowance) = Agujero_min - Eje_max">
+                <figcaption><span class="lang">cálculo · ajuste</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Holgura_max <span class="t-op">=</span> Agujero_max <span class="t-op">-</span> Eje_min
+Holgura_min <span class="t-op">=</span> Agujero_min <span class="t-op">-</span> Eje_max
+
+<span class="t-com"># si Holgura_min &lt; 0 -&gt; interferencia</span>
+Juego <span class="t-op">=</span> Agujero_min <span class="t-op">-</span> Eje_max</pre>
+              </figure>
+              <div class="tip"><span class="lab">Allowance</span>El <b>juego mínimo</b> (allowance) es la holgura en la peor combinación: agujero más pequeño con eje más grande.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="g-ej">
+            <div class="tile-h"><span class="td"></span><h3>Ejemplo numérico — ajuste con holgura</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Agujero <code>⌀10.00 / 10.05</code> y eje <code>⌀9.90 / 9.95</code>. Como el agujero siempre es mayor que el eje, es un ajuste con <b>holgura garantizada</b>.</p>
+              <figure class="code" data-copy="Agujero: 10.00 (min) .. 10.05 (max)&#10;Eje:      9.90 (min) ..  9.95 (max)&#10;&#10;Holgura_max = 10.05 - 9.90 = 0.15&#10;Holgura_min = 10.00 - 9.95 = 0.05&#10;# 0.05 > 0  ->  holgura siempre">
+                <figcaption><span class="lang">cálculo · ejemplo</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Agujero: <span class="t-num">10.00</span> (min) .. <span class="t-num">10.05</span> (max)
+Eje:      <span class="t-num">9.90</span> (min) ..  <span class="t-num">9.95</span> (max)
+
+Holgura_max <span class="t-op">=</span> <span class="t-num">10.05</span> <span class="t-op">-</span> <span class="t-num">9.90</span> <span class="t-op">=</span> <span class="t-num">0.15</span>
+Holgura_min <span class="t-op">=</span> <span class="t-num">10.00</span> <span class="t-op">-</span> <span class="t-num">9.95</span> <span class="t-op">=</span> <span class="t-num">0.05</span>
+<span class="t-com"># 0.05 &gt; 0  ->  holgura siempre</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Une los puntos</span>Si el agujero llevara <code>⌖ ⌀0.1 <span class="mod">M</span></code>, fabricarlo más grande que su MMC daría <b>bonus</b> de posición — la misma holgura física que aquí abarata la geometría.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>GD&amp;T · plano.gdt</b> — acotación y tolerancias geométricas según <b>ASME Y14.5</b>: los 14 controles por categoría (forma · perfil · orientación · ubicación · cabeceo), datums y el marco de referencia (DRF), el marco de control de características leído pieza por pieza, condiciones de material MMC <span class="mod" style="color:var(--ink-soft)">M</span> / LMC <span class="mod" style="color:var(--ink-soft)">L</span> / RFS y su tolerancia adicional, zonas de tolerancia, el principio de Taylor / envolvente y el cálculo de ajustes.
+        <span class="mono">Símbolos dibujados en SVG · notas en español · clic en cualquier fórmula para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

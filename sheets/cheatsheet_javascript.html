@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAEAE4;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F5F4EF;
+  --rail:#F2F1EB;
+  --code-bg:#FBFAF5;
+  --line:#E0DDD3;
+  --line-soft:#EAE7DE;
+  --ink:#23211A;
+  --ink-soft:#56524A;
+  --ink-faint:#8C887D;
+  /* JS yellow: bright for fills/markers, deep for legible text on white */
+  --js:#F7DF1E;
+  --js-deep:#8A7B00;
+  --js-tint:rgba(247,223,30,.22);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#2B6FD6;
+  --s2:#0C8A8A;
+  --s3:#1E9B51;
+  --s4:#B0840A;
+  --s5:#7A45C9;
+  --s6:#C0392B;
+  --s7:#C44C85;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (light editor) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-bi:#0E7C86;
+  --t-prop:#B23A20;
+  --t-com:#9690846b;
+  --t-com:#969084;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--js);color:#23211A}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(35,33,26,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F5F4EF;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--js);color:#23211A;font-family:"JetBrains Mono";font-weight:700;font-size:11px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--js-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CCC8BD;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FCFBF6;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--js-deep);border-bottom-color:var(--js)}
+
+.fxbar{display:flex;align-items:stretch;background:#FCFBF6;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:14px;color:var(--js-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--js-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--js)}
+h1{font-family:"Sora",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--js-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--js-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--js);background:linear-gradient(90deg,var(--js-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Sora",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:12px;font-weight:700}
+.rail .ri.on{color:var(--js-deep);background:var(--js-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--js)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Sora",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(35,33,26,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(35,33,26,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Sora",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--js-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(35,33,26,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--js);background:#FCF8DF}
+figure.code.copied .cphint{opacity:1;color:var(--js-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-bi{color:var(--t-bi);font-weight:600}
+.t-prop{color:var(--t-prop)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--js-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-bi)}
+
+/* console signature */
+.console{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.console-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F5F4EF;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.console-bar i{width:10px;height:10px;border-radius:50%;background:#CCC8BD;display:block}
+.console-bar i:nth-child(1){background:#E5736B}.console-bar i:nth-child(2){background:var(--js)}.console-bar i:nth-child(3){background:#69B27C}
+.console-bar span{margin-left:6px}
+.console pre{padding:13px 15px;font-family:"JetBrains Mono";font-size:12.5px;line-height:1.7;overflow-x:auto;color:var(--ink)}
+.console .in{color:var(--ink)}
+.console .ret{color:var(--ink-faint)}
+.console .pmt{color:var(--js-deep);font-weight:700}
+.console .lg{color:var(--s3)}
+.console .cur{display:inline-block;width:7px;height:14px;background:var(--js-deep);vertical-align:-2px;margin-left:2px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.console .cur{animation:none}}
+
+/* event loop diagram */
+.eloop{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}
+.eloop .ebox{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--tile-2)}
+.eloop .ebox h4{font-size:12px;font-weight:700;color:var(--s6);margin-bottom:4px;font-family:"Sora",sans-serif}
+.eloop .ebox p{font-size:11.5px;color:var(--ink-faint);line-height:1.4}
+.eloop .ebox code{font-family:"JetBrains Mono";font-size:10.5px;color:var(--js-deep)}
+@media(max-width:520px){.eloop{grid-template-columns:1fr}}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--js-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--js-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#23211A;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(35,33,26,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">JS</span>
+      <span class="fname"><b>JavaScript</b> · app.js</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">app.js</span>
+      <span class="vt">› Console</span>
+      <span class="vt">Network</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">&gt;_</span>
+      <span class="fxc"><span class="t-fn">console</span>.<span class="t-fn">log</span>(<span class="t-str">"el lenguaje de la web, en el navegador y en el servidor"</span>)</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · de la variable al async/await</div>
+      <h1>JavaScript,<br>el lenguaje de la <em>web</em>.</h1>
+      <p class="lede">Lo esencial del lenguaje en una página: <b>variables y tipos</b>, <b>arrays y objetos</b>, <b>funciones</b> y <i>closures</i>, los métodos de array (<code>map</code>/<code>filter</code>/<code>reduce</code>), manipular el <b>DOM</b> y reaccionar a <b>eventos</b>, el código <b>asíncrono</b> (promesas, <code>async/await</code>, <code>fetch</code>) y la sintaxis <b>moderna</b> de ES6+. Cada concepto con su sintaxis real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier bloque para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Toda aplicación que pueda escribirse en JavaScript, acabará escribiéndose en JavaScript."</p>
+        <cite>— Ley de Atwood (Jeff Atwood)</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Arrays &amp; objetos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Flujo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Funciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Métodos de array</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>DOM &amp; eventos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Asíncrono</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>ES6+</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">let · const · tipos</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Arrays &amp; objetos</span><span class="sd">[] · {}</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Flujo</span><span class="sd">if · for · switch</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Funciones</span><span class="sd">arrow · closures</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Métodos array</span><span class="sd">map · filter · reduce</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">DOM</span><span class="sd">eventos · selección</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Asíncrono</span><span class="sd">promesas · fetch</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">ES6+</span><span class="sd">destructuring · módulos</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">JS</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.js</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#js-vars" style="--seg:var(--s0)">let, const &amp; tipos</a>
+      <a href="#js-repl" style="--seg:var(--s0)">La consola</a>
+      <a href="#js-ops" style="--seg:var(--s0)">Operadores</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Arrays &amp; objetos</div>
+      <a href="#js-arr" style="--seg:var(--s1)">Arrays</a>
+      <a href="#js-obj" style="--seg:var(--s1)">Objetos</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Flujo</div>
+      <a href="#js-if" style="--seg:var(--s2)">Condicionales</a>
+      <a href="#js-loops" style="--seg:var(--s2)">Bucles</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Funciones</div>
+      <a href="#js-fn" style="--seg:var(--s3)">Declarar &amp; arrow</a>
+      <a href="#js-params" style="--seg:var(--s3)">Parámetros</a>
+      <a href="#js-closure" style="--seg:var(--s3)">Closures &amp; scope</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Métodos de array</div>
+      <a href="#js-iter" style="--seg:var(--s4)">map · filter · reduce</a>
+      <a href="#js-arrmore" style="--seg:var(--s4)">find · some · sort</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · DOM &amp; eventos</div>
+      <a href="#js-select" style="--seg:var(--s5)">Seleccionar &amp; cambiar</a>
+      <a href="#js-events" style="--seg:var(--s5)">Eventos</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Asíncrono</div>
+      <a href="#js-eventloop" style="--seg:var(--s6)">El event loop</a>
+      <a href="#js-promise" style="--seg:var(--s6)">Promesas &amp; async/await</a>
+      <a href="#js-fetch" style="--seg:var(--s6)">fetch</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · ES6+</div>
+      <a href="#js-destruct" style="--seg:var(--s7)">Destructuring &amp; spread</a>
+      <a href="#js-modules" style="--seg:var(--s7)">Módulos</a>
+      <a href="#js-misc" style="--seg:var(--s7)">Azúcar moderno</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Arr/Obj</a><a href="#e2">02 Flujo</a><a href="#e3">03 Func.</a>
+        <a href="#e4">04 Métodos</a><a href="#e5">05 DOM</a><a href="#e6">06 Async</a><a href="#e7">07 ES6+</a>
+      </div>
+
+      <!-- ===== 00 ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">tipado dinámico<br>ES2015+</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-vars">
+            <div class="tile-h"><span class="td"></span><h3>let, const &amp; tipos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>const</b> por defecto (no se reasigna); <b>let</b> si vas a cambiar el valor. Olvida <code>var</code>. El tipo lo lleva el valor, no la variable.</p>
+              <figure class="code" data-copy="const nombre = &quot;Ada&quot;;   // string&#10;let edad = 30;          // number&#10;const activo = true;    // boolean&#10;let nada = null;        // intencional&#10;let x;                  // undefined&#10;const lista = [1, 2, 3];// array (object)&#10;const user = { id: 1 }; // object">
+                <figcaption><span class="lang">javascript</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> nombre <span class="t-op">=</span> <span class="t-str">"Ada"</span>;   <span class="t-com">// string</span>
+<span class="t-kw">let</span> edad <span class="t-op">=</span> <span class="t-num">30</span>;          <span class="t-com">// number</span>
+<span class="t-kw">const</span> activo <span class="t-op">=</span> <span class="t-kw">true</span>;    <span class="t-com">// boolean</span>
+<span class="t-kw">let</span> nada <span class="t-op">=</span> <span class="t-kw">null</span>;        <span class="t-com">// intencional</span>
+<span class="t-kw">let</span> x;                  <span class="t-com">// undefined</span>
+<span class="t-kw">const</span> lista <span class="t-op">=</span> [<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>];<span class="t-com">// array</span>
+<span class="t-kw">const</span> user <span class="t-op">=</span> { id: <span class="t-num">1</span> }; <span class="t-com">// object</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Plantillas</span>Interpola con <i>template literals</i> (comillas invertidas): <code>`Hola, ${nombre}`</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="js-ops">
+            <div class="tile-h"><span class="td"></span><h3>Operadores clave</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Op.</th><th>Hace</th></tr>
+                <tr><td class="fn">=== / !==</td><td>igualdad <b>estricta</b> (usa esta)</td></tr>
+                <tr><td class="fn">== / !=</td><td>igualdad laxa (convierte tipos: evita)</td></tr>
+                <tr><td class="fn">&amp;&amp; || !</td><td>and · or · not</td></tr>
+                <tr><td class="fn">??</td><td>valor si es null/undefined</td></tr>
+                <tr><td class="fn">?.</td><td>acceso seguro encadenado</td></tr>
+                <tr><td class="fn">+ +=</td><td>suma / concatena strings</td></tr>
+                <tr><td class="fn">a ? b : c</td><td>ternario</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">=== siempre</span><code>0 == ""</code> es <code>true</code> (laxa); <code>0 === ""</code> es <code>false</code>. Usa <code>===</code> para evitar sorpresas de conversión.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="js-repl">
+            <div class="tile-h"><span class="td"></span><h3>La consola del navegador — tu laboratorio</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Abre DevTools (<b>F12</b>) → pestaña <b>Console</b>. Escribes una expresión y ves el resultado al instante. <code>console.log()</code> es tu herramienta nº1 de depuración.</p>
+              <div class="console" aria-label="Consola de JavaScript del navegador">
+                <div class="console-bar"><i></i><i></i><i></i><span>DevTools · Console</span></div>
+<pre><span class="pmt">&gt;</span> <span class="in"><span class="t-num">2</span> <span class="t-op">**</span> <span class="t-num">10</span></span>
+<span class="ret">&lt; 1024</span>
+<span class="pmt">&gt;</span> <span class="in">[<span class="t-num">1</span>,<span class="t-num">2</span>,<span class="t-num">3</span>].<span class="t-fn">map</span>(n <span class="t-op">=&gt;</span> n <span class="t-op">*</span> <span class="t-num">2</span>)</span>
+<span class="ret">&lt; (3) [2, 4, 6]</span>
+<span class="pmt">&gt;</span> <span class="in"><span class="t-kw">typeof</span> <span class="t-str">"hola"</span></span>
+<span class="ret">&lt; 'string'</span>
+<span class="pmt">&gt;</span> <span class="in"><span class="t-fn">console</span>.<span class="t-fn">log</span>(<span class="t-str">`Hola, ${nombre}`</span>)</span>
+<span class="lg">  Hola, Ada</span>
+<span class="pmt">&gt;</span> <span class="cur"></span></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Arrays &amp; objetos</h2><span class="meta">las dos<br>estructuras base</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-arr">
+            <div class="tile-h"><span class="td"></span><h3>Arrays</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Lista ordenada e indexada desde <code>0</code>. Mutable aunque sea <code>const</code> (puedes cambiar su contenido, no reasignar la variable).</p>
+              <figure class="code" data-copy="const xs = [10, 20, 30];&#10;xs[0];            // 10&#10;xs.length;        // 3&#10;xs.push(40);      // añade al final&#10;xs.pop();         // saca el último&#10;xs.unshift(5);    // añade al inicio&#10;xs.includes(20);  // true&#10;xs.indexOf(20);   // 1">
+                <figcaption><span class="lang">javascript · array</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> xs <span class="t-op">=</span> [<span class="t-num">10</span>, <span class="t-num">20</span>, <span class="t-num">30</span>];
+xs[<span class="t-num">0</span>];            <span class="t-com">// 10</span>
+xs.length;        <span class="t-com">// 3</span>
+xs.<span class="t-fn">push</span>(<span class="t-num">40</span>);      <span class="t-com">// añade al final</span>
+xs.<span class="t-fn">pop</span>();         <span class="t-com">// saca el último</span>
+xs.<span class="t-fn">unshift</span>(<span class="t-num">5</span>);    <span class="t-com">// añade al inicio</span>
+xs.<span class="t-fn">includes</span>(<span class="t-num">20</span>);  <span class="t-com">// true</span>
+xs.<span class="t-fn">indexOf</span>(<span class="t-num">20</span>);   <span class="t-com">// 1</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="js-obj">
+            <div class="tile-h"><span class="td"></span><h3>Objetos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Pares <b>clave: valor</b>. La estructura central de JS (un JSON es un objeto). Accedes con punto o corchetes.</p>
+              <figure class="code" data-copy="const user = {&#10;  nombre: &quot;Ada&quot;,&#10;  edad: 30,&#10;  saludar() { return `Hola ${this.nombre}`; }&#10;};&#10;user.nombre;        // &quot;Ada&quot;&#10;user[&quot;edad&quot;];        // 30&#10;user.activo = true; // añadir&#10;Object.keys(user);  // ['nombre','edad',...]">
+                <figcaption><span class="lang">javascript · object</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> user <span class="t-op">=</span> {
+  nombre: <span class="t-str">"Ada"</span>,
+  edad: <span class="t-num">30</span>,
+  <span class="t-fn">saludar</span>() { <span class="t-kw">return</span> <span class="t-str">`Hola ${this.nombre}`</span>; }
+};
+user.nombre;        <span class="t-com">// "Ada"</span>
+user[<span class="t-str">"edad"</span>];        <span class="t-com">// 30</span>
+user.activo <span class="t-op">=</span> <span class="t-kw">true</span>; <span class="t-com">// añadir</span>
+<span class="t-bi">Object</span>.<span class="t-fn">keys</span>(user);  <span class="t-com">// ['nombre',…]</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Control de flujo</h2><span class="meta">decisiones<br>y repetición</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-if">
+            <div class="tile-h"><span class="td"></span><h3>Condicionales</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <figure class="code" data-copy="if (nota &gt;= 90) {&#10;  grado = &quot;A&quot;;&#10;} else if (nota &gt;= 70) {&#10;  grado = &quot;B&quot;;&#10;} else {&#10;  grado = &quot;F&quot;;&#10;}&#10;// ternario&#10;const ok = nota &gt;= 70 ? &quot;pasa&quot; : &quot;repasa&quot;;">
+                <figcaption><span class="lang">javascript</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">if</span> (nota <span class="t-op">&gt;=</span> <span class="t-num">90</span>) {
+  grado <span class="t-op">=</span> <span class="t-str">"A"</span>;
+} <span class="t-kw">else if</span> (nota <span class="t-op">&gt;=</span> <span class="t-num">70</span>) {
+  grado <span class="t-op">=</span> <span class="t-str">"B"</span>;
+} <span class="t-kw">else</span> {
+  grado <span class="t-op">=</span> <span class="t-str">"F"</span>;
+}
+<span class="t-com">// ternario</span>
+<span class="t-kw">const</span> ok <span class="t-op">=</span> nota <span class="t-op">&gt;=</span> <span class="t-num">70</span> ? <span class="t-str">"pasa"</span> : <span class="t-str">"repasa"</span>;</pre>
+              </figure>
+              <div class="tip"><span class="lab">Falsy</span>Se evalúan como falso: <code>false, 0, "", null, undefined, NaN</code>. Todo lo demás es <i>truthy</i>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="js-loops">
+            <div class="tile-h"><span class="td"></span><h3>Bucles</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>for...of</code> recorre <b>valores</b> (arrays); <code>for...in</code>, <b>claves</b> (objetos). A diario, los métodos de array (sección 04) suelen ser más claros.</p>
+              <figure class="code" data-copy="for (const x of [10, 20, 30]) {&#10;  console.log(x);&#10;}&#10;for (let i = 0; i &lt; 3; i++) { ... }&#10;&#10;let n = 5;&#10;while (n &gt; 0) { n--; }">
+                <figcaption><span class="lang">javascript</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">for</span> (<span class="t-kw">const</span> x <span class="t-kw">of</span> [<span class="t-num">10</span>, <span class="t-num">20</span>, <span class="t-num">30</span>]) {
+  <span class="t-fn">console</span>.<span class="t-fn">log</span>(x);
+}
+<span class="t-kw">for</span> (<span class="t-kw">let</span> i <span class="t-op">=</span> <span class="t-num">0</span>; i <span class="t-op">&lt;</span> <span class="t-num">3</span>; i<span class="t-op">++</span>) { ... }
+
+<span class="t-kw">let</span> n <span class="t-op">=</span> <span class="t-num">5</span>;
+<span class="t-kw">while</span> (n <span class="t-op">&gt;</span> <span class="t-num">0</span>) { n<span class="t-op">--</span>; }</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Funciones</h2><span class="meta">ciudadanas de<br>primera clase</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-fn">
+            <div class="tile-h"><span class="td"></span><h3>Declarar &amp; arrow</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Dos formas. Las <b>arrow</b> (<code>=&gt;</code>) son concisas y, clave, <b>no</b> crean su propio <code>this</code> (heredan el del entorno).</p>
+              <figure class="code" data-copy="function suma(a, b) {&#10;  return a + b;&#10;}&#10;// arrow&#10;const suma2 = (a, b) =&gt; a + b;&#10;const cuad = x =&gt; x * x;      // 1 arg, sin ()&#10;const saluda = () =&gt; {        // cuerpo con bloque&#10;  return &quot;hola&quot;;&#10;};">
+                <figcaption><span class="lang">javascript</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">function</span> <span class="t-fn">suma</span>(a, b) {
+  <span class="t-kw">return</span> a <span class="t-op">+</span> b;
+}
+<span class="t-com">// arrow</span>
+<span class="t-kw">const</span> suma2 <span class="t-op">=</span> (a, b) <span class="t-op">=&gt;</span> a <span class="t-op">+</span> b;
+<span class="t-kw">const</span> cuad <span class="t-op">=</span> x <span class="t-op">=&gt;</span> x <span class="t-op">*</span> x;      <span class="t-com">// 1 arg</span>
+<span class="t-kw">const</span> saluda <span class="t-op">=</span> () <span class="t-op">=&gt;</span> {
+  <span class="t-kw">return</span> <span class="t-str">"hola"</span>;
+};</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="js-params">
+            <div class="tile-h"><span class="td"></span><h3>Parámetros: default &amp; rest</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <figure class="code" data-copy="// valor por defecto&#10;function saludo(nombre = &quot;amigo&quot;) {&#10;  return `Hola, ${nombre}`;&#10;}&#10;// rest: recoge el resto en un array&#10;function total(...nums) {&#10;  return nums.reduce((a, b) =&gt; a + b, 0);&#10;}&#10;total(1, 2, 3);  // 6">
+                <figcaption><span class="lang">javascript</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// valor por defecto</span>
+<span class="t-kw">function</span> <span class="t-fn">saludo</span>(nombre <span class="t-op">=</span> <span class="t-str">"amigo"</span>) {
+  <span class="t-kw">return</span> <span class="t-str">`Hola, ${nombre}`</span>;
+}
+<span class="t-com">// rest: el resto en un array</span>
+<span class="t-kw">function</span> <span class="t-fn">total</span>(<span class="t-op">...</span>nums) {
+  <span class="t-kw">return</span> nums.<span class="t-fn">reduce</span>((a, b) <span class="t-op">=&gt;</span> a <span class="t-op">+</span> b, <span class="t-num">0</span>);
+}
+<span class="t-fn">total</span>(<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>);  <span class="t-com">// 6</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="js-closure">
+            <div class="tile-h"><span class="td"></span><h3>Closures &amp; ámbito (scope)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>closure</b> es una función que "recuerda" las variables del entorno donde se creó, aunque ese entorno ya haya terminado. Es la base de la privacidad y de muchos patrones en JS.</p>
+              <figure class="code" data-copy="function contador() {&#10;  let n = 0;              // privada&#10;  return () =&gt; ++n;       // recuerda n&#10;}&#10;const c = contador();&#10;c(); // 1&#10;c(); // 2  ← n persiste entre llamadas">
+                <figcaption><span class="lang">javascript · closure</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">function</span> <span class="t-fn">contador</span>() {
+  <span class="t-kw">let</span> n <span class="t-op">=</span> <span class="t-num">0</span>;              <span class="t-com">// privada</span>
+  <span class="t-kw">return</span> () <span class="t-op">=&gt;</span> <span class="t-op">++</span>n;       <span class="t-com">// recuerda n</span>
+}
+<span class="t-kw">const</span> c <span class="t-op">=</span> <span class="t-fn">contador</span>();
+<span class="t-fn">c</span>(); <span class="t-com">// 1</span>
+<span class="t-fn">c</span>(); <span class="t-com">// 2  ← n persiste</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Scope</span><code>const</code>/<code>let</code> tienen ámbito de <b>bloque</b> (entre <code>{ }</code>). Declara las variables lo más cerca posible de donde se usan.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Métodos de array</h2><span class="meta">el corazón del<br>JS moderno</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="js-iter">
+            <div class="tile-h"><span class="td"></span><h3>map · filter · reduce — transformar sin mutar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El trío que reemplaza casi todos los bucles. Reciben una función y devuelven un <b>nuevo</b> array (no modifican el original): código declarativo y encadenable.</p>
+              <figure class="code" data-copy="const nums = [1, 2, 3, 4];&#10;&#10;nums.map(n =&gt; n * 2);          // [2,4,6,8]  transforma&#10;nums.filter(n =&gt; n % 2 === 0); // [2,4]      filtra&#10;nums.reduce((a, n) =&gt; a + n, 0); // 10       acumula&#10;nums.forEach(n =&gt; console.log(n)); // efecto, sin retorno&#10;&#10;// se encadenan:&#10;nums.filter(n =&gt; n &gt; 1).map(n =&gt; n * 10); // [20,30,40]">
+                <figcaption><span class="lang">javascript · array</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> nums <span class="t-op">=</span> [<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>, <span class="t-num">4</span>];
+
+nums.<span class="t-fn">map</span>(n <span class="t-op">=&gt;</span> n <span class="t-op">*</span> <span class="t-num">2</span>);          <span class="t-com">// [2,4,6,8]  transforma</span>
+nums.<span class="t-fn">filter</span>(n <span class="t-op">=&gt;</span> n <span class="t-op">%</span> <span class="t-num">2</span> <span class="t-op">===</span> <span class="t-num">0</span>); <span class="t-com">// [2,4]      filtra</span>
+nums.<span class="t-fn">reduce</span>((a, n) <span class="t-op">=&gt;</span> a <span class="t-op">+</span> n, <span class="t-num">0</span>); <span class="t-com">// 10     acumula</span>
+nums.<span class="t-fn">forEach</span>(n <span class="t-op">=&gt;</span> <span class="t-fn">console</span>.<span class="t-fn">log</span>(n)); <span class="t-com">// efecto</span>
+
+<span class="t-com">// se encadenan:</span>
+nums.<span class="t-fn">filter</span>(n <span class="t-op">=&gt;</span> n <span class="t-op">&gt;</span> <span class="t-num">1</span>).<span class="t-fn">map</span>(n <span class="t-op">=&gt;</span> n <span class="t-op">*</span> <span class="t-num">10</span>);</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile span" id="js-arrmore">
+            <div class="tile-h"><span class="td"></span><h3>Buscar, comprobar &amp; ordenar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Método</th><th>Devuelve</th></tr>
+                <tr><td class="fn">.find(fn)</td><td>el 1.er elemento que cumple (o undefined)</td></tr>
+                <tr><td class="fn">.some(fn)</td><td><code>true</code> si <b>alguno</b> cumple</td></tr>
+                <tr><td class="fn">.every(fn)</td><td><code>true</code> si <b>todos</b> cumplen</td></tr>
+                <tr><td class="fn">.sort((a,b)=&gt;a-b)</td><td>ordena (¡muta! y compara como texto si no das función)</td></tr>
+                <tr><td class="fn">.join(&quot;, &quot;)</td><td>array → string</td></tr>
+                <tr><td class="fn">.slice(a,b)</td><td>copia un trozo (sin mutar)</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">sort muta</span><code>.sort()</code> ordena <b>en el sitio</b> y, sin función comparadora, ordena como texto (<code>10</code> antes que <code>2</code>). Para números: <code>arr.sort((a,b)=&gt;a-b)</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>DOM &amp; eventos</h2><span class="meta">JS habla con<br>la página</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-select">
+            <div class="tile-h"><span class="td"></span><h3>Seleccionar &amp; cambiar el DOM</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>DOM</b> es la representación viva del HTML como objetos. <code>querySelector</code> usa sintaxis CSS para encontrar elementos y modificarlos.</p>
+              <figure class="code" data-copy="const btn = document.querySelector(&quot;.boton&quot;);&#10;const items = document.querySelectorAll(&quot;li&quot;);&#10;&#10;btn.textContent = &quot;Enviado&quot;;   // texto&#10;btn.classList.add(&quot;activo&quot;);   // clase&#10;btn.setAttribute(&quot;disabled&quot;, &quot;&quot;);&#10;btn.style.color = &quot;crimson&quot;;   // estilo inline">
+                <figcaption><span class="lang">javascript · DOM</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> btn <span class="t-op">=</span> <span class="t-bi">document</span>.<span class="t-fn">querySelector</span>(<span class="t-str">".boton"</span>);
+<span class="t-kw">const</span> items <span class="t-op">=</span> <span class="t-bi">document</span>.<span class="t-fn">querySelectorAll</span>(<span class="t-str">"li"</span>);
+
+btn.textContent <span class="t-op">=</span> <span class="t-str">"Enviado"</span>;   <span class="t-com">// texto</span>
+btn.classList.<span class="t-fn">add</span>(<span class="t-str">"activo"</span>);   <span class="t-com">// clase</span>
+btn.<span class="t-fn">setAttribute</span>(<span class="t-str">"disabled"</span>, <span class="t-str">""</span>);
+btn.style.color <span class="t-op">=</span> <span class="t-str">"crimson"</span>;   <span class="t-com">// estilo</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="js-events">
+            <div class="tile-h"><span class="td"></span><h3>Eventos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Reacciona a la interacción con <code>addEventListener</code>. La función <i>callback</i> recibe el objeto <code>event</code>.</p>
+              <figure class="code" data-copy="btn.addEventListener(&quot;click&quot;, (e) =&gt; {&#10;  e.preventDefault();      // frena el comportamiento&#10;  console.log(&quot;¡clic!&quot;, e.target);&#10;});&#10;&#10;input.addEventListener(&quot;input&quot;, (e) =&gt; {&#10;  console.log(e.target.value);&#10;});">
+                <figcaption><span class="lang">javascript · eventos</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>btn.<span class="t-fn">addEventListener</span>(<span class="t-str">"click"</span>, (e) <span class="t-op">=&gt;</span> {
+  e.<span class="t-fn">preventDefault</span>();      <span class="t-com">// frena</span>
+  <span class="t-fn">console</span>.<span class="t-fn">log</span>(<span class="t-str">"¡clic!"</span>, e.target);
+});
+
+input.<span class="t-fn">addEventListener</span>(<span class="t-str">"input"</span>, (e) <span class="t-op">=&gt;</span> {
+  <span class="t-fn">console</span>.<span class="t-fn">log</span>(e.target.value);
+});</pre>
+              </figure>
+              <div class="tip"><span class="lab">Eventos comunes</span><code>click</code>, <code>input</code>, <code>submit</code>, <code>keydown</code>, <code>mouseenter</code>, <code>DOMContentLoaded</code> (página lista).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Asíncrono</h2><span class="meta">esperar sin<br>bloquear</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="js-eventloop">
+            <div class="tile-h"><span class="td"></span><h3>El event loop — por qué JS no se congela</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">JS ejecuta en <b>un solo hilo</b>, pero no se bloquea esperando (una respuesta de red, un temporizador). Delega esas tareas y, cuando terminan, su <i>callback</i> entra en cola; el <b>event loop</b> la ejecuta cuando el hilo queda libre.</p>
+              <div class="eloop" aria-hidden="true">
+                <div class="ebox"><h4>1 · Call stack</h4><p>el código que corre <b>ahora</b>, línea a línea.</p></div>
+                <div class="ebox"><h4>2 · Web APIs</h4><p>tareas que el navegador maneja aparte: <code>fetch</code>, <code>setTimeout</code>.</p></div>
+                <div class="ebox"><h4>3 · Cola de tareas</h4><p>los callbacks ya listos esperan su turno.</p></div>
+                <div class="ebox"><h4>4 · Event loop</h4><p>cuando el stack está vacío, pasa el siguiente callback.</p></div>
+              </div>
+              <div class="tip"><span class="lab">Por eso importa</span>Nunca hagas trabajo pesado y síncrono en el hilo principal: congela la interfaz. Usa código asíncrono para esperas.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile" id="js-promise">
+            <div class="tile-h"><span class="td"></span><h3>Promesas &amp; async/await</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>promesa</b> representa un valor futuro. <code>async/await</code> permite escribir código asíncrono que se <b>lee</b> como síncrono.</p>
+              <figure class="code" data-copy="// con .then()&#10;promesa&#10;  .then(res =&gt; res.json())&#10;  .catch(err =&gt; console.error(err));&#10;&#10;// con async/await (más legible)&#10;async function cargar() {&#10;  try {&#10;    const datos = await pedirDatos();&#10;  } catch (err) {&#10;    console.error(err);&#10;  }&#10;}">
+                <figcaption><span class="lang">javascript · async</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// con .then()</span>
+promesa
+  .<span class="t-fn">then</span>(res <span class="t-op">=&gt;</span> res.<span class="t-fn">json</span>())
+  .<span class="t-fn">catch</span>(err <span class="t-op">=&gt;</span> <span class="t-fn">console</span>.<span class="t-fn">error</span>(err));
+
+<span class="t-com">// async/await (más legible)</span>
+<span class="t-kw">async function</span> <span class="t-fn">cargar</span>() {
+  <span class="t-kw">try</span> {
+    <span class="t-kw">const</span> datos <span class="t-op">=</span> <span class="t-kw">await</span> <span class="t-fn">pedirDatos</span>();
+  } <span class="t-kw">catch</span> (err) {
+    <span class="t-fn">console</span>.<span class="t-fn">error</span>(err);
+  }
+}</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="js-fetch">
+            <div class="tile-h"><span class="td"></span><h3>fetch — pedir datos a una API</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>fetch</code> devuelve una promesa con la respuesta HTTP. Lo normal: <code>await</code> + <code>.json()</code>.</p>
+              <figure class="code" data-copy="async function getUser(id) {&#10;  const res = await fetch(`/api/users/${id}`);&#10;  if (!res.ok) throw new Error(res.status);&#10;  const user = await res.json();&#10;  return user;&#10;}">
+                <figcaption><span class="lang">javascript · fetch</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">async function</span> <span class="t-fn">getUser</span>(id) {
+  <span class="t-kw">const</span> res <span class="t-op">=</span> <span class="t-kw">await</span> <span class="t-fn">fetch</span>(<span class="t-str">`/api/users/${id}`</span>);
+  <span class="t-kw">if</span> (<span class="t-op">!</span>res.ok) <span class="t-kw">throw new</span> <span class="t-bi">Error</span>(res.status);
+  <span class="t-kw">const</span> user <span class="t-op">=</span> <span class="t-kw">await</span> res.<span class="t-fn">json</span>();
+  <span class="t-kw">return</span> user;
+}</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Sintaxis moderna (ES6+)</h2><span class="meta">el azúcar que<br>usas cada día</span></div>
+
+        <div class="cols">
+          <div class="tile" id="js-destruct">
+            <div class="tile-h"><span class="td"></span><h3>Destructuring &amp; spread</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Destructuring</b> extrae valores de arrays/objetos a variables. <b>Spread</b> (<code>...</code>) expande o copia.</p>
+              <figure class="code" data-copy="const [a, b] = [1, 2];        // a=1, b=2&#10;const { nombre, edad } = user; // por clave&#10;&#10;const copia = [...xs];         // copia array&#10;const fusion = { ...user, activo: true };&#10;function f({ id, name }) { ... } // en params">
+                <figcaption><span class="lang">javascript · ES6</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">const</span> [a, b] <span class="t-op">=</span> [<span class="t-num">1</span>, <span class="t-num">2</span>];        <span class="t-com">// a=1, b=2</span>
+<span class="t-kw">const</span> { nombre, edad } <span class="t-op">=</span> user; <span class="t-com">// por clave</span>
+
+<span class="t-kw">const</span> copia <span class="t-op">=</span> [<span class="t-op">...</span>xs];         <span class="t-com">// copia array</span>
+<span class="t-kw">const</span> fusion <span class="t-op">=</span> { <span class="t-op">...</span>user, activo: <span class="t-kw">true</span> };
+<span class="t-kw">function</span> <span class="t-fn">f</span>({ id, name }) { ... } <span class="t-com">// params</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="js-modules">
+            <div class="tile-h"><span class="td"></span><h3>Módulos (import / export)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Divide el código en archivos reutilizables. Exporta lo que ofreces; importa lo que necesitas.</p>
+              <figure class="code" data-copy="// utils.js&#10;export function suma(a, b) { return a + b; }&#10;export const PI = 3.14;&#10;export default function main() { ... }&#10;&#10;// app.js&#10;import main, { suma, PI } from &quot;./utils.js&quot;;">
+                <figcaption><span class="lang">javascript · módulos</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// utils.js</span>
+<span class="t-kw">export function</span> <span class="t-fn">suma</span>(a, b) { <span class="t-kw">return</span> a<span class="t-op">+</span>b; }
+<span class="t-kw">export const</span> PI <span class="t-op">=</span> <span class="t-num">3.14</span>;
+<span class="t-kw">export default function</span> <span class="t-fn">main</span>() { ... }
+
+<span class="t-com">// app.js</span>
+<span class="t-kw">import</span> main, { suma, PI } <span class="t-kw">from</span> <span class="t-str">"./utils.js"</span>;</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="js-misc">
+            <div class="tile-h"><span class="td"></span><h3>Azúcar moderno que ahorra líneas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Sintaxis</th><th>Hace</th></tr>
+                <tr><td class="fn">user?.perfil?.email</td><td><b>optional chaining</b>: no falla si algo es null</td></tr>
+                <tr><td class="fn">valor ?? &quot;def&quot;</td><td><b>nullish</b>: default solo si null/undefined</td></tr>
+                <tr><td class="fn">`texto ${x}`</td><td>template literal (interpola)</td></tr>
+                <tr><td class="fn">{ nombre, edad }</td><td>shorthand de propiedades</td></tr>
+                <tr><td class="fn">arr?.length ?? 0</td><td>se combinan</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Cierre del flujo</span><code>const</code> por defecto · <code>===</code> siempre · arrays con <code>map/filter/reduce</code> · asíncrono con <code>async/await</code> · divide en módulos. JS también corre en el servidor con <b>Node.js</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>JavaScript · Hoja de referencia</b> — de la variable al async/await. Construida sobre la ruta moderna de JavaScript (ES2015+): tipos, estructuras, funciones y closures, métodos de array, DOM y eventos, asincronía y módulos, con notas de buenas prácticas.
+        <span class="mono">Código en su sintaxis real · notas en español · clic en cualquier bloque para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

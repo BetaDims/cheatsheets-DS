@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL · PostgreSQL · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7EBEF;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F6F8;
+  --code-bg:#F6F8FA;
+  --line:#DAE0E6;
+  --line-soft:#E8ECF0;
+  --ink:#1B2530;
+  --ink-soft:#52606D;
+  --ink-faint:#8893A0;
+  /* Postgres blue */
+  --pg:#336791;
+  --pg-deep:#244B68;
+  --pg-tint:rgba(51,103,145,.16);
+  /* section accents — legible on white */
+  --s0:#46566A;
+  --s1:#0E7C86;
+  --s2:#6B4BB8;
+  --s3:#2563A8;
+  --s4:#B0840A;
+  --s5:#178A4C;
+  --s6:#C0552B;
+  --s7:#B23A75;
+  /* level badges */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (light editor) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#9097A1;
+  --t-tbl:#0E7C86;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--pg);color:#fff}
+.wrap{max-width:1320px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (fixed top) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(27,37,48,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EDF1F4;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{width:20px;height:18px;flex:none;display:block}
+.titlebar .fname{font-weight:600;color:var(--ink);letter-spacing:.005em}
+.titlebar .fname b{color:var(--pg-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"IBM Plex Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:6px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C6CDD5;display:block}
+
+/* psql prompt bar */
+.fxbar{display:flex;align-items:stretch;background:#FAFCFD;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 13px;font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-faint);border-right:1px solid var(--line)}
+.fxbar .prompt{flex:none;display:flex;align-items:center;padding:0 12px;font-family:"IBM Plex Mono";font-weight:700;color:var(--pg-deep);border-right:1px solid var(--line);font-size:13px}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"IBM Plex Mono";font-size:12.7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.fxbar .fxc .cm{color:var(--t-com);font-style:italic}
+.fxbar .caret{display:inline-block;width:7px;height:15px;background:var(--pg);margin-left:3px;animation:blink 1.1s steps(1) infinite;vertical-align:-2px}
+@keyframes blink{50%{opacity:0}}
+
+/* companion-view toggle (fixed) */
+.cview-switch{display:flex;gap:3px;padding:5px;background:#EDF1F4;border-bottom:1px solid var(--line);align-items:center}
+.cv-lbl{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);padding:0 8px 0 6px;flex:none}
+.cvbtn{font:inherit;font-family:"IBM Plex Sans",sans-serif;font-size:12.5px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 15px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.cvbtn .gd{width:9px;height:9px;border-radius:50%;background:var(--ink-faint);flex:none}
+.cvbtn.on{background:var(--canvas);color:var(--ink);box-shadow:0 1px 3px rgba(27,37,48,.14);border-color:var(--line)}
+.cvbtn[data-cview="sql"].on .gd{background:var(--s3)}
+.cvbtn[data-cview="pg"].on .gd{background:var(--pg)}
+.cvbtn:hover:not(.on){color:var(--ink)}
+
+/* hero (per view) */
+.hero{padding:32px 30px 26px;background:var(--canvas);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.kick{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pg-deep);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--pg)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.2rem,5.5vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--pg-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:16px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"IBM Plex Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--pg-deep)}
+.quote{margin-top:18px;padding-left:14px;border-left:3px solid var(--pg-tint);font-size:13.5px;color:var(--ink-soft);font-style:italic}
+.quote b{font-style:normal;color:var(--ink-soft);font-weight:600}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:24px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"IBM Plex Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+/* section tabs */
+.tabbar{display:flex;flex-wrap:wrap;gap:7px;background:var(--canvas);border-left:1px solid var(--line);border-right:1px solid var(--line);padding:0 30px 26px}
+.tab{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;padding:7px 13px;border:1px solid var(--line);border-radius:8px;background:var(--tile-2);transition:.15s}
+.tab .tn{font-family:"IBM Plex Mono";font-size:10px;font-weight:700;color:var(--tc)}
+.tab:hover{border-color:var(--tc);color:var(--ink)}
+.tab::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--tc)}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:218px 1fr;gap:0 32px;align-items:start}
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 50px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(9px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.07s}
+.stage:nth-child(3){animation-delay:.11s}.stage:nth-child(4){animation-delay:.15s}
+.stage:nth-child(5){animation-delay:.19s}.stage:nth-child(6){animation-delay:.23s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:40px 0 16px;padding:14px 18px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"IBM Plex Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"IBM Plex Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;margin-bottom:16px}
+.cols:last-child{margin-bottom:0}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+/* tile */
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(27,37,48,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(27,37,48,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"IBM Plex Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:11px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"IBM Plex Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--pg-deep)}
+
+/* code block */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(27,37,48,.18)}
+figcaption{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--pg);background:#EAF1F6}
+figure.code.copied .cphint{opacity:1;color:var(--pg-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.6;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-tbl{color:var(--t-tbl);font-weight:600}
+.t-op{color:var(--ink-soft)}
+
+/* reference table */
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"IBM Plex Mono";font-size:11.3px;color:var(--pg-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"IBM Plex Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-tbl)}
+.ph{font-style:italic;border-bottom:1px dotted var(--ink-faint);color:var(--ink-soft)}
+
+/* tips */
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip .lab{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* def list */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"IBM Plex Mono";font-size:11px;color:var(--pg-deep);font-weight:600;flex:none;width:96px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+/* ER diagram (SQL signature) */
+.ersvg{width:100%;height:auto;display:block;margin:2px 0}
+.ersvg .tname{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:13px;fill:#fff}
+.ersvg .thdr1{fill:var(--s3)}
+.ersvg .thdr2{fill:var(--s5)}
+.ersvg .thdr3{fill:var(--s7)}
+.ersvg .tbody{fill:#fff;stroke:var(--line);stroke-width:1.3}
+.ersvg .row{font-family:"IBM Plex Mono";font-size:10.5px;fill:var(--ink-soft)}
+.ersvg .pk{fill:var(--pg-deep);font-weight:700}
+.ersvg .fk{fill:var(--s6);font-weight:700}
+.ersvg .rel{stroke:#9aa3ad;stroke-width:1.5;fill:none}
+.ersvg .card{font-family:"IBM Plex Mono";font-size:11px;font-weight:700;fill:var(--pg-deep)}
+.ersvg .sep{stroke:var(--line-soft);stroke-width:1}
+.erkey{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);padding:8px 2px 0}
+.erkey span{display:inline-flex;align-items:center;gap:6px}
+.erkey i{font-family:"IBM Plex Mono";font-weight:700}
+
+/* JSONB anatomy (PG signature) */
+/* ---- interactive JOIN lab (signature) ---- */
+.jl{display:flex;flex-direction:column;gap:13px}
+.jl-cli{--jc:#0E7C86}.jl-ped{--jc:#C0552B}
+.jl-sel{display:flex;gap:7px;flex-wrap:wrap}
+.jl-sel button{font-family:"IBM Plex Mono";font-size:11.5px;font-weight:600;color:var(--ink-soft);background:var(--tile-2);border:1px solid var(--line);border-radius:7px;padding:7px 13px;cursor:pointer;transition:.15s}
+.jl-sel button:hover{color:var(--ink);border-color:var(--ink-faint)}
+.jl-sel button.on{color:#fff;background:var(--seg);border-color:var(--seg)}
+.jl-sel button:focus-visible{outline:2px solid var(--seg);outline-offset:2px}
+.jl-legend{display:flex;gap:14px;flex-wrap:wrap;font-family:"IBM Plex Mono";font-size:10.5px;color:var(--ink-faint);align-items:center}
+.jl-legend span{display:inline-flex;align-items:center;gap:5px}
+.jl-sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.jl-sw.cli{background:#0E7C86}.jl-sw.ped{background:#C0552B}
+.jl-sw.nul{background:repeating-linear-gradient(45deg,#B7BEC8,#B7BEC8 2px,transparent 2px,transparent 4px);border:1px solid #B7BEC8}
+.jl-srcs{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:620px){.jl-srcs{grid-template-columns:1fr}}
+.jl-src h4{font-family:"IBM Plex Mono";font-size:11.5px;margin:0 0 6px;display:flex;align-items:center;gap:6px;color:var(--jc)}
+.jl-src h4 .key{font-size:9.5px;color:var(--ink-faint);font-weight:400}
+.jl-tab{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono";font-size:11.5px}
+.jl-tab th{background:var(--tile-2);color:var(--ink-faint);text-align:left;padding:5px 9px;border:1px solid var(--line);font-weight:500;font-size:9.5px;text-transform:uppercase;letter-spacing:.04em}
+.jl-tab td{padding:5px 9px;border:1px solid var(--line-soft);color:var(--ink);transition:opacity .25s,background .25s}
+.jl-tab tr.drop td{opacity:.28}
+.jl-tab tr.keep td:first-child{box-shadow:inset 3px 0 0 var(--jc)}
+.jl-arrow{text-align:center;color:var(--ink-faint);font-family:"IBM Plex Mono";font-size:17px;padding:2px 0}
+.jl-rh{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap}
+.jl-rh code{font-family:"IBM Plex Mono";font-size:12px;color:var(--seg);background:var(--tile-2);border:1px solid var(--line-soft);padding:2px 7px;border-radius:5px}
+.jl-rtab{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono";font-size:11.5px;border-radius:8px;overflow:hidden}
+.jl-rtab th{background:var(--tile-2);text-align:left;padding:6px 10px;border:1px solid var(--line);font-size:9.5px;text-transform:uppercase;font-weight:600;letter-spacing:.04em}
+.jl-rtab th.gc{color:#0E7C86}.jl-rtab th.gp{color:#C0552B}
+.jl-rtab td{padding:6px 10px;border:1px solid var(--line-soft);color:var(--ink)}
+.jl-rtab td.null{color:var(--ink-faint);font-style:italic;background:repeating-linear-gradient(45deg,rgba(140,147,160,.10),rgba(140,147,160,.10) 4px,transparent 4px,transparent 8px)}
+.jl-rtab tr{animation:jlfade .35s ease}
+@keyframes jlfade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.jl-explain{margin-top:11px;font-size:12.7px;color:var(--ink-soft);background:var(--tile-2);border:1px solid var(--line-soft);border-left:3px solid var(--seg);border-radius:0 8px 8px 0;padding:10px 13px}
+.jl-explain b{color:var(--seg)}
+@media(prefers-reduced-motion:reduce){.jl-rtab tr{animation:none}}
+.jdoc{font-family:"IBM Plex Mono";font-size:12px;background:var(--code-bg);border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;padding:11px 14px;color:var(--ink);line-height:1.7;margin:2px 0 12px}
+.jdoc .jk{color:var(--t-tbl);font-weight:600}
+.jdoc .js{color:var(--t-str)}
+.jdoc .jn{color:var(--t-num)}
+.jops{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.jop{display:grid;grid-template-columns:64px 1fr;gap:11px;align-items:baseline;font-size:12.4px;color:var(--ink-soft);line-height:1.4}
+.jop .o{font-family:"IBM Plex Mono";font-weight:700;color:var(--s2);font-size:12px}
+.jop b{color:var(--ink);font-weight:600}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 20px 50px;color:var(--ink-faint);font-size:12px;max-width:1320px;margin-left:auto;margin-right:auto}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"IBM Plex Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1B2530;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(27,37,48,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.cview.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== FIXED CHROME ===================== -->
+  <div class="app">
+    <div class="titlebar">
+      <svg class="logo" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 1C6.5 1 3 3.6 3 8c0 4 1.2 8.4 3 10.7 1 1.3 2.2 1.6 3 .6.6-.8.5-2 .4-3.3M12 1c5.5 0 9 2.6 9 7 0 4-1.2 8.4-3 10.7-1 1.3-2.2 1.6-3 .6-.6-.8-.5-2-.4-3.3" fill="none" stroke="#336791" stroke-width="1.6" stroke-linecap="round"/><circle cx="9.2" cy="8" r="1.4" fill="#336791"/><circle cx="14.8" cy="8" r="1.4" fill="#336791"/></svg>
+      <span class="fname"><b>SQL</b> · PostgreSQL · Hoja de referencia</span>
+      <span class="grow"></span>
+      <span class="vtag">consulta.sql · v1.1 · 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+    <div class="fxbar">
+      <span class="namebox">1:1</span>
+      <span class="prompt">mibase=#</span>
+      <span class="fxc">SELECT esencia FROM datos; <span class="cm">-- clic en cualquier consulta para copiarla</span><span class="caret"></span></span>
+    </div>
+    <div class="cview-switch" role="tablist" aria-label="Vista">
+      <span class="cv-lbl">Vista</span>
+      <button class="cvbtn on" data-cview="sql" role="tab" aria-selected="true"><span class="gd"></span>SQL (estándar)</button>
+      <button class="cvbtn" data-cview="pg" role="tab" aria-selected="false"><span class="gd"></span>PostgreSQL</button>
+    </div>
+  </div>
+
+  <!-- ===================== VIEW · SQL ESTÁNDAR ===================== -->
+  <div class="cview" id="cview-sql">
+    <div class="hero">
+      <div class="kick">Referencia rápida · Básico → Avanzado</div>
+      <h1>SQL, del <em>SELECT</em> a la <em>window function</em>.</h1>
+      <p class="lede">El lenguaje para pedirle datos a una base relacional: consultar, combinar tablas, agregar y diseñar el esquema. Sintaxis estándar (ANSI), válida en PostgreSQL, MySQL, SQL Server y SQLite salvo donde se indique. <b>Clic en cualquier consulta para copiarla.</b></p>
+      <p class="quote">"Data really powers everything that we do." <b>— Jeff Weiner</b></p>
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Secciones</div>
+          <div class="lg-r">
+            <span class="lchip" style="--c:var(--s0)"><span class="dot"></span>Fundamentos</span>
+            <span class="lchip" style="--c:var(--s1)"><span class="dot"></span>DDL · tipos</span>
+            <span class="lchip" style="--c:var(--s2)"><span class="dot"></span>DML</span>
+            <span class="lchip" style="--c:var(--s3)"><span class="dot"></span>JOINs</span>
+            <span class="lchip" style="--c:var(--s4)"><span class="dot"></span>Agregación</span>
+            <span class="lchip" style="--c:var(--s5)"><span class="dot"></span>Subconsultas · CTE</span>
+            <span class="lchip" style="--c:var(--s6)"><span class="dot"></span>Window</span>
+            <span class="lchip" style="--c:var(--s7)"><span class="dot"></span>Diseño</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar">
+      <a class="tab" href="#sq-fund" style="--tc:var(--s0)"><span class="tn">01</span>Fundamentos</a>
+      <a class="tab" href="#sq-ddl" style="--tc:var(--s1)"><span class="tn">02</span>DDL y tipos</a>
+      <a class="tab" href="#sq-dml" style="--tc:var(--s2)"><span class="tn">03</span>DML</a>
+      <a class="tab" href="#sq-join" style="--tc:var(--s3)"><span class="tn">04</span>JOINs</a>
+      <a class="tab" href="#sq-agg" style="--tc:var(--s4)"><span class="tn">05</span>Agregación</a>
+      <a class="tab" href="#sq-sub" style="--tc:var(--s5)"><span class="tn">06</span>Subconsultas y CTE</a>
+      <a class="tab" href="#sq-win" style="--tc:var(--s6)"><span class="tn">07</span>Window functions</a>
+      <a class="tab" href="#sq-design" style="--tc:var(--s7)"><span class="tn">08</span>Diseño y datos</a>
+    </div>
+
+    <div class="shell">
+      <nav class="toc" aria-label="Índice SQL">
+        <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>01 · Fundamentos</div>
+        <a href="#sq-select" style="--seg:var(--s0)">SELECT · FROM</a>
+        <a href="#sq-where" style="--seg:var(--s0)">WHERE · operadores</a>
+        <a href="#sq-order" style="--seg:var(--s0)">ORDER BY · LIMIT</a>
+        <a href="#sq-conv" style="--seg:var(--s0)">Convenciones</a>
+        <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>02 · DDL y tipos</div>
+        <a href="#sq-types" style="--seg:var(--s1)">Tipos de dato</a>
+        <a href="#sq-create" style="--seg:var(--s1)">CREATE TABLE</a>
+        <a href="#sq-alter" style="--seg:var(--s1)">ALTER · DROP</a>
+        <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>03 · DML</div>
+        <a href="#sq-insert" style="--seg:var(--s2)">INSERT</a>
+        <a href="#sq-update" style="--seg:var(--s2)">UPDATE · DELETE</a>
+        <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>04 · JOINs</div>
+        <a href="#sq-joinlab" style="--seg:var(--s3)">Laboratorio interactivo</a>
+        <a href="#sq-joinkinds" style="--seg:var(--s3)">Tipos de JOIN</a>
+        <a href="#sq-joinex" style="--seg:var(--s3)">Ejemplos · self join</a>
+        <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>05 · Agregación</div>
+        <a href="#sq-aggfn" style="--seg:var(--s4)">GROUP BY · agregados</a>
+        <a href="#sq-having" style="--seg:var(--s4)">HAVING · orden lógico</a>
+        <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>06 · Subconsultas y CTE</div>
+        <a href="#sq-subq" style="--seg:var(--s5)">Subconsultas</a>
+        <a href="#sq-cte" style="--seg:var(--s5)">CTE (WITH)</a>
+        <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>07 · Window functions</div>
+        <a href="#sq-winbasic" style="--seg:var(--s6)">OVER · PARTITION</a>
+        <a href="#sq-winfn" style="--seg:var(--s6)">RANK · LAG · LEAD</a>
+        <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>08 · Diseño y datos</div>
+        <a href="#sq-keys" style="--seg:var(--s7)">PK · FK</a>
+        <a href="#sq-er" style="--seg:var(--s7)">Diagrama de relaciones</a>
+        <a href="#sq-norm" style="--seg:var(--s7)">Normalización 1FN–3FN</a>
+        <a href="#sq-index" style="--seg:var(--s7)">Índices</a>
+        <a href="#sq-views" style="--seg:var(--s7)">Vistas</a>
+        <a href="#sq-tx" style="--seg:var(--s7)">Transacciones · ACID</a>
+      </nav>
+
+      <main>
+        <!-- ===== 01 Fundamentos ===== -->
+        <section class="stage" id="sq-fund" style="--seg:var(--s0)">
+          <div class="stage-head"><span class="sn">01</span><h2>Fundamentos: consultar</h2><span class="meta">SELECT · WHERE<br>ORDER · LIMIT</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-select">
+              <div class="tile-h"><span class="td"></span><h3>SELECT · FROM</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Pide <b>columnas</b> de una <b>tabla</b>. Usa nombres explícitos en producción, no <code>*</code>.</p>
+                <figure class="code" data-copy="SELECT nombre, ciudad
+FROM clientes;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> nombre, ciudad
+<span class="t-kw">FROM</span> <span class="t-tbl">clientes</span>;</pre></figure>
+                <figure class="code" data-copy="SELECT DISTINCT pais
+FROM clientes;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT DISTINCT</span> pais
+<span class="t-kw">FROM</span> <span class="t-tbl">clientes</span>;</pre></figure>
+                <figure class="code" data-copy="SELECT precio * 1.18 AS con_igv
+FROM productos;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> precio <span class="t-op">*</span> <span class="t-num">1.18</span> <span class="t-kw">AS</span> con_igv
+<span class="t-kw">FROM</span> <span class="t-tbl">productos</span>;</pre></figure>
+                <div class="tip"><span class="lab">Por qué</span><code>DISTINCT</code> elimina duplicados; <code>AS</code> renombra (alias) la columna de salida.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-where">
+              <div class="tile-h"><span class="td"></span><h3>WHERE y operadores</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Filtra <b>filas</b> antes de agrupar. Las cadenas van en comillas simples.</p>
+                <figure class="code" data-copy="SELECT *
+FROM pedidos
+WHERE total >= 100
+  AND pais = 'PE';"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> <span class="t-op">*</span>
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">WHERE</span> total <span class="t-op">&gt;=</span> <span class="t-num">100</span>
+  <span class="t-kw">AND</span> pais <span class="t-op">=</span> <span class="t-str">'PE'</span>;</pre></figure>
+                <table class="tbl">
+                  <tr><th>Operador</th><th>Uso</th></tr>
+                  <tr><td class="fn">BETWEEN</td><td><code>edad BETWEEN 18 AND 30</code></td></tr>
+                  <tr><td class="fn">IN</td><td><code>pais IN ('PE','CL')</code></td></tr>
+                  <tr><td class="fn">LIKE</td><td><code>nombre LIKE 'A%'</code> (empieza con A)</td></tr>
+                  <tr><td class="fn">IS NULL</td><td>prueba nulos (nunca <code>= NULL</code>)</td></tr>
+                </table>
+                <div class="tip warn"><span class="lab">Cuidado</span><code>NULL</code> no es un valor: <code>NULL = NULL</code> da desconocido. Usa <code>IS NULL</code> / <code>IS NOT NULL</code>.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile" id="sq-order">
+              <div class="tile-h"><span class="td"></span><h3>ORDER BY · LIMIT</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Ordena el resultado y recorta cuántas filas devuelve.</p>
+                <figure class="code" data-copy="SELECT nombre, total
+FROM pedidos
+ORDER BY total DESC
+LIMIT 10;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> nombre, total
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">ORDER BY</span> total <span class="t-kw">DESC</span>
+<span class="t-kw">LIMIT</span> <span class="t-num">10</span>;</pre></figure>
+                <p class="note">Paginación con <code>OFFSET</code> (saltar filas):</p>
+                <figure class="code" data-copy="SELECT * FROM productos
+ORDER BY id
+LIMIT 20 OFFSET 40;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> <span class="t-op">*</span> <span class="t-kw">FROM</span> <span class="t-tbl">productos</span>
+<span class="t-kw">ORDER BY</span> id
+<span class="t-kw">LIMIT</span> <span class="t-num">20</span> <span class="t-kw">OFFSET</span> <span class="t-num">40</span>;</pre></figure>
+                <div class="tip"><span class="lab">Nota</span>SQL Server usa <code>TOP n</code> u <code>OFFSET … FETCH</code> en vez de <code>LIMIT</code>.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-conv">
+              <div class="tile-h"><span class="td"></span><h3>Convenciones</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">En los ejemplos, <span class="ph">así</span> = reemplázalo por tu valor.</p>
+                <table class="tbl">
+                  <tr><td><span class="ph">tabla</span></td><td>nombre de tu tabla</td></tr>
+                  <tr><td><span class="ph">col</span></td><td>nombre de columna</td></tr>
+                  <tr><td><span class="ph">cond</span></td><td>condición lógica</td></tr>
+                  <tr><td><span class="ph">val</span></td><td>literal (texto o número)</td></tr>
+                </table>
+                <div class="tip"><span class="lab">Estilo</span>Palabras clave en <b>MAYÚSCULAS</b>, identificadores en <code>minuscula_con_guion</code>. El <code>;</code> cierra cada sentencia.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 02 DDL y tipos ===== -->
+        <section class="stage" id="sq-ddl" style="--seg:var(--s1)">
+          <div class="stage-head"><span class="sn">02</span><h2>DDL y tipos de dato</h2><span class="meta">CREATE · ALTER<br>DROP</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-types">
+              <div class="tile-h"><span class="td"></span><h3>Tipos de dato comunes</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Elige el tipo más estrecho que cubra los datos: ahorra espacio y valida la entrada.</p>
+                <table class="tbl">
+                  <tr><th>Tipo</th><th>Para</th></tr>
+                  <tr><td class="fn">INTEGER</td><td>enteros</td></tr>
+                  <tr><td class="fn">DECIMAL(p,s)</td><td>dinero, exacto</td></tr>
+                  <tr><td class="fn">VARCHAR(n)</td><td>texto con tope</td></tr>
+                  <tr><td class="fn">TEXT</td><td>texto sin límite</td></tr>
+                  <tr><td class="fn">BOOLEAN</td><td>verdadero/falso</td></tr>
+                  <tr><td class="fn">DATE</td><td>fecha</td></tr>
+                  <tr><td class="fn">TIMESTAMP</td><td>fecha + hora</td></tr>
+                </table>
+                <div class="tip warn"><span class="lab">Dinero</span>Nunca uses <code>FLOAT</code> para importes: redondea mal. Usa <code>DECIMAL</code> / <code>NUMERIC</code>.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-create">
+              <div class="tile-h"><span class="td"></span><h3>CREATE TABLE</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Define columnas, tipos y <b>restricciones</b> (constraints) que protegen la integridad.</p>
+                <figure class="code" data-copy="CREATE TABLE clientes (
+  id        INTEGER PRIMARY KEY,
+  nombre    VARCHAR(80) NOT NULL,
+  email     VARCHAR(120) UNIQUE,
+  pais      CHAR(2) DEFAULT 'PE',
+  creado    DATE
+);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE TABLE</span> <span class="t-tbl">clientes</span> (
+  id        <span class="t-kw">INTEGER PRIMARY KEY</span>,
+  nombre    <span class="t-kw">VARCHAR</span>(<span class="t-num">80</span>) <span class="t-kw">NOT NULL</span>,
+  email     <span class="t-kw">VARCHAR</span>(<span class="t-num">120</span>) <span class="t-kw">UNIQUE</span>,
+  pais      <span class="t-kw">CHAR</span>(<span class="t-num">2</span>) <span class="t-kw">DEFAULT</span> <span class="t-str">'PE'</span>,
+  creado    <span class="t-kw">DATE</span>
+);</pre></figure>
+                <div class="tip"><span class="lab">Constraints</span><code>NOT NULL</code>, <code>UNIQUE</code>, <code>DEFAULT</code>, <code>CHECK</code> y <code>PRIMARY KEY</code> bloquean datos inválidos desde el motor.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile span" id="sq-alter">
+              <div class="tile-h"><span class="td"></span><h3>ALTER TABLE · DROP</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Cambia el esquema de una tabla existente o elimínala. <code>DROP</code> borra datos y estructura: irreversible.</p>
+                <div class="cols">
+                  <figure class="code" data-copy="ALTER TABLE clientes
+  ADD COLUMN telefono VARCHAR(20);
+
+ALTER TABLE clientes
+  ALTER COLUMN nombre TYPE TEXT;
+
+ALTER TABLE clientes
+  DROP COLUMN telefono;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">ALTER TABLE</span> <span class="t-tbl">clientes</span>
+  <span class="t-kw">ADD COLUMN</span> telefono <span class="t-kw">VARCHAR</span>(<span class="t-num">20</span>);
+
+<span class="t-kw">ALTER TABLE</span> <span class="t-tbl">clientes</span>
+  <span class="t-kw">ALTER COLUMN</span> nombre <span class="t-kw">TYPE TEXT</span>;
+
+<span class="t-kw">ALTER TABLE</span> <span class="t-tbl">clientes</span>
+  <span class="t-kw">DROP COLUMN</span> telefono;</pre></figure>
+                  <figure class="code" data-copy="-- vaciar filas, conservar tabla
+TRUNCATE TABLE registros;
+
+-- eliminar la tabla entera
+DROP TABLE IF EXISTS borrador;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-com">-- vaciar filas, conservar tabla</span>
+<span class="t-kw">TRUNCATE TABLE</span> <span class="t-tbl">registros</span>;
+
+<span class="t-com">-- eliminar la tabla entera</span>
+<span class="t-kw">DROP TABLE IF EXISTS</span> <span class="t-tbl">borrador</span>;</pre></figure>
+                </div>
+                <div class="tip warn"><span class="lab">Cuándo</span><code>TRUNCATE</code> es más rápido que <code>DELETE</code> sin <code>WHERE</code> y reinicia contadores, pero no se puede filtrar.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 03 DML ===== -->
+        <section class="stage" id="sq-dml" style="--seg:var(--s2)">
+          <div class="stage-head"><span class="sn">03</span><h2>DML: modificar datos</h2><span class="meta">INSERT · UPDATE<br>DELETE</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-insert">
+              <div class="tile-h"><span class="td"></span><h3>INSERT</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Añade filas. Nombra siempre las columnas: protege ante cambios de esquema.</p>
+                <figure class="code" data-copy="INSERT INTO clientes (id, nombre, pais)
+VALUES (1, 'Ana', 'PE');"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">INSERT INTO</span> <span class="t-tbl">clientes</span> (id, nombre, pais)
+<span class="t-kw">VALUES</span> (<span class="t-num">1</span>, <span class="t-str">'Ana'</span>, <span class="t-str">'PE'</span>);</pre></figure>
+                <p class="note">Varias filas a la vez:</p>
+                <figure class="code" data-copy="INSERT INTO clientes (id, nombre)
+VALUES
+  (2, 'Beto'),
+  (3, 'Caro');"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">INSERT INTO</span> <span class="t-tbl">clientes</span> (id, nombre)
+<span class="t-kw">VALUES</span>
+  (<span class="t-num">2</span>, <span class="t-str">'Beto'</span>),
+  (<span class="t-num">3</span>, <span class="t-str">'Caro'</span>);</pre></figure>
+              </div>
+            </div>
+            <div class="tile" id="sq-update">
+              <div class="tile-h"><span class="td"></span><h3>UPDATE · DELETE</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Cambian o borran filas existentes. El <code>WHERE</code> decide cuáles.</p>
+                <figure class="code" data-copy="UPDATE productos
+SET precio = precio * 1.10
+WHERE categoria = 'bebidas';"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">UPDATE</span> <span class="t-tbl">productos</span>
+<span class="t-kw">SET</span> precio <span class="t-op">=</span> precio <span class="t-op">*</span> <span class="t-num">1.10</span>
+<span class="t-kw">WHERE</span> categoria <span class="t-op">=</span> <span class="t-str">'bebidas'</span>;</pre></figure>
+                <figure class="code" data-copy="DELETE FROM pedidos
+WHERE estado = 'cancelado';"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">DELETE FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">WHERE</span> estado <span class="t-op">=</span> <span class="t-str">'cancelado'</span>;</pre></figure>
+                <div class="tip warn"><span class="lab">Regla de oro</span><code>UPDATE</code>/<code>DELETE</code> <b>sin <code>WHERE</code> afecta TODA la tabla</b>. Pruébalo primero como <code>SELECT</code> con ese mismo <code>WHERE</code>.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 04 JOINs ===== -->
+        <section class="stage" id="sq-join" style="--seg:var(--s3)">
+          <div class="stage-head"><span class="sn">04</span><h2>JOINs: combinar tablas</h2><span class="meta">inner · left · right<br>full · self</span></div>
+          <div class="cols">
+            <div class="tile span" id="sq-joinlab">
+              <div class="tile-h"><span class="td"></span><h3>Laboratorio de JOINs (interactivo)</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Pulsa un tipo de JOIN y observa <b>qué filas sobreviven</b> y <b>dónde aparecen los <code>NULL</code></b>. Los datos incluyen un cliente sin pedidos (Diego) y un pedido huérfano (<code>cliente_id 5</code>, que no existe).</p>
+                <div class="jl">
+                  <div class="jl-sel" role="group" aria-label="Tipo de JOIN">
+                    <button data-join="inner" class="on">INNER JOIN</button>
+                    <button data-join="left">LEFT JOIN</button>
+                    <button data-join="right">RIGHT JOIN</button>
+                    <button data-join="full">FULL JOIN</button>
+                  </div>
+                  <div class="jl-legend">
+                    <span><span class="jl-sw cli"></span>clientes</span>
+                    <span><span class="jl-sw ped"></span>pedidos</span>
+                    <span><span class="jl-sw nul"></span>NULL (sin pareja)</span>
+                  </div>
+                  <div class="jl-srcs">
+                    <div class="jl-src jl-cli">
+                      <h4>clientes <span class="key">· PK clientes.id</span></h4>
+                      <table class="jl-tab" id="jl-cli"><thead><tr><th>id</th><th>nombre</th><th>pais</th></tr></thead><tbody></tbody></table>
+                    </div>
+                    <div class="jl-src jl-ped">
+                      <h4>pedidos <span class="key">· FK pedidos.cliente_id</span></h4>
+                      <table class="jl-tab" id="jl-ped"><thead><tr><th>id</th><th>cliente_id</th><th>total</th></tr></thead><tbody></tbody></table>
+                    </div>
+                  </div>
+                  <div class="jl-arrow" id="jl-symbol">⋈</div>
+                  <div>
+                    <div class="jl-rh"><code id="jl-sql">clientes ⋈ pedidos ON clientes.id = pedidos.cliente_id</code></div>
+                    <table class="jl-rtab" id="jl-result">
+                      <thead><tr><th class="gc">c.id</th><th class="gc">c.nombre</th><th class="gc">c.pais</th><th class="gp">p.id</th><th class="gp">p.total</th></tr></thead>
+                      <tbody></tbody>
+                    </table>
+                    <div class="jl-explain" id="jl-explain"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile span" id="sq-joinkinds">
+              <div class="tile-h"><span class="td"></span><h3>Tipos de JOIN</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Un JOIN une filas de dos tablas según una condición (normalmente PK = FK). Lo que cambia entre tipos es <b>qué filas sin pareja se conservan</b>.</p>
+                <table class="tbl">
+                  <tr><th>JOIN</th><th>Devuelve</th></tr>
+                  <tr><td class="k">INNER JOIN</td><td>solo filas con pareja en ambas tablas</td></tr>
+                  <tr><td class="k">LEFT JOIN</td><td>todas las de la izquierda + pareja (o <code>NULL</code>)</td></tr>
+                  <tr><td class="k">RIGHT JOIN</td><td>todas las de la derecha + pareja (o <code>NULL</code>)</td></tr>
+                  <tr><td class="k">FULL OUTER JOIN</td><td>todas de ambos lados; rellena con <code>NULL</code></td></tr>
+                  <tr><td class="k">CROSS JOIN</td><td>producto cartesiano (todas × todas)</td></tr>
+                </table>
+                <div class="tip"><span class="lab">Cuándo</span>Usa <b>LEFT JOIN</b> para "todos los clientes, hayan comprado o no" y filtra <code>WHERE p.id IS NULL</code> para hallar los que no tienen pareja.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile" id="sq-joinex">
+              <div class="tile-h"><span class="td"></span><h3>INNER y LEFT</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <figure class="code" data-copy="SELECT c.nombre, p.total
+FROM clientes c
+JOIN pedidos p
+  ON p.cliente_id = c.id;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> c.nombre, p.total
+<span class="t-kw">FROM</span> <span class="t-tbl">clientes</span> c
+<span class="t-kw">JOIN</span> <span class="t-tbl">pedidos</span> p
+  <span class="t-kw">ON</span> p.cliente_id <span class="t-op">=</span> c.id;</pre></figure>
+                <figure class="code" data-copy="SELECT c.nombre, p.total
+FROM clientes c
+LEFT JOIN pedidos p
+  ON p.cliente_id = c.id;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> c.nombre, p.total
+<span class="t-kw">FROM</span> <span class="t-tbl">clientes</span> c
+<span class="t-kw">LEFT JOIN</span> <span class="t-tbl">pedidos</span> p
+  <span class="t-kw">ON</span> p.cliente_id <span class="t-op">=</span> c.id;</pre></figure>
+                <div class="tip"><span class="lab">Alias</span><code>clientes c</code> abrevia la tabla; con varios JOINs evita ambigüedad de columnas.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-self">
+              <div class="tile-h"><span class="td"></span><h3>SELF JOIN</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Una tabla unida <b>consigo misma</b>: típico para jerarquías (empleado → jefe).</p>
+                <figure class="code" data-copy="SELECT e.nombre AS empleado,
+       j.nombre AS jefe
+FROM empleados e
+LEFT JOIN empleados j
+  ON e.jefe_id = j.id;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> e.nombre <span class="t-kw">AS</span> empleado,
+       j.nombre <span class="t-kw">AS</span> jefe
+<span class="t-kw">FROM</span> <span class="t-tbl">empleados</span> e
+<span class="t-kw">LEFT JOIN</span> <span class="t-tbl">empleados</span> j
+  <span class="t-kw">ON</span> e.jefe_id <span class="t-op">=</span> j.id;</pre></figure>
+                <div class="tip"><span class="lab">Truco</span>Cada uso necesita un alias distinto (<code>e</code>, <code>j</code>) para distinguir las dos "copias".</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 05 Agregación ===== -->
+        <section class="stage" id="sq-agg" style="--seg:var(--s4)">
+          <div class="stage-head"><span class="sn">05</span><h2>Agregación y grupos</h2><span class="meta">GROUP BY · agregados<br>HAVING</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-aggfn">
+              <div class="tile-h"><span class="td"></span><h3>GROUP BY y agregados</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Colapsa filas en grupos y calcula un valor por grupo.</p>
+                <figure class="code" data-copy="SELECT pais,
+       COUNT(*)   AS n,
+       SUM(total) AS ventas
+FROM pedidos
+GROUP BY pais;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> pais,
+       <span class="t-fn">COUNT</span>(<span class="t-op">*</span>)   <span class="t-kw">AS</span> n,
+       <span class="t-fn">SUM</span>(total) <span class="t-kw">AS</span> ventas
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">GROUP BY</span> pais;</pre></figure>
+                <table class="tbl">
+                  <tr><th>Función</th><th>Devuelve</th></tr>
+                  <tr><td class="fn">COUNT(*)</td><td>nº de filas</td></tr>
+                  <tr><td class="fn">SUM / AVG</td><td>suma / promedio</td></tr>
+                  <tr><td class="fn">MIN / MAX</td><td>mínimo / máximo</td></tr>
+                </table>
+                <div class="tip warn"><span class="lab">Regla</span>Toda columna del <code>SELECT</code> que no esté en un agregado debe ir en el <code>GROUP BY</code>.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-having">
+              <div class="tile-h"><span class="td"></span><h3>HAVING y orden lógico</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note"><code>WHERE</code> filtra filas; <code>HAVING</code> filtra <b>grupos ya agregados</b>.</p>
+                <figure class="code" data-copy="SELECT pais, SUM(total) AS ventas
+FROM pedidos
+GROUP BY pais
+HAVING SUM(total) > 5000
+ORDER BY ventas DESC;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> pais, <span class="t-fn">SUM</span>(total) <span class="t-kw">AS</span> ventas
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">GROUP BY</span> pais
+<span class="t-kw">HAVING</span> <span class="t-fn">SUM</span>(total) <span class="t-op">&gt;</span> <span class="t-num">5000</span>
+<span class="t-kw">ORDER BY</span> ventas <span class="t-kw">DESC</span>;</pre></figure>
+                <div class="tip"><span class="lab">Orden de ejecución</span><code>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</code>. Por eso un alias del <code>SELECT</code> no se puede usar en el <code>WHERE</code>.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 06 Subconsultas y CTE ===== -->
+        <section class="stage" id="sq-sub" style="--seg:var(--s5)">
+          <div class="stage-head"><span class="sn">06</span><h2>Subconsultas y CTE</h2><span class="meta">subquery · WITH<br>recursiva</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-subq">
+              <div class="tile-h"><span class="td"></span><h3>Subconsultas</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Una consulta dentro de otra. Útil en <code>WHERE</code>, en el <code>SELECT</code> o como tabla derivada.</p>
+                <figure class="code" data-copy="SELECT nombre
+FROM productos
+WHERE precio > (
+  SELECT AVG(precio)
+  FROM productos
+);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> nombre
+<span class="t-kw">FROM</span> <span class="t-tbl">productos</span>
+<span class="t-kw">WHERE</span> precio <span class="t-op">&gt;</span> (
+  <span class="t-kw">SELECT</span> <span class="t-fn">AVG</span>(precio)
+  <span class="t-kw">FROM</span> <span class="t-tbl">productos</span>
+);</pre></figure>
+                <div class="tip"><span class="lab">EXISTS</span><code>WHERE EXISTS (SELECT 1 …)</code> comprueba si hay filas relacionadas; suele ser más rápido que <code>IN</code> con muchos valores.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-cte">
+              <div class="tile-h"><span class="td"></span><h3>CTE (WITH)</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Una <b>tabla temporal con nombre</b> para la consulta. Hace legible lo que una subconsulta anidada vuelve ilegible.</p>
+                <figure class="code" data-copy="WITH ventas_pais AS (
+  SELECT pais, SUM(total) AS t
+  FROM pedidos
+  GROUP BY pais
+)
+SELECT *
+FROM ventas_pais
+WHERE t > 5000;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">WITH</span> ventas_pais <span class="t-kw">AS</span> (
+  <span class="t-kw">SELECT</span> pais, <span class="t-fn">SUM</span>(total) <span class="t-kw">AS</span> t
+  <span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+  <span class="t-kw">GROUP BY</span> pais
+)
+<span class="t-kw">SELECT</span> <span class="t-op">*</span>
+<span class="t-kw">FROM</span> ventas_pais
+<span class="t-kw">WHERE</span> t <span class="t-op">&gt;</span> <span class="t-num">5000</span>;</pre></figure>
+                <div class="tip"><span class="lab">Recursiva</span><code>WITH RECURSIVE</code> recorre jerarquías (árbol de organigrama, lista de materiales) en una sola consulta.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 07 Window functions ===== -->
+        <section class="stage" id="sq-win" style="--seg:var(--s6)">
+          <div class="stage-head"><span class="sn">07</span><h2>Window functions</h2><span class="meta">OVER · PARTITION<br>RANK · LAG</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-winbasic">
+              <div class="tile-h"><span class="td"></span><h3>OVER y PARTITION BY</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Calculan sobre un "ventanal" de filas <b>sin colapsarlas</b>: a diferencia de <code>GROUP BY</code>, conservas cada fila y le añades el cálculo.</p>
+                <figure class="code" data-copy="SELECT nombre, depto, salario,
+  AVG(salario) OVER (
+    PARTITION BY depto
+  ) AS prom_depto
+FROM empleados;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> nombre, depto, salario,
+  <span class="t-fn">AVG</span>(salario) <span class="t-kw">OVER</span> (
+    <span class="t-kw">PARTITION BY</span> depto
+  ) <span class="t-kw">AS</span> prom_depto
+<span class="t-kw">FROM</span> <span class="t-tbl">empleados</span>;</pre></figure>
+                <div class="tip"><span class="lab">Idea</span><code>PARTITION BY</code> = "grupos" de la ventana; <code>ORDER BY</code> dentro de <code>OVER</code> = orden para rankings y acumulados.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-winfn">
+              <div class="tile-h"><span class="td"></span><h3>RANK · LAG · LEAD</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <figure class="code" data-copy="SELECT nombre, depto, salario,
+  ROW_NUMBER() OVER (
+    PARTITION BY depto
+    ORDER BY salario DESC
+  ) AS puesto
+FROM empleados;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span> nombre, depto, salario,
+  <span class="t-fn">ROW_NUMBER</span>() <span class="t-kw">OVER</span> (
+    <span class="t-kw">PARTITION BY</span> depto
+    <span class="t-kw">ORDER BY</span> salario <span class="t-kw">DESC</span>
+  ) <span class="t-kw">AS</span> puesto
+<span class="t-kw">FROM</span> <span class="t-tbl">empleados</span>;</pre></figure>
+                <table class="tbl">
+                  <tr><th>Función</th><th>Para</th></tr>
+                  <tr><td class="fn">ROW_NUMBER</td><td>nº correlativo único</td></tr>
+                  <tr><td class="fn">RANK</td><td>ranking, salta tras empates</td></tr>
+                  <tr><td class="fn">DENSE_RANK</td><td>ranking sin saltos</td></tr>
+                  <tr><td class="fn">LAG / LEAD</td><td>valor de la fila anterior/siguiente</td></tr>
+                </table>
+                <div class="tip"><span class="lab">Caso típico</span><code>LAG(ventas) OVER (ORDER BY mes)</code> da la cifra del mes previo para calcular el crecimiento.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 08 Diseño y datos ===== -->
+        <section class="stage" id="sq-design" style="--seg:var(--s7)">
+          <div class="stage-head"><span class="sn">08</span><h2>Diseño y datos con criterio</h2><span class="meta">claves · índices<br>normalización · ACID</span></div>
+          <div class="cols">
+            <div class="tile" id="sq-keys">
+              <div class="tile-h"><span class="td"></span><h3>Claves PK y FK</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note"><b>PK</b> (primary key) identifica cada fila de forma única; <b>FK</b> (foreign key) apunta a la PK de otra tabla y garantiza la integridad referencial.</p>
+                <figure class="code" data-copy="CREATE TABLE pedidos (
+  id          INTEGER PRIMARY KEY,
+  cliente_id  INTEGER NOT NULL
+    REFERENCES clientes(id),
+  total       DECIMAL(10,2)
+);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE TABLE</span> <span class="t-tbl">pedidos</span> (
+  id          <span class="t-kw">INTEGER PRIMARY KEY</span>,
+  cliente_id  <span class="t-kw">INTEGER NOT NULL</span>
+    <span class="t-kw">REFERENCES</span> <span class="t-tbl">clientes</span>(id),
+  total       <span class="t-kw">DECIMAL</span>(<span class="t-num">10</span>,<span class="t-num">2</span>)
+);</pre></figure>
+                <div class="tip"><span class="lab">Por qué</span>La FK impide insertar un pedido con un <code>cliente_id</code> que no existe, y bloquea borrar un cliente con pedidos (salvo <code>ON DELETE CASCADE</code>).</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-norm">
+              <div class="tile-h"><span class="td"></span><h3>Normalización 1FN–3FN</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Organizar el esquema para eliminar redundancia y anomalías al actualizar.</p>
+                <div class="deflist">
+                  <div class="di"><span class="dk">1FN</span><span class="dv">valores <b>atómicos</b>; sin listas ni grupos repetidos en una celda.</span></div>
+                  <div class="di"><span class="dk">2FN</span><span class="dv">1FN + cada columna depende de la <b>PK completa</b> (relevante en claves compuestas).</span></div>
+                  <div class="di"><span class="dk">3FN</span><span class="dv">2FN + sin dependencias transitivas (una columna no-clave no depende de otra no-clave).</span></div>
+                </div>
+                <div class="tip"><span class="lab">Equilibrio</span>Normaliza para integridad (OLTP); <b>desnormaliza</b> a propósito para velocidad de lectura en informes (OLAP / data warehouse).</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile span" id="sq-er">
+              <div class="tile-h"><span class="td"></span><h3>Diagrama de relaciones (firma)</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Tres tablas unidas por claves: cada <b>pedido</b> pertenece a un <b>cliente</b> (FK <code>cliente_id</code>) y referencia un <b>producto</b> (FK <code>producto_id</code>). Las líneas marcan la cardinalidad 1—∞.</p>
+                <svg class="ersvg" viewBox="0 0 760 250" role="img" aria-label="Diagrama entidad-relación: clientes, pedidos y productos unidos por claves">
+                  <!-- relations -->
+                  <path class="rel" d="M210 92 H300"/>
+                  <text class="card" x="218" y="84">1</text>
+                  <text class="card" x="282" y="84">∞</text>
+                  <path class="rel" d="M460 92 H550"/>
+                  <text class="card" x="468" y="84">∞</text>
+                  <text class="card" x="532" y="84">1</text>
+                  <!-- clientes -->
+                  <g>
+                    <rect class="thdr1" x="40" y="40" width="170" height="26" rx="6"/>
+                    <rect class="tbody" x="40" y="64" width="170" height="100" rx="0"/>
+                    <text class="tname" x="52" y="58">clientes</text>
+                    <text class="row pk" x="52" y="86">PK  id</text>
+                    <line class="sep" x1="40" y1="96" x2="210" y2="96"/>
+                    <text class="row" x="52" y="116">nombre</text>
+                    <text class="row" x="52" y="138">email</text>
+                    <text class="row" x="52" y="160">pais</text>
+                  </g>
+                  <!-- pedidos -->
+                  <g>
+                    <rect class="thdr2" x="300" y="40" width="160" height="26" rx="6"/>
+                    <rect class="tbody" x="300" y="64" width="160" height="122" rx="0"/>
+                    <text class="tname" x="312" y="58">pedidos</text>
+                    <text class="row pk" x="312" y="86">PK  id</text>
+                    <line class="sep" x1="300" y1="96" x2="460" y2="96"/>
+                    <text class="row fk" x="312" y="116">FK  cliente_id</text>
+                    <text class="row fk" x="312" y="138">FK  producto_id</text>
+                    <text class="row" x="312" y="160">total</text>
+                    <text class="row" x="312" y="182">fecha</text>
+                  </g>
+                  <!-- productos -->
+                  <g>
+                    <rect class="thdr3" x="550" y="40" width="170" height="26" rx="6"/>
+                    <rect class="tbody" x="550" y="64" width="170" height="100" rx="0"/>
+                    <text class="tname" x="562" y="58">productos</text>
+                    <text class="row pk" x="562" y="86">PK  id</text>
+                    <line class="sep" x1="550" y1="96" x2="720" y2="96"/>
+                    <text class="row" x="562" y="116">nombre</text>
+                    <text class="row" x="562" y="138">precio</text>
+                    <text class="row" x="562" y="160">categoria</text>
+                  </g>
+                </svg>
+                <div class="erkey">
+                  <span><i class="pk" style="color:var(--pg-deep)">PK</i> clave primaria</span>
+                  <span><i class="fk" style="color:var(--s6)">FK</i> clave foránea</span>
+                  <span><i>1—∞</i> uno a muchos</span>
+                </div>
+                <div class="tip"><span class="lab">Cardinalidad</span><b>1:1</b> una fila ↔ una fila · <b>1:N</b> una fila ↔ muchas (lo común: cliente → pedidos) · <b>N:M</b> muchas ↔ muchas, que <b>no se modela directo</b>: se resuelve con una <b>tabla puente</b> (p. ej. <code>pedido_producto</code> con dos FK que apuntan a cada lado).</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile" id="sq-index">
+              <div class="tile-h"><span class="td"></span><h3>Índices</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Estructura que acelera la búsqueda de filas: convierte un <b>scan</b> de toda la tabla en una búsqueda directa.</p>
+                <figure class="code" data-copy="CREATE INDEX idx_pedidos_cliente
+ON pedidos (cliente_id);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE INDEX</span> idx_pedidos_cliente
+<span class="t-kw">ON</span> <span class="t-tbl">pedidos</span> (cliente_id);</pre></figure>
+                <div class="tip warn"><span class="lab">Coste</span>Cada índice acelera lecturas pero <b>frena</b> <code>INSERT</code>/<code>UPDATE</code> y ocupa espacio. Indexa columnas de <code>WHERE</code>, <code>JOIN</code> y <code>ORDER BY</code> frecuentes, no todas.</div>
+              </div>
+            </div>
+            <div class="tile" id="sq-views">
+              <div class="tile-h"><span class="td"></span><h3>Vistas</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Una consulta guardada con nombre que se usa como si fuera una tabla. No almacena datos: encapsula lógica.</p>
+                <figure class="code" data-copy="CREATE VIEW v_ventas_pais AS
+SELECT pais, SUM(total) AS ventas
+FROM pedidos
+GROUP BY pais;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE VIEW</span> v_ventas_pais <span class="t-kw">AS</span>
+<span class="t-kw">SELECT</span> pais, <span class="t-fn">SUM</span>(total) <span class="t-kw">AS</span> ventas
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">GROUP BY</span> pais;</pre></figure>
+                <div class="tip"><span class="lab">Por qué</span>Simplifica consultas repetidas y controla permisos (das acceso a la vista, no a las tablas base).</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile span" id="sq-tx">
+              <div class="tile-h"><span class="td"></span><h3>Transacciones · ACID</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Una transacción agrupa varias sentencias en una unidad <b>todo-o-nada</b>: o se confirman todas (<code>COMMIT</code>) o ninguna (<code>ROLLBACK</code>).</p>
+                <div class="cols">
+                  <figure class="code" data-copy="BEGIN;
+UPDATE cuentas
+  SET saldo = saldo - 100
+  WHERE id = 1;
+UPDATE cuentas
+  SET saldo = saldo + 100
+  WHERE id = 2;
+COMMIT;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">BEGIN</span>;
+<span class="t-kw">UPDATE</span> <span class="t-tbl">cuentas</span>
+  <span class="t-kw">SET</span> saldo <span class="t-op">=</span> saldo <span class="t-op">-</span> <span class="t-num">100</span>
+  <span class="t-kw">WHERE</span> id <span class="t-op">=</span> <span class="t-num">1</span>;
+<span class="t-kw">UPDATE</span> <span class="t-tbl">cuentas</span>
+  <span class="t-kw">SET</span> saldo <span class="t-op">=</span> saldo <span class="t-op">+</span> <span class="t-num">100</span>
+  <span class="t-kw">WHERE</span> id <span class="t-op">=</span> <span class="t-num">2</span>;
+<span class="t-kw">COMMIT</span>;</pre></figure>
+                  <div>
+                    <div class="deflist">
+                      <div class="di"><span class="dk">A · Atomicidad</span><span class="dv">todo o nada; nada queda a medias.</span></div>
+                      <div class="di"><span class="dk">C · Consistencia</span><span class="dv">la BD pasa de un estado válido a otro.</span></div>
+                      <div class="di"><span class="dk">I · Aislamiento</span><span class="dv">las transacciones concurrentes no se pisan.</span></div>
+                      <div class="di"><span class="dk">D · Durabilidad</span><span class="dv">tras <code>COMMIT</code>, persiste aunque falle la luz.</span></div>
+                    </div>
+                    <div class="tip"><span class="lab">Cuándo</span>Imprescindible cuando varias escrituras deben cuadrar juntas (transferencias, reservas). Ante un error, <code>ROLLBACK</code>.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <b>SQL · Hoja de referencia</b> — sintaxis estándar (ANSI SQL). Basado en cuatro cursos de SQL/análisis de datos + buenas prácticas. Cambia a la vista <b>PostgreSQL</b> para lo específico del motor.
+          <span class="mono">consulta.sql · v1.1 · 2026 · clic en cualquier consulta para copiarla</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================== VIEW · POSTGRESQL ===================== -->
+  <div class="cview hidden" id="cview-pg">
+    <div class="hero">
+      <div class="kick">Específico de PostgreSQL · Intermedio → Avanzado</div>
+      <h1>PostgreSQL, donde <em>SQL</em> se vuelve <em>superpoder</em>.</h1>
+      <p class="lede">Lo que distingue a Postgres del SQL genérico: el cliente <code>psql</code>, tipos ricos (<code>JSONB</code>, arrays, <code>UUID</code>), índices especializados, <code>UPSERT</code>, extensiones y respaldos. Asume que ya conoces la vista <b>SQL (estándar)</b>. <b>Clic en cualquier comando para copiarlo.</b></p>
+      <p class="quote">"Data really powers everything that we do." <b>— Jeff Weiner</b></p>
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Secciones</div>
+          <div class="lg-r">
+            <span class="lchip" style="--c:var(--s3)"><span class="dot"></span>psql</span>
+            <span class="lchip" style="--c:var(--s1)"><span class="dot"></span>Tipos PG</span>
+            <span class="lchip" style="--c:var(--s2)"><span class="dot"></span>JSONB</span>
+            <span class="lchip" style="--c:var(--s4)"><span class="dot"></span>Índices · EXPLAIN</span>
+            <span class="lchip" style="--c:var(--s5)"><span class="dot"></span>Secuencias · UPSERT</span>
+            <span class="lchip" style="--c:var(--s6)"><span class="dot"></span>Roles · extensiones</span>
+            <span class="lchip" style="--c:var(--s7)"><span class="dot"></span>Backups</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar">
+      <a class="tab" href="#pg-psql" style="--tc:var(--s3)"><span class="tn">01</span>psql</a>
+      <a class="tab" href="#pg-tipos" style="--tc:var(--s1)"><span class="tn">02</span>Tipos PG</a>
+      <a class="tab" href="#pg-jsonb" style="--tc:var(--s2)"><span class="tn">03</span>JSONB</a>
+      <a class="tab" href="#pg-index" style="--tc:var(--s4)"><span class="tn">04</span>Índices · EXPLAIN</a>
+      <a class="tab" href="#pg-upsert" style="--tc:var(--s5)"><span class="tn">05</span>Secuencias · UPSERT</a>
+      <a class="tab" href="#pg-roles" style="--tc:var(--s6)"><span class="tn">06</span>Roles · extensiones</a>
+      <a class="tab" href="#pg-backup" style="--tc:var(--s7)"><span class="tn">07</span>Backups</a>
+    </div>
+
+    <div class="shell">
+      <nav class="toc" aria-label="Índice PostgreSQL">
+        <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>01 · psql</div>
+        <a href="#pg-connect" style="--seg:var(--s3)">Conectar</a>
+        <a href="#pg-meta" style="--seg:var(--s3)">Meta-comandos</a>
+        <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>02 · Tipos PG</div>
+        <a href="#pg-serial" style="--seg:var(--s1)">SERIAL · UUID</a>
+        <a href="#pg-arrays" style="--seg:var(--s1)">Arrays · ranges</a>
+        <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>03 · JSONB</div>
+        <a href="#pg-jsondoc" style="--seg:var(--s2)">Anatomía JSONB</a>
+        <a href="#pg-jsonq" style="--seg:var(--s2)">Consultar JSONB</a>
+        <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Índices y EXPLAIN</div>
+        <a href="#pg-idxtypes" style="--seg:var(--s4)">B-tree · GIN · GiST</a>
+        <a href="#pg-explain" style="--seg:var(--s4)">EXPLAIN ANALYZE</a>
+        <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Secuencias y UPSERT</div>
+        <a href="#pg-seq" style="--seg:var(--s5)">Secuencias</a>
+        <a href="#pg-conflict" style="--seg:var(--s5)">ON CONFLICT</a>
+        <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Roles y extensiones</div>
+        <a href="#pg-rolesb" style="--seg:var(--s6)">Roles · permisos</a>
+        <a href="#pg-ext" style="--seg:var(--s6)">Extensiones</a>
+        <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Backups</div>
+        <a href="#pg-dump" style="--seg:var(--s7)">pg_dump · restore</a>
+        <a href="#pg-maint" style="--seg:var(--s7)">VACUUM · mantenimiento</a>
+      </nav>
+
+      <main>
+        <!-- ===== 01 psql ===== -->
+        <section class="stage" id="pg-psql" style="--seg:var(--s3)">
+          <div class="stage-head"><span class="sn">01</span><h2>psql, el cliente de consola</h2><span class="meta">conectar · \d \dt<br>\l \c</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-connect">
+              <div class="tile-h"><span class="td"></span><h3>Conectar</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Desde la terminal del sistema (<code>bash</code>/<code>zsh</code>), no desde SQL.</p>
+                <figure class="code" data-copy="psql -U postgres -d mibase -h localhost"><figcaption><span class="lang">bash</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-fn">psql</span> -U postgres -d mibase \
+     -h localhost</pre></figure>
+                <figure class="code" data-copy="psql postgresql://user:pass@host:5432/mibase"><figcaption><span class="lang">bash</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-fn">psql</span> postgresql://user:pass@
+     host:5432/mibase</pre></figure>
+                <div class="tip"><span class="lab">Nota</span>Una vez dentro, el prompt es <code>mibase=#</code> (superusuario) o <code>mibase=&gt;</code> (usuario normal).</div>
+              </div>
+            </div>
+            <div class="tile" id="pg-meta">
+              <div class="tile-h"><span class="td"></span><h3>Meta-comandos</h3><span class="lvl b">B</span></div>
+              <div class="tile-b">
+                <p class="note">Empiezan por <code>\</code>, son de psql (no SQL) y no llevan <code>;</code>.</p>
+                <table class="tbl">
+                  <tr><th>Comando</th><th>Hace</th></tr>
+                  <tr><td class="fn">\l</td><td>lista bases de datos</td></tr>
+                  <tr><td class="fn">\c <span class="ph">base</span></td><td>conecta a otra base</td></tr>
+                  <tr><td class="fn">\dt</td><td>lista tablas</td></tr>
+                  <tr><td class="fn">\d <span class="ph">tabla</span></td><td>describe una tabla</td></tr>
+                  <tr><td class="fn">\du</td><td>lista roles/usuarios</td></tr>
+                  <tr><td class="fn">\dn</td><td>lista esquemas</td></tr>
+                  <tr><td class="fn">\timing</td><td>mide cada consulta</td></tr>
+                  <tr><td class="fn">\q</td><td>salir</td></tr>
+                </table>
+                <div class="tip"><span class="lab">Truco</span><code>\?</code> lista los meta-comandos; <code>\h SELECT</code> muestra la sintaxis SQL de una sentencia.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 02 Tipos PG ===== -->
+        <section class="stage" id="pg-tipos" style="--seg:var(--s1)">
+          <div class="stage-head"><span class="sn">02</span><h2>Tipos propios de Postgres</h2><span class="meta">SERIAL · UUID<br>arrays · ranges</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-serial">
+              <div class="tile-h"><span class="td"></span><h3>SERIAL · IDENTITY · UUID</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Para claves autoincrementales. <code>SERIAL</code> es el clásico; <code>GENERATED … AS IDENTITY</code> es el estándar moderno recomendado.</p>
+                <figure class="code" data-copy="CREATE TABLE nota (
+  id    SERIAL PRIMARY KEY,
+  ref   UUID DEFAULT gen_random_uuid(),
+  texto TEXT
+);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE TABLE</span> <span class="t-tbl">nota</span> (
+  id    <span class="t-kw">SERIAL PRIMARY KEY</span>,
+  ref   <span class="t-kw">UUID DEFAULT</span> <span class="t-fn">gen_random_uuid</span>(),
+  texto <span class="t-kw">TEXT</span>
+);</pre></figure>
+                <div class="tip"><span class="lab">PG vs genérico</span>MySQL usa <code>AUTO_INCREMENT</code>; en Postgres es <code>SERIAL</code>/<code>IDENTITY</code>. <code>gen_random_uuid()</code> viene en <code>pgcrypto</code> (PG 13+ ya lo trae integrado).</div>
+              </div>
+            </div>
+            <div class="tile" id="pg-arrays">
+              <div class="tile-h"><span class="td"></span><h3>Arrays · rangos · enum</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Postgres permite tipos que el SQL estándar no tiene.</p>
+                <figure class="code" data-copy="CREATE TABLE evento (
+  tags   TEXT[],
+  cupo   INT4RANGE,
+  estado mood
+);
+
+SELECT * FROM evento
+WHERE 'sql' = ANY(tags);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE TABLE</span> <span class="t-tbl">evento</span> (
+  tags   <span class="t-kw">TEXT</span>[],
+  cupo   <span class="t-kw">INT4RANGE</span>,
+  estado mood
+);
+
+<span class="t-kw">SELECT</span> <span class="t-op">*</span> <span class="t-kw">FROM</span> <span class="t-tbl">evento</span>
+<span class="t-kw">WHERE</span> <span class="t-str">'sql'</span> <span class="t-op">=</span> <span class="t-fn">ANY</span>(tags);</pre></figure>
+                <div class="tip"><span class="lab">Arrays</span>Indexa con base 1: <code>tags[1]</code>. <code>ANY()</code> / <code>@&gt;</code> prueban pertenencia; los <code>ENUM</code> se crean con <code>CREATE TYPE mood AS ENUM(...)</code>.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 03 JSONB ===== -->
+        <section class="stage" id="pg-jsonb" style="--seg:var(--s2)">
+          <div class="stage-head"><span class="sn">03</span><h2>JSONB</h2><span class="meta">-&gt; · -&gt;&gt; · @&gt;<br>operadores</span></div>
+          <div class="cols">
+            <div class="tile span" id="pg-jsondoc">
+              <div class="tile-h"><span class="td"></span><h3>Anatomía JSONB (firma)</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note"><code>JSONB</code> guarda JSON en binario: más rápido de consultar e indexable (a diferencia de <code>JSON</code>, que es texto crudo). Dada una columna <code>datos JSONB</code> con este documento, cada operador extrae una pieza distinta:</p>
+                <div class="cols">
+                  <div>
+                    <div class="jdoc"><span class="jk">{</span>
+  <span class="jk">"cliente"</span>: <span class="js">"Ana"</span>,
+  <span class="jk">"items"</span>: [<span class="js">"sql"</span>, <span class="js">"psql"</span>],
+  <span class="jk">"envio"</span>: <span class="jk">{</span> <span class="jk">"pais"</span>: <span class="js">"PE"</span> <span class="jk">}</span>,
+  <span class="jk">"pagado"</span>: <span class="jn">true</span>
+<span class="jk">}</span></div>
+                  </div>
+                  <div>
+                    <div class="jops">
+                      <div class="jop"><span class="o">-&gt;</span><span>devuelve <b>JSON</b>: <code>datos-&gt;'envio'</code> → otro objeto.</span></div>
+                      <div class="jop"><span class="o">-&gt;&gt;</span><span>devuelve <b>texto</b>: <code>datos-&gt;&gt;'cliente'</code> → <code>Ana</code>.</span></div>
+                      <div class="jop"><span class="o">#&gt;</span><span>ruta anidada: <code>datos#&gt;'{envio,pais}'</code>.</span></div>
+                      <div class="jop"><span class="o">@&gt;</span><span><b>contiene</b>: <code>datos @&gt; '{"pagado":true}'</code>.</span></div>
+                      <div class="jop"><span class="o">?</span><span>¿existe la clave? <code>datos ? 'envio'</code>.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tip"><span class="lab">Regla</span>Encadena <code>-&gt;</code> mientras navegas objetos y cierra con <code>-&gt;&gt;</code> cuando quieras el valor como texto comparable.</div>
+              </div>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="tile span" id="pg-jsonq">
+              <div class="tile-h"><span class="td"></span><h3>Consultar JSONB</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <div class="cols">
+                  <figure class="code" data-copy="SELECT
+  datos->>'cliente' AS cliente,
+  datos#>>'{envio,pais}' AS pais
+FROM pedidos_json
+WHERE datos->>'pagado' = 'true';"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">SELECT</span>
+  datos<span class="t-op">-&gt;&gt;</span><span class="t-str">'cliente'</span> <span class="t-kw">AS</span> cliente,
+  datos<span class="t-op">#&gt;&gt;</span><span class="t-str">'{envio,pais}'</span> <span class="t-kw">AS</span> pais
+<span class="t-kw">FROM</span> <span class="t-tbl">pedidos_json</span>
+<span class="t-kw">WHERE</span> datos<span class="t-op">-&gt;&gt;</span><span class="t-str">'pagado'</span> <span class="t-op">=</span> <span class="t-str">'true'</span>;</pre></figure>
+                  <figure class="code" data-copy="-- contención (usa índice GIN)
+SELECT * FROM pedidos_json
+WHERE datos @> '{&quot;envio&quot;:{&quot;pais&quot;:&quot;PE&quot;}}';"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-com">-- contención (usa índice GIN)</span>
+<span class="t-kw">SELECT</span> <span class="t-op">*</span> <span class="t-kw">FROM</span> <span class="t-tbl">pedidos_json</span>
+<span class="t-kw">WHERE</span> datos <span class="t-op">@&gt;</span>
+  <span class="t-str">'{"envio":{"pais":"PE"}}'</span>;</pre></figure>
+                </div>
+                <div class="tip"><span class="lab">Cuándo</span>Usa <code>JSONB</code> para datos semiestructurados o variables; si los campos son fijos y se consultan mucho, columnas normales siguen siendo mejores.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 04 Índices y EXPLAIN ===== -->
+        <section class="stage" id="pg-index" style="--seg:var(--s4)">
+          <div class="stage-head"><span class="sn">04</span><h2>Índices y plan de ejecución</h2><span class="meta">B-tree · GIN · GiST<br>EXPLAIN ANALYZE</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-idxtypes">
+              <div class="tile-h"><span class="td"></span><h3>Tipos de índice</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Postgres ofrece varios métodos; el correcto depende del dato y del operador.</p>
+                <table class="tbl">
+                  <tr><th>Tipo</th><th>Ideal para</th></tr>
+                  <tr><td class="k">B-tree</td><td>igualdad y rangos (por defecto)</td></tr>
+                  <tr><td class="k">GIN</td><td>JSONB, arrays, full-text (<code>@&gt;</code>)</td></tr>
+                  <tr><td class="k">GiST</td><td>geometría, rangos, vecindad</td></tr>
+                  <tr><td class="k">BRIN</td><td>tablas enormes casi ordenadas</td></tr>
+                  <tr><td class="k">Hash</td><td>solo igualdad <code>=</code></td></tr>
+                </table>
+                <figure class="code" data-copy="CREATE INDEX idx_datos
+ON pedidos_json
+USING GIN (datos);"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE INDEX</span> idx_datos
+<span class="t-kw">ON</span> <span class="t-tbl">pedidos_json</span>
+<span class="t-kw">USING GIN</span> (datos);</pre></figure>
+              </div>
+            </div>
+            <div class="tile" id="pg-explain">
+              <div class="tile-h"><span class="td"></span><h3>EXPLAIN ANALYZE</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Muestra el <b>plan real</b> y los tiempos medidos: la herramienta nº 1 para diagnosticar consultas lentas.</p>
+                <figure class="code" data-copy="EXPLAIN ANALYZE
+SELECT * FROM pedidos
+WHERE cliente_id = 42;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">EXPLAIN ANALYZE</span>
+<span class="t-kw">SELECT</span> <span class="t-op">*</span> <span class="t-kw">FROM</span> <span class="t-tbl">pedidos</span>
+<span class="t-kw">WHERE</span> cliente_id <span class="t-op">=</span> <span class="t-num">42</span>;</pre></figure>
+                <div class="tip warn"><span class="lab">Lee esto</span><b>Seq Scan</b> = recorre toda la tabla (sospechoso si es grande). <b>Index Scan</b> = usó el índice. Compara <code>cost</code> estimado con el tiempo real.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 05 Secuencias y UPSERT ===== -->
+        <section class="stage" id="pg-upsert" style="--seg:var(--s5)">
+          <div class="stage-head"><span class="sn">05</span><h2>Secuencias y UPSERT</h2><span class="meta">nextval · currval<br>ON CONFLICT</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-seq">
+              <div class="tile-h"><span class="td"></span><h3>Secuencias</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Generadores de números que respaldan a <code>SERIAL</code>. Útil compartir una secuencia entre tablas.</p>
+                <figure class="code" data-copy="CREATE SEQUENCE folio START 1000;
+
+SELECT nextval('folio');
+SELECT currval('folio');"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE SEQUENCE</span> folio <span class="t-kw">START</span> <span class="t-num">1000</span>;
+
+<span class="t-kw">SELECT</span> <span class="t-fn">nextval</span>(<span class="t-str">'folio'</span>);
+<span class="t-kw">SELECT</span> <span class="t-fn">currval</span>(<span class="t-str">'folio'</span>);</pre></figure>
+                <div class="tip"><span class="lab">Nota</span>Tras carga masiva, reajusta con <code>setval('folio', max_id)</code> para evitar choques de PK.</div>
+              </div>
+            </div>
+            <div class="tile" id="pg-conflict">
+              <div class="tile-h"><span class="td"></span><h3>UPSERT (ON CONFLICT)</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Inserta, y si la fila ya existe (choca con una clave única), actualiza en vez de fallar.</p>
+                <figure class="code" data-copy="INSERT INTO stock (sku, cant)
+VALUES ('A1', 5)
+ON CONFLICT (sku)
+DO UPDATE SET
+  cant = stock.cant + EXCLUDED.cant;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">INSERT INTO</span> <span class="t-tbl">stock</span> (sku, cant)
+<span class="t-kw">VALUES</span> (<span class="t-str">'A1'</span>, <span class="t-num">5</span>)
+<span class="t-kw">ON CONFLICT</span> (sku)
+<span class="t-kw">DO UPDATE SET</span>
+  cant <span class="t-op">=</span> stock.cant <span class="t-op">+</span> <span class="t-kw">EXCLUDED</span>.cant;</pre></figure>
+                <div class="tip"><span class="lab">EXCLUDED</span>Es la fila que se intentó insertar. Usa <code>DO NOTHING</code> para ignorar duplicados sin error.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 06 Roles y extensiones ===== -->
+        <section class="stage" id="pg-roles" style="--seg:var(--s6)">
+          <div class="stage-head"><span class="sn">06</span><h2>Roles, permisos y extensiones</h2><span class="meta">ROLE · GRANT<br>CREATE EXTENSION</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-rolesb">
+              <div class="tile-h"><span class="td"></span><h3>Roles y permisos</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">En Postgres usuarios y grupos son lo mismo: <b>roles</b>. Los permisos se dan con <code>GRANT</code>.</p>
+                <figure class="code" data-copy="CREATE ROLE analista LOGIN
+  PASSWORD 'secreto';
+
+GRANT SELECT ON ALL TABLES
+  IN SCHEMA public TO analista;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE ROLE</span> analista <span class="t-kw">LOGIN</span>
+  <span class="t-kw">PASSWORD</span> <span class="t-str">'secreto'</span>;
+
+<span class="t-kw">GRANT SELECT ON ALL TABLES</span>
+  <span class="t-kw">IN SCHEMA</span> public <span class="t-kw">TO</span> analista;</pre></figure>
+                <div class="tip"><span class="lab">Buena práctica</span>Da el mínimo privilegio: un rol de solo lectura para BI, otro con escritura para la app. <code>REVOKE</code> retira permisos.</div>
+              </div>
+            </div>
+            <div class="tile" id="pg-ext">
+              <div class="tile-h"><span class="td"></span><h3>Extensiones</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Módulos que amplían Postgres. Se activan una vez por base de datos.</p>
+                <figure class="code" data-copy="CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION IF NOT EXISTS &quot;uuid-ossp&quot;;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">CREATE EXTENSION IF NOT EXISTS</span>
+  pgcrypto;
+<span class="t-kw">CREATE EXTENSION IF NOT EXISTS</span>
+  <span class="t-str">"uuid-ossp"</span>;</pre></figure>
+                <table class="tbl">
+                  <tr><th>Extensión</th><th>Aporta</th></tr>
+                  <tr><td class="fn">pgcrypto</td><td>hash y cifrado (<code>crypt</code>)</td></tr>
+                  <tr><td class="fn">uuid-ossp</td><td>generar UUID (<code>uuid_generate_v4</code>)</td></tr>
+                  <tr><td class="fn">postgis</td><td>datos geográficos</td></tr>
+                  <tr><td class="fn">pg_trgm</td><td>búsqueda por similitud</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 07 Backups ===== -->
+        <section class="stage" id="pg-backup" style="--seg:var(--s7)">
+          <div class="stage-head"><span class="sn">07</span><h2>Backups y mantenimiento</h2><span class="meta">pg_dump · restore<br>VACUUM</span></div>
+          <div class="cols">
+            <div class="tile" id="pg-dump">
+              <div class="tile-h"><span class="td"></span><h3>pg_dump · restaurar</h3><span class="lvl i">I</span></div>
+              <div class="tile-b">
+                <p class="note">Respaldo lógico desde la terminal del sistema. El formato custom (<code>-Fc</code>) es comprimido y flexible.</p>
+                <figure class="code" data-copy="pg_dump -U postgres -Fc mibase > mibase.dump"><figcaption><span class="lang">bash</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-fn">pg_dump</span> -U postgres -Fc mibase \
+  &gt; mibase.dump</pre></figure>
+                <figure class="code" data-copy="pg_restore -U postgres -d nueva mibase.dump"><figcaption><span class="lang">bash</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-fn">pg_restore</span> -U postgres -d nueva \
+  mibase.dump</pre></figure>
+                <div class="tip"><span class="lab">Nota</span>Con <code>-Fp</code> (texto plano) restauras con <code>psql -d base -f archivo.sql</code>. Para todo el clúster: <code>pg_dumpall</code>.</div>
+              </div>
+            </div>
+            <div class="tile" id="pg-maint">
+              <div class="tile-h"><span class="td"></span><h3>VACUUM y mantenimiento</h3><span class="lvl a">A</span></div>
+              <div class="tile-b">
+                <p class="note">Postgres marca filas borradas como "muertas"; <code>VACUUM</code> recupera ese espacio y refresca estadísticas.</p>
+                <figure class="code" data-copy="VACUUM ANALYZE pedidos;
+
+REINDEX TABLE pedidos;"><figcaption><span class="lang">sql</span><span class="cphint">clic para copiar</span></figcaption><pre><span class="t-kw">VACUUM ANALYZE</span> <span class="t-tbl">pedidos</span>;
+
+<span class="t-kw">REINDEX TABLE</span> <span class="t-tbl">pedidos</span>;</pre></figure>
+                <div class="tip"><span class="lab">Cuándo</span>El <b>autovacuum</b> lo hace solo en segundo plano; ejecuta <code>ANALYZE</code> manual tras cargas masivas para que el planificador tenga estadísticas frescas.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <b>PostgreSQL · Hoja de referencia</b> — específico del motor (PG 13+), construido desde experiencia y buenas prácticas. Para la sintaxis SQL común (JOINs, agregados, window functions) usa la vista <b>SQL (estándar)</b>.
+          <span class="mono">mibase=# · v1.0 · 2026 · clic en cualquier comando para copiarlo</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  /* ---- companion-view swap ---- */
+  var cvbtns=document.querySelectorAll('.cvbtn');
+  function setCView(key){
+    cvbtns.forEach(function(b){var on=b.getAttribute('data-cview')===key;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');});
+    document.querySelectorAll('.cview').forEach(function(v){ v.classList.toggle('hidden', v.id!=='cview-'+key); });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  cvbtns.forEach(function(b){ b.addEventListener('click',function(){ setCView(b.getAttribute('data-cview')); }); });
+
+  /* ---- copy to clipboard ---- */
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  /* ---- interactive JOIN lab ---- */
+  (function(){
+    var srcCli=document.querySelector('#jl-cli tbody'); if(!srcCli)return;
+    var srcPed=document.querySelector('#jl-ped tbody');
+    var resBody=document.querySelector('#jl-result tbody');
+    var symEl=document.getElementById('jl-symbol');
+    var sqlEl=document.getElementById('jl-sql');
+    var explEl=document.getElementById('jl-explain');
+    var clientes=[{id:1,nombre:'Ana',pais:'PE'},{id:2,nombre:'Luis',pais:'MX'},{id:3,nombre:'Sofía',pais:'CO'},{id:4,nombre:'Diego',pais:'CL'}];
+    var pedidos=[{id:101,cliente_id:1,total:120},{id:102,cliente_id:1,total:80},{id:103,cliente_id:2,total:50},{id:104,cliente_id:5,total:60}];
+    var symbols={inner:'⋈',left:'⟕',right:'⟖',full:'⟗'};
+    var explains={
+      inner:'<b>INNER JOIN</b> · solo las filas con pareja en <b>ambas</b> tablas. Diego (sin pedidos) y el pedido 104 (cliente inexistente) desaparecen.',
+      left:'<b>LEFT JOIN</b> · <b>todos los clientes</b>, tengan o no pedidos. Diego aparece una vez con NULL en las columnas de pedidos.',
+      right:'<b>RIGHT JOIN</b> · <b>todos los pedidos</b>, tengan o no cliente. El pedido 104 aparece con NULL en las columnas del cliente.',
+      full:'<b>FULL JOIN</b> · <b>todo de ambos lados</b>. Lo que no encuentra pareja se rellena con NULL en el lado que falta.'
+    };
+    clientes.forEach(function(c){srcCli.insertAdjacentHTML('beforeend','<tr data-cid="'+c.id+'"><td>'+c.id+'</td><td>'+c.nombre+'</td><td>'+c.pais+'</td></tr>');});
+    pedidos.forEach(function(p){srcPed.insertAdjacentHTML('beforeend','<tr data-pid="'+p.id+'"><td>'+p.id+'</td><td>'+p.cliente_id+'</td><td>'+p.total+'</td></tr>');});
+    function compute(type){
+      var rows=[];
+      if(type==='right'){
+        pedidos.forEach(function(p){var c=clientes.find(function(x){return x.id===p.cliente_id;})||null;rows.push({c:c,p:p});});
+        return rows;
+      }
+      clientes.forEach(function(c){
+        var ms=pedidos.filter(function(p){return p.cliente_id===c.id;});
+        if(ms.length){ms.forEach(function(p){rows.push({c:c,p:p});});}
+        else if(type==='left'||type==='full'){rows.push({c:c,p:null});}
+      });
+      if(type==='full'){
+        pedidos.forEach(function(p){var has=clientes.some(function(c){return c.id===p.cliente_id;});if(!has)rows.push({c:null,p:p});});
+      }
+      return rows;
+    }
+    function cell(v,isNull){return isNull?'<td class="null">NULL</td>':'<td>'+v+'</td>';}
+    function render(type){
+      symEl.textContent=symbols[type];
+      explEl.innerHTML=explains[type];
+      var joinName={inner:'INNER JOIN',left:'LEFT JOIN',right:'RIGHT JOIN',full:'FULL JOIN'}[type];
+      sqlEl.textContent='clientes '+joinName+' pedidos ON clientes.id = pedidos.cliente_id';
+      var rows=compute(type);
+      resBody.innerHTML=rows.map(function(r){var c=r.c,p=r.p;return '<tr>'+cell(c?c.id:'',!c)+cell(c?c.nombre:'',!c)+cell(c?c.pais:'',!c)+cell(p?p.id:'',!p)+cell(p?p.total:'',!p)+'</tr>';}).join('');
+      var keepCli={},keepPed={};
+      rows.forEach(function(r){if(r.c)keepCli[r.c.id]=1;if(r.p)keepPed[r.p.id]=1;});
+      srcCli.querySelectorAll('tr').forEach(function(tr){var id=+tr.dataset.cid;tr.classList.toggle('drop',!keepCli[id]);tr.classList.toggle('keep',!!keepCli[id]);});
+      srcPed.querySelectorAll('tr').forEach(function(tr){var id=+tr.dataset.pid;tr.classList.toggle('drop',!keepPed[id]);tr.classList.toggle('keep',!!keepPed[id]);});
+    }
+    var btns=document.querySelectorAll('.jl-sel button');
+    btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(x){x.classList.remove('on');});b.classList.add('on');render(b.dataset.join);});});
+    render('inner');
+  })();
+
+  /* ---- scrollspy per view ---- */
+  function wireSpy(viewId){
+    var view=document.getElementById(viewId); if(!view)return;
+    var links=Array.prototype.slice.call(view.querySelectorAll('nav.toc a'));
+    var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+    if(!('IntersectionObserver' in window))return;
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+  wireSpy('cview-sql');
+  wireSpy('cview-pg');
+})();
+</script>
+</body></html>

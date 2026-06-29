@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agents · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8E8F1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F2F2FB;
+  --rail:#F0F0FA;
+  --code-bg:#FAFAFE;
+  --line:#DCDCEC;
+  --line-soft:#E8E8F4;
+  --ink:#191A28;
+  --ink-soft:#515367;
+  --ink-faint:#8789A0;
+  /* Agent indigo */
+  --ag:#4F46E5;
+  --ag-deep:#3730A3;
+  --ag-tint:rgba(79,70,229,.12);
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#0C8A8A;  /* Anatomía */
+  --s2:#C0750C;  /* Tool use */
+  --s3:#1E9B51;  /* MCP */
+  --s4:#C0398C;  /* Contexto */
+  --s5:#2B6FD6;  /* Patrones */
+  --s6:#C0392B;  /* Evaluar */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#3730A3;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#8789A0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--ag);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(25,26,40,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EEEEF8;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#C6C6DA;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--ag);color:#fff;font-size:13px;flex:none;margin-left:3px}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:2px}
+.titlebar .fname b{color:var(--ag-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--ag-deep);background:var(--ag-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.viewtabs{display:flex;gap:0;background:#F4F4FC;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--ag-deep);border-bottom-color:var(--ag)}
+
+.fxbar{display:flex;align-items:stretch;background:#F4F4FC;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--ag-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ag-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--ag)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.3rem,5.6vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--ag-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--ag-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--ag);background:linear-gradient(90deg,var(--ag-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--ag-deep);background:var(--ag-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--ag)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(25,26,40,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(25,26,40,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--ag-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(25,26,40,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--ag);background:#EFEEFD}
+figure.code.copied .cphint{opacity:1;color:var(--ag-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--ag-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* agent anatomy signature */
+.diagwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.diag-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#EEEEF8;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.diag-bar i{width:10px;height:10px;border-radius:50%;background:#C6C6DA;display:block}
+.diag-bar i:nth-child(1){background:#E5736B}.diag-bar i:nth-child(2){background:#E8B73D}.diag-bar i:nth-child(3){background:#69B27C}
+.diag{width:100%;height:auto;display:block;padding:8px 6px}
+.diag .ln{stroke:var(--ag);stroke-width:1.8;fill:none}
+.diag .lnf{stroke:var(--ink-faint);stroke-width:1.4;fill:none;stroke-dasharray:4 3}
+.diag .core{fill:var(--ag);stroke:#fff;stroke-width:2}
+.diag .box{fill:var(--ag-tint);stroke:var(--ag);stroke-width:1.5}
+.diag .env{fill:#fff;stroke:var(--ink-faint);stroke-width:1.4}
+.diag .ct{font-family:"Space Grotesk",sans-serif;font-size:13px;font-weight:700;fill:#fff}
+.diag .bt{font-family:"Space Grotesk",sans-serif;font-size:11.5px;font-weight:700;fill:var(--ag-deep)}
+.diag .lt{font-family:"JetBrains Mono";font-size:9.5px;fill:var(--ink-soft)}
+.diag .ah{fill:var(--ag)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--ag-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--ag-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#191A28;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(25,26,40,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">◈</span>
+      <span class="fname"><b>agente.py</b> — runtime</span>
+      <span class="branch">loop</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Conceptos</span>
+      <span class="vt">Python · SDK</span>
+      <span class="vt">MCP</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">◈ ▸</span>
+      <span class="fxc"><span class="t-kw">while</span> not done: think() <span class="t-op">→</span> use_tool() <span class="t-op">→</span> observe()&nbsp;&nbsp;<span class="t-com"># el bucle agéntico</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · diseñar y construir agentes con LLMs</div>
+      <h1>AI <em>Agents</em>,<br>LLM + herramientas + bucle.</h1>
+      <p class="lede">Qué es un agente y cómo construirlo, en una página: la diferencia entre <b>flujo de trabajo</b> y <b>agente</b>, la <b>anatomía</b> (modelo, herramientas, memoria, bucle), <b>tool use</b> / function calling con código real, el <b>MCP</b> para conectar herramientas, el <b>contexto</b> y las <b>skills</b>, los <b>patrones</b> (single vs multi-agente) y cómo <b>evaluar</b> y operar uno con seguridad. <b>Clic en cualquier snippet para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Un agente es un modelo de lenguaje en un bucle, usando herramientas hasta lograr un objetivo."</p>
+        <cite>— Definición práctica de agente · <span class="mono">think · act · observe</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Anatomía</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Tool use</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>MCP</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Contexto</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Patrones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Evaluar</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">flujo vs agente</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Anatomía</span><span class="sd">modelo · tools · bucle</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Tool use</span><span class="sd">function calling</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">MCP</span><span class="sd">conectar tools</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Contexto</span><span class="sd">skills · memoria</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Patrones</span><span class="sd">single · multi</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Evaluar</span><span class="sd">evals · seguridad</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">◈</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.2-8.5"/><path d="M16 4l-4 4-2-2"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">loop</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es un agente?</a>
+      <a href="#fd-vs" style="--seg:var(--s0)">Flujo vs agente</a>
+      <a href="#fd-cuando" style="--seg:var(--s0)">¿Construir uno?</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Anatomía</div>
+      <a href="#an-diag" style="--seg:var(--s1)">Las cuatro piezas</a>
+      <a href="#an-loop" style="--seg:var(--s1)">El bucle</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Tool use</div>
+      <a href="#tu-def" style="--seg:var(--s2)">Definir una herramienta</a>
+      <a href="#tu-loop" style="--seg:var(--s2)">El bucle manual</a>
+      <a href="#tu-runner" style="--seg:var(--s2)">Tool runner</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · MCP</div>
+      <a href="#mc-que" style="--seg:var(--s3)">Qué es MCP</a>
+      <a href="#mc-server" style="--seg:var(--s3)">Un servidor mínimo</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Contexto</div>
+      <a href="#cx-skills" style="--seg:var(--s4)">Skills</a>
+      <a href="#cx-mem" style="--seg:var(--s4)">Memoria &amp; contexto</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Patrones</div>
+      <a href="#pt-flujos" style="--seg:var(--s5)">Flujos compuestos</a>
+      <a href="#pt-multi" style="--seg:var(--s5)">Multi-agente</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Evaluar</div>
+      <a href="#ev-evals" style="--seg:var(--s6)">Evals</a>
+      <a href="#ev-safe" style="--seg:var(--s6)">Seguridad &amp; coste</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Anatomía</a><a href="#e2">02 Tools</a>
+        <a href="#e3">03 MCP</a><a href="#e4">04 Contexto</a><a href="#e5">05 Patrones</a><a href="#e6">06 Evaluar</a>
+      </div>
+
+      <!-- 00 -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">qué es y<br>cuándo conviene</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es un agente?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>agente</b> es un LLM que, en un <b>bucle</b>, decide qué <b>herramientas</b> usar para avanzar hacia un objetivo, observa el resultado y repite hasta terminar. La diferencia con un simple chatbot es la <b>acción</b>: el agente <i>hace</i>, no solo responde.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Autonomía</span><span class="dv">elige sus pasos; no sigue un guion fijo.</span></div>
+                <div class="di"><span class="dk">Herramientas</span><span class="dv">su forma de actuar en el mundo (APIs, código, archivos).</span></div>
+                <div class="di"><span class="dk">Bucle</span><span class="dv">pensar → actuar → observar, hasta el objetivo.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-vs">
+            <div class="tile-h"><span class="td"></span><h3>Flujo de trabajo vs agente</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">No todo necesita un agente. Si los pasos son fijos, un <b>flujo de trabajo</b> (workflow) es más simple, barato y predecible.</p>
+              <table class="tbl">
+                <tr><th></th><th>Quién decide los pasos</th></tr>
+                <tr><td class="k">Workflow</td><td>tú, en código (rutas fijas)</td></tr>
+                <tr><td class="k">Agente</td><td>el modelo, en tiempo de ejecución</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla</span>Empieza por lo más simple. Sube a agente solo cuando la tarea es abierta y difícil de guionizar.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-cuando">
+            <div class="tile-h"><span class="td"></span><h3>¿Deberías construir un agente?</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cuatro preguntas antes de lanzarte. Si alguna es "no", quédate en un flujo más simple:</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Complejidad</span><span class="dv">¿la tarea es multi-paso y difícil de especificar de antemano?</span></div>
+                <div class="di"><span class="dk">Valor</span><span class="dv">¿el resultado justifica más coste y latencia?</span></div>
+                <div class="di"><span class="dk">Viabilidad</span><span class="dv">¿el modelo es capaz de hacerlo bien?</span></div>
+                <div class="di"><span class="dk">Coste del error</span><span class="dv">¿puedes detectar y recuperar fallos (tests, revisión)?</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>La anatomía</h2><span class="meta">de qué está<br>hecho un agente</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="an-diag">
+            <div class="tile-h"><span class="td"></span><h3>Las cuatro piezas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un agente combina un <b>modelo</b> (el cerebro que razona y decide), <b>herramientas</b> (cómo actúa), <b>memoria/contexto</b> (lo que sabe) y un <b>bucle</b> que lo orquesta sobre un <b>entorno</b>.</p>
+              <div class="diagwrap">
+                <div class="diag-bar"><i></i><i></i><i></i><span>anatomía · modelo + herramientas + memoria + bucle</span></div>
+                <svg class="diag" viewBox="0 0 720 210" role="img" aria-label="Modelo en el centro con herramientas, memoria y entorno">
+                  <defs><marker id="ah2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path class="ah" d="M0 0l6 3-6 3z"/></marker></defs>
+                  <circle class="core" cx="360" cy="100" r="46"/><text class="ct" x="360" y="96" text-anchor="middle">Modelo</text><text class="ct" x="360" y="112" text-anchor="middle" style="font-size:9px">razona+decide</text>
+                  <rect class="box" x="70" y="40" width="150" height="44" rx="9"/><text class="bt" x="145" y="60" text-anchor="middle">Herramientas</text><text class="lt" x="145" y="75" text-anchor="middle">API · código · archivos</text>
+                  <rect class="box" x="70" y="120" width="150" height="44" rx="9"/><text class="bt" x="145" y="140" text-anchor="middle">Memoria</text><text class="lt" x="145" y="155" text-anchor="middle">contexto · estado</text>
+                  <rect class="env" x="500" y="78" width="160" height="46" rx="9"/><text class="bt" x="580" y="98" text-anchor="middle" fill="var(--ink)">Entorno</text><text class="lt" x="580" y="113" text-anchor="middle">repo · web · usuario</text>
+                  <path class="ln" d="M222 62 H314" marker-end="url(#ah2)"/><path class="ln" d="M314 78 L222 130" marker-end="url(#ah2)"/>
+                  <path class="ln" d="M406 92 H498" marker-end="url(#ah2)"/><path class="lnf" d="M498 112 H406" marker-end="url(#ah2)"/>
+                  <text class="lt" x="455" y="84" text-anchor="middle" fill="var(--ag-deep)">acción</text>
+                  <text class="lt" x="455" y="128" text-anchor="middle">observación</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="an-loop">
+            <div class="tile-h"><span class="td"></span><h3>El bucle — el corazón</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El runtime (tu código, o un framework) ejecuta el bucle: pide al modelo, si pide una herramienta la ejecuta y le devuelve el resultado, y repite hasta que el modelo deja de pedir herramientas. <b>El modelo decide; tu harness ejecuta.</b></p>
+              <figure class="code" data-copy="while True:&#10;    msg = model.respond(history)&#10;    if msg.wants_tool:&#10;        result = run_tool(msg.tool, msg.args)&#10;        history += [msg, result]   # observa&#10;    else:&#10;        return msg                  # respuesta final">
+                <figcaption><span class="lang">pseudocódigo · el bucle</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">while</span> <span class="t-num">True</span>:
+    msg = model.<span class="t-fn">respond</span>(history)
+    <span class="t-kw">if</span> msg.wants_tool:
+        result = <span class="t-fn">run_tool</span>(msg.tool, msg.args)
+        history += [msg, result]   <span class="t-com"># observa</span>
+    <span class="t-kw">else</span>:
+        <span class="t-kw">return</span> msg                  <span class="t-com"># final</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Tool use (function calling)</h2><span class="meta">cómo el agente<br>actúa</span></div>
+
+        <div class="cols">
+          <div class="tile" id="tu-def">
+            <div class="tile-h"><span class="td"></span><h3>Definir una herramienta</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una herramienta = nombre + descripción + esquema JSON de sus argumentos. La <b>descripción</b> es lo que el modelo lee para decidir cuándo usarla: sé claro y di <i>cuándo</i> llamarla.</p>
+              <figure class="code" data-copy="{&#10;  &quot;name&quot;: &quot;get_weather&quot;,&#10;  &quot;description&quot;: &quot;Clima actual. Úsala cuando&#10;     pregunten por el tiempo de una ciudad.&quot;,&#10;  &quot;input_schema&quot;: {&#10;    &quot;type&quot;: &quot;object&quot;,&#10;    &quot;properties&quot;: {&#10;      &quot;location&quot;: {&quot;type&quot;: &quot;string&quot;}&#10;    },&#10;    &quot;required&quot;: [&quot;location&quot;]&#10;  }&#10;}">
+                <figcaption><span class="lang">definición de tool</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>{
+  <span class="t-str">"name"</span>: <span class="t-str">"get_weather"</span>,
+  <span class="t-str">"description"</span>: <span class="t-str">"Clima actual. Úsala</span>
+<span class="t-str">     cuando pregunten por el tiempo."</span>,
+  <span class="t-str">"input_schema"</span>: {
+    <span class="t-str">"type"</span>: <span class="t-str">"object"</span>,
+    <span class="t-str">"properties"</span>: {
+      <span class="t-str">"location"</span>: {<span class="t-str">"type"</span>: <span class="t-str">"string"</span>}
+    },
+    <span class="t-str">"required"</span>: [<span class="t-str">"location"</span>]
+  }
+}</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="tu-loop">
+            <div class="tile-h"><span class="td"></span><h3>El bucle manual (Anthropic)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Control fino: llamas a la API, si <code>stop_reason</code> es <code>tool_use</code> ejecutas la tool y devuelves un <code>tool_result</code>, repitiendo hasta <code>end_turn</code>.</p>
+              <figure class="code" data-copy="import anthropic&#10;client = anthropic.Anthropic()&#10;while True:&#10;    r = client.messages.create(&#10;        model=&quot;claude-opus-4-8&quot;, max_tokens=1024,&#10;        tools=tools, messages=messages)&#10;    if r.stop_reason != &quot;tool_use&quot;: break&#10;    messages.append({&quot;role&quot;:&quot;assistant&quot;,&#10;                     &quot;content&quot;: r.content})&#10;    results = []&#10;    for b in r.content:&#10;        if b.type == &quot;tool_use&quot;:&#10;            out = run(b.name, b.input)&#10;            results.append({&quot;type&quot;:&quot;tool_result&quot;,&#10;              &quot;tool_use_id&quot;: b.id, &quot;content&quot;: out})&#10;    messages.append({&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:results})">
+                <figcaption><span class="lang">python · anthropic</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> anthropic
+client = anthropic.<span class="t-fn">Anthropic</span>()
+<span class="t-kw">while</span> <span class="t-num">True</span>:
+    r = client.messages.<span class="t-fn">create</span>(
+        model=<span class="t-str">"claude-opus-4-8"</span>, max_tokens=<span class="t-num">1024</span>,
+        tools=tools, messages=messages)
+    <span class="t-kw">if</span> r.stop_reason != <span class="t-str">"tool_use"</span>: <span class="t-kw">break</span>
+    messages.append({<span class="t-str">"role"</span>:<span class="t-str">"assistant"</span>,
+                     <span class="t-str">"content"</span>: r.content})
+    results = []
+    <span class="t-kw">for</span> b <span class="t-kw">in</span> r.content:
+        <span class="t-kw">if</span> b.type == <span class="t-str">"tool_use"</span>:
+            out = <span class="t-fn">run</span>(b.name, b.input)
+            results.append({<span class="t-str">"type"</span>:<span class="t-str">"tool_result"</span>,
+              <span class="t-str">"tool_use_id"</span>: b.id, <span class="t-str">"content"</span>: out})
+    messages.append({<span class="t-str">"role"</span>:<span class="t-str">"user"</span>,<span class="t-str">"content"</span>:results})</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="tu-runner">
+            <div class="tile-h"><span class="td"></span><h3>Tool runner — el bucle, automático</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El SDK puede llevar el bucle por ti: defines funciones tipadas como tools y el <i>tool runner</i> se encarga de llamar, ejecutar y reinyectar resultados hasta terminar.</p>
+              <figure class="code" data-copy="from anthropic import Anthropic, beta_tool&#10;client = Anthropic()&#10;&#10;@beta_tool&#10;def get_weather(location: str) -> str:&#10;    &quot;&quot;&quot;Clima actual de una ciudad.&quot;&quot;&quot;&#10;    return f&quot;Soleado, 24°C en {location}&quot;&#10;&#10;runner = client.beta.messages.tool_runner(&#10;    model=&quot;claude-opus-4-8&quot;, max_tokens=1024,&#10;    tools=[get_weather],&#10;    messages=[{&quot;role&quot;:&quot;user&quot;,&#10;               &quot;content&quot;:&quot;¿Qué tiempo hace en Lima?&quot;}])&#10;for message in runner:&#10;    print(message)">
+                <figcaption><span class="lang">python · tool runner (beta)</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> anthropic <span class="t-kw">import</span> Anthropic, beta_tool
+client = <span class="t-fn">Anthropic</span>()
+
+<span class="t-flag">@beta_tool</span>
+<span class="t-kw">def</span> <span class="t-fn">get_weather</span>(location: str) -> str:
+    <span class="t-str">"""Clima actual de una ciudad."""</span>
+    <span class="t-kw">return</span> <span class="t-str">f"Soleado, 24°C en {location}"</span>
+
+runner = client.beta.messages.<span class="t-fn">tool_runner</span>(
+    model=<span class="t-str">"claude-opus-4-8"</span>, max_tokens=<span class="t-num">1024</span>,
+    tools=[get_weather],
+    messages=[{<span class="t-str">"role"</span>:<span class="t-str">"user"</span>,
+               <span class="t-str">"content"</span>:<span class="t-str">"¿Tiempo en Lima?"</span>}])
+<span class="t-kw">for</span> message <span class="t-kw">in</span> runner:
+    <span class="t-fn">print</span>(message)</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>MCP</h2><span class="meta">el estándar para<br>conectar herramientas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-que">
+            <div class="tile-h"><span class="td"></span><h3>Qué es MCP</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>Model Context Protocol</b> es un estándar abierto (como "USB-C para LLMs") que conecta agentes con herramientas y datos. Un <b>servidor MCP</b> expone capacidades; un <b>cliente</b> (tu agente) las consume — sin pegamento a medida por cada integración.</p>
+              <table class="tbl">
+                <tr><th>Expone</th><th>Qué es</th></tr>
+                <tr><td class="fn">tools</td><td>acciones que el modelo puede ejecutar</td></tr>
+                <tr><td class="fn">resources</td><td>datos/archivos que puede leer</td></tr>
+                <tr><td class="fn">prompts</td><td>plantillas de prompt reutilizables</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-server">
+            <div class="tile-h"><span class="td"></span><h3>Un servidor MCP mínimo</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Con el SDK de Python, una función decorada se convierte en una <b>tool</b> que cualquier cliente MCP (Claude Code, Cowork…) puede usar.</p>
+              <figure class="code" data-copy="from mcp.server.fastmcp import FastMCP&#10;mcp = FastMCP(&quot;demo&quot;)&#10;&#10;@mcp.tool()&#10;def add(a: int, b: int) -> int:&#10;    &quot;&quot;&quot;Suma dos números.&quot;&quot;&quot;&#10;    return a + b&#10;&#10;if __name__ == &quot;__main__&quot;:&#10;    mcp.run()">
+                <figcaption><span class="lang">python · MCP server</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> mcp.server.fastmcp <span class="t-kw">import</span> FastMCP
+mcp = <span class="t-fn">FastMCP</span>(<span class="t-str">"demo"</span>)
+
+<span class="t-flag">@mcp.tool()</span>
+<span class="t-kw">def</span> <span class="t-fn">add</span>(a: int, b: int) -> int:
+    <span class="t-str">"""Suma dos números."""</span>
+    <span class="t-kw">return</span> a + b
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    mcp.<span class="t-fn">run</span>()</pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué importa</span>Escribes la integración <b>una vez</b> y sirve para todos los clientes MCP. Es lo que hace los agentes interoperables.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Contexto: skills &amp; memoria</h2><span class="meta">lo que el agente<br>sabe y recuerda</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cx-skills">
+            <div class="tile-h"><span class="td"></span><h3>Skills</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>skill</b> es una carpeta con un <code>SKILL.md</code> que aporta instrucciones especializadas <i>bajo demanda</i>: su descripción está siempre en contexto, el detalle se carga solo cuando la tarea encaja (revelación progresiva). Mantiene el prompt base pequeño.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Para qué</span><span class="dv">flujos, convenciones y best-practices reutilizables.</span></div>
+                <div class="di"><span class="dk">vs herramienta</span><span class="dv">la skill enseña <i>cómo</i>; la tool <i>ejecuta</i>.</span></div>
+                <div class="di"><span class="dk">vs prompt</span><span class="dv">la skill se carga sola; el prompt lo pones tú cada vez.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="cx-mem">
+            <div class="tile-h"><span class="td"></span><h3>Memoria &amp; gestión de contexto</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La ventana de contexto es finita. Los agentes largos la cuidan con varias técnicas:</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Memoria</span><span class="dv">guarda estado en archivos para sobrevivir entre sesiones.</span></div>
+                <div class="di"><span class="dk">Compactación</span><span class="dv">resume el historial al acercarse al límite.</span></div>
+                <div class="di"><span class="dk">Context editing</span><span class="dv">poda resultados de tools viejos e irrelevantes.</span></div>
+                <div class="di"><span class="dk">RAG</span><span class="dv">recupera solo los fragmentos relevantes en vez de meterlo todo.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Context engineering</span>Tan importante como el prompt: decide <b>qué</b> entra en contexto y <b>cuándo</b>, no solo cómo lo pides.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Patrones &amp; frameworks</h2><span class="meta">cómo se<br>componen</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pt-flujos">
+            <div class="tile-h"><span class="td"></span><h3>Flujos compuestos (workflows)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Antes de un agente autónomo, muchos problemas se resuelven encadenando llamadas con control en código:</p>
+              <table class="tbl">
+                <tr><th>Patrón</th><th>Idea</th></tr>
+                <tr><td class="k">Prompt chaining</td><td>salida de un paso = entrada del siguiente</td></tr>
+                <tr><td class="k">Routing</td><td>clasifica y deriva a la rama adecuada</td></tr>
+                <tr><td class="k">Paralelización</td><td>varias subtareas a la vez, luego se unen</td></tr>
+                <tr><td class="k">Evaluator</td><td>un paso genera, otro critica y mejora</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="pt-multi">
+            <div class="tile-h"><span class="td"></span><h3>Single vs multi-agente</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>orquestador</b> puede delegar subtareas a <b>subagentes</b> especializados, cada uno con su contexto y herramientas. Útil para paralelizar o aislar trabajo; añade complejidad y coste.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Orchestrator</span><span class="dv">coordina y reparte; reúne resultados.</span></div>
+                <div class="di"><span class="dk">Subagentes</span><span class="dv">cada uno experto en una parte (revisar, buscar).</span></div>
+                <div class="di"><span class="dk">Frameworks</span><span class="dv">Claude Agent SDK, OpenAI Agents SDK y similares dan el andamiaje.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Cuándo</span>Empieza con un solo agente. Pasa a multi-agente solo si hay <b>trabajos independientes</b> que paralelizar o aislar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Evaluar &amp; operar</h2><span class="meta">que funcione<br>de verdad</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ev-evals">
+            <div class="tile-h"><span class="td"></span><h3>Evals</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Sin medición no hay mejora. Define un conjunto de casos con resultado esperado y mide cada cambio contra él, en vez de fiarte de "se ve bien".</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Dataset</span><span class="dv">casos representativos con su respuesta correcta.</span></div>
+                <div class="di"><span class="dk">Métrica</span><span class="dv">éxito de tarea, no solo "suena bien".</span></div>
+                <div class="di"><span class="dk">LLM-as-judge</span><span class="dv">un modelo evalúa la salida con una rúbrica.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="ev-safe">
+            <div class="tile-h"><span class="td"></span><h3>Seguridad &amp; coste</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un agente actúa: ponle límites antes de soltarlo.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Permisos</span><span class="dv">pide confirmación en acciones irreversibles (borrar, enviar, pagar).</span></div>
+                <div class="di"><span class="dk">Aislamiento</span><span class="dv">ejecuta herramientas en sandbox; nada de secretos al alcance.</span></div>
+                <div class="di"><span class="dk">Límites</span><span class="dv">tope de iteraciones y de tokens para no quemar coste.</span></div>
+                <div class="di"><span class="dk">Observabilidad</span><span class="dv">registra cada paso (trazas) para depurar y auditar.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">Inyección de prompts</span>Trata todo dato externo como potencialmente hostil: puede intentar redirigir al agente. Valida en los límites del sistema.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>AI Agents · Hoja de referencia</b> — diseñar y construir agentes con LLMs. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">LLM + tools + loop · MCP · evals · v1.1 · jun 2026 · ejemplos con Anthropic SDK</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+</body>
+</html>

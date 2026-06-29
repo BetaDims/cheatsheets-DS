@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refrigeración · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --bg:#E7ECF1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F2F6FA;
+  --rail:#EEF3F8;
+  --code-bg:#F8FBFD;
+  --line:#DDE5EC;
+  --line-soft:#E9EFF4;
+  --ink:#1B2530;
+  --ink-soft:#4C5A68;
+  --ink-faint:#8492A0;
+  /* Refrigeración — azul frío */
+  --rf:#2D8FD5;
+  --rf-deep:#1F6BA3;
+  --rf-tint:rgba(45,143,213,.14);
+  /* acentos de sección */
+  --s0:#1F6BA3;
+  --s1:#0E8A8A;
+  --s2:#6B4BB8;
+  --s3:#1E9B51;
+  --s4:#B0840A;
+  --s5:#C0398C;
+  --s6:#C0392B;
+  --s7:#46566A;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --hot:#D64545;
+  --cold:#2D8FD5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  font-variant-ligatures:none;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--rf);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(27,37,48,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF4F8;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--rf),#5FB0E8);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:10px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--rf-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:var(--rf-deep);border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CAD6DF;display:block}
+
+.viewtabs{display:flex;gap:0;background:#F8FBFD;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--rf-deep);border-bottom-color:var(--rf)}
+
+.fxbar{display:flex;align-items:stretch;background:#F8FBFD;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:14px;color:var(--rf-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:8px;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc .sep{color:var(--rf);font-weight:700}
+.fxbar .fxc b{font-weight:600}
+.fxbar .fxc b.hot{color:var(--hot)}
+.fxbar .fxc b.cold{color:var(--cold)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--rf-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--rf)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--rf-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--rf-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--rf);background:linear-gradient(90deg,var(--rf-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--rf-deep);background:var(--rf-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--rf)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(27,37,48,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(27,37,48,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--rf-deep)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--rf-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--s2)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--rf-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* fórmula KaTeX clicable (copia) */
+.fbox{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;background:var(--code-bg);padding:10px 14px 12px;margin:10px 0;cursor:pointer;position:relative;transition:box-shadow .15s}
+.fbox:last-child{margin-bottom:0}
+.fbox:hover{box-shadow:0 2px 10px -4px rgba(27,37,48,.18)}
+.fbox.copied{border-left-color:var(--rf);background:#EFF7FC}
+.fbox .fcap{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fbox .fcap .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+.fbox:hover .fcap .cphint{opacity:1}
+.fbox.copied .fcap .cphint{opacity:1;color:var(--rf-deep);font-weight:700}
+.fbox .math{text-align:center;font-size:15px;color:var(--ink);overflow-x:auto;overflow-y:hidden}
+.klist{list-style:none;margin:6px 0 0;padding:0}
+.klist li{position:relative;padding:4px 0 4px 18px;font-size:12.7px;color:var(--ink-soft);line-height:1.45}
+.klist li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:2px;background:var(--seg)}
+.klist li b{color:var(--ink);font-weight:600}
+.klist:last-child li:last-child{padding-bottom:0}
+
+/* ===== firma: diagramas SVG ===== */
+.diag{margin:6px 0;border:1px dashed var(--rf);border-radius:11px;padding:16px 14px 10px;background:linear-gradient(180deg,var(--rf-tint),transparent)}
+.diag svg{width:100%;height:auto;display:block}
+.diag .dcap{font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);margin-top:8px;text-align:center;line-height:1.5}
+.diag .dcap b{color:var(--ink)}
+.diag .dcap .sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin:0 3px}
+svg text{font-family:"IBM Plex Sans",sans-serif}
+svg .comp{fill:#fff;stroke-width:2}
+svg .lbl{font-size:12px;font-weight:700;fill:var(--ink)}
+svg .sub{font-size:9px;fill:var(--ink-soft)}
+svg .pipe{fill:none;stroke-width:2.6}
+svg .pc{stroke:var(--cold)}
+svg .ph{stroke:var(--hot)}
+svg .pl{stroke:var(--rf-deep)}
+svg .stc{fill:var(--rf-deep)}
+svg .stn{font-family:"JetBrains Mono";font-size:11px;font-weight:700;fill:#fff}
+svg .ann{font-family:"JetBrains Mono";font-size:9.5px;fill:var(--ink-soft)}
+svg .axis{stroke:var(--ink-faint);stroke-width:1.4;fill:none}
+svg .dome{fill:rgba(45,143,213,.07);stroke:var(--rf-deep);stroke-width:1.6}
+svg .iso{stroke:var(--ink-faint);stroke-width:1;stroke-dasharray:3 3;fill:none}
+svg .cyc{fill:none;stroke:var(--s2);stroke-width:2.6}
+svg .reg{font-size:10px;fill:var(--ink-faint);font-style:italic}
+svg .axl{font-family:"JetBrains Mono";font-size:10px;fill:var(--ink-soft)}
+svg .proc{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;fill:var(--s2)}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1B2530;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(27,37,48,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">RF</span>
+      <span class="fname"><b>Refrigeración</b> · refrigeracion.cycle</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg>Ciclo</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Ciclo</span>
+      <span class="vt">Componentes</span>
+      <span class="vt">Refrigerantes</span>
+      <span class="vt">Cálculo</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">↻</span>
+      <span class="fxc"><b class="hot">compresor</b><span class="sep">▸</span><b>condensador</b><span class="sep">▸</span><b>expansión</b><span class="sep">▸</span><b class="cold">evaporador</b></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · ciclo por compresión de vapor</div>
+      <h1>Refrigeración, del <em>ciclo</em><br>al <em>cálculo</em>.</h1>
+      <p class="lede">El ciclo de refrigeración por compresión de vapor (HVAC-R) en una página: el <b>ciclo de Carnot inverso</b> frente al real, los <b>4 componentes</b> (compresor → condensador → válvula de expansión → evaporador), el <b>diagrama P-h</b> y sus cuatro transformaciones, los <b>refrigerantes</b> (R-134a, R-410A, R-32, amoníaco, CO₂) y su transición ecológica, el <b>COP</b> de refrigeración y de bomba de calor, <b>sobrecalentamiento/subenfriamiento</b>, tipos de <b>compresores</b>, aplicaciones y fallas. <b>Clic en cualquier fórmula para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"Cold is just the absence of heat — move it."</p>
+        <cite>— Principio del ciclo de refrigeración</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Ciclo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Componentes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Diagrama P-h</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Refrigerantes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Cálculo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Recalent./Subenf.</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Compresores</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Aplicaciones</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Ciclo</span><span class="sd">Carnot vs real</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Componentes</span><span class="sd">los 4 equipos</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Diagrama P-h</span><span class="sd">4 transform.</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Refrigerantes</span><span class="sd">GWP · ODP</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Cálculo</span><span class="sd">COP · TR</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Recalent.</span><span class="sd">+ subenf.</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Compresores</span><span class="sd">scroll · tornillo</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Aplicaciones</span><span class="sd">fallas · mant.</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">RF</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.cycle</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Ciclo</div>
+      <a href="#rf-bomba" style="--seg:var(--s0)">Bombear calor</a>
+      <a href="#rf-carnot" style="--seg:var(--s0)">Carnot inverso</a>
+      <a href="#rf-sig-ciclo" style="--seg:var(--s0)">El ciclo (diagrama)</a>
+      <a href="#rf-real" style="--seg:var(--s0)">Ideal vs real</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Componentes</div>
+      <a href="#rf-compresor" style="--seg:var(--s1)">Compresor</a>
+      <a href="#rf-condensador" style="--seg:var(--s1)">Condensador</a>
+      <a href="#rf-valvula" style="--seg:var(--s1)">Válvula de expansión</a>
+      <a href="#rf-evaporador" style="--seg:var(--s1)">Evaporador</a>
+      <a href="#rf-estados" style="--seg:var(--s1)">P · T · fase por punto</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Diagrama P-h</div>
+      <a href="#rf-sig-ph" style="--seg:var(--s2)">Diagrama presión-entalpía</a>
+      <a href="#rf-transf" style="--seg:var(--s2)">Las 4 transformaciones</a>
+      <a href="#rf-leer" style="--seg:var(--s2)">Cómo leerlo</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Refrigerantes</div>
+      <a href="#rf-tabla" style="--seg:var(--s3)">Tabla comparativa</a>
+      <a href="#rf-natsint" style="--seg:var(--s3)">Naturales vs sintéticos</a>
+      <a href="#rf-eco" style="--seg:var(--s3)">Transición ecológica</a>
+      <a href="#rf-nomen" style="--seg:var(--s3)">Nomenclatura R-xxx</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Cálculo</div>
+      <a href="#rf-cop" style="--seg:var(--s4)">COP de refrigeración</a>
+      <a href="#rf-copbc" style="--seg:var(--s4)">COP de bomba de calor</a>
+      <a href="#rf-efecto" style="--seg:var(--s4)">Efecto refrigerante</a>
+      <a href="#rf-carga" style="--seg:var(--s4)">Carga y toneladas</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Recalent./Subenf.</div>
+      <a href="#rf-super" style="--seg:var(--s5)">Sobrecalentamiento</a>
+      <a href="#rf-sub" style="--seg:var(--s5)">Subenfriamiento</a>
+      <a href="#rf-porque" style="--seg:var(--s5)">Por qué importan</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Compresores</div>
+      <a href="#rf-tipos" style="--seg:var(--s6)">Tipos de compresor</a>
+      <a href="#rf-hermet" style="--seg:var(--s6)">Hermético/abierto</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Aplicaciones</div>
+      <a href="#rf-apps" style="--seg:var(--s7)">HVAC y cadena de frío</a>
+      <a href="#rf-fallas" style="--seg:var(--s7)">Fallas comunes</a>
+      <a href="#rf-mant" style="--seg:var(--s7)">Mantenimiento</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Ciclo</a><a href="#e1">01 Comp.</a><a href="#e2">02 P-h</a><a href="#e3">03 Refrig.</a>
+        <a href="#e4">04 Cálculo</a><a href="#e5">05 Recalent.</a><a href="#e6">06 Compres.</a><a href="#e7">07 Apps</a>
+      </div>
+
+      <!-- ===== 00 CICLO ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>El ciclo</h2><span class="meta">termodinámica<br>2ª ley</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rf-bomba">
+            <div class="tile-h"><span class="td"></span><h3>Bombear calor, no crearlo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El frío no se "fabrica": se <b>extrae calor</b> de un recinto frío y se vierte a uno caliente. Como el calor fluye solo de caliente a frío (2ª ley), hay que <b>gastar trabajo</b> ($W$) para moverlo en contra. El refrigerante es el fluido que transporta ese calor cambiando de fase.</p>
+              <div class="fbox" data-copy="Q_H = Q_L + W">
+                <div class="fcap">balance de energía<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$Q_H = Q_L + W$$</div>
+              </div>
+              <p class="note">$Q_L$ = calor absorbido en el evaporador (lo que enfría); $Q_H$ = calor cedido en el condensador; $W$ = trabajo del compresor.</p>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-carnot">
+            <div class="tile-h"><span class="td"></span><h3>Carnot inverso: el techo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El ciclo de <b>Carnot inverso</b> es el ideal reversible: dos isotermas y dos isentrópicas. Marca el <b>COP máximo</b> posible entre dos temperaturas (en kelvin). Ningún ciclo real lo alcanza.</p>
+              <div class="fbox" data-copy="COP_Carnot = T_L / (T_H - T_L)">
+                <div class="fcap">COP máximo (refrigeración)<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$COP_{Carnot}=\frac{T_L}{T_H-T_L}$$</div>
+              </div>
+              <div class="tip"><span class="lab">Lectura</span>Cuanto <b>menor</b> sea el salto $T_H-T_L$, mayor el COP. Por eso enfriar poco cuesta poco y congelar muy frío en un día caluroso cuesta mucho.</div>
+            </div>
+          </div>
+
+          <!-- FIRMA: diagrama del ciclo -->
+          <div class="tile span" id="rf-sig-ciclo">
+            <div class="tile-h"><span class="td"></span><h3>El ciclo por compresión de vapor — los 4 componentes</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Lazo cerrado: el refrigerante recorre los cuatro equipos sin parar. Sigue las flechas de flujo y los estados ①→②→③→④. <b>Rojo</b> = gas caliente de alta presión; <b>azul</b> = lado frío de baja presión.</p>
+              <div class="diag">
+                <svg viewBox="0 0 580 380" role="img" aria-label="Ciclo de refrigeración por compresión de vapor con compresor, condensador, válvula de expansión y evaporador en lazo cerrado">
+                  <defs>
+                    <marker id="arr" markerWidth="9" markerHeight="9" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rf-deep)"/></marker>
+                    <marker id="arrh" markerWidth="9" markerHeight="9" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--hot)"/></marker>
+                    <marker id="arrc" markerWidth="9" markerHeight="9" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--cold)"/></marker>
+                  </defs>
+
+                  <!-- piping -->
+                  <path class="pipe pc" marker-end="url(#arrc)" d="M420,319 H500 V230"/>
+                  <path class="pipe ph" marker-end="url(#arrh)" d="M500,150 V61 H424"/>
+                  <path class="pipe pl" marker-end="url(#arr)" d="M160,61 H80 V166"/>
+                  <path class="pipe pc" marker-end="url(#arrc)" d="M80,214 V319 H156"/>
+
+                  <!-- condensador -->
+                  <rect class="comp" stroke="var(--hot)" x="160" y="38" width="260" height="46" rx="8"/>
+                  <text class="lbl" x="290" y="57" text-anchor="middle">CONDENSADOR</text>
+                  <text class="sub" x="290" y="73" text-anchor="middle">cede calor al ambiente · vapor → líquido</text>
+
+                  <!-- evaporador -->
+                  <rect class="comp" stroke="var(--cold)" x="160" y="296" width="260" height="46" rx="8"/>
+                  <text class="lbl" x="290" y="315" text-anchor="middle">EVAPORADOR</text>
+                  <text class="sub" x="290" y="331" text-anchor="middle">absorbe calor del recinto · líquido → vapor</text>
+
+                  <!-- compresor -->
+                  <circle class="comp" stroke="var(--hot)" cx="500" cy="190" r="40"/>
+                  <text class="lbl" x="500" y="186" text-anchor="middle" font-size="11">COMPRESOR</text>
+                  <text class="sub" x="500" y="200" text-anchor="middle">+W</text>
+
+                  <!-- válvula de expansión (bowtie) -->
+                  <path class="comp" stroke="var(--rf-deep)" d="M58,168 L102,168 L80,190 Z"/>
+                  <path class="comp" stroke="var(--rf-deep)" d="M58,212 L102,212 L80,190 Z"/>
+                  <text class="lbl" x="80" y="246" text-anchor="middle" font-size="10.5">VÁLVULA</text>
+                  <text class="sub" x="80" y="259" text-anchor="middle">de expansión</text>
+
+                  <!-- estados -->
+                  <circle class="stc" cx="500" cy="275" r="11"/><text class="stn" x="500" y="279" text-anchor="middle">1</text>
+                  <text class="ann" x="484" y="278" text-anchor="end">vapor · baja P</text>
+                  <circle class="stc" cx="500" cy="105" r="11"/><text class="stn" x="500" y="109" text-anchor="middle">2</text>
+                  <text class="ann" x="484" y="108" text-anchor="end">gas caliente · alta P</text>
+                  <circle class="stc" cx="80" cy="110" r="11"/><text class="stn" x="80" y="114" text-anchor="middle">3</text>
+                  <text class="ann" x="96" y="113" text-anchor="start">líquido · alta P</text>
+                  <circle class="stc" cx="80" cy="270" r="11"/><text class="stn" x="80" y="274" text-anchor="middle">4</text>
+                  <text class="ann" x="96" y="273" text-anchor="start">mezcla L+V · baja P</text>
+                </svg>
+                <div class="dcap">
+                  <span class="sw" style="background:var(--hot)"></span><b>alta presión / caliente</b>
+                  &nbsp;·&nbsp;
+                  <span class="sw" style="background:var(--cold)"></span><b>baja presión / frío</b>
+                  &nbsp;·&nbsp; el compresor divide el lazo en lado de alta y lado de baja
+                </div>
+              </div>
+              <div class="tip"><span class="lab">El recorrido</span>① el compresor aspira vapor a baja P y lo comprime → ② vapor caliente a alta P entra al condensador y se licúa cediendo calor → ③ líquido a alta P llega a la válvula → ④ se expande: cae P y T, sale mezcla fría que en el evaporador absorbe calor y vuelve a ①.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-real">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo ideal vs ciclo real</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El ciclo estándar de compresión de vapor ya idealiza (compresión isentrópica, salida saturada). El ciclo <b>real</b> añade irreversibilidades que bajan el COP:</p>
+              <table class="tbl">
+                <tr><th>Aspecto</th><th>Ideal</th><th>Real</th></tr>
+                <tr><td class="k">Compresión</td><td>isentrópica (s = cte)</td><td>η&lt;100% · s aumenta</td></tr>
+                <tr><td class="k">Evaporador out</td><td>vapor saturado</td><td>vapor <b>sobrecalentado</b></td></tr>
+                <tr><td class="k">Condensador out</td><td>líquido saturado</td><td>líquido <b>subenfriado</b></td></tr>
+                <tr><td class="k">Tuberías</td><td>sin pérdidas</td><td>caída de P y fugas de calor</td></tr>
+                <tr><td class="k">Expansión</td><td>isentálpica (ideal)</td><td>isentálpica (irreversible real)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué</span>El sobrecalentamiento y el subenfriamiento no son "defectos": se buscan a propósito para proteger el compresor y exprimir más efecto refrigerante (ver sección 05).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 COMPONENTES ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Los 4 componentes</h2><span class="meta">qué pasa<br>en cada uno</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rf-compresor">
+            <div class="tile-h"><span class="td"></span><h3>① Compresor</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>corazón</b> del ciclo y único que consume energía. Aspira vapor a baja presión y lo comprime, subiendo su <b>presión y temperatura</b>. Mantiene el caudal de refrigerante circulando.</p>
+              <ul class="klist">
+                <li><b>Presión:</b> baja → alta ▲</li>
+                <li><b>Temperatura:</b> sube mucho ▲</li>
+                <li><b>Fase:</b> vapor → vapor (sobrecalentado)</li>
+              </ul>
+              <div class="tip warn"><span class="lab">Regla de oro</span>El compresor solo debe tragar <b>vapor</b>. Líquido entrando = "golpe de líquido", que puede destrozarlo. De ahí el sobrecalentamiento de seguridad.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-condensador">
+            <div class="tile-h"><span class="td"></span><h3>② Condensador</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un intercambiador donde el vapor caliente <b>cede calor</b> al ambiente (aire o agua) y se <b>condensa</b> a líquido. La presión se mantiene alta; la temperatura baja hasta condensar.</p>
+              <ul class="klist">
+                <li><b>Presión:</b> alta, casi constante</li>
+                <li><b>Temperatura:</b> baja al condensar ▼</li>
+                <li><b>Fase:</b> vapor → líquido</li>
+              </ul>
+              <div class="tip"><span class="lab">Mantenimiento</span>Un condensador sucio o con poco aire no cede calor: sube la presión de alta, el compresor sufre y el COP cae. Limpiar aletas es lo más rentable.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-valvula">
+            <div class="tile-h"><span class="td"></span><h3>③ Válvula de expansión</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Estrangula el líquido de alta presión: cae bruscamente la <b>presión</b> y, con ella, la <b>temperatura</b>. Parte del líquido se evapora (<i>flash gas</i>). Proceso <b>isentálpico</b> (h ≈ constante). También dosifica el caudal al evaporador.</p>
+              <ul class="klist">
+                <li><b>Presión:</b> alta → baja ▼▼</li>
+                <li><b>Temperatura:</b> cae mucho ▼</li>
+                <li><b>Fase:</b> líquido → mezcla L+V</li>
+              </ul>
+              <div class="tip"><span class="lab">Tipos</span><code>Tubo capilar</code> (equipos pequeños), <code>válvula termostática (TXV)</code> y <code>electrónica (EEV)</code>, que regulan el sobrecalentamiento.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-evaporador">
+            <div class="tile-h"><span class="td"></span><h3>④ Evaporador</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Donde ocurre el <b>frío útil</b>: la mezcla fría <b>absorbe calor</b> del recinto y el refrigerante se <b>evapora</b> por completo. Presión baja, temperatura baja casi constante durante la evaporación.</p>
+              <ul class="klist">
+                <li><b>Presión:</b> baja, casi constante</li>
+                <li><b>Temperatura:</b> baja (lo que enfría)</li>
+                <li><b>Fase:</b> líquido → vapor</li>
+              </ul>
+              <div class="tip"><span class="lab">Efecto refrigerante</span>El calor que absorbe aquí por kg de refrigerante es el <b>efecto refrigerante</b> $q_L=h_1-h_4$ (sección 04).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-estados">
+            <div class="tile-h"><span class="td"></span><h3>Presión · temperatura · fase en cada punto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Punto</th><th>Ubicación</th><th>Presión</th><th>Temp.</th><th>Fase</th></tr>
+                <tr><td class="k">①</td><td>salida evaporador / entrada compresor</td><td>baja</td><td>baja</td><td>vapor (sobrecalentado)</td></tr>
+                <tr><td class="k">②</td><td>salida compresor / entrada condensador</td><td>alta</td><td>muy alta</td><td>vapor sobrecalentado</td></tr>
+                <tr><td class="k">③</td><td>salida condensador / entrada válvula</td><td>alta</td><td>media</td><td>líquido (subenfriado)</td></tr>
+                <tr><td class="k">④</td><td>salida válvula / entrada evaporador</td><td>baja</td><td>baja</td><td>mezcla líquido + vapor</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Truco de campo</span>"Alta y baja" se refieren a las dos presiones del sistema: el compresor sube de baja a alta; la válvula vuelve de alta a baja. Todo lo demás es a presión casi constante.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 DIAGRAMA P-h ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Diagrama presión-entalpía</h2><span class="meta">el mapa<br>del ciclo</span></div>
+
+        <div class="cols">
+          <!-- FIRMA: diagrama P-h -->
+          <div class="tile span" id="rf-sig-ph">
+            <div class="tile-h"><span class="td"></span><h3>Diagrama P-h (presión-entalpía)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La herramienta clave del refrigerista. La <b>campana</b> separa líquido (izq.), mezcla líquido+vapor (dentro) y vapor (der.). El ciclo se dibuja como cuatro tramos; las distancias horizontales son <b>entalpías</b> y dan el calor y el trabajo.</p>
+              <div class="diag">
+                <svg viewBox="0 0 540 360" role="img" aria-label="Diagrama presión-entalpía con campana de saturación y el ciclo de cuatro estados">
+                  <defs>
+                    <marker id="ax" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--ink-faint)"/></marker>
+                    <marker id="cy" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--s2)"/></marker>
+                  </defs>
+
+                  <!-- ejes -->
+                  <path class="axis" marker-end="url(#ax)" d="M70,300 H505"/>
+                  <path class="axis" marker-end="url(#ax)" d="M70,300 V45"/>
+                  <text class="axl" x="288" y="330" text-anchor="middle">entalpía  h  (kJ/kg)  →</text>
+                  <text class="axl" x="30" y="175" text-anchor="middle" transform="rotate(-90 30 175)">presión  P  (log)</text>
+
+                  <!-- isobaras del ciclo (alta y baja), punteadas -->
+                  <line class="iso" x1="70" y1="120" x2="500" y2="120"/>
+                  <line class="iso" x1="70" y1="240" x2="500" y2="240"/>
+                  <text class="axl" x="64" y="124" text-anchor="end" font-size="9">alta</text>
+                  <text class="axl" x="64" y="244" text-anchor="end" font-size="9">baja</text>
+
+                  <!-- campana de saturación -->
+                  <path class="dome" d="M150,295 C175,150 222,92 255,75 C290,92 340,155 362,295 Z"/>
+                  <text class="reg" x="112" y="170" text-anchor="middle">líquido</text>
+                  <text class="reg" x="258" y="205" text-anchor="middle">líq. + vapor</text>
+                  <text class="reg" x="432" y="200" text-anchor="middle">vapor</text>
+
+                  <!-- ciclo 1-2-3-4 -->
+                  <path class="cyc" marker-end="url(#cy)" d="M330,240 L380,120"/>
+                  <path class="cyc" marker-end="url(#cy)" d="M380,120 L205,120"/>
+                  <path class="cyc" marker-end="url(#cy)" d="M205,120 L205,240"/>
+                  <path class="cyc" marker-end="url(#cy)" d="M205,240 L330,240"/>
+
+                  <!-- procesos -->
+                  <text class="proc" x="398" y="180" text-anchor="start">compresión</text>
+                  <text class="proc" x="293" y="111" text-anchor="middle">condensación</text>
+                  <text class="proc" x="150" y="184" text-anchor="end">expansión</text>
+                  <text class="proc" x="250" y="258" text-anchor="middle">evaporación</text>
+
+                  <!-- estados -->
+                  <circle class="stc" fill="var(--s2)" cx="330" cy="240" r="11"/><text class="stn" x="330" y="244" text-anchor="middle">1</text>
+                  <text class="ann" x="342" y="258" text-anchor="start">vapor sat.</text>
+                  <circle class="stc" fill="var(--s2)" cx="380" cy="120" r="11"/><text class="stn" x="380" y="124" text-anchor="middle">2</text>
+                  <text class="ann" x="394" y="116" text-anchor="start">sobrecal.</text>
+                  <circle class="stc" fill="var(--s2)" cx="205" cy="120" r="11"/><text class="stn" x="205" y="124" text-anchor="middle">3</text>
+                  <text class="ann" x="191" y="116" text-anchor="end">líq. sat.</text>
+                  <circle class="stc" fill="var(--s2)" cx="205" cy="240" r="11"/><text class="stn" x="205" y="244" text-anchor="middle">4</text>
+                  <text class="ann" x="191" y="244" text-anchor="end">L+V</text>
+                </svg>
+                <div class="dcap"><b>q<sub>L</sub> = h₁−h₄</b> (efecto refrigerante, abajo) · <b>w = h₂−h₁</b> (lado derecho) · la expansión 3→4 es vertical: h constante</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-transf">
+            <div class="tile-h"><span class="td"></span><h3>Las 4 transformaciones</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <ul class="klist">
+                <li><b>1→2 Compresión:</b> sube P y T. Ideal: entropía constante (sube por la diagonal). Consume $w=h_2-h_1$.</li>
+                <li><b>2→3 Condensación:</b> a presión alta constante, cede $q_H=h_2-h_3$. Tramo horizontal hacia la izquierda.</li>
+                <li><b>3→4 Expansión:</b> isentálpica, $h$ constante → línea vertical hacia abajo. Cae P y T.</li>
+                <li><b>4→1 Evaporación:</b> a presión baja constante, absorbe $q_L=h_1-h_4$. Tramo horizontal hacia la derecha.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-leer">
+            <div class="tile-h"><span class="td"></span><h3>Cómo leerlo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Eje X = <b>entalpía</b> (energía por kg); eje Y = <b>presión</b> (escala logarítmica). La línea de líquido saturado (izquierda de la campana) y la de vapor saturado (derecha) se juntan en el <b>punto crítico</b>.</p>
+              <div class="tip"><span class="lab">Por qué se usa</span>Porque calor y trabajo se leen como <b>diferencias de entalpía</b> (segmentos horizontales). Con dos presiones y el refrigerante, el diagrama da todo el ciclo y el COP de un vistazo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 REFRIGERANTES ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Refrigerantes</h2><span class="meta">GWP · ODP<br>seguridad</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="rf-tabla">
+            <div class="tile-h"><span class="td"></span><h3>Tabla comparativa</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Refrig.</th><th>Tipo</th><th>ODP</th><th>GWP≈</th><th>Seguridad</th><th>Uso típico</th></tr>
+                <tr><td class="fn">R-134a</td><td>HFC</td><td>0</td><td>1430</td><td>A1 (no inflam.)</td><td>auto antiguo, refrig. media</td></tr>
+                <tr><td class="fn">R-410A</td><td>HFC (mezcla)</td><td>0</td><td>2088</td><td>A1</td><td>aire acondicionado split</td></tr>
+                <tr><td class="fn">R-32</td><td>HFC</td><td>0</td><td>675</td><td>A2L (baja inflam.)</td><td>AC moderno (sustituye 410A)</td></tr>
+                <tr><td class="fn">R-717</td><td>amoníaco (natural)</td><td>0</td><td>0</td><td>B2L (tóxico/inflam.)</td><td>frío industrial, grandes plantas</td></tr>
+                <tr><td class="fn">R-744</td><td>CO₂ (natural)</td><td>0</td><td>1</td><td>A1 (alta presión)</td><td>comercial, transcrítico, bombas calor</td></tr>
+                <tr><td class="fn">R-290</td><td>propano (natural)</td><td>0</td><td>3</td><td>A3 (inflamable)</td><td>neveras, equipos pequeños</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Atención</span>Los <b>GWP</b> son valores aproximados y cambian según la norma/edición. Lo que importa para elegir: ODP=0 ya es estándar; ahora la presión es bajar el <b>GWP</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-natsint">
+            <div class="tile-h"><span class="td"></span><h3>Naturales vs sintéticos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Sintéticos</b> (HFC/HFO): no inflamables o A2L, fáciles de manejar, pero con GWP que va de alto a bajo. <b>Naturales</b> (NH₃, CO₂, HC): GWP casi nulo y buen rendimiento, a costa de toxicidad (amoníaco), inflamabilidad (propano) o alta presión (CO₂).</p>
+              <div class="tip"><span class="lab">ODP vs GWP</span><b>ODP</b> = daño a la capa de ozono (los CFC/HCFC, ya prohibidos). <b>GWP</b> = potencial de calentamiento global frente al CO₂ (que vale 1).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-eco">
+            <div class="tile-h"><span class="td"></span><h3>Transición ecológica</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <ul class="klist">
+                <li><b>Protocolo de Montreal:</b> eliminó CFC y HCFC (los del agujero de ozono, ODP&gt;0).</li>
+                <li><b>Enmienda de Kigali:</b> ahora reduce gradualmente los <b>HFC</b> por su alto GWP.</li>
+                <li><b>Tendencia:</b> hacia refrigerantes <b>A2L</b> (R-32, HFO) y <b>naturales</b> (CO₂, NH₃, propano).</li>
+              </ul>
+              <div class="tip warn"><span class="lab">A2L</span>"Levemente inflamables": exigen detección de fugas, límites de carga y formación. Son el caballo de batalla de la nueva generación de AC.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-nomen">
+            <div class="tile-h"><span class="td"></span><h3>Nomenclatura R-xxx y clases de seguridad</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El número codifica la composición química (átomos de C, H, F). Series útiles: <b>400</b> = mezclas zeotrópicas, <b>500</b> = azeotrópicas, <b>600</b> = orgánicos (R-600a isobutano), <b>700</b> = inorgánicos (R-717 amoníaco = masa molar 17, R-744 CO₂ = 44).</p>
+              <table class="tbl">
+                <tr><th>Clase</th><th>Toxicidad</th><th>Inflamabilidad</th></tr>
+                <tr><td class="k">A1</td><td>baja</td><td>ninguna — la más segura</td></tr>
+                <tr><td class="k">A2L</td><td>baja</td><td>leve, baja velocidad de llama</td></tr>
+                <tr><td class="k">A3</td><td>baja</td><td>alta (hidrocarburos)</td></tr>
+                <tr><td class="k">B2L</td><td>alta</td><td>leve (amoníaco)</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 CÁLCULO ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Cálculo</h2><span class="meta">COP · efecto<br>refrigerante · TR</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rf-cop">
+            <div class="tile-h"><span class="td"></span><h3>COP de refrigeración</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>coeficiente de desempeño</b> mide cuánto frío obtienes por cada unidad de trabajo. Es adimensional y &gt;1: por eso una bomba de calor "rinde" más del 100%.</p>
+              <div class="fbox" data-copy="COP_R = Q_L / W = (h1 - h4) / (h2 - h1)">
+                <div class="fcap">refrigeración (enfriar)<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$COP_R=\frac{Q_L}{W}=\frac{h_1-h_4}{h_2-h_1}$$</div>
+              </div>
+              <div class="tip"><span class="lab">Lectura en P-h</span>Es el segmento horizontal del evaporador (4→1) dividido entre el del compresor (1→2). Más efecto refrigerante o menos trabajo = mejor COP.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-copbc">
+            <div class="tile-h"><span class="td"></span><h3>COP de bomba de calor</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>misma máquina</b>, pero el producto útil es el <b>calor cedido</b> $Q_H$ (calefacción). Por el balance de energía, siempre rinde una unidad más que en modo frío.</p>
+              <div class="fbox" data-copy="COP_BC = Q_H / W = (h2 - h3) / (h2 - h1) = COP_R + 1">
+                <div class="fcap">bomba de calor (calentar)<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$COP_{BC}=\frac{Q_H}{W}=\frac{h_2-h_3}{h_2-h_1}=COP_R+1$$</div>
+              </div>
+              <div class="tip"><span class="lab">Por qué +1</span>Como $Q_H=Q_L+W$, al dividir entre $W$ aparece el término extra: el calor entregado incluye también el trabajo del compresor.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-efecto">
+            <div class="tile-h"><span class="td"></span><h3>Efecto refrigerante</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El calor que cada kg de refrigerante absorbe en el evaporador. Cuanto mayor, menos caudal hace falta para el mismo frío.</p>
+              <div class="fbox" data-copy="q_L = h1 - h4   (kJ/kg)">
+                <div class="fcap">efecto refrigerante específico<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$q_L=h_1-h_4\quad[\text{kJ/kg}]$$</div>
+              </div>
+              <p class="note">El trabajo específico del compresor es $w=h_2-h_1$ y el calor rechazado $q_H=h_2-h_3$.</p>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-carga">
+            <div class="tile-h"><span class="td"></span><h3>Carga térmica y toneladas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>tonelada de refrigeración (TR)</b> es la unidad clásica de capacidad: el calor para congelar una tonelada corta de hielo en 24 h.</p>
+              <div class="fbox" data-copy="1 TR = 3.517 kW = 12000 BTU/h">
+                <div class="fcap">conversión de capacidad<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$1\ \text{TR}=3{,}517\ \text{kW}=12\,000\ \tfrac{\text{BTU}}{\text{h}}$$</div>
+              </div>
+              <div class="fbox" data-copy="m_dot = Q_L / q_L ; W_dot = m_dot (h2 - h1)">
+                <div class="fcap">caudal másico y potencia<span class="cphint">clic = copiar</span></div>
+                <div class="math">$$\dot m=\frac{\dot Q_L}{q_L}\qquad \dot W=\dot m\,(h_2-h_1)$$</div>
+              </div>
+              <div class="tip"><span class="lab">Flujo de cálculo</span>De la carga térmica $\dot Q_L$ y el efecto $q_L$ sacas el caudal $\dot m$; con él, la potencia del compresor y el COP del sistema completo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 RECALENTAMIENTO / SUBENFRIAMIENTO ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Sobrecalentamiento y subenfriamiento</h2><span class="meta">los dos<br>márgenes</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rf-super">
+            <div class="tile-h"><span class="td"></span><h3>Sobrecalentamiento (superheat)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Grados que el vapor sube <b>por encima</b> de su temperatura de saturación al salir del evaporador. Garantiza que llega al compresor <b>100% vapor</b>, sin gotas de líquido.</p>
+              <ul class="klist">
+                <li><b>Dónde:</b> salida del evaporador / línea de aspiración</li>
+                <li><b>Mide:</b> T real − T de saturación a la P baja</li>
+                <li><b>Típico:</b> ~5–10 K de recalentamiento útil</li>
+              </ul>
+              <div class="tip warn"><span class="lab">Equilibrio</span>Poco recalentamiento = riesgo de líquido al compresor. Demasiado = evaporador mal aprovechado y compresor recalentado.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-sub">
+            <div class="tile-h"><span class="td"></span><h3>Subenfriamiento (subcooling)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Grados que el líquido baja <b>por debajo</b> de su temperatura de saturación al salir del condensador. Asegura líquido puro a la válvula y <b>aumenta el efecto refrigerante</b>.</p>
+              <ul class="klist">
+                <li><b>Dónde:</b> salida del condensador / línea de líquido</li>
+                <li><b>Mide:</b> T de saturación a la P alta − T real</li>
+                <li><b>Típico:</b> ~3–8 K de subenfriamiento</li>
+              </ul>
+              <div class="tip"><span class="lab">Beneficio</span>Mueve el punto ③ a la izquierda en el P-h: $h_4$ baja, así que $q_L=h_1-h_4$ crece sin gastar más trabajo. Y evita <i>flash gas</i> antes de la válvula.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-porque">
+            <div class="tile-h"><span class="td"></span><h3>Por qué se miden — diagnóstico de campo</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Juntos son el <b>termómetro de salud</b> del sistema: con manómetros (presiones) y termómetros (temperaturas) se calculan, y sus valores delatan la falla sin abrir nada.</p>
+              <table class="tbl">
+                <tr><th>Síntoma</th><th>Causa probable</th></tr>
+                <tr><td class="k">Recalentamiento alto + presión baja</td><td>poca carga de refrigerante / fuga</td></tr>
+                <tr><td class="k">Recalentamiento bajo (~0)</td><td>sobrecarga o válvula muy abierta</td></tr>
+                <tr><td class="k">Subenfriamiento bajo</td><td>poca carga o condensador con problema</td></tr>
+                <tr><td class="k">Subenfriamiento alto</td><td>sobrecarga / restricción en línea de líquido</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 COMPRESORES ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Tipos de compresor</h2><span class="meta">el equipo<br>que mueve todo</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="rf-tipos">
+            <div class="tile-h"><span class="td"></span><h3>Por principio de compresión</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Principio</th><th>Capacidad</th><th>Uso típico</th></tr>
+                <tr><td class="fn">Alternativo</td><td>pistón + cilindro (volumétrico)</td><td>baja–media</td><td>refrigeración doméstica y comercial</td></tr>
+                <tr><td class="fn">Scroll</td><td>dos espirales que se engranan</td><td>media</td><td>AC residencial/comercial, silencioso</td></tr>
+                <tr><td class="fn">Tornillo</td><td>dos rotores helicoidales</td><td>media–alta</td><td>industrial, funcionamiento continuo</td></tr>
+                <tr><td class="fn">Centrífugo</td><td>impulsor (dinámico, no volumétrico)</td><td>muy alta</td><td>chillers grandes, climatización masiva</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla</span>A más capacidad y horas de marcha, se sube en la escalera: pistón → scroll → tornillo → centrífugo. Los tres primeros son <b>volumétricos</b>; el centrífugo es <b>dinámico</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-hermet">
+            <div class="tile-h"><span class="td"></span><h3>Por construcción: hermético, semihermético, abierto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <ul class="klist">
+                <li><b>Hermético:</b> motor y compresor sellados en una carcasa. Barato, no reparable. Neveras y AC pequeños.</li>
+                <li><b>Semihermético:</b> atornillado, se puede abrir y reparar. Comercial e industrial medio.</li>
+                <li><b>Abierto:</b> motor externo acoplado por eje, con sello en el cigüeñal. Permite motor eléctrico o de combustión; típico con amoníaco.</li>
+              </ul>
+              <div class="tip"><span class="lab">Capacidad variable</span>Los compresores <b>inverter</b> modulan la velocidad para ajustar la potencia a la carga: menos arranques, más eficiencia y temperatura más estable.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 APLICACIONES ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Aplicaciones, fallas y mantenimiento</h2><span class="meta">la práctica<br>HVAC-R</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rf-apps">
+            <div class="tile-h"><span class="td"></span><h3>HVAC y cadena de frío</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <ul class="klist">
+                <li><b>HVAC:</b> aire acondicionado, chillers, bombas de calor para confort.</li>
+                <li><b>Cadena de frío:</b> conservación y transporte de alimentos y medicamentos sin romper la temperatura.</li>
+                <li><b>Comercial:</b> vitrinas, cámaras, supermercados.</li>
+                <li><b>Industrial:</b> procesos, congelación rápida, frío de proceso con amoníaco.</li>
+              </ul>
+              <div class="tip"><span class="lab">Mismo ciclo</span>Desde una nevera hasta un chiller industrial: cambian tamaño, refrigerante y compresor, pero el lazo de 4 componentes es el mismo.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rf-fallas">
+            <div class="tile-h"><span class="td"></span><h3>Fallas comunes</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Falla</th><th>Efecto</th></tr>
+                <tr><td class="k">Fuga / baja carga</td><td>poco frío, recalentamiento alto, presiones bajas</td></tr>
+                <tr><td class="k">Condensador sucio</td><td>presión de alta sube, COP cae, compresor sufre</td></tr>
+                <tr><td class="k">Válvula obstruida</td><td>cae el caudal, evaporador hambriento</td></tr>
+                <tr><td class="k">Hielo en evaporador</td><td>poco aire, filtro sucio o baja carga</td></tr>
+                <tr><td class="k">Compresor dañado</td><td>no comprime: sin diferencia de presiones</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile span" id="rf-mant">
+            <div class="tile-h"><span class="td"></span><h3>Mantenimiento preventivo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <ul class="klist">
+                <li><b>Limpieza:</b> aletas de condensador y evaporador, y filtros de aire.</li>
+                <li><b>Presiones:</b> medir alta y baja con manómetros; comparar con tablas del refrigerante.</li>
+                <li><b>Recalentamiento y subenfriamiento:</b> el chequeo que confirma la carga correcta.</li>
+                <li><b>Fugas:</b> detección obligatoria, sobre todo con A2L e inflamables.</li>
+                <li><b>Eléctrico y aceite:</b> consumo del compresor, contactores y nivel/estado de aceite.</li>
+              </ul>
+              <div class="tip warn"><span class="lab">Buenas prácticas</span>Recuperar el refrigerante antes de abrir el circuito (nunca venteo a la atmósfera): es obligación ambiental y legal. Vacío profundo antes de cargar para eliminar humedad y no condensables.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Refrigeración · Hoja de referencia</b> — ciclo por compresión de vapor (HVAC-R): de Carnot inverso a los 4 componentes, el diagrama P-h y sus transformaciones, los refrigerantes y su transición ecológica, el COP de refrigeración y de bomba de calor, sobrecalentamiento/subenfriamiento, los tipos de compresor y la práctica de campo (aplicaciones, fallas y mantenimiento).
+        <span class="mono">Diagramas en SVG · fórmulas con KaTeX · notas en español · clic en cualquier fórmula para copiarla.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

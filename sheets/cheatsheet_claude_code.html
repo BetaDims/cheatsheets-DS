@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECE7E1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F6F2EC;
+  --rail:#F4F0EA;
+  --code-bg:#FBF8F4;
+  --line:#E3DCD1;
+  --line-soft:#ECE6DC;
+  --ink:#241E18;
+  --ink-soft:#5C5347;
+  --ink-faint:#938A7C;
+  /* Claude clay */
+  --cc:#D97757;
+  --cc-deep:#B05334;
+  --cc-tint:rgba(217,119,87,.14);
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* Día a día */
+  --s2:#0C8A8A;  /* Contexto */
+  --s3:#B0840A;  /* Comandos */
+  --s4:#7A45C9;  /* Herramientas */
+  --s5:#1E9B51;  /* Git */
+  --s6:#C0392B;  /* Avanzado */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#B05334;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#988F81;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--cc);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(36,30,24,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F3EEE7;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#CDC4B6;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--cc);color:#fff;font-size:14px;flex:none;margin-left:3px}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:2px}
+.titlebar .fname b{color:var(--cc-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--cc-deep);background:var(--cc-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.viewtabs{display:flex;gap:0;background:#F8F4EE;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--cc-deep);border-bottom-color:var(--cc)}
+
+.fxbar{display:flex;align-items:stretch;background:#F8F4EE;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--cc-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cc-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--cc)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.3rem,5.6vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--cc-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--cc-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--cc);background:linear-gradient(90deg,var(--cc-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--cc-deep);background:var(--cc-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--cc)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(36,30,24,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(36,30,24,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--cc-deep)}
+
+.kbd{font-family:"JetBrains Mono";font-size:11px;font-weight:600;background:var(--canvas);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:2px 7px;color:var(--ink);white-space:nowrap;display:inline-block}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(36,30,24,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--cc);background:#FBF0EB}
+figure.code.copied .cphint{opacity:1;color:var(--cc-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+.pmt{color:var(--cc);font-weight:700}
+.out{color:var(--ink-faint)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--cc-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* agent loop signature */
+.loopwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.loop-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F3EEE7;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.loop-bar i{width:10px;height:10px;border-radius:50%;background:#CDC4B6;display:block}
+.loop-bar i:nth-child(1){background:#E5736B}.loop-bar i:nth-child(2){background:#E8B73D}.loop-bar i:nth-child(3){background:#69B27C}
+.loop{width:100%;height:auto;display:block;padding:8px 6px}
+.loop .ln{stroke:var(--cc);stroke-width:2;fill:none;marker-end:url(#ah)}
+.loop .nd{fill:var(--cc-tint);stroke:var(--cc);stroke-width:1.6}
+.loop .lbl{font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:700;fill:var(--ink)}
+.loop .sub{font-family:"JetBrains Mono";font-size:9px;fill:var(--ink-faint)}
+.loop .ah{fill:var(--cc)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--cc-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--cc-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#241E18;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(36,30,24,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">✳</span>
+      <span class="fname"><b>~/proyecto</b> — claude</span>
+      <span class="branch">⎇ main</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">terminal</span>
+      <span class="vt">CLAUDE.md</span>
+      <span class="vt">settings.json</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">✳ ▸</span>
+      <span class="fxc"><span class="t-com"># &gt;</span> refactoriza <span class="t-str">@src/auth.py</span> y añade tests&nbsp;&nbsp;<span class="t-com"># agente en tu terminal</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · ingeniería con un agente en la terminal</div>
+      <h1>Claude Code,<br>codifica con un <em>agente</em>.</h1>
+      <p class="lede">El CLI agéntico de Anthropic en una página: <b>instalar</b> y arrancar, el <b>ciclo</b> de prompt → plan → editar, dar <b>contexto</b> con <code>@archivos</code> y <code>CLAUDE.md</code>, <b>comandos slash</b> y atajos, extender con <b>MCP, hooks, subagentes y skills</b>, trabajar con <b>git y PRs</b>, y lo <b>avanzado</b>: permisos, modo headless/SDK y elección de modelo. <b>Clic en cualquier comando para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Los programas se escriben para que los lean las personas, y solo de paso para que los ejecuten las máquinas."</p>
+        <cite>— Harold Abelson, SICP · <span class="mono">claude · agentic coding</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Día a día</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Contexto</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Comandos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Herramientas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Git</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Avanzado</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">instalar · arrancar</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Día a día</span><span class="sd">prompt · plan · editar</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Contexto</span><span class="sd">@ · CLAUDE.md</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Comandos</span><span class="sd">slash · atajos</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Herramientas</span><span class="sd">MCP · hooks · agentes</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Git</span><span class="sd">commits · PRs</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Avanzado</span><span class="sd">permisos · SDK</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">✳</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">CLI</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es Claude Code?</a>
+      <a href="#fd-install" style="--seg:var(--s0)">Instalar &amp; arrancar</a>
+      <a href="#fd-modos" style="--seg:var(--s0)">Modos de trabajo</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Día a día</div>
+      <a href="#dd-ciclo" style="--seg:var(--s1)">El ciclo agéntico</a>
+      <a href="#dd-plan" style="--seg:var(--s1)">Planificar antes</a>
+      <a href="#dd-prompt" style="--seg:var(--s1)">Buenos prompts</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Contexto</div>
+      <a href="#cx-files" style="--seg:var(--s2)">Referenciar con @</a>
+      <a href="#cx-claudemd" style="--seg:var(--s2)">CLAUDE.md</a>
+      <a href="#cx-ventana" style="--seg:var(--s2)">Gestionar la ventana</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Comandos</div>
+      <a href="#cm-slash" style="--seg:var(--s3)">Slash integrados</a>
+      <a href="#cm-custom" style="--seg:var(--s3)">Comandos propios</a>
+      <a href="#cm-atajos" style="--seg:var(--s3)">Atajos de teclado</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Herramientas</div>
+      <a href="#ht-mcp" style="--seg:var(--s4)">MCP</a>
+      <a href="#ht-hooks" style="--seg:var(--s4)">Hooks</a>
+      <a href="#ht-agents" style="--seg:var(--s4)">Subagentes &amp; skills</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Git</div>
+      <a href="#gt-flow" style="--seg:var(--s5)">Commits &amp; PRs</a>
+      <a href="#gt-review" style="--seg:var(--s5)">Revisión</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Avanzado</div>
+      <a href="#av-perms" style="--seg:var(--s6)">Permisos</a>
+      <a href="#av-headless" style="--seg:var(--s6)">Headless &amp; SDK</a>
+      <a href="#av-modelos" style="--seg:var(--s6)">Modelos</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Día</a><a href="#e2">02 Contexto</a>
+        <a href="#e3">03 Comandos</a><a href="#e4">04 Herram.</a><a href="#e5">05 Git</a><a href="#e6">06 Avanz.</a>
+      </div>
+
+      <!-- 00 -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">de cero<br>al primer prompt</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es Claude Code?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Claude Code</b> es un agente de programación que vive en tu <b>terminal</b>: lee tu repo, edita archivos, ejecuta comandos y corre tests por ti, dentro de un bucle <i>plan → actuar → verificar</i>. No es autocompletado: es un colaborador que entiende todo el proyecto.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Agéntico</span><span class="dv">usa herramientas (leer, editar, bash) en bucle hasta terminar.</span></div>
+                <div class="di"><span class="dk">Con permisos</span><span class="dv">pide tu OK antes de acciones que cambian cosas.</span></div>
+                <div class="di"><span class="dk">Dónde</span><span class="dv">terminal, VS Code, JetBrains, app de escritorio y web.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-install">
+            <div class="tile-h"><span class="td"></span><h3>Instalar &amp; arrancar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Instala el CLI y lanza <code>claude</code> dentro de la carpeta de tu proyecto. La primera vez te pide iniciar sesión.</p>
+              <figure class="code" data-copy="npm install -g @anthropic-ai/claude-code&#10;cd mi-proyecto&#10;claude            # inicia sesión interactiva&#10;/login            # autenticar&#10;/init             # crear CLAUDE.md del repo">
+                <figcaption><span class="lang">terminal</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">npm</span> <span class="t-kw">install</span> <span class="t-flag">-g</span> @anthropic-ai/claude-code
+<span class="t-fn">cd</span> mi-proyecto
+<span class="t-fn">claude</span>            <span class="t-com"># sesión interactiva</span>
+<span class="pmt">/login</span>            <span class="t-com"># autenticar</span>
+<span class="pmt">/init</span>             <span class="t-com"># crear CLAUDE.md</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-modos">
+            <div class="tile-h"><span class="td"></span><h3>Modos de trabajo — <span class="kbd">Shift</span>+<span class="kbd">Tab</span> rota</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Claude Code tiene varios modos que cambian cuánta autonomía le das. Cicla entre ellos con <span class="kbd">Shift</span>+<span class="kbd">Tab</span>.</p>
+              <table class="tbl">
+                <tr><th>Modo</th><th>Comportamiento</th></tr>
+                <tr><td class="k">Normal</td><td>pide permiso para cada edición / comando</td></tr>
+                <tr><td class="k">Auto-accept</td><td>aplica ediciones sin preguntar (sigue acotado)</td></tr>
+                <tr><td class="k">Plan</td><td>solo investiga y propone un plan; no toca nada</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Recomendación</span>Empieza en <b>Plan</b> para tareas grandes: revisas el plan, lo apruebas y entonces ejecuta. Menos sorpresas.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>El día a día</h2><span class="meta">el bucle que<br>repites siempre</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="dd-ciclo">
+            <div class="tile-h"><span class="td"></span><h3>El ciclo agéntico</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Le das un objetivo en lenguaje natural; Claude <b>explora</b> el código, <b>planifica</b>, <b>edita y ejecuta</b>, y <b>verifica</b> (tests, lint). Repite hasta cumplir o pedirte algo.</p>
+              <div class="loopwrap">
+                <div class="loop-bar"><i></i><i></i><i></i><span>prompt → explorar → editar → verificar</span></div>
+                <svg class="loop" viewBox="0 0 720 130" role="img" aria-label="Ciclo: prompt, explorar, editar, verificar">
+                  <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path class="ah" d="M0 0l6 3-6 3z"/></marker></defs>
+                  <circle class="nd" cx="80" cy="60" r="30"/><text class="lbl" x="80" y="58" text-anchor="middle">Prompt</text><text class="sub" x="80" y="74" text-anchor="middle">objetivo</text>
+                  <circle class="nd" cx="280" cy="60" r="30"/><text class="lbl" x="280" y="58" text-anchor="middle">Explorar</text><text class="sub" x="280" y="74" text-anchor="middle">leer repo</text>
+                  <circle class="nd" cx="470" cy="60" r="30"/><text class="lbl" x="470" y="58" text-anchor="middle">Editar</text><text class="sub" x="470" y="74" text-anchor="middle">+ bash</text>
+                  <circle class="nd" cx="650" cy="60" r="30"/><text class="lbl" x="650" y="58" text-anchor="middle">Verificar</text><text class="sub" x="650" y="74" text-anchor="middle">tests</text>
+                  <path class="ln" d="M112 60 H246"/><path class="ln" d="M312 60 H436"/><path class="ln" d="M502 60 H616"/>
+                  <path class="ln" d="M650 92 q0 28 -285 28 q-285 0 -285 -28" marker-end="url(#ah)"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="dd-plan">
+            <div class="tile-h"><span class="td"></span><h3>Planificar antes de tocar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para cambios grandes, pídele un plan primero. Revisas, ajustas y solo entonces ejecuta. Evita refactors a ciegas.</p>
+              <figure class="code" data-copy="# entra en modo plan con Shift+Tab, luego:&#10;Diseña un plan para migrar la auth a JWT.&#10;No edites nada todavía; solo el plan.">
+                <figcaption><span class="lang">prompt</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># Shift+Tab → modo Plan, luego:</span>
+Diseña un plan para migrar la auth a JWT.
+No edites nada; solo el plan.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="dd-prompt">
+            <div class="tile-h"><span class="td"></span><h3>Buenos prompts</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">Específico</span><span class="dv">di el qué, el porqué y la restricción, no solo "arréglalo".</span></div>
+                <div class="di"><span class="dk">Da contexto</span><span class="dv">apunta a los archivos con <code>@</code> en vez de describirlos.</span></div>
+                <div class="di"><span class="dk">Verificable</span><span class="dv">pide que corra los tests y enseñe la salida.</span></div>
+                <div class="di"><span class="dk">Itera</span><span class="dv">corrige sobre la marcha; no rehagas el prompt entero.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Contexto</h2><span class="meta">lo que Claude<br>sabe de tu repo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cx-files">
+            <div class="tile-h"><span class="td"></span><h3>Referenciar con @</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Escribe <code>@</code> y autocompleta rutas: mete ese archivo o carpeta en el contexto. Mucho mejor que copiar y pegar.</p>
+              <figure class="code" data-copy="Explica @src/api/users.py&#10;Compara @viejo.js con @nuevo.js&#10;Lee @docs/ y resume la arquitectura">
+                <figcaption><span class="lang">prompt</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Explica <span class="t-str">@src/api/users.py</span>
+Compara <span class="t-str">@viejo.js</span> con <span class="t-str">@nuevo.js</span>
+Lee <span class="t-str">@docs/</span> y resume la arquitectura</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cx-claudemd">
+            <div class="tile-h"><span class="td"></span><h3>CLAUDE.md — memoria del proyecto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un archivo que Claude lee siempre al arrancar: convenciones, comandos, estilo. Créalo con <code>/init</code> y edítalo a mano.</p>
+              <figure class="code" data-copy="# CLAUDE.md&#10;## Comandos&#10;- test: pytest -q&#10;- lint: ruff check .&#10;## Reglas&#10;- Tipa todo; usa rutas relativas.&#10;- No toques /legacy sin avisar.">
+                <figcaption><span class="lang">CLAUDE.md</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># CLAUDE.md</span>
+<span class="t-kw">## Comandos</span>
+- test: pytest -q
+- lint: ruff check .
+<span class="t-kw">## Reglas</span>
+- Tipa todo; usa rutas relativas.
+- No toques /legacy sin avisar.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Niveles</span>Hay <code>CLAUDE.md</code> de proyecto (compartido en git) y <code>~/.claude/CLAUDE.md</code> personal (tus preferencias en todos los repos).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="cx-ventana">
+            <div class="tile-h"><span class="td"></span><h3>Gestionar la ventana de contexto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El contexto es finito. Limpia o compacta cuando cambies de tarea para que Claude no arrastre ruido viejo.</p>
+              <table class="tbl">
+                <tr><th>Comando</th><th>Qué hace</th></tr>
+                <tr><td class="fn">/clear</td><td>borra la conversación; empieza limpio</td></tr>
+                <tr><td class="fn">/compact</td><td>resume el historial para liberar contexto</td></tr>
+                <tr><td class="fn">/context</td><td>muestra cuánto contexto se está usando</td></tr>
+                <tr><td class="fn">/cost</td><td>tokens y coste de la sesión</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla</span>Una tarea = una conversación. <code>/clear</code> entre tareas distintas evita confusiones y ahorra tokens.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Comandos &amp; atajos</h2><span class="meta">controlar<br>la sesión</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cm-slash">
+            <div class="tile-h"><span class="td"></span><h3>Comandos slash integrados</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Comando</th><th>Para qué</th></tr>
+                <tr><td class="fn">/help</td><td>lista de comandos</td></tr>
+                <tr><td class="fn">/init</td><td>generar CLAUDE.md</td></tr>
+                <tr><td class="fn">/model</td><td>cambiar de modelo</td></tr>
+                <tr><td class="fn">/clear</td><td>limpiar conversación</td></tr>
+                <tr><td class="fn">/review</td><td>revisar cambios / un PR</td></tr>
+                <tr><td class="fn">/agents</td><td>gestionar subagentes</td></tr>
+                <tr><td class="fn">/mcp</td><td>ver servidores MCP</td></tr>
+                <tr><td class="fn">/config</td><td>ajustes</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="cm-custom">
+            <div class="tile-h"><span class="td"></span><h3>Comandos propios</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un comando slash es un archivo Markdown en <code>.claude/commands/</code>. El nombre del archivo es el comando; <code>$ARGUMENTS</code> recibe lo que escribas.</p>
+              <figure class="code" data-copy="# .claude/commands/test.md&#10;Ejecuta la suite de tests para $ARGUMENTS,&#10;corrige los fallos y vuelve a correrla&#10;hasta que pase. Enseña el resultado.">
+                <figcaption><span class="lang">.claude/commands/test.md</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># archivo → comando /test</span>
+Ejecuta los tests para $ARGUMENTS,
+corrige los fallos y reejecuta
+hasta que pase. Enseña el resultado.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Uso</span>Lo invocas con <code>/test usuarios</code>. Compártelos en git para todo el equipo.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="cm-atajos">
+            <div class="tile-h"><span class="td"></span><h3>Atajos de teclado</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Atajo</th><th>Acción</th></tr>
+                <tr><td class="k"><span class="kbd">Shift</span>+<span class="kbd">Tab</span></td><td>rotar modo (normal / auto / plan)</td></tr>
+                <tr><td class="k"><span class="kbd">Esc</span></td><td>interrumpir a Claude</td></tr>
+                <tr><td class="k"><span class="kbd">Esc</span> <span class="kbd">Esc</span></td><td>rebobinar / editar mensaje anterior</td></tr>
+                <tr><td class="k"><span class="kbd">Ctrl</span>+<span class="kbd">C</span></td><td>cancelar / salir</td></tr>
+                <tr><td class="k"><span class="kbd">@</span></td><td>autocompletar rutas de archivo</td></tr>
+                <tr><td class="k"><span class="kbd">!</span></td><td>ejecutar un comando bash directo</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Extender: MCP, hooks &amp; agentes</h2><span class="meta">conectar y<br>automatizar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ht-mcp">
+            <div class="tile-h"><span class="td"></span><h3>MCP — conectar herramientas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>Model Context Protocol</b> conecta Claude a herramientas externas (bases de datos, GitHub, Figma…) vía servidores. Una vez añadidos, Claude puede usarlos como tools.</p>
+              <figure class="code" data-copy="claude mcp add github -- npx -y @modelcontextprotocol/server-github&#10;claude mcp list&#10;# o declara servidores en .mcp.json (compartible)">
+                <figcaption><span class="lang">terminal</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">claude</span> <span class="t-kw">mcp add</span> github <span class="t-flag">--</span> npx -y \
+  @modelcontextprotocol/server-github
+<span class="t-fn">claude</span> <span class="t-kw">mcp list</span>
+<span class="t-com"># o .mcp.json en el repo (compartible)</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="ht-hooks">
+            <div class="tile-h"><span class="td"></span><h3>Hooks — disparar acciones</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Los <b>hooks</b> ejecutan comandos tuyos en eventos del ciclo (antes/después de una tool, al terminar…). Útil para formatear o validar automáticamente. Van en <code>settings.json</code>.</p>
+              <figure class="code" data-copy="{&#10;  &quot;hooks&quot;: {&#10;    &quot;PostToolUse&quot;: [{&#10;      &quot;matcher&quot;: &quot;Edit|Write&quot;,&#10;      &quot;hooks&quot;: [{ &quot;type&quot;: &quot;command&quot;,&#10;        &quot;command&quot;: &quot;ruff format .&quot; }]&#10;    }]&#10;  }&#10;}">
+                <figcaption><span class="lang">.claude/settings.json</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>{
+  <span class="t-str">"hooks"</span>: {
+    <span class="t-str">"PostToolUse"</span>: [{
+      <span class="t-str">"matcher"</span>: <span class="t-str">"Edit|Write"</span>,
+      <span class="t-str">"hooks"</span>: [{ <span class="t-str">"type"</span>: <span class="t-str">"command"</span>,
+        <span class="t-str">"command"</span>: <span class="t-str">"ruff format ."</span> }]
+    }]
+  }
+}</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="ht-agents">
+            <div class="tile-h"><span class="td"></span><h3>Subagentes &amp; skills</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <div class="cols">
+                <div>
+                  <p class="note">Un <b>subagente</b> es un asistente con su propio rol, prompt y herramientas, que Claude invoca para tareas acotadas (revisar, explorar). Vive en <code>.claude/agents/</code>.</p>
+                  <div class="deflist">
+                    <div class="di"><span class="dk">Para qué</span><span class="dv">aislar contexto y paralelizar (revisión, búsqueda).</span></div>
+                    <div class="di"><span class="dk">Gestionar</span><span class="dv">con <code>/agents</code>.</span></div>
+                  </div>
+                </div>
+                <div>
+                  <p class="note">Una <b>skill</b> es una carpeta con un <code>SKILL.md</code> que aporta conocimiento especializado bajo demanda: su descripción está siempre, el detalle se carga cuando hace falta.</p>
+                  <div class="deflist">
+                    <div class="di"><span class="dk">Para qué</span><span class="dv">flujos y best-practices reutilizables.</span></div>
+                    <div class="di"><span class="dk">Plugins</span><span class="dv">empaquetan comandos, agentes y skills juntos.</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Git &amp; GitHub</h2><span class="meta">del cambio<br>al pull request</span></div>
+
+        <div class="cols">
+          <div class="tile" id="gt-flow">
+            <div class="tile-h"><span class="td"></span><h3>Commits &amp; PRs en lenguaje natural</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Claude redacta mensajes de commit y abre PRs por ti (usa <code>git</code> y <code>gh</code> por debajo). Pídeselo en prosa.</p>
+              <figure class="code" data-copy="Haz commit de estos cambios con un mensaje claro&#10;Crea una rama feature/login y abre un PR&#10;Resume los cambios desde main en el PR">
+                <figcaption><span class="lang">prompt</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Haz commit con un mensaje claro
+Crea rama feature/login y abre un PR
+Resume los cambios desde main en el PR</pre>
+              </figure>
+              <div class="tip"><span class="lab">Confirmación</span>Claude pide tu OK antes de <code>push</code> o de crear el PR: revisa el diff primero.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="gt-review">
+            <div class="tile-h"><span class="td"></span><h3>Revisión de código</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>/review</code> analiza tus cambios o un PR concreto en busca de bugs y mejoras. También puedes pedir una revisión en prosa.</p>
+              <figure class="code" data-copy="/review&#10;/review 123        # revisar el PR #123&#10;Revisa @src/pago.py y busca casos límite">
+                <figcaption><span class="lang">slash · prompt</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="pmt">/review</span>
+<span class="pmt">/review</span> 123        <span class="t-com"># el PR #123</span>
+Revisa <span class="t-str">@src/pago.py</span> y busca casos límite</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Avanzado</h2><span class="meta">control fino<br>y automatización</span></div>
+
+        <div class="cols">
+          <div class="tile" id="av-perms">
+            <div class="tile-h"><span class="td"></span><h3>Permisos</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Controla qué puede hacer Claude sin preguntar: una allowlist en <code>settings.json</code> reduce interrupciones sin abrir la mano del todo.</p>
+              <figure class="code" data-copy="{&#10;  &quot;permissions&quot;: {&#10;    &quot;allow&quot;: [&quot;Bash(npm run test:*)&quot;, &quot;Edit&quot;],&#10;    &quot;deny&quot;: [&quot;Bash(rm -rf*)&quot;]&#10;  }&#10;}">
+                <figcaption><span class="lang">.claude/settings.json</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>{
+  <span class="t-str">"permissions"</span>: {
+    <span class="t-str">"allow"</span>: [<span class="t-str">"Bash(npm run test:*)"</span>, <span class="t-str">"Edit"</span>],
+    <span class="t-str">"deny"</span>:  [<span class="t-str">"Bash(rm -rf*)"</span>]
+  }
+}</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">YOLO con cabeza</span><code>--dangerously-skip-permissions</code> salta todas las preguntas: úsalo solo en entornos aislados (un contenedor), nunca sobre tu máquina con secretos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="av-headless">
+            <div class="tile-h"><span class="td"></span><h3>Headless &amp; SDK</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Con <code>-p</code> lo ejecutas sin interfaz, ideal para scripts y CI. El <b>Agent SDK</b> deja construir tus propios agentes sobre el mismo motor.</p>
+              <figure class="code" data-copy="claude -p &quot;corrige el lint y haz commit&quot;&#10;cat error.log | claude -p &quot;¿qué falló?&quot;&#10;claude -p &quot;...&quot; --output-format json">
+                <figcaption><span class="lang">terminal · headless</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">claude</span> <span class="t-flag">-p</span> <span class="t-str">"corrige el lint y haz commit"</span>
+<span class="t-fn">cat</span> error.log | <span class="t-fn">claude</span> <span class="t-flag">-p</span> <span class="t-str">"¿qué falló?"</span>
+<span class="t-fn">claude</span> <span class="t-flag">-p</span> <span class="t-str">"..."</span> <span class="t-flag">--output-format</span> json</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="av-modelos">
+            <div class="tile-h"><span class="td"></span><h3>Elegir modelo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cambia el modelo con <code>/model</code> según la tarea. Más capacidad para lo difícil; más velocidad/coste para lo simple.</p>
+              <table class="tbl">
+                <tr><th>Modelo</th><th>Cuándo</th></tr>
+                <tr><td class="k">Opus 4.8</td><td>lo más capaz: refactors grandes, trabajo agéntico largo</td></tr>
+                <tr><td class="k">Sonnet 4.6</td><td>equilibrio velocidad/inteligencia para el día a día</td></tr>
+                <tr><td class="k">Haiku 4.5</td><td>rápido y económico para tareas simples</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Fast mode</span><code>/fast</code> activa salida más rápida con Opus (no baja a un modelo menor). Disponible en Opus 4.8/4.7/4.6.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>Claude Code · Hoja de referencia</b> — ingeniería con un agente en la terminal. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">claude · /init · CLAUDE.md · MCP · v1.1 · jun 2026 · clic para copiar</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+</body>
+</html>

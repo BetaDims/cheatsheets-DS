@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>man terminal · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7E9EE;
+  --canvas:#FFFFFF;
+  --surface-2:#F3F5F8;
+  --rail:#F0F2F5;
+  --code-bg:#F5F8F6;
+  --line:#DBDFE6;
+  --line-soft:#E8EBEF;
+  --ink:#1B201E;
+  --ink-soft:#535B57;
+  --ink-faint:#88918B;
+  /* terminal identity — green, bright for fills, deep for legible text on white */
+  --term:#1A8A4E;
+  --term-deep:#0F6E3C;
+  --term-tint:rgba(26,138,78,.12);
+  /* command-syntax tokens (the legend) — all AA on white */
+  --t-cmd:#0F6E3C;   /* comando */
+  --t-flag:#1D63C7;  /* opción / flag */
+  --t-arg:#2A322E;   /* argumento fijo */
+  --t-ph:#6A726C;    /* marcador (placeholder) */
+  --warn:#B5701A;    /* cuidado */
+  --warn-bg:#FBF4E8; --warn-bd:#E7CFA3;
+  --dng:#C0392B;     /* destructivo */
+  /* per-group section accents — legible on white */
+  --s0:#586273;  /* intro */
+  --s1:#0C8A8A;  /* archivos */
+  --s2:#2B6FD6;  /* búsqueda */
+  --s3:#7A45C9;  /* funcionamiento */
+  --s4:#B0840A;  /* sistema */
+  --s5:#1E9B51;  /* utilidades */
+  --s6:#D5632E;  /* bonus */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+.cmd,.cmdbar,.titlebar,.tk,.kbd,.pr,.ln,.car{font-variant-ligatures:none}
+::selection{background:var(--term-tint);color:var(--term-deep)}
+.wrap{max-width:1300px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (terminal window) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(30,40,34,.4)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EEF1F0;color:var(--ink-soft);padding:9px 14px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.lights{display:flex;gap:7px;flex:none}
+.lights i{width:11px;height:11px;border-radius:50%;display:block}
+.lights i:nth-child(1){background:#F0655A}.lights i:nth-child(2){background:#F2BE3F}.lights i:nth-child(3){background:#46B964}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);font-size:12px}
+.titlebar .fname b{color:var(--term-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .clock{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .clock b{color:var(--term-deep);font-weight:500}
+
+/* command bar (witty tagline as a prompt) */
+.cmdbar{display:flex;align-items:center;gap:10px;background:#FBFCFB;border-bottom:1px solid var(--line);padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap}
+.cmdbar .pr{color:var(--term-deep);font-weight:700;flex:none}
+.cmdbar .ln{color:var(--ink-soft)}
+.cmdbar .ln em{font-style:normal;color:var(--ink);font-weight:500}
+.cmdbar .car{display:inline-block;width:.55ch;height:1.05em;background:var(--term);transform:translateY(.16em);margin-left:.1em;border-radius:1px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* hero */
+.hero{padding:30px 28px 26px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--term-deep);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:24px;height:2px;background:var(--term)}
+h1{font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(2rem,5.2vw,3.3rem);line-height:1.02;letter-spacing:-.02em;color:var(--ink)}
+h1 .pr{color:var(--term-deep)}
+h1 em{font-style:normal;color:var(--term-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:14.5px;margin-top:15px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--term-deep)}
+.quote{margin-top:16px;padding-left:13px;border-left:3px solid var(--term-tint);font-size:13px;color:var(--ink-soft);font-style:italic;max-width:74ch}
+.quote b{font-style:normal;color:var(--ink-soft);font-weight:600}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:24px 34px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.lg-r{display:flex;flex-wrap:wrap;gap:7px 16px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12.3px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lchip .tk{font-family:"JetBrains Mono";font-weight:700;font-size:12px}
+
+/* section tab strip (doubles as mobile nav) */
+.tabs{display:flex;flex-wrap:wrap;gap:0;margin-top:24px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.tab{flex:1;min-width:120px;display:flex;flex-direction:column;gap:2px;padding:11px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;background:var(--canvas)}
+.tab:last-child{border-right:none}
+.tab:hover{background:var(--surface-2)}
+.tab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.tab .tn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.06em}
+.tab .tt{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.tab .ts{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:900px){.tab{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.tab{flex:1 1 50%}}
+
+/* ============ SHELL (sticky TOC lives here — NOT inside .app) ============ */
+.shell{display:grid;grid-template-columns:236px 1fr;gap:0 34px;align-items:start;margin-top:2px}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:10px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:16px 0 5px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:900px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:8px;scroll-margin-top:16px;opacity:0;transform:translateY(9px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.07s}
+.stage:nth-child(3){animation-delay:.11s}.stage:nth-child(n+4){animation-delay:.15s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:13px;margin:40px 0 15px;padding:14px 18px;background:linear-gradient(90deg,var(--surface-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Mono",monospace;font-weight:700;font-size:1.4rem;letter-spacing:-.01em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:start}
+@media(max-width:1040px){.cols{grid-template-columns:1fr}}
+
+/* tile (card) */
+.tile{background:var(--canvas);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:16px;box-shadow:0 1px 2px rgba(30,40,34,.04)}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(30,40,34,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Mono",monospace;font-size:.96rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.tile-h .pr{font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);flex:none}
+.tile-b{padding:13px 15px}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:11px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note strong{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--surface-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--term-deep)}
+
+/* command rows */
+.rows{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--canvas);margin:2px 0}
+.row{display:grid;grid-template-columns:minmax(150px,42%) 1fr;gap:14px;padding:7px 13px;border-bottom:1px solid var(--line-soft);align-items:start}
+.row:last-child{border-bottom:none}
+.row:hover{background:var(--surface-2)}
+.row .d{color:var(--ink-soft);font-size:12.4px;line-height:1.42;padding-top:1px}
+.row .d code{font-family:"JetBrains Mono";font-size:11px;color:var(--term-deep);white-space:nowrap}
+.row .d em{font-style:italic;color:var(--ink-soft)}
+@media(max-width:520px){.row{grid-template-columns:1fr;gap:3px}}
+
+/* the copyable command */
+.cmd{all:unset;cursor:pointer;font-family:"JetBrains Mono";font-size:12.5px;display:inline-flex;flex-wrap:wrap;gap:.42ch;position:relative;padding-right:1.2rem;max-width:100%;line-height:1.5}
+.cmd .c{color:var(--t-cmd);font-weight:700}
+.cmd .f{color:var(--t-flag);font-weight:600}
+.cmd .a{color:var(--t-arg)}
+.cmd .ph{color:var(--t-ph);font-style:italic;border-bottom:1px dotted var(--ink-faint)}
+.cmd .cm{color:var(--ink-faint);font-style:italic}
+.cmd.dng .c{color:var(--dng)}
+.cmd::after{content:"⧉";position:absolute;right:0;top:0;font-size:11px;color:var(--ink-faint);opacity:0;transition:opacity .14s}
+.cmd:hover::after,.cmd:focus-visible::after{opacity:1;color:var(--t-flag)}
+.cmd:focus-visible{outline:2px solid var(--t-flag);outline-offset:3px;border-radius:3px}
+.cmd.copied::after{content:"✓";color:var(--term);opacity:1}
+
+/* keyboard rows */
+.kbd{font-family:"JetBrains Mono";font-size:11px;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+.krow .keyset{display:inline-flex;gap:5px;flex-wrap:wrap;align-items:center;color:var(--ink-faint);font-size:11px}
+
+/* triad */
+.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:2px 0 10px}
+@media(max-width:560px){.triad{grid-template-columns:1fr}}
+.triad .tc{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:var(--surface-2)}
+.triad .tc b{font-family:"Space Mono",monospace;color:var(--term-deep);font-size:.88rem;display:block;margin-bottom:3px}
+.triad .tc span{color:var(--ink-soft);font-size:12px;line-height:1.45}
+.triad .tc code{font-family:"JetBrains Mono";font-size:11px;color:var(--t-flag)}
+
+/* permissions octal visual */
+.perm{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 2px;font-family:"JetBrains Mono";font-size:11.5px}
+.perm .b{border:1px solid var(--line);border-radius:7px;padding:7px 11px;text-align:center;background:var(--surface-2);min-width:62px}
+.perm .b small{display:block;color:var(--ink-faint);font-size:9.5px;letter-spacing:.04em;margin-bottom:2px}
+.perm .b b{color:var(--term-deep);font-size:14px}
+.perm .b.r b{color:var(--t-flag)}.perm .b.w b{color:var(--warn)}.perm .b.x b{color:var(--dng)}
+
+/* conventions deflist */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:13px;font-size:12.6px;line-height:1.45;align-items:baseline}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11.5px;font-weight:600;flex:none;width:128px;color:var(--t-ph);font-style:italic}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+.deflist .di .dv code{font-family:"JetBrains Mono";font-size:11px;color:var(--term-deep);background:var(--surface-2);border:1px solid var(--line-soft);padding:0 4px;border-radius:3px}
+@media(max-width:560px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+/* callouts */
+.tip{border-left:3px solid var(--seg);background:var(--surface-2);border-radius:0 8px 8px 0;padding:9px 13px;margin:11px 0 0;font-size:12.4px;color:var(--ink-soft);line-height:1.5}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:3px}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11px;color:var(--term-deep)}
+.tip .cmd{font-size:11.5px}
+.tip.why{border-left-color:var(--t-flag);background:#EFF4FD}
+.tip.why .lab{color:var(--t-flag)}
+.tip.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.tip.warn .lab{color:var(--warn)}
+.tip.warn code{color:var(--dng);background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.18);padding:0 4px;border-radius:3px}
+
+footer{border-top:1px solid var(--line);margin-top:16px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft);font-weight:600}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+footer .pr{color:var(--term-deep);font-weight:700}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1B201E;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(30,40,34,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ TERMINAL CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="lights"><i></i><i></i><i></i></span>
+      <span class="fname"><b>usuario@linux</b>: ~/terminal — zsh</span>
+      <span class="grow"></span>
+      <span class="clock">uptime <b id="clock">--:--:--</b></span>
+    </div>
+    <div class="cmdbar">
+      <span class="pr">$</span>
+      <span class="ln">man terminal <em>--de-la-ventana-al-dashboard</em> <span class="car"></span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · línea de comandos · WSL · zsh · vim</div>
+      <h1><span class="pr">$</span> man terminal</h1>
+      <p class="lede">La línea de comandos de Linux/WSL en una sola página para tener abierta mientras trabajas: navegar, manipular archivos, buscar, encadenar comandos y gestionar permisos, procesos y paquetes. Cada comando trae una nota de <b>cuándo y por qué</b> usarlo. <b>Clic en cualquier comando para copiarlo.</b></p>
+
+      <blockquote class="quote">«This is the Unix philosophy: write programs that do one thing and do it well. Write programs to work together.» <b>— Doug McIlroy</b></blockquote>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Sintaxis = color</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="tk" style="color:var(--t-cmd)">cmd</span>comando</span>
+            <span class="lchip"><span class="tk" style="color:var(--t-flag)">-f</span>opción / flag</span>
+            <span class="lchip"><span class="tk" style="color:var(--t-arg)">arg</span>argumento fijo</span>
+            <span class="lchip"><span class="tk" style="color:var(--t-ph);font-style:italic">archivo</span>marcador (lo reemplazas)</span>
+            <span class="lchip"><span class="kbd">Ctrl</span>tecla</span>
+            <span class="lchip"><span class="tk" style="color:var(--dng)">rm -rf</span>destructivo</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>intro</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>archivos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>búsqueda</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>funcionamiento</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>sistema</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>utilidades</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>bonus</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <a class="tab" href="#st-intro" style="--c:var(--s0)"><span class="tn">00</span><span class="tt">Intro</span><span class="ts">terminal · navegar</span></a>
+        <a class="tab" href="#st-archivos" style="--c:var(--s1)"><span class="tn">01</span><span class="tt">Archivos</span><span class="ts">crear · texto</span></a>
+        <a class="tab" href="#st-busqueda" style="--c:var(--s2)"><span class="tn">02</span><span class="tt">Búsqueda</span><span class="ts">grep · find</span></a>
+        <a class="tab" href="#st-func" style="--c:var(--s3)"><span class="tn">03</span><span class="tt">Funcionamiento</span><span class="ts">pipes · alias</span></a>
+        <a class="tab" href="#st-sistema" style="--c:var(--s4)"><span class="tn">04</span><span class="tt">Sistema</span><span class="ts">permisos · procesos</span></a>
+        <a class="tab" href="#st-util" style="--c:var(--s5)"><span class="tn">05</span><span class="tt">Utilidades</span><span class="ts">vim · atajos</span></a>
+        <a class="tab" href="#st-bonus" style="--c:var(--s6)"><span class="tn">06</span><span class="tt">Bonus</span><span class="ts">zsh · WSL</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Intro</div>
+      <a href="#cv" style="--seg:var(--s0)">Convenciones y marcadores</a>
+      <a href="#conceptos" style="--seg:var(--s0)">¿Terminal, shell o CLI?</a>
+      <a href="#anatomia" style="--seg:var(--s0)">Anatomía de un comando</a>
+      <a href="#navegacion" style="--seg:var(--s0)">Navegación</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Archivos</div>
+      <a href="#archivos" style="--seg:var(--s1)">Crear, copiar, borrar</a>
+      <a href="#texto" style="--seg:var(--s1)">Explorar texto</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Búsqueda</div>
+      <a href="#busqueda" style="--seg:var(--s2)">Comodines · grep · find</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Funcionamiento</div>
+      <a href="#tipos" style="--seg:var(--s3)">Tipos de comandos</a>
+      <a href="#redirecciones" style="--seg:var(--s3)">Redirecciones</a>
+      <a href="#operadores" style="--seg:var(--s3)">Operadores de control</a>
+      <a href="#alias" style="--seg:var(--s3)">Alias</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Sistema</div>
+      <a href="#permisos" style="--seg:var(--s4)">Permisos · chmod</a>
+      <a href="#entorno" style="--seg:var(--s4)">Variables de entorno</a>
+      <a href="#paquetes" style="--seg:var(--s4)">Paquetes · apt · brew</a>
+      <a href="#procesos" style="--seg:var(--s4)">Procesos · kill</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Utilidades</div>
+      <a href="#comprimir" style="--seg:var(--s5)">Comprimir · tar · gzip</a>
+      <a href="#editores" style="--seg:var(--s5)">Editores · vim · nano</a>
+      <a href="#tmux" style="--seg:var(--s5)">tmux</a>
+      <a href="#red" style="--seg:var(--s5)">Red</a>
+      <a href="#atajos" style="--seg:var(--s5)">Atajos de teclado</a>
+      <a href="#historial" style="--seg:var(--s5)">Historial · !!</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Bonus</div>
+      <a href="#bonus" style="--seg:var(--s6)">Zsh · p10k · WSL</a>
+    </nav>
+
+    <main>
+
+      <!-- ===== STAGE 00 — INTRO ===== -->
+      <section class="stage" id="st-intro" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Intro</h2><span class="meta">empieza aquí<br>el vocabulario base</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="cv">
+            <div class="tile-h"><span class="td"></span><h3>Convenciones y marcadores</h3><span class="pr"># léeme primero</span></div>
+            <div class="tile-b">
+              <p class="note">En toda la hoja, lo que va <span style="color:var(--t-ph);font-style:italic">en cursiva con subrayado punteado</span> es un <b>marcador</b>: no lo escribes tal cual, lo reemplazas por lo tuyo. Esto es lo que significa cada uno.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">cmd · cmd1 · cmd2</span><span class="dv">Un <b>comando cualquiera</b>. Los números indican el 1.º, 2.º… cuando se encadenan (<code>cmd1 | cmd2</code>).</span></div>
+                <div class="di"><span class="dk">file · archivo</span><span class="dv">Un <b>archivo</b> concreto, p. ej. <code>notas.txt</code>.</span></div>
+                <div class="di"><span class="dk">carpeta</span><span class="dv">Un <b>directorio</b>, p. ej. <code>proyecto/</code>.</span></div>
+                <div class="di"><span class="dk">origen · destino</span><span class="dv">La ruta <b>de la que</b> copias/mueves y la ruta <b>a la que</b> va.</span></div>
+                <div class="di"><span class="dk">host</span><span class="dv">El <b>nombre o IP</b> de una máquina, p. ej. <code>google.com</code>.</span></div>
+                <div class="di"><span class="dk">url</span><span class="dv">Una <b>dirección web</b> completa.</span></div>
+                <div class="di"><span class="dk">patron</span><span class="dv">El <b>texto o la expresión</b> que estás buscando.</span></div>
+                <div class="di"><span class="dk">PID</span><span class="dv">El <b>número</b> que identifica un proceso (te lo da <code>ps</code>).</span></div>
+                <div class="di"><span class="dk">VAR · paquete</span><span class="dv">El nombre de una <b>variable</b> de entorno · el nombre de un <b>programa</b> a instalar.</span></div>
+                <div class="di"><span class="dk">~ · . · ..</span><span class="dv">Tu carpeta personal (<b>home</b>) · el directorio <b>actual</b> · el directorio <b>padre</b>.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="conceptos">
+            <div class="tile-h"><span class="td"></span><h3>¿Terminal, shell o CLI?</h3><span class="pr"># tres cosas distintas</span></div>
+            <div class="tile-b">
+              <div class="triad">
+                <div class="tc"><b>Terminal</b><span>La <strong>ventana</strong> donde escribes y lees texto. Es el «monitor»: por sí sola no ejecuta nada.</span></div>
+                <div class="tc"><b>Shell</b><span>El <strong>programa</strong> que lee tu comando, lo ejecuta y devuelve el resultado. El «motor»: <code>bash</code>, <code>zsh</code>, <code>fish</code>.</span></div>
+                <div class="tc"><b>CLI</b><span>La <strong>línea de comandos</strong>: usar el equipo escribiendo órdenes en vez de hacer clic. Lo contrario de una GUI.</span></div>
+              </div>
+              <p class="note">En una frase: la <strong>terminal</strong> es la ventana, el <strong>shell</strong> es quien obedece y la <strong>CLI</strong> es el idioma de texto con el que le hablas.</p>
+              <div class="tip why"><span class="lab">cómo lo compruebo</span>¿Qué shell usas? <button class="cmd" data-copy="echo $SHELL"><span class="c">echo</span> <span class="a">$SHELL</span></button> · su versión: <button class="cmd" data-copy="zsh --version"><span class="c">zsh</span> <span class="f">--version</span></button>. En <strong>Windows</strong> instala Linux con <button class="cmd" data-copy="wsl --install"><span class="c">wsl</span> <span class="f">--install</span></button>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="anatomia">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía de un comando</h3></div>
+            <div class="tile-b">
+              <div class="triad">
+                <div class="tc"><b>comando</b><span>El programa: <code>ls</code>, <code>grep</code>, <code>cp</code>.</span></div>
+                <div class="tc"><b>opciones</b><span>Modifican: <code>-l</code> (corta), <code>--all</code> (larga).</span></div>
+                <div class="tc"><b>argumentos</b><span>Sobre qué actúa: archivo, carpeta, patrón.</span></div>
+              </div>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="ls -l"><span class="c">ls</span> <span class="f">-l</span></button><span class="d">Opción <strong>corta</strong>: una letra tras un guion.</span></div>
+                <div class="row"><button class="cmd" data-copy="ls --all"><span class="c">ls</span> <span class="f">--all</span></button><span class="d">Opción <strong>larga</strong>: palabra con dos guiones (= <code>-a</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy="ls -lah"><span class="c">ls</span> <span class="f">-lah</span></button><span class="d">Agrupa varias cortas (<code>-l -a -h</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy="head -n 5 file"><span class="c">head</span> <span class="f">-n</span> <span class="a">5</span> <span class="ph">file</span></button><span class="d">Opción que <strong>recibe un valor</strong> (5 líneas).</span></div>
+              </div>
+              <div class="tip"><span class="lab">regla</span><code>-x</code> es una letra; <code>--palabra</code> es su forma larga y legible.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="navegacion">
+            <div class="tile-h"><span class="td"></span><h3>Navegación</h3></div>
+            <div class="tile-b">
+              <p class="note">Saber dónde estás y moverte sin ratón. La base de todo.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="pwd"><span class="c">pwd</span></button><span class="d">Ruta actual (<em>print working directory</em>).</span></div>
+                <div class="row"><button class="cmd" data-copy="cd carpeta"><span class="c">cd</span> <span class="ph">carpeta</span></button><span class="d">Entra en un directorio.</span></div>
+                <div class="row"><button class="cmd" data-copy="cd .."><span class="c">cd</span> <span class="a">..</span></button><span class="d">Sube al directorio padre.</span></div>
+                <div class="row"><button class="cmd" data-copy="cd ~"><span class="c">cd</span> <span class="a">~</span></button><span class="d">Va a tu carpeta personal (home).</span></div>
+                <div class="row"><button class="cmd" data-copy="cd -"><span class="c">cd</span> <span class="a">-</span></button><span class="d">Vuelve al directorio anterior.</span></div>
+                <div class="row"><button class="cmd" data-copy="ls -lh"><span class="c">ls</span> <span class="f">-lh</span></button><span class="d">Lista con tamaños legibles (KB, MB, GB).</span></div>
+                <div class="row"><button class="cmd" data-copy="ls -a"><span class="c">ls</span> <span class="f">-a</span></button><span class="d">Incluye ocultos (los que empiezan por <code>.</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy="ls -R"><span class="c">ls</span> <span class="f">-R</span></button><span class="d">Listado recursivo de subcarpetas.</span></div>
+              </div>
+              <div class="tip why"><span class="lab">rutas</span><strong>Absoluta vs relativa:</strong> la absoluta empieza en <code>/</code> (<code>/home/tu/proyecto</code>) y vale desde cualquier sitio; la relativa parte de donde estás (<code>../proyecto</code>, <code>./script.sh</code>).</div>
+              <div class="tip"><span class="lab">el sistema</span><code>/</code> raíz · <code>/home</code> usuarios · <code>/etc</code> configuración · <code>/var</code> logs · <code>/tmp</code> temporal · <code>/usr</code> programas.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 01 — ARCHIVOS ===== -->
+      <section class="stage" id="st-archivos" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Archivos</h2><span class="meta">crear · mover · leer<br>sin papelera</span></div>
+
+        <div class="cols">
+          <div class="tile" id="archivos">
+            <div class="tile-h"><span class="td"></span><h3>Crear, copiar, mover, borrar</h3></div>
+            <div class="tile-b">
+              <p class="note">En la terminal no hay papelera: lo que borras se va.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="mkdir carpeta"><span class="c">mkdir</span> <span class="ph">carpeta</span></button><span class="d">Crea un directorio.</span></div>
+                <div class="row"><button class="cmd" data-copy="mkdir -p a/b/c"><span class="c">mkdir</span> <span class="f">-p</span> <span class="ph">a/b/c</span></button><span class="d">Crea rutas anidadas de una vez.</span></div>
+                <div class="row"><button class="cmd" data-copy="touch file.txt"><span class="c">touch</span> <span class="ph">file.txt</span></button><span class="d">Crea archivo vacío o actualiza su fecha.</span></div>
+                <div class="row"><button class="cmd" data-copy="file documento"><span class="c">file</span> <span class="ph">documento</span></button><span class="d">Dice de qué <strong>tipo</strong> es (no se fía de la extensión).</span></div>
+                <div class="row"><button class="cmd" data-copy="cp origen destino"><span class="c">cp</span> <span class="ph">origen destino</span></button><span class="d">Copia un archivo.</span></div>
+                <div class="row"><button class="cmd" data-copy="cp -r origen destino"><span class="c">cp</span> <span class="f">-r</span> <span class="ph">origen destino</span></button><span class="d">Copia carpetas con su contenido (recursivo).</span></div>
+                <div class="row"><button class="cmd" data-copy="mv origen destino"><span class="c">mv</span> <span class="ph">origen destino</span></button><span class="d">Mueve <em>o</em> renombra.</span></div>
+                <div class="row"><button class="cmd" data-copy="rm file"><span class="c">rm</span> <span class="ph">file</span></button><span class="d">Elimina un archivo (¡sin papelera!).</span></div>
+                <div class="row"><button class="cmd" data-copy="rmdir carpeta"><span class="c">rmdir</span> <span class="ph">carpeta</span></button><span class="d">Elimina un directorio vacío.</span></div>
+                <div class="row"><button class="cmd dng" data-copy="rm -rf carpeta"><span class="c">rm</span> <span class="f">-rf</span> <span class="ph">carpeta</span></button><span class="d">Borra carpeta y todo su contenido, sin confirmar.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">máximo cuidado</span><strong><code>rm -rf</code> es irreversible y no pregunta.</strong> Nunca lo apuntes a <code>/</code> ni a <code>~</code>; revisa la ruta dos veces antes de pulsar Enter.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="texto">
+            <div class="tile-h"><span class="td"></span><h3>Explorar texto</h3></div>
+            <div class="tile-b">
+              <p class="note">Leer e inspeccionar archivos sin abrir un editor.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="cat file"><span class="c">cat</span> <span class="ph">file</span></button><span class="d">Muestra todo el contenido de golpe.</span></div>
+                <div class="row"><button class="cmd" data-copy="less file"><span class="c">less</span> <span class="ph">file</span></button><span class="d">Lectura paginada. Sal con <span class="kbd">q</span>, busca con <code>/texto</code>.</span></div>
+                <div class="row"><button class="cmd" data-copy="head file"><span class="c">head</span> <span class="ph">file</span></button><span class="d">Primeras 10 líneas (<code>-n 5</code> para ajustar).</span></div>
+                <div class="row"><button class="cmd" data-copy="tail file"><span class="c">tail</span> <span class="ph">file</span></button><span class="d">Últimas 10 líneas.</span></div>
+                <div class="row"><button class="cmd" data-copy="tail -f registro.log"><span class="c">tail</span> <span class="f">-f</span> <span class="ph">registro.log</span></button><span class="d">Sigue el archivo en tiempo real (ideal para logs).</span></div>
+                <div class="row"><button class="cmd" data-copy="wc -l file"><span class="c">wc</span> <span class="f">-l</span> <span class="ph">file</span></button><span class="d">Cuenta las líneas del archivo.</span></div>
+                <div class="row"><button class="cmd" data-copy="sort file"><span class="c">sort</span> <span class="ph">file</span></button><span class="d">Ordena las líneas alfabéticamente.</span></div>
+                <div class="row"><button class="cmd" data-copy="sort -n file"><span class="c">sort</span> <span class="f">-n</span> <span class="ph">file</span></button><span class="d">Orden <strong>numérico</strong> (<code>-r</code> lo invierte).</span></div>
+                <div class="row"><button class="cmd" data-copy="sort -k2 file"><span class="c">sort</span> <span class="f">-k2</span> <span class="ph">file</span></button><span class="d">Ordena por la 2.ª columna / campo.</span></div>
+                <div class="row"><button class="cmd" data-copy="tac file"><span class="c">tac</span> <span class="ph">file</span></button><span class="d">Como <code>cat</code>, pero de la última línea a la primera.</span></div>
+                <div class="row"><button class="cmd" data-copy="rev file"><span class="c">rev</span> <span class="ph">file</span></button><span class="d">Invierte los caracteres de cada línea.</span></div>
+              </div>
+              <div class="tip"><span class="lab">combina</span>Encadena con un pipe para salidas largas: <button class="cmd" data-copy="ls -l | less"><span class="c">ls</span> <span class="f">-l</span> | <span class="c">less</span></button>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 02 — BÚSQUEDA ===== -->
+      <section class="stage" id="st-busqueda" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Búsqueda</h2><span class="meta">por nombre y por dentro<br>comodines · grep · find</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="busqueda">
+            <div class="tile-h"><span class="td"></span><h3>Comodines, grep y find</h3></div>
+            <div class="tile-b">
+              <p class="note">Filtrar archivos por nombre con comodines y buscar dentro de ellos con <code>grep</code> y <code>find</code>.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="*"><span class="a">*</span></button><span class="d">Comodín: cualquier cantidad de caracteres (<code>*.txt</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy="?"><span class="a">?</span></button><span class="d">Comodín: un único carácter (<code>file?.txt</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy="[abc]"><span class="a">[abc]</span></button><span class="d">Conjunto o rango de caracteres (<code>[a-z]</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy='grep "patron" file'><span class="c">grep</span> <span class="a">"</span><span class="ph">patron</span><span class="a">"</span> <span class="ph">file</span></button><span class="d">Filtra las líneas que contienen un patrón.</span></div>
+                <div class="row"><button class="cmd" data-copy='grep -i "patron" file'><span class="c">grep</span> <span class="f">-i</span> <span class="a">"</span><span class="ph">patron</span><span class="a">"</span> <span class="ph">file</span></button><span class="d">Ignora mayúsculas / minúsculas.</span></div>
+                <div class="row"><button class="cmd" data-copy='grep -rn "patron" .'><span class="c">grep</span> <span class="f">-rn</span> <span class="a">"</span><span class="ph">patron</span><span class="a">" .</span></button><span class="d">Recursivo (<code>-r</code>) con número de línea (<code>-n</code>).</span></div>
+                <div class="row"><button class="cmd" data-copy='find . -name "*.js"'><span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span class="a">"*.js"</span></button><span class="d">Busca archivos por nombre desde la ruta actual.</span></div>
+                <div class="row"><button class="cmd" data-copy="find . -type d"><span class="c">find</span> <span class="a">.</span> <span class="f">-type</span> <span class="a">d</span></button><span class="d">Solo directorios (<code>-type f</code> = archivos).</span></div>
+              </div>
+              <div class="tip"><span class="lab">combina</span>Busca dentro de los resultados: <button class="cmd" data-copy='find . -name "*.log" | xargs grep "error"'><span class="c">find</span> <span class="a">.</span> <span class="f">-name</span> <span class="a">"*.log"</span> | <span class="c">xargs</span> <span class="c">grep</span> <span class="a">"</span><span class="ph">error</span><span class="a">"</span></button>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 03 — FUNCIONAMIENTO ===== -->
+      <section class="stage" id="st-func" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Funcionamiento</h2><span class="meta">cómo piensa el shell<br>streams · pipes · alias</span></div>
+
+        <div class="cols">
+          <div class="tile" id="tipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de comandos &amp; ayuda</h3></div>
+            <div class="tile-b">
+              <p class="note">Antes de ejecutar algo, identifica <em>qué</em> es: un <strong>builtin</strong> del shell, un <strong>programa externo</strong>, un <strong>alias</strong> o una <strong>función</strong>.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="type ls"><span class="c">type</span> <span class="ph">ls</span></button><span class="d">Dice qué es: builtin, alias, función o externo.</span></div>
+                <div class="row"><button class="cmd" data-copy="which python"><span class="c">which</span> <span class="ph">python</span></button><span class="d">Ruta del ejecutable de un comando <em>externo</em>.</span></div>
+                <div class="row"><button class="cmd" data-copy="command -v cd"><span class="c">command</span> <span class="f">-v</span> <span class="ph">cd</span></button><span class="d">Forma portable de comprobar qué es / si existe.</span></div>
+                <div class="row"><button class="cmd" data-copy="help cd"><span class="c">help</span> <span class="ph">cd</span></button><span class="d">Ayuda de un comando <em>builtin</em> del shell.</span></div>
+                <div class="row"><button class="cmd" data-copy="man ls"><span class="c">man</span> <span class="ph">ls</span></button><span class="d">Manual de un comando externo (sal con <span class="kbd">q</span>).</span></div>
+                <div class="row"><button class="cmd" data-copy="apropos red"><span class="c">apropos</span> <span class="ph">palabra</span></button><span class="d">Busca comandos por tema (= <code>man -k</code>).</span></div>
+              </div>
+              <div class="tip why"><span class="lab">dentro de man</span><span class="kbd">/texto</span> busca · <span class="kbd">n</span> siguiente · <span class="kbd">g</span>/<span class="kbd">G</span> inicio/fin · <span class="kbd">q</span> sale. Hay secciones: <code>man 5 passwd</code> abre la 5.ª.</div>
+              <div class="tip"><span class="lab">builtin vs externo</span><code>cd</code>, <code>echo</code>, <code>pwd</code> viven <strong>dentro</strong> del shell; <code>ls</code>, <code>grep</code> son archivos en disco que el shell halla por tu <code>$PATH</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="redirecciones">
+            <div class="tile-h"><span class="td"></span><h3>Redirecciones &amp; streams</h3></div>
+            <div class="tile-b">
+              <p class="note">Decide a dónde va la salida y de dónde viene la entrada: los <em>streams</em> de entrada, salida y errores.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="cmd > file"><span class="ph">cmd</span> <span class="f">&gt;</span> <span class="ph">file</span></button><span class="d">Salida a un archivo, <strong>sobrescribiendo</strong>.</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd >> file"><span class="ph">cmd</span> <span class="f">&gt;&gt;</span> <span class="ph">file</span></button><span class="d">Salida <strong>añadiendo</strong> al final.</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd < file"><span class="ph">cmd</span> <span class="f">&lt;</span> <span class="ph">file</span></button><span class="d">Usa un archivo como <em>entrada</em>.</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd 2> errores.log"><span class="ph">cmd</span> <span class="f">2&gt;</span> <span class="ph">errores.log</span></button><span class="d">Redirige solo los errores (<em>stderr</em>).</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd1 | cmd2"><span class="ph">cmd1</span> <span class="f">|</span> <span class="ph">cmd2</span></button><span class="d">Pipe: la salida de uno es la entrada del siguiente.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">no los confundas</span>Un solo <code>&gt;</code> <strong>sobrescribe</strong>; <code>&gt;&gt;</code> <strong>conserva</strong>. Para añadir sin perder nada: <button class="cmd" data-copy='echo "linea" >> registro.txt'><span class="c">echo</span> <span class="a">"linea"</span> <span class="f">&gt;&gt;</span> <span class="ph">registro.txt</span></button>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="operadores">
+            <div class="tile-h"><span class="td"></span><h3>Operadores de control</h3></div>
+            <div class="tile-b">
+              <p class="note">Encadena comandos en una línea y controla qué pasa según el éxito o el fallo del anterior.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="cmd1 ; cmd2"><span class="ph">cmd1</span> <span class="f">;</span> <span class="ph">cmd2</span></button><span class="d">En secuencia, pase lo que pase.</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd1 && cmd2"><span class="ph">cmd1</span> <span class="f">&amp;&amp;</span> <span class="ph">cmd2</span></button><span class="d">El 2.º <strong>solo si</strong> el 1.º tuvo éxito.</span></div>
+                <div class="row"><button class="cmd" data-copy="cmd1 || cmd2"><span class="ph">cmd1</span> <span class="f">||</span> <span class="ph">cmd2</span></button><span class="d">El 2.º <strong>solo si</strong> el 1.º falló.</span></div>
+                <div class="row"><button class="cmd" data-copy="ls -l | grep '.txt'"><span class="c">ls</span> <span class="f">-l</span> | <span class="c">grep</span> <span class="a">'.txt'</span></button><span class="d">Pipe + filtro: lista solo los <code>.txt</code>.</span></div>
+              </div>
+              <div class="tip"><span class="lab">el poder real</span>Está en <strong>encadenar</strong>: con <code>|</code>, <code>&amp;&amp;</code> y <code>grep</code> construyes flujos completos en una línea.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="alias">
+            <div class="tile-h"><span class="td"></span><h3>Alias</h3></div>
+            <div class="tile-b">
+              <p class="note">Inventa atajos para comandos largos. Para que sobrevivan al reinicio, guárdalos en tu archivo de configuración.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="alias ll='ls -la'"><span class="c">alias</span> <span class="ph">ll</span><span class="a">=</span><span class="a">'ls -la'</span></button><span class="d">Crea un atajo para un comando.</span></div>
+                <div class="row"><button class="cmd" data-copy="alias"><span class="c">alias</span></button><span class="d">Lista todos los alias definidos.</span></div>
+                <div class="row"><button class="cmd" data-copy="unalias ll"><span class="c">unalias</span> <span class="ph">ll</span></button><span class="d">Elimina un alias.</span></div>
+                <div class="row"><button class="cmd" data-copy="source ~/.zshrc"><span class="c">source</span> <span class="a">~/.zshrc</span></button><span class="d">Recarga la configuración sin reiniciar.</span></div>
+              </div>
+              <div class="tip"><span class="lab">permanente</span>Escríbelo en <code>~/.zshrc</code> (Zsh) o <code>~/.bashrc</code> (Bash) y haz <code>source</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 04 — SISTEMA ===== -->
+      <section class="stage" id="st-sistema" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Sistema</h2><span class="meta">permisos · entorno<br>paquetes · procesos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="permisos">
+            <div class="tile-h"><span class="td"></span><h3>Permisos · chmod</h3></div>
+            <div class="tile-b">
+              <p class="note">Cada archivo guarda permisos de <strong>lectura</strong>, <strong>escritura</strong> y <strong>ejecución</strong> para tres grupos: dueño, grupo y otros.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="ls -l"><span class="c">ls</span> <span class="f">-l</span></button><span class="d">Muestra los permisos: <code>rwx</code> por dueño / grupo / otros.</span></div>
+                <div class="row"><button class="cmd" data-copy="chmod +x file"><span class="c">chmod</span> <span class="f">+x</span> <span class="ph">file</span></button><span class="d">Da permiso de ejecución.</span></div>
+                <div class="row"><button class="cmd" data-copy="chmod 755 file"><span class="c">chmod</span> <span class="a">755</span> <span class="ph">file</span></button><span class="d">Octal: dueño <code>rwx</code>, grupo y otros <code>r-x</code>.</span></div>
+                <div class="row"><button class="cmd" data-copy="chmod 644 file"><span class="c">chmod</span> <span class="a">644</span> <span class="ph">file</span></button><span class="d">Dueño lee/escribe, el resto solo lee.</span></div>
+                <div class="row"><button class="cmd" data-copy="chown usuario file"><span class="c">chown</span> <span class="ph">usuario file</span></button><span class="d">Cambia el dueño del archivo.</span></div>
+                <div class="row"><button class="cmd" data-copy="sudo comando"><span class="c">sudo</span> <span class="ph">comando</span></button><span class="d">Ejecuta con privilegios de administrador.</span></div>
+              </div>
+              <div class="perm" aria-hidden="true">
+                <div class="b r"><small>leer</small><b>4</b></div>
+                <div class="b w"><small>escribir</small><b>2</b></div>
+                <div class="b x"><small>ejecutar</small><b>1</b></div>
+                <div class="b"><small>7 = rwx</small><b>4+2+1</b></div>
+                <div class="b"><small>5 = r-x</small><b>4+1</b></div>
+                <div class="b"><small>6 = rw-</small><b>4+2</b></div>
+              </div>
+              <div class="tip"><span class="lab">octal al instante</span><code>4</code> leer + <code>2</code> escribir + <code>1</code> ejecutar. Súmalos por grupo → <code>7 = rwx</code>, <code>5 = r-x</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="entorno">
+            <div class="tile-h"><span class="td"></span><h3>Variables de entorno</h3></div>
+            <div class="tile-b">
+              <p class="note">Valores que el shell y los programas leen para saber dónde buscar ejecutables, tu idioma, tu editor, etc.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="echo $PATH"><span class="c">echo</span> <span class="a">$PATH</span></button><span class="d">Muestra el valor de una variable.</span></div>
+                <div class="row"><button class="cmd" data-copy="env"><span class="c">env</span></button><span class="d">Lista todas las variables de entorno.</span></div>
+                <div class="row"><button class="cmd" data-copy="export VAR=valor"><span class="c">export</span> <span class="ph">VAR</span><span class="a">=</span><span class="ph">valor</span></button><span class="d">Crea/define una variable para la sesión actual.</span></div>
+                <div class="row"><button class="cmd" data-copy="echo $HOME"><span class="c">echo</span> <span class="a">$HOME</span></button><span class="d">Tu home. Otras útiles: <code>$USER</code>, <code>$SHELL</code>.</span></div>
+              </div>
+              <div class="tip"><span class="lab">por qué importa</span>El <code>$PATH</code> es la lista de carpetas donde el shell busca los comandos. Por eso <code>which</code> solo encuentra lo que está ahí.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="paquetes">
+            <div class="tile-h"><span class="td"></span><h3>Paquetes · apt · brew</h3></div>
+            <div class="tile-b">
+              <p class="note">Instalar y actualizar software. <strong>APT</strong> en Linux/WSL (Debian/Ubuntu); <strong>Homebrew</strong> en macOS.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="sudo apt update"><span class="c">sudo apt</span> <span class="a">update</span></button><span class="d">Refresca la <em>lista</em> de paquetes disponibles.</span></div>
+                <div class="row"><button class="cmd" data-copy="sudo apt install paquete"><span class="c">sudo apt</span> <span class="a">install</span> <span class="ph">paquete</span></button><span class="d">Instala un paquete.</span></div>
+                <div class="row"><button class="cmd" data-copy="sudo apt remove paquete"><span class="c">sudo apt</span> <span class="a">remove</span> <span class="ph">paquete</span></button><span class="d">Desinstala un paquete.</span></div>
+                <div class="row"><button class="cmd" data-copy="apt search paquete"><span class="c">apt</span> <span class="a">search</span> <span class="ph">paquete</span></button><span class="d">Busca paquetes disponibles.</span></div>
+                <div class="row"><button class="cmd" data-copy="brew install paquete"><span class="c">brew</span> <span class="a">install</span> <span class="ph">paquete</span></button><span class="d">macOS (Homebrew): instala un paquete.</span></div>
+                <div class="row"><button class="cmd" data-copy="brew update"><span class="c">brew</span> <span class="a">update</span></button><span class="d">Homebrew: actualiza las fórmulas.</span></div>
+              </div>
+              <div class="tip why"><span class="lab">¿update primero?</span><code>apt update</code> solo refresca el índice; sin él, <code>install</code> podría traer una versión vieja o no hallar el paquete.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="procesos">
+            <div class="tile-h"><span class="td"></span><h3>Procesos · fg/bg · kill</h3></div>
+            <div class="tile-b">
+              <p class="note">Cada programa en ejecución es un <em>proceso</em> con un <strong>PID</strong>. Muévelos entre primer y segundo plano y termínalos cuando se cuelguen.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="ps aux"><span class="c">ps</span> <span class="a">aux</span></button><span class="d">Lista todos los procesos en ejecución.</span></div>
+                <div class="row"><button class="cmd" data-copy="top"><span class="c">top</span></button><span class="d">Monitor en tiempo real (<code>htop</code> es la versión mejorada).</span></div>
+                <div class="row"><button class="cmd" data-copy="comando &"><span class="ph">comando</span> <span class="f">&amp;</span></button><span class="d">Ejecuta en segundo plano (<em>background</em>).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + Z</span></span><span class="d">Pausa el proceso del primer plano.</span></div>
+                <div class="row"><button class="cmd" data-copy="jobs"><span class="c">jobs</span></button><span class="d">Lista los trabajos en segundo plano.</span></div>
+                <div class="row"><button class="cmd" data-copy="fg"><span class="c">fg</span></button><span class="d"><code>fg</code> al primer plano · <code>bg</code> reanuda en segundo.</span></div>
+                <div class="row"><button class="cmd" data-copy="kill PID"><span class="c">kill</span> <span class="ph">PID</span></button><span class="d">Termina un proceso por su ID (cierre ordenado).</span></div>
+                <div class="row"><button class="cmd dng" data-copy="kill -9 PID"><span class="c">kill</span> <span class="f">-9</span> <span class="ph">PID</span></button><span class="d">Fuerza el cierre inmediato. Último recurso.</span></div>
+              </div>
+              <div class="tip"><span class="lab">obtener el PID</span><button class="cmd" data-copy="ps aux | grep nombre"><span class="c">ps</span> <span class="a">aux</span> | <span class="c">grep</span> <span class="ph">nombre</span></button> antes de hacer <code>kill</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 05 — UTILIDADES ===== -->
+      <section class="stage" id="st-util" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Utilidades</h2><span class="meta">el día a día<br>editar · multiplexar · red</span></div>
+
+        <div class="cols">
+          <div class="tile" id="comprimir">
+            <div class="tile-h"><span class="td"></span><h3>Comprimir · tar · gzip</h3></div>
+            <div class="tile-b">
+              <p class="note">Empaquetar carpetas en un solo archivo y comprimirlas para guardarlas o enviarlas.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="tar -czvf a.tar.gz carpeta/"><span class="c">tar</span> <span class="f">-czvf</span> <span class="ph">a.tar.gz carpeta/</span></button><span class="d">Empaqueta y comprime una carpeta (gzip).</span></div>
+                <div class="row"><button class="cmd" data-copy="tar -xzvf a.tar.gz"><span class="c">tar</span> <span class="f">-xzvf</span> <span class="ph">a.tar.gz</span></button><span class="d">Extrae un archivo comprimido.</span></div>
+                <div class="row"><button class="cmd" data-copy="gzip file"><span class="c">gzip</span> <span class="ph">file</span></button><span class="d">Comprime un único archivo → <code>file.gz</code>.</span></div>
+                <div class="row"><button class="cmd" data-copy="gunzip file.gz"><span class="c">gunzip</span> <span class="ph">file.gz</span></button><span class="d">Descomprime un <code>.gz</code>.</span></div>
+              </div>
+              <div class="tip"><span class="lab">memoriza los flags</span><code>c</code> crear · <code>x</code> extraer · <code>z</code> gzip · <code>v</code> verboso · <code>f</code> archivo. <em>«Crear Zip Verboso a un File».</em></div>
+            </div>
+          </div>
+
+          <div class="tile" id="editores">
+            <div class="tile-h"><span class="td"></span><h3>Editores · vim · nano</h3></div>
+            <div class="tile-b">
+              <p class="note"><strong>Vim</strong> es modal y rapidísimo cuando le coges el truco; <strong>Nano</strong> queda como plan B sencillo.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="vim file"><span class="c">vim</span> <span class="ph">file</span></button><span class="d">Editor modal: separa <em>moverse</em> de <em>escribir</em>.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">i</span></span><span class="d">Entra en modo inserción para escribir.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Esc</span></span><span class="d">Vuelve al modo normal (donde mandan los comandos).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">dd</span> <span class="kbd">u</span></span><span class="d">Borra la línea actual · deshace el último cambio.</span></div>
+                <div class="row krow"><span class="keyset"><code style="color:var(--t-flag)">/texto</code> <span class="kbd">n</span></span><span class="d">Busca <code>texto</code>; <span class="kbd">n</span> salta a la siguiente.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Esc</span> <code style="color:var(--t-flag)">:w</code></span><span class="d">Guarda sin salir (<em>write</em>).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Esc</span> <code style="color:var(--t-flag)">:wq</code></span><span class="d">Guarda y sale.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Esc</span> <code style="color:var(--t-flag)">:q!</code></span><span class="d">Sale sin guardar.</span></div>
+                <div class="row"><button class="cmd" data-copy="nano file"><span class="c">nano</span> <span class="ph">file</span></button><span class="d">Alternativa simple: <span class="kbd">Ctrl + O</span> guarda, <span class="kbd">Ctrl + X</span> sale.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">¿atrapado en vim?</span>Pulsa <span class="kbd">Esc</span> y escribe <code>:q!</code> para salir sin guardar. El clásico susto del primer día.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="tmux">
+            <div class="tile-h"><span class="td"></span><h3>tmux</h3></div>
+            <div class="tile-b">
+              <p class="note">Un multiplexor: varias sesiones y paneles en una ventana, que sobreviven aunque cierres la terminal.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="tmux new -s trabajo"><span class="c">tmux</span> <span class="a">new</span> <span class="f">-s</span> <span class="ph">trabajo</span></button><span class="d">Inicia una sesión con nombre.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + b</span> <span class="kbd">"</span></span><span class="d">Divide el panel horizontalmente.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + b</span> <span class="kbd">%</span></span><span class="d">Divide el panel verticalmente.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + b</span> <span class="kbd">d</span></span><span class="d">Desconecta (<em>detach</em>) la sesión sin cerrarla.</span></div>
+                <div class="row"><button class="cmd" data-copy="tmux attach"><span class="c">tmux</span> <span class="a">attach</span></button><span class="d">Vuelve a conectarte a una sesión.</span></div>
+              </div>
+              <div class="tip"><span class="lab">la regla de tmux</span>Todo empieza con el prefijo <span class="kbd">Ctrl + b</span> y luego una tecla. Tu salvavidas en servidores remotos por SSH.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="red">
+            <div class="tile-h"><span class="td"></span><h3>Red y acceso remoto</h3></div>
+            <div class="tile-b">
+              <p class="note">Comprobar conectividad, hablar con servicios web y entrar a otras máquinas sin salir de la terminal.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="ping host"><span class="c">ping</span> <span class="ph">host</span></button><span class="d">Verifica que un host responde (<span class="kbd">Ctrl+C</span> para parar).</span></div>
+                <div class="row"><button class="cmd" data-copy="curl url"><span class="c">curl</span> <span class="ph">url</span></button><span class="d">Peticiones HTTP / descarga datos a pantalla.</span></div>
+                <div class="row"><button class="cmd" data-copy="curl -O url"><span class="c">curl</span> <span class="f">-O</span> <span class="ph">url</span></button><span class="d">Descarga y guarda con el nombre remoto.</span></div>
+                <div class="row"><button class="cmd" data-copy="wget url"><span class="c">wget</span> <span class="ph">url</span></button><span class="d">Descarga archivos desde la web.</span></div>
+                <div class="row"><button class="cmd" data-copy="ssh usuario@host"><span class="c">ssh</span> <span class="ph">usuario@host</span></button><span class="d">Abre una sesión de terminal en una máquina remota.</span></div>
+                <div class="row"><button class="cmd" data-copy="scp file usuario@host:ruta"><span class="c">scp</span> <span class="ph">file usuario@host:ruta</span></button><span class="d">Copia archivos a/desde un host remoto por SSH.</span></div>
+              </div>
+              <div class="tip"><span class="lab">cuál usar</span><code>curl</code> es la navaja suiza de las APIs; <code>wget</code> brilla descargando en lote; <code>ssh</code> te conecta y <code>scp</code> copia entre máquinas. Para sincronizar carpetas grandes, <code>rsync -avz</code> solo transfiere lo cambiado.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="atajos">
+            <div class="tile-h"><span class="td"></span><h3>Atajos de teclado</h3></div>
+            <div class="tile-b">
+              <p class="note">Editar la línea sin ratón ni flechas. Los que de verdad ahorran tiempo.</p>
+              <div class="rows">
+                <div class="row krow"><span class="keyset"><span class="kbd">Tab</span></span><span class="d">Autocompleta comandos y rutas. Doble <span class="kbd">Tab</span> = ver opciones.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">↑</span> <span class="kbd">↓</span></span><span class="d">Navega por el historial de comandos.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + R</span></span><span class="d">Busca en el historial mientras escribes.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + C</span></span><span class="d">Cancela / interrumpe el proceso actual.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + L</span></span><span class="d">Limpia la pantalla (como <code>clear</code>).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + A</span> <span class="kbd">Ctrl + E</span></span><span class="d">Cursor al inicio / al final de la línea.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Alt + ←</span> <span class="kbd">Alt + →</span></span><span class="d">Mueve palabra por palabra (en Mac, <span class="kbd">Option</span>). = <span class="kbd">Alt+B</span>/<span class="kbd">F</span>.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + U</span></span><span class="d">Borra toda la línea (todo lo de la izquierda del cursor).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + K</span></span><span class="d">Borra desde el cursor hasta el final (lo de la derecha).</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + W</span></span><span class="d">Borra la palabra a la izquierda del cursor.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Alt + D</span></span><span class="d">Borra la palabra a la <em>derecha</em> del cursor.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + Y</span></span><span class="d">Pega (<em>yank</em>) lo último que borraste con Ctrl+U/K/W.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + T</span></span><span class="d">Intercambia los dos caracteres junto al cursor.</span></div>
+                <div class="row krow"><span class="keyset"><span class="kbd">Ctrl + _</span></span><span class="d">Deshace la última edición — el verdadero «undo».</span></div>
+              </div>
+              <div class="tip why"><span class="lab">WSL + Zsh</span>Son los atajos del modo <em>emacs</em> (el de serie). <span class="kbd">Ctrl + _</span> se teclea como <span class="kbd">Ctrl + Shift + -</span>. Si <span class="kbd">Alt</span> no responde en Windows Terminal, usa <span class="kbd">Alt+B</span>/<span class="kbd">F</span>/<span class="kbd">D</span>, que siempre funcionan. Ojo: <span class="kbd">Ctrl+Z</span> <strong>no</strong> es undo — suspende procesos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="historial">
+            <div class="tile-h"><span class="td"></span><h3>Historial · !!</h3></div>
+            <div class="tile-b">
+              <p class="note">El shell recuerda lo que ya escribiste. Reutilízalo sin volver a teclearlo con la <em>expansión de historial</em>.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="history"><span class="c">history</span></button><span class="d">Lista los comandos recientes, cada uno con su número.</span></div>
+                <div class="row"><button class="cmd" data-copy="!!"><span class="a">!!</span></button><span class="d">Repite el último comando entero.</span></div>
+                <div class="row"><button class="cmd" data-copy="!$"><span class="a">!$</span></button><span class="d">El último <strong>argumento</strong> del comando anterior.</span></div>
+                <div class="row"><button class="cmd" data-copy="!*"><span class="a">!*</span></button><span class="d">Todos los argumentos del comando anterior.</span></div>
+                <div class="row"><button class="cmd" data-copy="!ssh"><span class="a">!</span><span class="ph">ssh</span></button><span class="d">Repite el último comando que empezaba por <code>ssh</code>.</span></div>
+                <div class="row"><button class="cmd" data-copy="^viejo^nuevo"><span class="a">^</span><span class="ph">viejo</span><span class="a">^</span><span class="ph">nuevo</span></button><span class="d">Reejecuta el anterior cambiando una palabra.</span></div>
+              </div>
+              <div class="tip"><span class="lab">el clásico</span>¿Olvidaste el <code>sudo</code>? <button class="cmd" data-copy="sudo !!"><span class="c">sudo</span> <span class="a">!!</span></button> reejecuta la línea anterior con permisos. <span class="kbd">Ctrl + R</span> es la búsqueda interactiva del mismo historial.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 06 — BONUS ===== -->
+      <section class="stage" id="st-bonus" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Bonus</h2><span class="meta">tu entorno<br>zsh · p10k · WSL</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="bonus">
+            <div class="tile-h"><span class="td"></span><h3>Personaliza tu shell &amp; WSL</h3><span class="pr"># más allá de lo básico</span></div>
+            <div class="tile-b">
+              <p class="note">Extras para ir más allá: cambia de shell, instala un framework de configuración y aprovecha la integración WSL ↔ Windows.</p>
+              <div class="rows">
+                <div class="row"><button class="cmd" data-copy="chsh -s $(which zsh)"><span class="c">chsh</span> <span class="f">-s</span> <span class="a">$(which zsh)</span></button><span class="d">Cambia tu shell por defecto a <strong>Zsh</strong>.</span></div>
+                <div class="row"><button class="cmd" data-copy='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'><span class="c">install</span> <span class="ph">oh-my-zsh</span></button><span class="d">Framework de configuración para Zsh (temas y plugins).</span></div>
+                <div class="row"><button class="cmd" data-copy="p10k configure"><span class="c">p10k</span> <span class="a">configure</span></button><span class="d">Reconfigura el tema <strong>Powerlevel10k</strong>.</span></div>
+                <div class="row"><button class="cmd" data-copy="echo $SHELL"><span class="c">echo</span> <span class="a">$SHELL</span></button><span class="d">Confirma qué shell usas ahora mismo.</span></div>
+                <div class="row"><button class="cmd" data-copy="explorer.exe ."><span class="c">explorer.exe</span> <span class="a">.</span></button><span class="d">WSL: abre la carpeta actual en el Explorador de Windows.</span></div>
+                <div class="row"><button class="cmd" data-copy="code ."><span class="c">code</span> <span class="a">.</span></button><span class="d">Abre la carpeta actual en VS Code con integración WSL.</span></div>
+              </div>
+              <div class="tip why"><span class="lab">WSL en una línea</span>Tus discos de Windows están en <code>/mnt/c/</code>, <code>/mnt/d/</code>… Trabaja dentro de <code>~</code> (el home de Linux) para mejor rendimiento, no en <code>/mnt/c</code>. ¿Reconfigurar P10k? <code>p10k configure</code> se guarda en <code>~/.p10k.zsh</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span class="pr">$</span> echo "fin" &nbsp;·&nbsp; <b>Hoja de referencia de la terminal · Linux · WSL · zsh · vim</b>
+        <span class="mono">tip: clic en cualquier comando para copiarlo · el índice de la izquierda sigue tu posición al desplazarte.</span>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  /* ---- live uptime clock ---- */
+  var el=document.getElementById('clock'), start=Date.now();
+  function tick(){ var s=Math.floor((Date.now()-start)/1000);
+    var h=String(Math.floor(s/3600)).padStart(2,'0'), m=String(Math.floor(s/60)%60).padStart(2,'0'), ss=String(s%60).padStart(2,'0');
+    if(el) el.textContent=h+':'+m+':'+ss; }
+  tick(); setInterval(tick,1000);
+
+  /* ---- copy to clipboard ---- */
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(elm){
+    elm.setAttribute('tabindex','0'); elm.setAttribute('role','button');
+    function go(){ var text=elm.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      elm.classList.add('copied'); flash('Copiado ✓  '+text);
+      setTimeout(function(){elm.classList.remove('copied');},1100); }
+    elm.addEventListener('click', go);
+    elm.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  /* ---- scrollspy for TOC ---- */
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var t=document.getElementById(id); if(t) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  function setActive(a){ if(!a)return; links.forEach(function(x){x.classList.remove('active');}); a.classList.add('active');
+    var nav=document.querySelector('nav.toc'); if(!nav)return;
+    var ar=a.getBoundingClientRect(), nr=nav.getBoundingClientRect();
+    if(ar.top<nr.top) nav.scrollTop+=(ar.top-nr.top)-8; else if(ar.bottom>nr.bottom) nav.scrollTop+=(ar.bottom-nr.bottom)+8; }
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ setActive(map[en.target.id]); } });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(t){obs.observe(t);});
+  }
+})();
+</script>
+</body>
+</html>

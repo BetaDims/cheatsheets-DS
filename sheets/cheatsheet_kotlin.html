@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kotlin · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAE8EF;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F5F3F8;
+  --rail:#F2F0F6;
+  --code-bg:#FBFAFD;
+  --line:#E3DFEA;
+  --line-soft:#EDEAF2;
+  --ink:#221F2A;
+  --ink-soft:#534E60;
+  --ink-faint:#8B859A;
+  /* Kotlin grape purple */
+  --kt:#8E4EC6;
+  --kt-deep:#6B349E;
+  --kt-tint:rgba(142,78,198,.14);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#2B6FD6;
+  --s2:#1E9B51;
+  --s3:#B0840A;
+  --s4:#0E8A8A;
+  --s5:#8E4EC6;
+  --s6:#C0398C;
+  --s7:#C0392B;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (light editor) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-anno:#B23A20;
+  --t-com:#928CA0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--kt);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (Android Studio / IDE) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(34,31,42,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F4F2F8;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--kt),#C04AB0);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:11px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--kt-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:10px;height:10px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CEC8DA;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FBFAFD;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--kt-deep);border-bottom-color:var(--kt)}
+
+.fxbar{display:flex;align-items:stretch;background:#FBFAFD;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:#1E9B51;border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--kt-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--kt)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--kt-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--kt-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--kt);background:linear-gradient(90deg,var(--kt-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--kt-deep);background:var(--kt-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--kt)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(34,31,42,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(34,31,42,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--kt-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(34,31,42,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--kt);background:#F8F2FC}
+figure.code.copied .cphint{opacity:1;color:var(--kt-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-anno{color:var(--t-anno);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--kt-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--kt-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature: structured concurrency ===== */
+.cflow{margin:6px 0;border:1px dashed var(--kt);border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--kt-tint),transparent)}
+.cflow .scope-lbl{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--kt-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.cflow .scope-lbl::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--kt)}
+.cflow .kids{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cflow .kid{border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 12px}
+.cflow .kid h5{font-family:"JetBrains Mono";font-size:11px;font-weight:700;color:var(--kt-deep);margin-bottom:3px}
+.cflow .kid p{font-size:11px;color:var(--ink-faint);line-height:1.4}
+.cflow .joinbar{margin-top:10px;text-align:center;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-soft);background:var(--canvas);border:1px solid var(--line);border-radius:7px;padding:6px}
+.cflow .joinbar b{color:var(--kt-deep)}
+@media(max-width:520px){.cflow .kids{grid-template-columns:1fr}}
+
+/* ===== signature: Flow pipeline ===== */
+.fpipe{display:flex;align-items:stretch;gap:0;margin:6px 0;flex-wrap:wrap}
+.fpipe .fstg{flex:1;min-width:84px;border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 8px;text-align:center;position:relative}
+.fpipe .fstg .ft{font-family:"JetBrains Mono";font-size:11px;font-weight:700;color:var(--s6)}
+.fpipe .fstg .fd{font-size:9.5px;color:var(--ink-faint);margin-top:2px;line-height:1.25}
+.fpipe .farr{display:flex;align-items:center;justify-content:center;width:22px;color:var(--s6);font-weight:700;flex:none}
+.fpipe .fstg.cold{border-color:var(--s6);border-left:3px solid var(--s6)}
+.fpipe .fstg.term{background:var(--kt-tint);border-color:var(--kt)}
+.fpipe .fstg.term .ft{color:var(--kt-deep)}
+@media(max-width:620px){.fpipe{flex-direction:column}.fpipe .farr{width:auto;height:18px;transform:rotate(90deg)}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#221F2A;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(34,31,42,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">Kt</span>
+      <span class="fname"><b>Kotlin</b> · Main.kt</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>Run</span>
+      <span class="vtag">v1.0 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Sintaxis</span>
+      <span class="vt">Coroutines</span>
+      <span class="vt">Android</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc"><span class="t-kw">fun</span> <span class="t-fn">main</span>() { <span class="t-fn">println</span>(<span class="t-str">"conciso, seguro, interoperable"</span>) }</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del val a las coroutines</div>
+      <h1>Kotlin, de la <em>sintaxis</em><br>a la <em>concurrencia</em>.</h1>
+      <p class="lede">El lenguaje moderno de la JVM y de Android en una página: <b>val/var y tipos</b>, la <b>null-safety</b> (<code>?</code>, <code>?:</code>, <code>let</code>), <b>funciones</b> (lambdas, orden superior, extensiones), <b>clases</b> (<code>data</code>, <code>sealed</code>, <code>object</code>), <b>colecciones</b> y <i>scope functions</i>, y la firma de Kotlin: las <b>coroutines</b> y <b>Flow</b> para concurrencia. Cada bloque con su sintaxis real y una nota de <b>cuándo usarlo</b>. <b>Clic en cualquier bloque para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Concise. Safe. Interoperable."</p>
+        <cite>— Lema de Kotlin (JetBrains)</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Funciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Clases</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Flujo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Colecciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Coroutines</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Flow</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Android</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">val · var · null</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Funciones</span><span class="sd">lambdas · extensiones</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Clases</span><span class="sd">data · sealed · object</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Flujo</span><span class="sd">when · rangos</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Colecciones</span><span class="sd">map · scope fn</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Coroutines</span><span class="sd">suspend · launch</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Flow</span><span class="sd">cold · StateFlow</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Android</span><span class="sd">ViewModel · Compose</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">Kt</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.kt</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#kt-vars" style="--seg:var(--s0)">val, var &amp; tipos</a>
+      <a href="#kt-tipos" style="--seg:var(--s0)">Tipos básicos</a>
+      <a href="#kt-null" style="--seg:var(--s0)">Null-safety</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Funciones</div>
+      <a href="#kt-fun" style="--seg:var(--s1)">Declarar funciones</a>
+      <a href="#kt-args" style="--seg:var(--s1)">Args por defecto / nombrados</a>
+      <a href="#kt-lambda" style="--seg:var(--s1)">Lambdas &amp; orden superior</a>
+      <a href="#kt-ext" style="--seg:var(--s1)">Funciones de extensión</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Clases</div>
+      <a href="#kt-class" style="--seg:var(--s2)">Clases y constructores</a>
+      <a href="#kt-data" style="--seg:var(--s2)">data class</a>
+      <a href="#kt-sealed" style="--seg:var(--s2)">sealed &amp; enum</a>
+      <a href="#kt-object" style="--seg:var(--s2)">object &amp; companion</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Flujo</div>
+      <a href="#kt-when" style="--seg:var(--s3)">when</a>
+      <a href="#kt-if" style="--seg:var(--s3)">if como expresión</a>
+      <a href="#kt-loop" style="--seg:var(--s3)">Rangos y bucles</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Colecciones</div>
+      <a href="#kt-coll" style="--seg:var(--s4)">Listas, mapas, sets</a>
+      <a href="#kt-ops" style="--seg:var(--s4)">map / filter / fold</a>
+      <a href="#kt-ops2" style="--seg:var(--s4)">Más operaciones</a>
+      <a href="#kt-scope" style="--seg:var(--s4)">Scope functions</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Coroutines</div>
+      <a href="#kt-susp" style="--seg:var(--s5)">suspend · launch · async</a>
+      <a href="#kt-disp" style="--seg:var(--s5)">Dispatchers</a>
+      <a href="#kt-ctx" style="--seg:var(--s5)">withContext</a>
+      <a href="#kt-struct" style="--seg:var(--s5)">Structured concurrency</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Flow</div>
+      <a href="#kt-flow" style="--seg:var(--s6)">Cold streams</a>
+      <a href="#kt-flowop" style="--seg:var(--s6)">Operadores</a>
+      <a href="#kt-state" style="--seg:var(--s6)">StateFlow / SharedFlow</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Android</div>
+      <a href="#kt-vm" style="--seg:var(--s7)">ViewModel + coroutines</a>
+      <a href="#kt-compose" style="--seg:var(--s7)">Jetpack Compose</a>
+      <a href="#kt-interop" style="--seg:var(--s7)">Interop con Java</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Func.</a><a href="#e2">02 Clases</a><a href="#e3">03 Flujo</a>
+        <a href="#e4">04 Colec.</a><a href="#e5">05 Coroutines</a><a href="#e6">06 Flow</a><a href="#e7">07 Android</a>
+      </div>
+
+      <!-- ===== 00 FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">tipado estático<br>inferencia</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-vars">
+            <div class="tile-h"><span class="td"></span><h3>val, var &amp; tipos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>val</b> = solo lectura (inmutable), tu opción por defecto. <b>var</b> si vas a reasignar. El tipo se infiere; decláralo tras <code>:</code> si quieres ser explícito.</p>
+              <figure class="code" data-copy="val nombre = &quot;Ada&quot;      // String&#10;var edad = 30           // Int (mutable)&#10;val pi: Double = 3.14   // tipo explícito&#10;val activo = true       // Boolean&#10;val saludo = &quot;Hola, $nombre&quot;   // template&#10;val total = &quot;${edad + 1}&quot;      // expresión&#10;edad = 31               // ok (var)">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> nombre <span class="t-op">=</span> <span class="t-str">"Ada"</span>      <span class="t-com">// String</span>
+<span class="t-kw">var</span> edad <span class="t-op">=</span> <span class="t-num">30</span>           <span class="t-com">// Int (mutable)</span>
+<span class="t-kw">val</span> pi: <span class="t-type">Double</span> <span class="t-op">=</span> <span class="t-num">3.14</span>   <span class="t-com">// explícito</span>
+<span class="t-kw">val</span> activo <span class="t-op">=</span> <span class="t-kw">true</span>       <span class="t-com">// Boolean</span>
+<span class="t-kw">val</span> saludo <span class="t-op">=</span> <span class="t-str">"Hola, $nombre"</span>
+<span class="t-kw">val</span> total <span class="t-op">=</span> <span class="t-str">"${edad + 1}"</span> <span class="t-com">// expr</span>
+edad <span class="t-op">=</span> <span class="t-num">31</span>               <span class="t-com">// ok (var)</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué</span>Preferir <code>val</code> hace el código más predecible y seguro en concurrencia. Usa <code>var</code> solo cuando de verdad muta.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-tipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos básicos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Para</th></tr>
+                <tr><td class="fn">Int / Long</td><td>enteros (32 / 64 bits)</td></tr>
+                <tr><td class="fn">Double / Float</td><td>decimales</td></tr>
+                <tr><td class="fn">Boolean</td><td><code>true</code> / <code>false</code></td></tr>
+                <tr><td class="fn">Char</td><td>un carácter <code>'K'</code></td></tr>
+                <tr><td class="fn">String</td><td>texto; con <code>$var</code></td></tr>
+                <tr><td class="fn">List / Map</td><td>colecciones</td></tr>
+                <tr><td class="fn">Any / Unit</td><td>raíz / "void"</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Sin conversión implícita</span>No mezcla tipos numéricos solos: usa <code>.toInt()</code>, <code>.toDouble()</code>, <code>.toString()</code> de forma explícita.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="kt-null">
+            <div class="tile-h"><span class="td"></span><h3>Null-safety — el sello de Kotlin</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un tipo <b>no admite null</b> salvo que añadas <code>?</code>. El compilador te obliga a manejar el caso null, así matas los <i>NullPointerException</i> en tiempo de compilación.</p>
+              <figure class="code" data-copy="var n: String? = null   // anulable&#10;val len = n?.length     // safe call → null&#10;val l2 = n?.length ?: 0  // Elvis: default&#10;n?.let { println(it) }   // solo si != null&#10;val forzado = n!!.length // !! lanza NPE&#10;// encadenado seguro de varios niveles:&#10;val ciudad = user?.dir?.ciudad ?: &quot;—&quot;">
+                <figcaption><span class="lang">kotlin · null-safety</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">var</span> n: <span class="t-type">String</span>? <span class="t-op">=</span> <span class="t-kw">null</span>   <span class="t-com">// anulable</span>
+<span class="t-kw">val</span> len <span class="t-op">=</span> n<span class="t-op">?.</span>length     <span class="t-com">// safe → null</span>
+<span class="t-kw">val</span> l2 <span class="t-op">=</span> n<span class="t-op">?.</span>length <span class="t-op">?:</span> <span class="t-num">0</span>  <span class="t-com">// Elvis</span>
+n<span class="t-op">?.</span><span class="t-fn">let</span> { <span class="t-fn">println</span>(it) }   <span class="t-com">// si != null</span>
+<span class="t-kw">val</span> forzado <span class="t-op">=</span> n<span class="t-op">!!</span>.length <span class="t-com">// !! lanza NPE</span>
+<span class="t-com">// encadenado seguro:</span>
+<span class="t-kw">val</span> ciudad <span class="t-op">=</span> user<span class="t-op">?.</span>dir<span class="t-op">?.</span>ciudad <span class="t-op">?:</span> <span class="t-str">"—"</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Evita !!</span><code>!!</code> renuncia a la seguridad y revienta si es null. Resérvalo para cuando estés 100% seguro; casi siempre <code>?.</code> + <code>?:</code> o <code>let</code> es mejor.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 FUNCIONES ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Funciones</h2><span class="meta">ciudadanas<br>de primera clase</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-fun">
+            <div class="tile-h"><span class="td"></span><h3>Declarar funciones</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>fun</code> nombre, parámetros con <code>nombre: Tipo</code> y el retorno tras <code>:</code>. Con cuerpo de expresión (<code>=</code>) el tipo se infiere.</p>
+              <figure class="code" data-copy="fun saluda(nombre: String): String {&#10;    return &quot;Hola, $nombre&quot;&#10;}&#10;// cuerpo de expresión (una línea):&#10;fun doble(x: Int) = x * 2&#10;// Unit = sin retorno (como void):&#10;fun log(m: String): Unit = println(m)">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">fun</span> <span class="t-fn">saluda</span>(nombre: <span class="t-type">String</span>): <span class="t-type">String</span> {
+    <span class="t-kw">return</span> <span class="t-str">"Hola, $nombre"</span>
+}
+<span class="t-com">// cuerpo de expresión:</span>
+<span class="t-kw">fun</span> <span class="t-fn">doble</span>(x: <span class="t-type">Int</span>) <span class="t-op">=</span> x <span class="t-op">*</span> <span class="t-num">2</span>
+<span class="t-com">// Unit = sin retorno (void):</span>
+<span class="t-kw">fun</span> <span class="t-fn">log</span>(m: <span class="t-type">String</span>) <span class="t-op">=</span> <span class="t-fn">println</span>(m)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-args">
+            <div class="tile-h"><span class="td"></span><h3>Args por defecto / nombrados</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Valores por defecto eliminan los <i>overloads</i>; los argumentos <b>nombrados</b> hacen la llamada legible y saltan parámetros.</p>
+              <figure class="code" data-copy="fun crea(&#10;    nombre: String,&#10;    activo: Boolean = true,&#10;    rol: String = &quot;user&quot;&#10;) { /* ... */ }&#10;&#10;crea(&quot;Ada&quot;)               // usa defaults&#10;crea(&quot;Bo&quot;, rol = &quot;admin&quot;)  // nombrado">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">fun</span> <span class="t-fn">crea</span>(
+    nombre: <span class="t-type">String</span>,
+    activo: <span class="t-type">Boolean</span> <span class="t-op">=</span> <span class="t-kw">true</span>,
+    rol: <span class="t-type">String</span> <span class="t-op">=</span> <span class="t-str">"user"</span>
+) { <span class="t-com">/* ... */</span> }
+
+<span class="t-fn">crea</span>(<span class="t-str">"Ada"</span>)               <span class="t-com">// defaults</span>
+<span class="t-fn">crea</span>(<span class="t-str">"Bo"</span>, rol <span class="t-op">=</span> <span class="t-str">"admin"</span>)  <span class="t-com">// nombrado</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-lambda">
+            <div class="tile-h"><span class="td"></span><h3>Lambdas &amp; orden superior</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una lambda es código entre <code>{ }</code>. Una función de <b>orden superior</b> recibe o devuelve funciones. Si la lambda es el último arg, va <b>fuera</b> del paréntesis (<i>trailing</i>).</p>
+              <figure class="code" data-copy="val cuadra = { x: Int -> x * x }&#10;cuadra(4)                  // 16&#10;// higher-order: recibe una función&#10;fun opera(a: Int, f: (Int) -> Int) =&#10;    f(a)&#10;opera(5) { it + 1 }        // 6 (trailing)&#10;// 'it' = el único parámetro implícito">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> cuadra <span class="t-op">=</span> { x: <span class="t-type">Int</span> <span class="t-op">-></span> x <span class="t-op">*</span> x }
+<span class="t-fn">cuadra</span>(<span class="t-num">4</span>)                  <span class="t-com">// 16</span>
+<span class="t-com">// higher-order: recibe función</span>
+<span class="t-kw">fun</span> <span class="t-fn">opera</span>(a: <span class="t-type">Int</span>, f: (<span class="t-type">Int</span>) <span class="t-op">-></span> <span class="t-type">Int</span>) <span class="t-op">=</span>
+    <span class="t-fn">f</span>(a)
+<span class="t-fn">opera</span>(<span class="t-num">5</span>) { it <span class="t-op">+</span> <span class="t-num">1</span> }        <span class="t-com">// 6, trailing</span>
+<span class="t-com">// 'it' = parámetro implícito</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-ext">
+            <div class="tile-h"><span class="td"></span><h3>Funciones de extensión</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Añade métodos a tipos existentes <b>sin heredar</b> ni tocar su código. Dentro, <code>this</code> es el receptor. Base de muchas APIs y DSL de Kotlin.</p>
+              <figure class="code" data-copy="fun String.gritar() = uppercase() + &quot;!&quot;&#10;&quot;hola&quot;.gritar()             // &quot;HOLA!&quot;&#10;&#10;fun Int.esPar() = this % 2 == 0&#10;4.esPar()                  // true&#10;&#10;// también sobre tipos anulables:&#10;fun String?.oVacio() = this ?: &quot;&quot;">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">fun</span> <span class="t-type">String</span>.<span class="t-fn">gritar</span>() <span class="t-op">=</span> <span class="t-fn">uppercase</span>() <span class="t-op">+</span> <span class="t-str">"!"</span>
+<span class="t-str">"hola"</span>.<span class="t-fn">gritar</span>()             <span class="t-com">// "HOLA!"</span>
+
+<span class="t-kw">fun</span> <span class="t-type">Int</span>.<span class="t-fn">esPar</span>() <span class="t-op">=</span> <span class="t-kw">this</span> <span class="t-op">%</span> <span class="t-num">2</span> <span class="t-op">==</span> <span class="t-num">0</span>
+<span class="t-num">4</span>.<span class="t-fn">esPar</span>()                  <span class="t-com">// true</span>
+
+<span class="t-com">// sobre tipos anulables:</span>
+<span class="t-kw">fun</span> <span class="t-type">String</span>?.<span class="t-fn">oVacio</span>() <span class="t-op">=</span> <span class="t-kw">this</span> <span class="t-op">?:</span> <span class="t-str">""</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 CLASES ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Clases y objetos</h2><span class="meta">OOP<br>+ azúcar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-class">
+            <div class="tile-h"><span class="td"></span><h3>Clases y constructores</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>constructor primario</b> va en la cabecera. <code>val</code>/<code>var</code> ahí declaran propiedades. No existe <code>new</code>.</p>
+              <figure class="code" data-copy="class Persona(&#10;    val nombre: String,   // propiedad&#10;    var edad: Int&#10;) {&#10;    fun saluda() = &quot;Soy $nombre&quot;&#10;}&#10;&#10;val p = Persona(&quot;Ada&quot;, 30)  // sin 'new'&#10;p.edad = 31">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">class</span> <span class="t-type">Persona</span>(
+    <span class="t-kw">val</span> nombre: <span class="t-type">String</span>,   <span class="t-com">// propiedad</span>
+    <span class="t-kw">var</span> edad: <span class="t-type">Int</span>
+) {
+    <span class="t-kw">fun</span> <span class="t-fn">saluda</span>() <span class="t-op">=</span> <span class="t-str">"Soy $nombre"</span>
+}
+
+<span class="t-kw">val</span> p <span class="t-op">=</span> <span class="t-type">Persona</span>(<span class="t-str">"Ada"</span>, <span class="t-num">30</span>)  <span class="t-com">// sin new</span>
+p.edad <span class="t-op">=</span> <span class="t-num">31</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Herencia</span>Clases y métodos son <code>final</code> por defecto. Marca <code>open</code> para poder heredar o sobrescribir.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-data">
+            <div class="tile-h"><span class="td"></span><h3>data class</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para guardar datos. Genera gratis <code>equals</code>, <code>hashCode</code>, <code>toString</code>, <code>copy</code> y la desestructuración.</p>
+              <figure class="code" data-copy="data class Punto(val x: Int, val y: Int)&#10;&#10;val a = Punto(1, 2)&#10;val b = a.copy(y = 9)      // Punto(1, 9)&#10;a == Punto(1, 2)          // true (valor)&#10;val (x, y) = a            // destructuring&#10;println(a)                // Punto(x=1, y=2)">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">data class</span> <span class="t-type">Punto</span>(<span class="t-kw">val</span> x: <span class="t-type">Int</span>, <span class="t-kw">val</span> y: <span class="t-type">Int</span>)
+
+<span class="t-kw">val</span> a <span class="t-op">=</span> <span class="t-type">Punto</span>(<span class="t-num">1</span>, <span class="t-num">2</span>)
+<span class="t-kw">val</span> b <span class="t-op">=</span> a.<span class="t-fn">copy</span>(y <span class="t-op">=</span> <span class="t-num">9</span>)      <span class="t-com">// Punto(1,9)</span>
+a <span class="t-op">==</span> <span class="t-type">Punto</span>(<span class="t-num">1</span>, <span class="t-num">2</span>)          <span class="t-com">// true</span>
+<span class="t-kw">val</span> (x, y) <span class="t-op">=</span> a            <span class="t-com">// destructuring</span>
+<span class="t-fn">println</span>(a)                <span class="t-com">// Punto(x=1,y=2)</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-sealed">
+            <div class="tile-h"><span class="td"></span><h3>sealed &amp; enum</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><b>sealed</b> = jerarquía cerrada y conocida. Con <code>when</code> el compilador comprueba que cubres todos los casos (sin <code>else</code>). Perfecto para estados de UI.</p>
+              <figure class="code" data-copy="sealed class Estado&#10;object Cargando : Estado()&#10;data class Ok(val data: String) : Estado()&#10;data class Error(val msg: String) : Estado()&#10;&#10;enum class Dir { N, S, E, O }&#10;Dir.N.ordinal             // 0">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">sealed class</span> <span class="t-type">Estado</span>
+<span class="t-kw">object</span> <span class="t-type">Cargando</span> : <span class="t-type">Estado</span>()
+<span class="t-kw">data class</span> <span class="t-type">Ok</span>(<span class="t-kw">val</span> data: <span class="t-type">String</span>) : <span class="t-type">Estado</span>()
+<span class="t-kw">data class</span> <span class="t-type">Error</span>(<span class="t-kw">val</span> msg: <span class="t-type">String</span>) : <span class="t-type">Estado</span>()
+
+<span class="t-kw">enum class</span> <span class="t-type">Dir</span> { N, S, E, O }
+<span class="t-type">Dir</span>.N.ordinal             <span class="t-com">// 0</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-object">
+            <div class="tile-h"><span class="td"></span><h3>object &amp; companion</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>object</b> = singleton (una sola instancia). <b>companion object</b> da miembros "estáticos" ligados a la clase (factories, constantes).</p>
+              <figure class="code" data-copy="object Config { val version = &quot;1.0&quot; }&#10;Config.version            // &quot;1.0&quot;&#10;&#10;class Usuario private constructor() {&#10;    companion object {&#10;        fun crea() = Usuario()&#10;    }&#10;}&#10;Usuario.crea()            // factory">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">object</span> <span class="t-type">Config</span> { <span class="t-kw">val</span> version <span class="t-op">=</span> <span class="t-str">"1.0"</span> }
+<span class="t-type">Config</span>.version            <span class="t-com">// "1.0"</span>
+
+<span class="t-kw">class</span> <span class="t-type">Usuario</span> <span class="t-kw">private</span> <span class="t-kw">constructor</span>() {
+    <span class="t-kw">companion object</span> {
+        <span class="t-kw">fun</span> <span class="t-fn">crea</span>() <span class="t-op">=</span> <span class="t-type">Usuario</span>()
+    }
+}
+<span class="t-type">Usuario</span>.<span class="t-fn">crea</span>()            <span class="t-com">// factory</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 FLUJO ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Flujo de control</h2><span class="meta">casi todo<br>es expresión</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-when">
+            <div class="tile-h"><span class="td"></span><h3>when</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <code>switch</code> con superpoderes: empareja valores, rangos (<code>in</code>) y tipos (<code>is</code>). Es una <b>expresión</b>: devuelve valor.</p>
+              <figure class="code" data-copy="val tipo = when (x) {&#10;    0 -> &quot;cero&quot;&#10;    in 1..9 -> &quot;dígito&quot;&#10;    is Int -> &quot;entero&quot;&#10;    else -> &quot;otro&quot;&#10;}&#10;// when sin argumento = if/else if:&#10;val c = when { edad > 18 -> &quot;adulto&quot;&#10;               else -> &quot;menor&quot; }">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> tipo <span class="t-op">=</span> <span class="t-kw">when</span> (x) {
+    <span class="t-num">0</span> <span class="t-op">-></span> <span class="t-str">"cero"</span>
+    <span class="t-kw">in</span> <span class="t-num">1</span>..<span class="t-num">9</span> <span class="t-op">-></span> <span class="t-str">"dígito"</span>
+    <span class="t-kw">is</span> <span class="t-type">Int</span> <span class="t-op">-></span> <span class="t-str">"entero"</span>
+    <span class="t-kw">else</span> <span class="t-op">-></span> <span class="t-str">"otro"</span>
+}
+<span class="t-com">// sin argumento = if/else if:</span>
+<span class="t-kw">val</span> c <span class="t-op">=</span> <span class="t-kw">when</span> { edad <span class="t-op">></span> <span class="t-num">18</span> <span class="t-op">-></span> <span class="t-str">"adulto"</span>
+           <span class="t-kw">else</span> <span class="t-op">-></span> <span class="t-str">"menor"</span> }</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-if">
+            <div class="tile-h"><span class="td"></span><h3>if como expresión</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">No hay operador ternario: <code>if/else</code> ya <b>devuelve</b> un valor, así que cumple el mismo papel.</p>
+              <figure class="code" data-copy="val max = if (a > b) a else b&#10;&#10;val s = if (ok) &quot;sí&quot; else &quot;no&quot;&#10;&#10;// con bloques (última línea = valor):&#10;val nivel = if (p >= 90) {&#10;    &quot;alto&quot;&#10;} else &quot;normal&quot;">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> max <span class="t-op">=</span> <span class="t-kw">if</span> (a <span class="t-op">></span> b) a <span class="t-kw">else</span> b
+
+<span class="t-kw">val</span> s <span class="t-op">=</span> <span class="t-kw">if</span> (ok) <span class="t-str">"sí"</span> <span class="t-kw">else</span> <span class="t-str">"no"</span>
+
+<span class="t-com">// con bloques (última línea = valor):</span>
+<span class="t-kw">val</span> nivel <span class="t-op">=</span> <span class="t-kw">if</span> (p <span class="t-op">>=</span> <span class="t-num">90</span>) {
+    <span class="t-str">"alto"</span>
+} <span class="t-kw">else</span> <span class="t-str">"normal"</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="kt-loop">
+            <div class="tile-h"><span class="td"></span><h3>Rangos y bucles</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Los rangos (<code>..</code>, <code>until</code>, <code>downTo</code>, <code>step</code>) hacen los bucles legibles. Recorre cualquier cosa iterable con <code>for (x in ...)</code>.</p>
+              <figure class="code" data-copy="for (i in 1..5) print(i)     // 1 2 3 4 5&#10;for (i in 0 until 5) { }     // 0..4&#10;for (i in 10 downTo 1 step 2) { }&#10;for (c in &quot;abc&quot;) print(c)     // a b c&#10;for ((k, v) in mapa) { }     // pares&#10;while (cond) { /* ... */ }&#10;(1..3).forEach { print(it) }">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">for</span> (i <span class="t-kw">in</span> <span class="t-num">1</span>..<span class="t-num">5</span>) <span class="t-fn">print</span>(i)     <span class="t-com">// 1 2 3 4 5</span>
+<span class="t-kw">for</span> (i <span class="t-kw">in</span> <span class="t-num">0</span> <span class="t-kw">until</span> <span class="t-num">5</span>) { }     <span class="t-com">// 0..4</span>
+<span class="t-kw">for</span> (i <span class="t-kw">in</span> <span class="t-num">10</span> <span class="t-kw">downTo</span> <span class="t-num">1</span> <span class="t-kw">step</span> <span class="t-num">2</span>) { }
+<span class="t-kw">for</span> (c <span class="t-kw">in</span> <span class="t-str">"abc"</span>) <span class="t-fn">print</span>(c)     <span class="t-com">// a b c</span>
+<span class="t-kw">for</span> ((k, v) <span class="t-kw">in</span> mapa) { }     <span class="t-com">// pares</span>
+<span class="t-kw">while</span> (cond) { <span class="t-com">/* ... */</span> }
+(<span class="t-num">1</span>..<span class="t-num">3</span>).<span class="t-fn">forEach</span> { <span class="t-fn">print</span>(it) }</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 COLECCIONES ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Colecciones &amp; scope functions</h2><span class="meta">funcional<br>y fluido</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-coll">
+            <div class="tile-h"><span class="td"></span><h3>Listas, mapas, sets</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Por defecto son <b>inmutables</b> (<code>listOf</code>). Usa la variante <code>mutable…</code> solo si vas a modificar.</p>
+              <figure class="code" data-copy="val xs = listOf(1, 2, 3)    // inmutable&#10;val ms = mutableListOf(1, 2)&#10;ms.add(3)                   // [1, 2, 3]&#10;val mapa = mapOf(&quot;a&quot; to 1, &quot;b&quot; to 2)&#10;mapa[&quot;a&quot;]                    // 1&#10;val set = setOf(1, 1, 2)    // [1, 2]&#10;xs.size                     // 3">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> xs <span class="t-op">=</span> <span class="t-fn">listOf</span>(<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>)    <span class="t-com">// inmutable</span>
+<span class="t-kw">val</span> ms <span class="t-op">=</span> <span class="t-fn">mutableListOf</span>(<span class="t-num">1</span>, <span class="t-num">2</span>)
+ms.<span class="t-fn">add</span>(<span class="t-num">3</span>)                   <span class="t-com">// [1, 2, 3]</span>
+<span class="t-kw">val</span> mapa <span class="t-op">=</span> <span class="t-fn">mapOf</span>(<span class="t-str">"a"</span> <span class="t-kw">to</span> <span class="t-num">1</span>, <span class="t-str">"b"</span> <span class="t-kw">to</span> <span class="t-num">2</span>)
+mapa[<span class="t-str">"a"</span>]                    <span class="t-com">// 1</span>
+<span class="t-kw">val</span> set <span class="t-op">=</span> <span class="t-fn">setOf</span>(<span class="t-num">1</span>, <span class="t-num">1</span>, <span class="t-num">2</span>)    <span class="t-com">// [1, 2]</span>
+xs.size                     <span class="t-com">// 3</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-ops">
+            <div class="tile-h"><span class="td"></span><h3>map / filter / fold</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El trío funcional: <b>transformar</b>, <b>seleccionar</b> y <b>reducir</b>. Encadénalos; cada paso devuelve una colección nueva.</p>
+              <figure class="code" data-copy="val xs = listOf(1, 2, 3, 4)&#10;xs.map { it * 2 }          // [2,4,6,8]&#10;xs.filter { it % 2 == 0 }  // [2, 4]&#10;xs.fold(0) { acc, n -> acc + n } // 10&#10;xs.sumOf { it }            // 10&#10;xs.groupBy { it % 2 }      // par/impar&#10;xs.map { it * it }.filter { it > 4 }">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> xs <span class="t-op">=</span> <span class="t-fn">listOf</span>(<span class="t-num">1</span>, <span class="t-num">2</span>, <span class="t-num">3</span>, <span class="t-num">4</span>)
+xs.<span class="t-fn">map</span> { it <span class="t-op">*</span> <span class="t-num">2</span> }          <span class="t-com">// [2,4,6,8]</span>
+xs.<span class="t-fn">filter</span> { it <span class="t-op">%</span> <span class="t-num">2</span> <span class="t-op">==</span> <span class="t-num">0</span> }  <span class="t-com">// [2, 4]</span>
+xs.<span class="t-fn">fold</span>(<span class="t-num">0</span>) { acc, n <span class="t-op">-></span> acc <span class="t-op">+</span> n }
+xs.<span class="t-fn">sumOf</span> { it }            <span class="t-com">// 10</span>
+xs.<span class="t-fn">groupBy</span> { it <span class="t-op">%</span> <span class="t-num">2</span> }      <span class="t-com">// par/impar</span>
+xs.<span class="t-fn">map</span> { it <span class="t-op">*</span> it }.<span class="t-fn">filter</span> { it <span class="t-op">></span> <span class="t-num">4</span> }</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-ops2">
+            <div class="tile-h"><span class="td"></span><h3>Más operaciones</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Operación</th><th>Hace</th></tr>
+                <tr><td class="fn">first / last</td><td>primer / último (o <code>…OrNull</code>)</td></tr>
+                <tr><td class="fn">find { }</td><td>primero que cumple, o null</td></tr>
+                <tr><td class="fn">any / all / none</td><td>predicado sobre todos</td></tr>
+                <tr><td class="fn">count { }</td><td>cuántos cumplen</td></tr>
+                <tr><td class="fn">sortedBy { }</td><td>ordena por una clave</td></tr>
+                <tr><td class="fn">distinct()</td><td>elimina duplicados</td></tr>
+                <tr><td class="fn">take / drop</td><td>toma / descarta n</td></tr>
+                <tr><td class="fn">flatMap { }</td><td>aplana listas anidadas</td></tr>
+                <tr><td class="fn">associateBy { }</td><td>lista → mapa por clave</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile span" id="kt-scope">
+            <div class="tile-h"><span class="td"></span><h3>Scope functions — let · run · with · apply · also</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Ejecutan un bloque <b>sobre un objeto</b>. Se distinguen por el <b>receptor</b> (<code>this</code> o <code>it</code>) y por <b>qué devuelven</b> (el resultado del bloque o el propio objeto). Elige según para qué.</p>
+              <table class="tbl">
+                <tr><th>Fn</th><th>Receptor</th><th>Devuelve</th><th>Cuándo</th></tr>
+                <tr><td class="fn">let</td><td>it</td><td>resultado</td><td>null-safety, transformar</td></tr>
+                <tr><td class="fn">run</td><td>this</td><td>resultado</td><td>config + calcular un valor</td></tr>
+                <tr><td class="fn">with</td><td>this</td><td>resultado</td><td>agrupar llamadas a un obj</td></tr>
+                <tr><td class="fn">apply</td><td>this</td><td>el objeto</td><td>configurar y devolverlo</td></tr>
+                <tr><td class="fn">also</td><td>it</td><td>el objeto</td><td>efectos colaterales / log</td></tr>
+              </table>
+              <figure class="code" data-copy="val u = Usuario().apply {&#10;    nombre = &quot;Ada&quot;    // this implícito&#10;    edad = 30&#10;}                     // devuelve u&#10;&#10;val n = u.let { it.nombre }  // it → result&#10;u.also { log(it) }    // efecto, devuelve u&#10;val r = with(u) { &quot;$nombre ($edad)&quot; }">
+                <figcaption><span class="lang">kotlin · scope functions</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> u <span class="t-op">=</span> <span class="t-type">Usuario</span>().<span class="t-fn">apply</span> {
+    nombre <span class="t-op">=</span> <span class="t-str">"Ada"</span>    <span class="t-com">// this implícito</span>
+    edad <span class="t-op">=</span> <span class="t-num">30</span>
+}                     <span class="t-com">// devuelve u</span>
+
+<span class="t-kw">val</span> n <span class="t-op">=</span> u.<span class="t-fn">let</span> { it.nombre }  <span class="t-com">// resultado</span>
+u.<span class="t-fn">also</span> { <span class="t-fn">log</span>(it) }    <span class="t-com">// efecto → u</span>
+<span class="t-kw">val</span> r <span class="t-op">=</span> <span class="t-fn">with</span>(u) { <span class="t-str">"$nombre ($edad)"</span> }</pre>
+              </figure>
+              <div class="tip"><span class="lab">Regla rápida</span>¿Devuelves el objeto configurado? <code>apply</code>. ¿Un cálculo derivado? <code>let</code>/<code>run</code>. ¿Solo un efecto (log)? <code>also</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 COROUTINES (firma) ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Coroutines — concurrencia</h2><span class="meta">la firma<br>de Kotlin</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="kt-susp">
+            <div class="tile-h"><span class="td"></span><h3>suspend · launch · async</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>corutina</b> es una tarea ligera que se puede <b>suspender</b> sin bloquear el hilo. Una <code>suspend fun</code> solo se llama desde otra corutina o suspend. <code>launch</code> = lanzar (sin resultado); <code>async</code> = lanzar y obtener un valor con <code>await()</code>.</p>
+              <div class="cols">
+                <figure class="code" data-copy="suspend fun carga(): String {&#10;    delay(1000)        // suspende, no bloquea&#10;    return &quot;datos&quot;&#10;}&#10;// fire-and-forget:&#10;scope.launch { carga() }">
+                  <figcaption><span class="lang">kotlin · launch</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">suspend fun</span> <span class="t-fn">carga</span>(): <span class="t-type">String</span> {
+    <span class="t-fn">delay</span>(<span class="t-num">1000</span>)        <span class="t-com">// no bloquea</span>
+    <span class="t-kw">return</span> <span class="t-str">"datos"</span>
+}
+<span class="t-com">// fire-and-forget:</span>
+scope.<span class="t-fn">launch</span> { <span class="t-fn">carga</span>() }</pre>
+                </figure>
+                <figure class="code" data-copy="// async = resultado en paralelo:&#10;val d1 = scope.async { carga() }&#10;val d2 = scope.async { carga() }&#10;// await() espera el valor:&#10;val r = d1.await() + d2.await()&#10;// ambos corren a la vez">
+                  <figcaption><span class="lang">kotlin · async</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// async = resultado en paralelo:</span>
+<span class="t-kw">val</span> d1 <span class="t-op">=</span> scope.<span class="t-fn">async</span> { <span class="t-fn">carga</span>() }
+<span class="t-kw">val</span> d2 <span class="t-op">=</span> scope.<span class="t-fn">async</span> { <span class="t-fn">carga</span>() }
+<span class="t-com">// await() espera el valor:</span>
+<span class="t-kw">val</span> r <span class="t-op">=</span> d1.<span class="t-fn">await</span>() <span class="t-op">+</span> d2.<span class="t-fn">await</span>()
+<span class="t-com">// ambos corren a la vez</span></pre>
+                </figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-disp">
+            <div class="tile-h"><span class="td"></span><h3>Dispatchers</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Deciden <b>en qué hilo</b> corre la corutina. Elige según el tipo de trabajo.</p>
+              <table class="tbl">
+                <tr><th>Dispatcher</th><th>Para</th></tr>
+                <tr><td class="fn">Main</td><td>UI (Android) — tocar vistas</td></tr>
+                <tr><td class="fn">IO</td><td>red, disco, base de datos</td></tr>
+                <tr><td class="fn">Default</td><td>CPU intensivo (cálculos)</td></tr>
+                <tr><td class="fn">Unconfined</td><td>casos especiales (raro)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla</span>Trabajo bloqueante → <code>IO</code>. Cálculo pesado → <code>Default</code>. Actualizar UI → <code>Main</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-ctx">
+            <div class="tile-h"><span class="td"></span><h3>withContext</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cambia de hilo <b>dentro</b> de una suspend y vuelve solo al terminar. Lo normal para mover el trabajo pesado fuera de <code>Main</code>.</p>
+              <figure class="code" data-copy="suspend fun cargaUser(): User =&#10;    withContext(Dispatchers.IO) {&#10;        api.getUser()      // en hilo IO&#10;    }                      // vuelve solo&#10;// se llama desde Main sin bloquearla">
+                <figcaption><span class="lang">kotlin</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">suspend fun</span> <span class="t-fn">cargaUser</span>(): <span class="t-type">User</span> <span class="t-op">=</span>
+    <span class="t-fn">withContext</span>(<span class="t-type">Dispatchers</span>.IO) {
+        api.<span class="t-fn">getUser</span>()      <span class="t-com">// en hilo IO</span>
+    }                      <span class="t-com">// vuelve solo</span>
+<span class="t-com">// se llama desde Main sin bloquearla</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="kt-struct">
+            <div class="tile-h"><span class="td"></span><h3>Structured concurrency</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Toda corutina vive dentro de un <b>scope</b>. El scope <b>espera</b> a sus hijas y, si se cancela (o una falla), <b>cancela a todas</b>. Resultado: sin fugas ni corutinas huérfanas.</p>
+              <div class="cflow" aria-label="Diagrama de concurrencia estructurada">
+                <div class="scope-lbl">coroutineScope { · · · }</div>
+                <div class="kids">
+                  <div class="kid"><h5>async { uno() }</h5><p>hija 1 — corre en paralelo</p></div>
+                  <div class="kid"><h5>async { dos() }</h5><p>hija 2 — corre en paralelo</p></div>
+                </div>
+                <div class="joinbar">el scope <b>espera a ambas</b> · si una falla → <b>cancela el resto</b></div>
+              </div>
+              <figure class="code" data-copy="suspend fun total(): Int = coroutineScope {&#10;    val a = async { uno() }&#10;    val b = async { dos() }&#10;    a.await() + b.await()  // espera a ambas&#10;}&#10;// en Android: viewModelScope / lifecycleScope&#10;// se cancelan solos con el ciclo de vida">
+                <figcaption><span class="lang">kotlin · structured concurrency</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">suspend fun</span> <span class="t-fn">total</span>(): <span class="t-type">Int</span> <span class="t-op">=</span> <span class="t-fn">coroutineScope</span> {
+    <span class="t-kw">val</span> a <span class="t-op">=</span> <span class="t-fn">async</span> { <span class="t-fn">uno</span>() }
+    <span class="t-kw">val</span> b <span class="t-op">=</span> <span class="t-fn">async</span> { <span class="t-fn">dos</span>() }
+    a.<span class="t-fn">await</span>() <span class="t-op">+</span> b.<span class="t-fn">await</span>()  <span class="t-com">// espera ambas</span>
+}
+<span class="t-com">// Android: viewModelScope / lifecycleScope</span>
+<span class="t-com">// se cancelan con el ciclo de vida</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 FLOW ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Flow — streams asíncronos</h2><span class="meta">cold por<br>defecto</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="kt-flow">
+            <div class="tile-h"><span class="td"></span><h3>Cold streams</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>Flow</b> emite una secuencia de valores en el tiempo (lo que <code>suspend</code> es a "un valor"). Es <b>cold</b>: el bloque <code>flow { }</code> no se ejecuta hasta que alguien hace <code>collect</code>, y se reinicia con cada colector.</p>
+              <div class="fpipe" aria-label="Pipeline de un Flow">
+                <div class="fstg cold"><div class="ft">flow { }</div><div class="fd">emite valores</div></div>
+                <div class="farr">→</div>
+                <div class="fstg"><div class="ft">.map</div><div class="fd">transforma</div></div>
+                <div class="farr">→</div>
+                <div class="fstg"><div class="ft">.filter</div><div class="fd">selecciona</div></div>
+                <div class="farr">→</div>
+                <div class="fstg term"><div class="ft">.collect</div><div class="fd">consume (terminal)</div></div>
+              </div>
+              <figure class="code" data-copy="val f = flow {&#10;    emit(1); emit(2); emit(3)  // produce&#10;}&#10;f.map { it * 2 }&#10; .filter { it > 2 }&#10; .collect { println(it) }   // 4, 6&#10;// nada fluye hasta el collect (cold)">
+                <figcaption><span class="lang">kotlin · flow</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">val</span> f <span class="t-op">=</span> <span class="t-fn">flow</span> {
+    <span class="t-fn">emit</span>(<span class="t-num">1</span>); <span class="t-fn">emit</span>(<span class="t-num">2</span>); <span class="t-fn">emit</span>(<span class="t-num">3</span>)  <span class="t-com">// produce</span>
+}
+f.<span class="t-fn">map</span> { it <span class="t-op">*</span> <span class="t-num">2</span> }
+ .<span class="t-fn">filter</span> { it <span class="t-op">></span> <span class="t-num">2</span> }
+ .<span class="t-fn">collect</span> { <span class="t-fn">println</span>(it) }   <span class="t-com">// 4, 6</span>
+<span class="t-com">// nada fluye hasta collect (cold)</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-flowop">
+            <div class="tile-h"><span class="td"></span><h3>Operadores</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Intermedios</b> (devuelven Flow, perezosos) vs <b>terminales</b> (lanzan la recolección, son suspend).</p>
+              <table class="tbl">
+                <tr><th>Operador</th><th>Hace</th></tr>
+                <tr><td class="fn">map / filter</td><td>transforma / selecciona</td></tr>
+                <tr><td class="fn">onEach</td><td>efecto en cada valor</td></tr>
+                <tr><td class="fn">debounce(ms)</td><td>ignora ráfagas (búsqueda)</td></tr>
+                <tr><td class="fn">distinctUntilChanged</td><td>salta repetidos seguidos</td></tr>
+                <tr><td class="fn">flatMapLatest</td><td>cancela el anterior</td></tr>
+                <tr><td class="fn">combine / zip</td><td>une dos flows</td></tr>
+                <tr><td class="fn">catch { }</td><td>maneja errores upstream</td></tr>
+                <tr><td class="fn">collect (term.)</td><td>consume los valores</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-state">
+            <div class="tile-h"><span class="td"></span><h3>StateFlow / SharedFlow</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Hot</b> flows: emiten aunque nadie escuche. <b>StateFlow</b> guarda un valor actual (estado de UI); <b>SharedFlow</b> retransmite eventos.</p>
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Para</th></tr>
+                <tr><td class="fn">StateFlow</td><td>estado: siempre 1 valor</td></tr>
+                <tr><td class="fn">SharedFlow</td><td>eventos puntuales (replay)</td></tr>
+              </table>
+              <figure class="code" data-copy="private val _ui =&#10;    MutableStateFlow(&quot;inicial&quot;)&#10;val ui = _ui.asStateFlow()  // solo lectura&#10;_ui.value = &quot;nuevo&quot;          // emite&#10;// en la UI:&#10;ui.collect { render(it) }">
+                <figcaption><span class="lang">kotlin · StateFlow</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">private val</span> _ui <span class="t-op">=</span>
+    <span class="t-fn">MutableStateFlow</span>(<span class="t-str">"inicial"</span>)
+<span class="t-kw">val</span> ui <span class="t-op">=</span> _ui.<span class="t-fn">asStateFlow</span>()  <span class="t-com">// read-only</span>
+_ui.value <span class="t-op">=</span> <span class="t-str">"nuevo"</span>          <span class="t-com">// emite</span>
+<span class="t-com">// en la UI:</span>
+ui.<span class="t-fn">collect</span> { <span class="t-fn">render</span>(it) }</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 ANDROID ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Android (vistazo)</h2><span class="meta">donde Kotlin<br>brilla</span></div>
+
+        <div class="cols">
+          <div class="tile" id="kt-vm">
+            <div class="tile-h"><span class="td"></span><h3>ViewModel + coroutines</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>ViewModel</b> mantiene el estado y sobrevive a rotaciones. <code>viewModelScope</code> lanza corutinas que se <b>cancelan solas</b> al destruirse.</p>
+              <figure class="code" data-copy="class MiVM : ViewModel() {&#10;    private val _ui = MutableStateFlow(&quot;&quot;)&#10;    val ui = _ui.asStateFlow()&#10;    fun cargar() = viewModelScope.launch {&#10;        _ui.value = repo.get()  // suspend&#10;    }                           // cancela solo&#10;}">
+                <figcaption><span class="lang">kotlin · android</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">class</span> <span class="t-type">MiVM</span> : <span class="t-type">ViewModel</span>() {
+  <span class="t-kw">private val</span> _ui <span class="t-op">=</span> <span class="t-fn">MutableStateFlow</span>(<span class="t-str">""</span>)
+  <span class="t-kw">val</span> ui <span class="t-op">=</span> _ui.<span class="t-fn">asStateFlow</span>()
+  <span class="t-kw">fun</span> <span class="t-fn">cargar</span>() <span class="t-op">=</span> viewModelScope.<span class="t-fn">launch</span> {
+      _ui.value <span class="t-op">=</span> repo.<span class="t-fn">get</span>()  <span class="t-com">// suspend</span>
+  }                            <span class="t-com">// cancela solo</span>
+}</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-compose">
+            <div class="tile-h"><span class="td"></span><h3>Jetpack Compose</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">UI declarativa: describes <b>qué</b> mostrar con funciones <code>@Composable</code>. Cuando el <b>estado</b> cambia, Compose <i>recompone</i> lo afectado.</p>
+              <figure class="code" data-copy="@Composable&#10;fun Contador() {&#10;    var n by remember { mutableStateOf(0) }&#10;    Button(onClick = { n++ }) {&#10;        Text(&quot;Pulsado $n&quot;)&#10;    }&#10;}">
+                <figcaption><span class="lang">kotlin · compose</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-anno">@Composable</span>
+<span class="t-kw">fun</span> <span class="t-fn">Contador</span>() {
+    <span class="t-kw">var</span> n <span class="t-kw">by</span> <span class="t-fn">remember</span> { <span class="t-fn">mutableStateOf</span>(<span class="t-num">0</span>) }
+    <span class="t-fn">Button</span>(onClick <span class="t-op">=</span> { n<span class="t-op">++</span> }) {
+        <span class="t-fn">Text</span>(<span class="t-str">"Pulsado $n"</span>)
+    }
+}</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="kt-interop">
+            <div class="tile-h"><span class="td"></span><h3>Interop con Java</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Kotlin compila a la JVM y es <b>100% interoperable</b>: usa cualquier librería Java y, al revés, anota tu Kotlin para que Java lo consuma cómodo.</p>
+              <table class="tbl">
+                <tr><th>Anotación / detalle</th><th>Para</th></tr>
+                <tr><td class="fn">@JvmStatic</td><td>método estático real en Java</td></tr>
+                <tr><td class="fn">@JvmOverloads</td><td>genera overloads de defaults</td></tr>
+                <tr><td class="fn">@JvmField</td><td>expone campo sin getter</td></tr>
+                <tr><td class="k">String!</td><td>tipo "plataforma" de Java</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Cuidado con null</span>Lo que viene de Java puede ser null aunque su tipo no lo diga (<code>String!</code>). Trátalo como anulable (<code>?</code>) en la frontera.</div>
+            </div>
+          </div>
+
+          <div class="tile span">
+            <div class="tile-h"><span class="td"></span><h3>collectAsState — del Flow a la UI</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El puente entre un <b>StateFlow</b> del ViewModel y Compose. <code>collectAsStateWithLifecycle()</code> recoge solo cuando la pantalla está visible (ahorra batería).</p>
+              <figure class="code" data-copy="@Composable&#10;fun Pantalla(vm: MiVM) {&#10;    val ui by vm.ui&#10;        .collectAsStateWithLifecycle()&#10;    Text(ui)   // se redibuja al cambiar&#10;}">
+                <figcaption><span class="lang">kotlin · compose + flow</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-anno">@Composable</span>
+<span class="t-kw">fun</span> <span class="t-fn">Pantalla</span>(vm: <span class="t-type">MiVM</span>) {
+    <span class="t-kw">val</span> ui <span class="t-kw">by</span> vm.ui
+        .<span class="t-fn">collectAsStateWithLifecycle</span>()
+    <span class="t-fn">Text</span>(ui)   <span class="t-com">// se redibuja al cambiar</span>
+}</pre>
+              </figure>
+              <div class="tip"><span class="lab">El flujo completo</span><b>ViewModel</b> expone un <code>StateFlow</code> · una corutina lo actualiza · Compose lo recoge con <code>collectAsState…</code> y recompone la UI. Esa es la arquitectura reactiva de Android moderno.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Kotlin · Hoja de referencia</b> — de la sintaxis a la concurrencia. Construida sobre tres cursos (masterclass de Kotlin · Coroutines &amp; Flow · Android con Kotlin): fundamentos y null-safety, funciones y extensiones, clases, colecciones y scope functions, y la firma del lenguaje: coroutines y Flow, con un vistazo a Android.
+        <span class="mono">Código en su sintaxis real · notas en español · clic en cualquier bloque para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

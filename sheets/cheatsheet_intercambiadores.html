@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intercambiadores de calor · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --bg:#ECE6E2;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#FAF4F1;
+  --rail:#F6F0EC;
+  --code-bg:#FBF7F5;
+  --line:#E8DFD8;
+  --line-soft:#F1EAE4;
+  --ink:#231D1B;
+  --ink-soft:#5E534E;
+  --ink-faint:#988C85;
+  /* marca térmica */
+  --hx:#C0392B;
+  --hx-deep:#97291E;
+  --hx-tint:rgba(192,57,43,.14);
+  /* acentos de sección */
+  --s0:#46566A;
+  --s1:#2563A8;
+  --s2:#C0392B;
+  --s3:#0E7C86;
+  --s4:#B0840A;
+  --s5:#6B4BB8;
+  --s6:#C0750C;
+  --s7:#178A4C;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* tokens de código (editor claro) */
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#928CA0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--hx);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(35,29,27,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F5EFEB;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--hx),#E0654F);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:10px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--hx-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:var(--hx);border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#D8CBC3;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FCF8F6;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--hx-deep);border-bottom-color:var(--hx)}
+
+.fxbar{display:flex;align-items:stretch;background:#FCF8F6;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--hx);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:0;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--hx-deep)}
+.fxbar .fxc .dim{color:var(--ink-faint);margin-left:10px}
+.fxbar .fxc sub{font-size:9px}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--hx-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--hx)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.2rem,5.5vw,3.7rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--hx-deep)}
+.lede{max-width:78ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--hx-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--hx);background:linear-gradient(90deg,var(--hx-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--hx-deep);background:var(--hx-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--hx)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(35,29,27,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(35,29,27,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--hx-deep)}
+
+/* tarjeta de fórmula (KaTeX) — clic para copiar */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(35,29,27,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--hx);background:#FBF1EF}
+figure.code.copied .cphint{opacity:1;color:var(--hx-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.fml{padding:12px 14px 14px;text-align:center;overflow-x:auto;overflow-y:hidden}
+.fml .katex{font-size:1.12em}
+.fml.lh .katex-display{margin:.3em 0}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--hx-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--hx-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF3E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== firma: perfiles de temperatura ===== */
+.tprofile{border:1px dashed var(--hx);border-radius:11px;padding:14px 14px 8px;background:linear-gradient(180deg,var(--hx-tint),transparent);margin:4px 0}
+.tprofile .tp-legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-soft);margin-bottom:8px}
+.tprofile .tp-legend span{display:inline-flex;align-items:center;gap:6px}
+.tprofile .tp-legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.tpgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.tpgrid{grid-template-columns:1fr}}
+.tpcard{background:var(--canvas);border:1px solid var(--line);border-radius:9px;padding:8px}
+.tpcard h4{font-family:"Bricolage Grotesque",sans-serif;font-size:.92rem;font-weight:700;text-align:center;margin:2px 0 2px;color:var(--ink)}
+.tpcard svg{display:block;width:100%;height:auto}
+.svg-axis{stroke:var(--ink-faint);stroke-width:1.2}
+.svg-grid{stroke:var(--line);stroke-width:1}
+.svg-hot{fill:none;stroke:var(--hx);stroke-width:2.6}
+.svg-cold{fill:none;stroke:#2563A8;stroke-width:2.6}
+.svg-dt{stroke:#6B6157;stroke-width:1.2;stroke-dasharray:3 3}
+.svg-cross{stroke:#178A4C;stroke-width:1.1;stroke-dasharray:4 3}
+.lblc{fill:var(--hx-deep);font-family:"JetBrains Mono";font-size:10px;font-weight:700}
+.lblb{fill:#1F4E86;font-family:"JetBrains Mono";font-size:10px;font-weight:700}
+.lbla{fill:var(--ink-soft);font-family:"JetBrains Mono";font-size:9px}
+.lbldt{fill:#5E534E;font-family:"JetBrains Mono";font-size:9.5px;font-weight:700}
+.lblx{fill:var(--ink-faint);font-family:"JetBrains Mono";font-size:9px}
+.lblcr{fill:#147A43;font-family:"JetBrains Mono";font-size:8.5px;font-weight:700}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#231D1B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(35,29,27,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">HX</span>
+      <span class="fname"><b>Intercambiadores</b> · intercambiador.heat</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3 4 4.5 4 8a4 4 0 1 1-8 0c0-1.7.8-2.9 1.6-4C10 7 11 5 12 2z"/></svg>Q&#775;</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Tipos</span>
+      <span class="vt">LMTD</span>
+      <span class="vt">NTU</span>
+      <span class="vt">Diseño</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">fx</span>
+      <span class="fxc"><b>Q</b> = U · A · &Delta;T<sub>ml</sub><span class="dim">— el corazón del dimensionamiento térmico</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · transferencia de calor</div>
+      <h1>Intercambiadores, del <em>flujo</em><br>al <em>dimensionamiento</em>.</h1>
+      <p class="lede">Cómo dos corrientes intercambian calor sin mezclarse, en una página: <b>qué son y para qué</b>, los <b>tipos</b> (coraza y tubos, placas, doble tubo, aletas, compactos), los <b>arreglos de flujo</b> (paralelo, contracorriente, cruzado), los <b>mecanismos</b> y el coeficiente global <code>U</code>, el método <b>LMTD</b> y su factor <code>F</code>, el método <b>&epsilon;-NTU</b>, el <b>ensuciamiento</b>, la <b>caída de presión</b> y la <b>selección</b>. Fórmulas con KaTeX y notas de <b>cuándo usar cada una</b>. <b>Clic en cualquier fórmula para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"Heat always flows from hot to cold."</p>
+        <cite>— Segunda ley de la termodinámica</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Tipos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Arreglos de flujo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Mecanismos &amp; U</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>LMTD</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>&epsilon;-NTU</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Diseño</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Selección</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">qué · balance</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Tipos</span><span class="sd">coraza · placas</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Arreglos</span><span class="sd">contra · paralelo</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Mecanismos</span><span class="sd">U · resistencias</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">LMTD</span><span class="sd">&Delta;T<sub>ml</sub> · F</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">&epsilon;-NTU</span><span class="sd">efectividad</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Diseño</span><span class="sd">fouling · &Delta;P</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Selección</span><span class="sd">mantenimiento</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">HX</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17c3 0 3-10 6-10s3 10 6 10 3-10 6-10"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v16h16M8 16l4-6 4 4 4-7"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.heat</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#ic-que" style="--seg:var(--s0)">Qué es y para qué</a>
+      <a href="#ic-apps" style="--seg:var(--s0)">Aplicaciones típicas</a>
+      <a href="#ic-balance" style="--seg:var(--s0)">Balance de energía</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Tipos</div>
+      <a href="#ic-shell" style="--seg:var(--s1)">Coraza y tubos</a>
+      <a href="#ic-placas" style="--seg:var(--s1)">Placas</a>
+      <a href="#ic-doble" style="--seg:var(--s1)">Doble tubo</a>
+      <a href="#ic-aletas" style="--seg:var(--s1)">Aletas y compactos</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Arreglos de flujo</div>
+      <a href="#ic-arreglos" style="--seg:var(--s2)">Paralelo · contra · cruzado</a>
+      <a href="#ic-perfiles" style="--seg:var(--s2)">Perfiles de temperatura</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Mecanismos &amp; U</div>
+      <a href="#ic-mecan" style="--seg:var(--s3)">Conducción y convección</a>
+      <a href="#ic-u" style="--seg:var(--s3)">Coeficiente global U</a>
+      <a href="#ic-resist" style="--seg:var(--s3)">Resistencias en serie</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · LMTD</div>
+      <a href="#ic-lmtd" style="--seg:var(--s4)">&Delta;T medio logarítmico</a>
+      <a href="#ic-factorf" style="--seg:var(--s4)">Factor de corrección F</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · &epsilon;-NTU</div>
+      <a href="#ic-efect" style="--seg:var(--s5)">Efectividad &epsilon;</a>
+      <a href="#ic-ntu" style="--seg:var(--s5)">NTU y C<sub>r</sub></a>
+      <a href="#ic-cual" style="--seg:var(--s5)">LMTD vs &epsilon;-NTU</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Diseño</div>
+      <a href="#ic-fouling" style="--seg:var(--s6)">Ensuciamiento (fouling)</a>
+      <a href="#ic-dp" style="--seg:var(--s6)">Caída de presión</a>
+      <a href="#ic-area" style="--seg:var(--s6)">Dimensionar el área</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Selección</div>
+      <a href="#ic-sel" style="--seg:var(--s7)">Criterios de selección</a>
+      <a href="#ic-mant" style="--seg:var(--s7)">Mantenimiento</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Tipos</a><a href="#e2">02 Arreglos</a><a href="#e3">03 U</a>
+        <a href="#e4">04 LMTD</a><a href="#e5">05 NTU</a><a href="#e6">06 Diseño</a><a href="#e7">07 Selección</a>
+      </div>
+
+      <!-- ===== 00 FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">qué es<br>balance global</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-que">
+            <div class="tile-h"><span class="td"></span><h3>Qué es y para qué</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>intercambiador de calor</b> transfiere energía térmica entre dos fluidos a distinta temperatura <b>sin que se mezclen</b>, normalmente a través de una pared sólida. Un fluido se <b>enfría</b> y el otro se <b>calienta</b>.</p>
+              <p class="note">Sirve para <b>recuperar calor</b>, calentar, enfriar, condensar o evaporar. Es el equipo más común en plantas térmicas, química, HVAC y refrigeración.</p>
+              <div class="tip"><span class="lab">Regla base</span>El calor solo fluye de caliente a frío (2.ª ley). El intercambiador organiza ese flujo para que sea <b>eficiente y controlado</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-apps">
+            <div class="tile-h"><span class="td"></span><h3>Aplicaciones típicas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Sector</th><th>Uso</th></tr>
+                <tr><td class="k">Energía</td><td>condensadores, precalentadores, calderas</td></tr>
+                <tr><td class="k">Química</td><td>reactores, columnas, recuperación</td></tr>
+                <tr><td class="k">HVAC</td><td>chillers, fan-coils, recuperadores</td></tr>
+                <tr><td class="k">Refrigeración</td><td>evaporador y condensador</td></tr>
+                <tr><td class="k">Automoción</td><td>radiador, intercooler, EGR</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile span" id="ic-balance">
+            <div class="tile-h"><span class="td"></span><h3>Balance de energía — la ecuación de partida</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">En régimen permanente y sin pérdidas, el calor que <b>cede</b> el fluido caliente lo <b>gana</b> el frío. Para cada corriente, <code>Q = ṁ·cp·ΔT</code> (calor sensible).</p>
+              <figure class="code" data-copy="Q = m_dot_c * cp_c * (Tc_out - Tc_in) = m_dot_h * cp_h * (Th_in - Th_out)">
+                <figcaption><span class="lang">balance global</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$Q=\dot m_c\,c_{p,c}\,(T_{c,o}-T_{c,i})=\dot m_h\,c_{p,h}\,(T_{h,i}-T_{h,o})$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Capacidad térmica</span>Se define <code>C = ṁ·cp</code> (W/K). El fluido con <b>menor C</b> sufre el <b>mayor</b> cambio de temperatura. Con cambio de fase (condensa/evapora) ese fluido mantiene T casi constante y <code>C → ∞</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 TIPOS ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Tipos constructivos</h2><span class="meta">superficie<br>vs servicio</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-shell">
+            <div class="tile-h"><span class="td"></span><h3>Coraza y tubos (shell &amp; tube)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El caballo de batalla de la industria: un haz de <b>tubos</b> dentro de una <b>coraza</b>. Un fluido va por los tubos, otro por la coraza; los <b>bafles</b> guían el flujo y dan turbulencia.</p>
+              <p class="note">Soporta <b>alta presión y temperatura</b>, gran área, y se limpia (cabezal flotante). Versátil pero voluminoso.</p>
+              <div class="tip"><span class="lab">Pasos</span>«1-2» = 1 paso por coraza, 2 por tubos. Más pasos por tubos → más velocidad y <code>h</code>, pero más <code>ΔP</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-placas">
+            <div class="tile-h"><span class="td"></span><h3>Placas (gasketed plate)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Placas metálicas corrugadas apretadas; los fluidos circulan en canales alternos a <b>contracorriente</b>. Muy <b>compacto</b> y de <b>U alto</b> (turbulencia desde caudales bajos).</p>
+              <p class="note">Fácil de <b>ampliar</b> (añadir placas) y limpiar. Limitado en presión/temperatura por las <b>juntas</b> (salvo placas soldadas).</p>
+              <div class="tip"><span class="lab">Cuándo</span>Líquido-líquido limpio, ΔT pequeño, recuperación de calor en alimentos y HVAC.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-doble">
+            <div class="tile-h"><span class="td"></span><h3>Doble tubo (concéntrico)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un tubo dentro de otro: el más simple. Un fluido por el interior, otro por el ánulo. Permite <b>contracorriente pura</b>.</p>
+              <p class="note">Barato y didáctico, pero de <b>poca área</b> por unidad de longitud. Se usa en caudales pequeños o como horquilla (hairpin).</p>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-aletas">
+            <div class="tile-h"><span class="td"></span><h3>Aletas y compactos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cuando un lado tiene <b>h bajo</b> (un gas), se le añaden <b>aletas</b> para multiplicar el área. Los <b>compactos</b> alcanzan enorme área por volumen (radiadores, intercoolers, placa-aleta).</p>
+              <div class="tip"><span class="lab">Aletas, ¿dónde?</span>Siempre en el lado de <b>menor</b> coeficiente (el gas). Aletear el lado bueno casi no ayuda.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 ARREGLOS DE FLUJO (FIRMA) ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Arreglos de flujo</h2><span class="meta">la firma:<br>perfiles T-L</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="ic-arreglos">
+            <div class="tile-h"><span class="td"></span><h3>Paralelo · contracorriente · cruzado</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cómo se orientan las dos corrientes cambia el perfil de temperaturas y, con ello, el <b>ΔT medio</b> disponible y el área necesaria.</p>
+              <table class="tbl">
+                <tr><th>Arreglo</th><th>Comportamiento</th></tr>
+                <tr><td class="k">Paralelo<br>(co-corriente)</td><td>Entran por el mismo extremo. ΔT enorme al inicio que cae rápido. <b>T<sub>c,sal</sub> nunca supera a T<sub>h,sal</sub></b>. Menor &Delta;T<sub>ml</sub> → peor.</td></tr>
+                <tr><td class="k">Contra<br>corriente</td><td>Entran por extremos opuestos. ΔT más <b>uniforme</b>; permite el <b>cruce</b> (T<sub>c,sal</sub> &gt; T<sub>h,sal</sub>). <b>Mayor</b> &Delta;T<sub>ml</sub> → el mejor.</td></tr>
+                <tr><td class="k">Cruzado</td><td>Las corrientes se cruzan a 90° (radiadores). Rendimiento <b>intermedio</b>; se corrige con el factor <code>F</code>.</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué importa</span>Para el mismo servicio, la <b>contracorriente</b> aprovecha más el ΔT y necesita <b>menos área</b>. Por eso es la referencia de diseño.</div>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE SVG: perfiles de temperatura ===== -->
+          <div class="tile span" id="ic-perfiles">
+            <div class="tile-h"><span class="td"></span><h3>Firma · Perfiles de temperatura T vs longitud</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Temperatura de cada fluido a lo largo del intercambiador. Fíjate en cómo evoluciona el hueco <b>ΔT</b> y en el <b>cruce</b> que solo permite la contracorriente.</p>
+              <div class="tprofile">
+                <div class="tp-legend">
+                  <span><i style="background:#C0392B"></i>Fluido caliente (T<sub>h</sub>)</span>
+                  <span><i style="background:#2563A8"></i>Fluido frío (T<sub>c</sub>)</span>
+                  <span><i style="background:#6B6157"></i>&Delta;T local</span>
+                </div>
+                <div class="tpgrid">
+
+                  <!-- FLUJO PARALELO -->
+                  <div class="tpcard">
+                    <h4>Flujo paralelo</h4>
+                    <svg viewBox="0 0 360 232" role="img" aria-label="Perfil de temperatura en flujo paralelo: el caliente baja y el frío sube por el mismo extremo, el ΔT cae fuerte y las curvas convergen sin cruzarse.">
+                      <!-- ejes -->
+                      <line class="svg-axis" x1="48" y1="26" x2="48" y2="196"/>
+                      <line class="svg-axis" x1="48" y1="196" x2="338" y2="196"/>
+                      <text class="lblx" x="40" y="22" text-anchor="end">T</text>
+                      <text class="lblx" x="193" y="218" text-anchor="middle">Longitud  L  →</text>
+                      <!-- curva caliente: entra alto, baja -->
+                      <path class="svg-hot" d="M48,42 C 150,86 245,114 330,124"/>
+                      <!-- curva fria: entra bajo (mismo extremo), sube -->
+                      <path class="svg-cold" d="M48,180 C 150,150 245,138 330,134"/>
+                      <!-- DeltaT1 (izq, grande) -->
+                      <line class="svg-dt" x1="70" y1="52" x2="70" y2="172"/>
+                      <text class="lbldt" x="76" y="116">&Delta;T₁</text>
+                      <!-- DeltaT2 (der, pequeño) -->
+                      <line class="svg-dt" x1="314" y1="124" x2="314" y2="134"/>
+                      <text class="lbldt" x="308" y="118" text-anchor="end">&Delta;T₂</text>
+                      <!-- etiquetas de curva -->
+                      <text class="lblc" x="118" y="62">caliente</text>
+                      <text class="lblb" x="150" y="174">frío</text>
+                      <!-- entradas -->
+                      <text class="lbla" x="52" y="38">T_h,e</text>
+                      <text class="lbla" x="52" y="192">T_c,e</text>
+                    </svg>
+                  </div>
+
+                  <!-- CONTRACORRIENTE -->
+                  <div class="tpcard">
+                    <h4>Contracorriente</h4>
+                    <svg viewBox="0 0 360 232" role="img" aria-label="Perfil de temperatura en contracorriente: ambas líneas descienden casi paralelas, el ΔT es uniforme y el frío de salida puede superar al caliente de salida (cruce).">
+                      <!-- ejes -->
+                      <line class="svg-axis" x1="48" y1="26" x2="48" y2="196"/>
+                      <line class="svg-axis" x1="48" y1="196" x2="338" y2="196"/>
+                      <text class="lblx" x="40" y="22" text-anchor="end">T</text>
+                      <text class="lblx" x="193" y="218" text-anchor="middle">Longitud  L  →</text>
+                      <!-- linea de cruce de referencia -->
+                      <line class="svg-cross" x1="48" y1="92" x2="338" y2="92"/>
+                      <!-- caliente: entra alto izq, baja a der -->
+                      <path class="svg-hot" d="M48,46 C 150,68 245,92 330,110"/>
+                      <!-- frio: sale caliente por izq (arriba), entra frio por der (abajo) -->
+                      <path class="svg-cold" d="M48,84 C 150,108 245,132 330,152"/>
+                      <!-- DeltaT1 (izq) -->
+                      <line class="svg-dt" x1="70" y1="50" x2="70" y2="86"/>
+                      <text class="lbldt" x="76" y="72">&Delta;T₁</text>
+                      <!-- DeltaT2 (der) -->
+                      <line class="svg-dt" x1="312" y1="112" x2="312" y2="150"/>
+                      <text class="lbldt" x="306" y="135" text-anchor="end">&Delta;T₂</text>
+                      <!-- etiquetas de curva -->
+                      <text class="lblc" x="118" y="52">caliente</text>
+                      <text class="lblb" x="150" y="150">frío</text>
+                      <!-- nota de cruce -->
+                      <text class="lblcr" x="200" y="106" text-anchor="middle">cruce: T_c,sal &gt; T_h,sal</text>
+                    </svg>
+                  </div>
+
+                </div>
+              </div>
+              <div class="tip"><span class="lab">Lectura clave</span>En <b>paralelo</b> el ΔT se desploma (las curvas se persiguen pero no se tocan). En <b>contracorriente</b> el ΔT es casi constante a lo largo del equipo y, gracias al cruce, el frío sale <b>más caliente</b> que el caliente — imposible en paralelo. Ese ΔT más alto es el que reduce el área.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 MECANISMOS & U ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Mecanismos y coeficiente U</h2><span class="meta">resistencias<br>en serie</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-mecan">
+            <div class="tile-h"><span class="td"></span><h3>Conducción y convección</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El calor cruza la pared por <b>convección</b> (fluido↔pared, coeficiente <code>h</code>) y <b>conducción</b> a través del metal (conductividad <code>k</code>, espesor <code>e</code>).</p>
+              <figure class="code" data-copy="Convección:  q = h * A * (T_sup - T_fluido)   |   Conducción:  q = (k/e) * A * dT">
+                <figcaption><span class="lang">leyes locales</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$q=h\,A\,\Delta T \qquad q=\frac{k}{e}\,A\,\Delta T$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Quién manda</span>El <b>h más bajo</b> domina la resistencia. Mejorar el lado bueno casi no sube U; trabaja sobre el lado pobre (turbulencia, aletas).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-u">
+            <div class="tile-h"><span class="td"></span><h3>Coeficiente global U</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><code>U</code> (W/m²·K) resume toda la cadena de resistencias en un solo número. Cuanto mayor U, menos área hace falta para el mismo Q.</p>
+              <figure class="code" data-copy="1/(U*A) = 1/(h_i*A_i) + R_pared + 1/(h_o*A_o)">
+                <figcaption><span class="lang">global ↔ resistencias</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$\frac{1}{U A}=\frac{1}{h_i A_i}+R_{pared}+\frac{1}{h_o A_o}$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Órdenes de magnitud</span>Gas-gas: U≈10-50. Líquido-líquido: 150-1200. Placas: hasta ~7000. Condensador/evaporador: muy altos.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ic-resist">
+            <div class="tile-h"><span class="td"></span><h3>Resistencias en serie — el modelo mental</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Pensar en <b>resistencias térmicas en serie</b> (como eléctricas): convección interna + pared + ensuciamiento + convección externa. Se suman; la mayor limita el conjunto.</p>
+              <table class="tbl">
+                <tr><th>Resistencia</th><th>Expresión</th><th>Se reduce…</th></tr>
+                <tr><td class="k">Convección interna</td><td><code>1/(h_i·A_i)</code></td><td>subiendo velocidad/turbulencia</td></tr>
+                <tr><td class="k">Pared</td><td><code>e/(k·A)</code></td><td>metal fino y conductor</td></tr>
+                <tr><td class="k">Ensuciamiento</td><td><code>R_f/A</code></td><td>limpieza, tratamiento de agua</td></tr>
+                <tr><td class="k">Convección externa</td><td><code>1/(h_o·A_o)</code></td><td>aletas, bafles, velocidad</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 LMTD ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Método LMTD</h2><span class="meta">ΔT medio<br>logarítmico</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="ic-lmtd">
+            <div class="tile-h"><span class="td"></span><h3>&Delta;T medio logarítmico (LMTD)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El ΔT entre fluidos varía a lo largo del equipo, así que no se usa una media simple sino la <b>media logarítmica</b> de los ΔT en los dos extremos. Con ella, <code>Q = U·A·ΔT<sub>ml</sub></code>.</p>
+              <figure class="code" data-copy="LMTD = (dT1 - dT2) / ln(dT1 / dT2)     con   Q = U * A * LMTD">
+                <figcaption><span class="lang">media logarítmica</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$\Delta T_{ml}=\frac{\Delta T_1-\Delta T_2}{\ln\!\left(\dfrac{\Delta T_1}{\Delta T_2}\right)}\qquad Q=U\,A\,\Delta T_{ml}$$</div>
+              </figure>
+              <div class="tip"><span class="lab">ΔT₁ y ΔT₂</span>Son las diferencias de temperatura en cada <b>extremo</b>. En contracorriente, cada extremo enfrenta entrada de uno con salida del otro. Si ΔT₁≈ΔT₂, LMTD ≈ media aritmética.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-factorf">
+            <div class="tile-h"><span class="td"></span><h3>Factor de corrección F</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El LMTD se deduce para contracorriente pura. En arreglos reales (multipaso, cruzado) se multiplica por <code>F &le; 1</code>, leído de cartas con los parámetros <code>P</code> y <code>R</code>.</p>
+              <figure class="code" data-copy="Q = U * A * F * LMTD_contracorriente">
+                <figcaption><span class="lang">corrección</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$Q=U\,A\,F\,\Delta T_{ml,cc}$$</div>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-factorf2">
+            <div class="tile-h"><span class="td"></span><h3>Cómo usar F</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Parámetro</th><th>Definición</th></tr>
+                <tr><td class="fn">P</td><td>eficacia de temperatura del lado frío</td></tr>
+                <tr><td class="fn">R</td><td>razón de capacidades térmicas</td></tr>
+                <tr><td class="fn">F</td><td>se lee en la carta (P, R) del arreglo</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Señal de alarma</span>Si <code>F &lt; 0.75</code>, el diseño es ineficiente: añade pasos o usa contracorriente. Zona de mucha sensibilidad.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 ε-NTU ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Método &epsilon;-NTU</h2><span class="meta">sin iterar<br>las salidas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-efect">
+            <div class="tile-h"><span class="td"></span><h3>Efectividad &epsilon;</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>efectividad</b> es el calor real frente al <b>máximo</b> termodinámico posible (el que daría un área infinita). Va de 0 a 1.</p>
+              <figure class="code" data-copy="epsilon = Q / Q_max     con   Q_max = C_min * (Th_in - Tc_in)">
+                <figcaption><span class="lang">efectividad</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$\varepsilon=\frac{Q}{Q_{max}},\quad Q_{max}=C_{min}(T_{h,i}-T_{c,i})$$</div>
+              </figure>
+              <div class="tip"><span class="lab">C_min</span>Es la menor de <code>C=ṁ·cp</code>. El fluido de C_min es el que puede recorrer todo el ΔT disponible.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-ntu">
+            <div class="tile-h"><span class="td"></span><h3>NTU y C<sub>r</sub></h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><b>NTU</b> = «tamaño térmico» adimensional del equipo. <code>C<sub>r</sub></code> = relación de capacidades. Con (NTU, C<sub>r</sub>, arreglo) se obtiene <code>&epsilon;</code> por fórmula o carta.</p>
+              <figure class="code" data-copy="NTU = U * A / C_min     |     Cr = C_min / C_max">
+                <figcaption><span class="lang">grupos adimensionales</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$NTU=\frac{U A}{C_{min}},\qquad C_r=\frac{C_{min}}{C_{max}}$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Una salida útil</span>Conocida ε: <code>T_c,sal = T_c,e + ε·(C_min/C_c)·(T_h,e − T_c,e)</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ic-cual">
+            <div class="tile-h"><span class="td"></span><h3>¿LMTD o &epsilon;-NTU?</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Situación</th><th>Método</th></tr>
+                <tr><td class="k">Conozco las 4 temperaturas y busco el <b>área</b> (diseño)</td><td><b>LMTD</b> — directo, sin iterar</td></tr>
+                <tr><td class="k">Conozco el equipo (UA) y busco las <b>salidas</b> (evaluación / rating)</td><td><b>&epsilon;-NTU</b> — evita iterar el LMTD</td></tr>
+                <tr><td class="k">Comparar rendimiento de arreglos</td><td><b>&epsilon;-NTU</b> — adimensional</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Equivalencia</span>Son el mismo balance escrito de dos formas; dan el mismo resultado. Elige el que evite iterar en tu caso.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 DISEÑO ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Diseño y operación</h2><span class="meta">fouling<br>caída de presión</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-fouling">
+            <div class="tile-h"><span class="td"></span><h3>Ensuciamiento (fouling)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Con el tiempo se depositan incrustaciones, lodos o biocapa que añaden una <b>resistencia extra</b> <code>R<sub>f</sub></code> y bajan U. Se incluye desde el diseño con un <b>factor de incrustación</b>.</p>
+              <figure class="code" data-copy="1/U_sucio = 1/U_limpio + R_f,i + R_f,o">
+                <figcaption><span class="lang">U con fouling</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$\frac{1}{U_{sucio}}=\frac{1}{U_{limpio}}+R_{f,i}+R_{f,o}$$</div>
+              </figure>
+              <div class="tip warn"><span class="lab">Sobredimensionar</span>Se añade un <b>margen de área</b> (10-25 %) para el ensuciamiento esperado entre paradas de limpieza.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-dp">
+            <div class="tile-h"><span class="td"></span><h3>Caída de presión &Delta;P</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Más velocidad sube <code>h</code> y U… pero la <code>ΔP</code> crece <b>~ con v²</b> y la potencia de bombeo se dispara. El diseño es un <b>compromiso</b> térmico-hidráulico.</p>
+              <figure class="code" data-copy="dP = f * (L/D) * (rho * v^2 / 2)     |     W_bomba = dP * Q_vol / eta">
+                <figcaption><span class="lang">pérdida de carga</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$\Delta P=f\,\frac{L}{D}\,\frac{\rho v^2}{2}$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Regla</span>Respeta el <b>ΔP admisible</b> de cada lado. Ganar U a costa de una ΔP enorme rara vez compensa el coste de bombeo.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ic-area">
+            <div class="tile-h"><span class="td"></span><h3>Dimensionar el área — flujo de cálculo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Procedimiento típico de diseño térmico con LMTD:</p>
+              <table class="tbl">
+                <tr><th>#</th><th>Paso</th></tr>
+                <tr><td class="fn">1</td><td>Balance: hallar <code>Q</code> y la temperatura/caudal faltante</td></tr>
+                <tr><td class="fn">2</td><td>Elegir arreglo y calcular <code>ΔT<sub>ml</sub></code> (y <code>F</code> si aplica)</td></tr>
+                <tr><td class="fn">3</td><td>Estimar <code>U</code> (con fouling incluido)</td></tr>
+                <tr><td class="fn">4</td><td>Despejar área: <code>A = Q / (U·F·ΔT<sub>ml</sub>)</code></td></tr>
+                <tr><td class="fn">5</td><td>Verificar <code>ΔP</code> y añadir margen; iterar</td></tr>
+              </table>
+              <figure class="code" data-copy="A = Q / (U * F * LMTD)">
+                <figcaption><span class="lang">área requerida</span><span class="cphint">clic = copiar</span></figcaption>
+                <div class="fml lh">$$A=\frac{Q}{U\,F\,\Delta T_{ml}}$$</div>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 SELECCIÓN ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Selección y mantenimiento</h2><span class="meta">elegir<br>y conservar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ic-sel">
+            <div class="tile-h"><span class="td"></span><h3>Criterios de selección</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Criterio</th><th>Decide…</th></tr>
+                <tr><td class="k">Presión / Temp.</td><td>coraza y tubos vs placas</td></tr>
+                <tr><td class="k">Fluidos</td><td>corrosión, viscosidad, fase</td></tr>
+                <tr><td class="k">Ensuciamiento</td><td>acceso a limpieza, márgenes</td></tr>
+                <tr><td class="k">Espacio / peso</td><td>compactos vs robustos</td></tr>
+                <tr><td class="k">ΔP admisible</td><td>geometría y velocidades</td></tr>
+                <tr><td class="k">Coste ciclo vida</td><td>inversión + bombeo + limpieza</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="ic-mant">
+            <div class="tile-h"><span class="td"></span><h3>Mantenimiento</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El rendimiento cae sobre todo por <b>ensuciamiento</b>. Vigila la <b>caída de U</b> y la <b>ΔP</b> como síntomas.</p>
+              <table class="tbl">
+                <tr><th>Acción</th><th>Para</th></tr>
+                <tr><td class="k">Limpieza química / CIP</td><td>disolver incrustaciones</td></tr>
+                <tr><td class="k">Limpieza mecánica</td><td>haz de tubos, placas</td></tr>
+                <tr><td class="k">Tratamiento de agua</td><td>prevenir sarro y biocapa</td></tr>
+                <tr><td class="k">Inspección / prueba</td><td>fugas, corrosión, juntas</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Indicador</span>Si para el mismo caudal sube la ΔP o cae el calor transferido, casi siempre es <b>fouling</b>: toca limpiar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Intercambiadores de calor · Hoja de referencia</b> — del arreglo de flujo al dimensionamiento. Cubre qué son y para qué, tipos constructivos (coraza y tubos, placas, doble tubo, aletas y compactos), arreglos de flujo con sus perfiles de temperatura, mecanismos y coeficiente global U, el método LMTD con factor F, el método ε-NTU, ensuciamiento, caída de presión, dimensionamiento del área, selección y mantenimiento.
+        <span class="mono">Fórmulas con KaTeX · notas en español · clic en cualquier fórmula para copiarla.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

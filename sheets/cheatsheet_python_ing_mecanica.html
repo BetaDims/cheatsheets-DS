@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python para Ing. Mecánica · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- KaTeX 0.16.11 (fórmulas) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function render(){
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      } else { setTimeout(render, 60); }
+    }
+    render();
+  });
+</script>
+<style>
+:root{
+  --bg:#E7EAED;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F7;
+  --rail:#F0F2F5;
+  --code-bg:#FAFBFC;
+  --line:#DFE3E8;
+  --line-soft:#EBEEF1;
+  --ink:#1E242B;
+  --ink-soft:#4C545E;
+  --ink-faint:#838C97;
+  /* Python para ing. mecánica — azul Python + amarillo */
+  --mech:#3776AB;
+  --mech-deep:#28527A;
+  --mech-tint:rgba(55,118,171,.16);
+  --pyyellow:#FFD43B;
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#2B6FD6;
+  --s2:#0E8A8A;
+  --s3:#1E9B51;
+  --s4:#B0840A;
+  --s5:#8E4EC6;
+  --s6:#C0398C;
+  --s7:#C0392B;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* mono tokens */
+  --t-kw:#3776AB;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#8B939E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--mech);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(30,36,43,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF1F4;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--mech),var(--pyyellow));color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:10px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--mech-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C7CDD4;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FAFBFC;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--mech-deep);border-bottom-color:var(--mech)}
+
+.fxbar{display:flex;align-items:stretch;background:#FAFBFC;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--mech-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:10px;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--mech-deep)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mech-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--mech)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--mech-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--mech-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--mech);background:linear-gradient(90deg,var(--mech-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--mech-deep);background:var(--mech-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--mech)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(30,36,43,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(30,36,43,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+
+/* ===== formula box (KaTeX) ===== */
+.kbox{margin:10px 0;padding:11px 14px;border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;background:var(--code-bg);overflow-x:auto}
+.kbox:last-child{margin-bottom:0}
+.kbox .kt-cap{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.kbox .katex-display{margin:.25em 0}
+.kbox.tight .katex-display{margin:.1em 0}
+
+/* ===== copyable code (mono) ===== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(30,36,43,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--mech);background:var(--mech-tint)}
+figure.code.copied .cphint{opacity:1;color:var(--mech-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--mech-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature: matplotlib engineering plot ===== */
+.fbd{margin:6px 0;border:1px dashed var(--mech);border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--mech-tint),transparent)}
+.fbd .fbd-lbl{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.fbd .fbd-lbl::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--mech)}
+.fbd .fbd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.fbd .fbd-card{border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 12px 6px;display:flex;flex-direction:column}
+.fbd .fbd-card h5{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:6px;text-align:center}
+.fbd svg{width:100%;height:auto;display:block;flex:1}
+.fbd .fbd-cap{margin-top:8px;text-align:center;font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);background:var(--canvas);border:1px solid var(--line);border-radius:7px;padding:7px}
+.fbd .fbd-cap b{color:var(--mech-deep)}
+.svg-grid{stroke:var(--line);stroke-width:1}
+text.lab{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink)}
+text.labf{font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+@media(max-width:560px){.fbd .fbd-grid{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E242B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(30,36,43,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">Py</span>
+      <span class="fname"><b>Notebook</b> · calculo_ing.py</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4l14 8-14 8z"/></svg>Run cell</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">NumPy</span>
+      <span class="vt">SciPy</span>
+      <span class="vt">Matplotlib</span>
+      <span class="vt">Casos</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">&gt;&gt;&gt;</span>
+      <span class="fxc"><b>import</b> numpy <b>as</b> np · <b>import</b> matplotlib.pyplot <b>as</b> plt</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · cálculos de ingeniería con código</div>
+      <h1>Deja de calcular<br>vigas en <em>Excel</em>.</h1>
+      <p class="lede"><b>Python aplicado a la ingeniería mecánica</b>: <b>NumPy</b> (arrays y álgebra), <b>Pandas</b> (datos de ensayos), <b>SciPy</b> (integración, optimización, raíces, EDOs) y <b>Matplotlib</b> (gráficos de ingeniería), con <b>casos reales</b>: diagramas de cuerpo libre, esfuerzo-deformación, fuerza cortante y momento, ciclos termodinámicos y flujo. No es la hoja de Python base: aquí todo apunta a <b>resolver problemas de mecánica</b>. <b>Clic en cualquier celda para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"Stop using Excel for engineering calcs." — el código es reproducible, versionable y revisable.</p>
+        <cite>— sabiduría de la comunidad científica de Python (SciPy)</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Entorno</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>NumPy</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Pandas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>SciPy</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Matplotlib</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Caso: vigas/esfuerzo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Caso: termo/fluidos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Buenas prácticas</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Entorno</span><span class="sd">notebook · stack</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">NumPy</span><span class="sd">arrays · álgebra</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Pandas</span><span class="sd">datos de ensayo</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">SciPy</span><span class="sd">integrar · optimizar</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Matplotlib</span><span class="sd">graficar</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Caso: vigas</span><span class="sd">V-M · σ-ε</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Caso: termo/fluidos</span><span class="sd">ciclos · Re</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Buenas prácticas</span><span class="sd">unidades · sympy</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">Py</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 16l4-6 3 3 5-7"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.py</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Entorno</div>
+      <a href="#py-porque" style="--seg:var(--s0)">Por qué Python en ingeniería</a>
+      <a href="#py-stack" style="--seg:var(--s0)">El stack científico</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · NumPy</div>
+      <a href="#py-arrays" style="--seg:var(--s1)">Arrays y vectorización</a>
+      <a href="#py-algebra" style="--seg:var(--s1)">Álgebra lineal</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Pandas</div>
+      <a href="#py-pandas" style="--seg:var(--s2)">Datos de ensayos (CSV)</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · SciPy</div>
+      <a href="#py-integrar" style="--seg:var(--s3)">Integrar y derivar</a>
+      <a href="#py-resolver" style="--seg:var(--s3)">Raíces y optimización</a>
+      <a href="#py-edo" style="--seg:var(--s3)">EDOs (dinámica)</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Matplotlib</div>
+      <a href="#py-plot" style="--seg:var(--s4)">Anatomía de un gráfico</a>
+      <a href="#py-firma" style="--seg:var(--s4)">Gráfico de ingeniería</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Caso: vigas/esfuerzo</div>
+      <a href="#py-viga" style="--seg:var(--s5)">Diagrama de cortante y momento</a>
+      <a href="#py-esfuerzo" style="--seg:var(--s5)">Curva esfuerzo-deformación</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Caso: termo/fluidos</div>
+      <a href="#py-termo" style="--seg:var(--s6)">Eficiencia y ciclos</a>
+      <a href="#py-fluidos" style="--seg:var(--s6)">Reynolds y pérdidas</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Buenas prácticas</div>
+      <a href="#py-unidades" style="--seg:var(--s7)">Unidades y SymPy</a>
+      <a href="#py-repro" style="--seg:var(--s7)">Reproducibilidad</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Env</a><a href="#e1">01 NumPy</a><a href="#e2">02 Pandas</a><a href="#e3">03 SciPy</a>
+        <a href="#e4">04 Plot</a><a href="#e5">05 Vigas</a><a href="#e6">06 Termo</a><a href="#e7">07 Prac.</a>
+      </div>
+
+      <!-- ===== 00 ENTORNO ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Entorno</h2><span class="meta">el cuaderno<br>del ingeniero</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-porque">
+            <div class="tile-h"><span class="td"></span><h3>Por qué Python en ingeniería</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Frente a la hoja de cálculo, Python da <b>reproducibilidad</b>, <b>trazabilidad</b> (control de versiones), gráficos de calidad y librerías para casi todo cálculo de ingeniería. Una vez escrito, el cálculo se reutiliza y se audita.</p>
+              <table class="tbl">
+                <tr><th>Excel</th><th>Python</th></tr>
+                <tr><td class="k">fórmulas ocultas</td><td>código explícito</td></tr>
+                <tr><td class="k">difícil versionar</td><td>git, diffs claros</td></tr>
+                <tr><td class="k">se rompe al escalar</td><td>vectorizado y rápido</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Flujo típico</span>Escribe en un <b>Jupyter Notebook</b>: mezcla cálculo, gráfico y explicación en un solo documento.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="py-stack">
+            <div class="tile-h"><span class="td"></span><h3>El stack científico</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cuatro librerías cubren el 90 % del trabajo. Se instalan juntas con Anaconda o <code>pip</code>.</p>
+              <figure class="code" data-copy="# instalar el stack&#10;pip install numpy scipy matplotlib pandas&#10;&#10;import numpy as np&#10;import pandas as pd&#10;from scipy import integrate, optimize&#10;import matplotlib.pyplot as plt">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># instalar el stack</span>
+pip install numpy scipy matplotlib pandas
+
+<span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+<span class="t-kw">import</span> pandas <span class="t-kw">as</span> pd
+<span class="t-kw">from</span> scipy <span class="t-kw">import</span> integrate, optimize
+<span class="t-kw">import</span> matplotlib.pyplot <span class="t-kw">as</span> plt</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 NUMPY ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>NumPy</h2><span class="meta">arrays y<br>vectorización</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-arrays">
+            <div class="tile-h"><span class="td"></span><h3>Arrays y vectorización</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>array</b> de NumPy reemplaza los bucles: operas sobre vectores completos de golpe (rápido y legible). Ideal para tablas de valores (tiempo, posición, esfuerzo).</p>
+              <figure class="code" data-copy="import numpy as np&#10;&#10;t = np.linspace(0, 10, 100)   # 0..10 s&#10;v0, g = 20.0, 9.81&#10;y = v0*t - 0.5*g*t**2          # sin bucle&#10;print(y.max(), t[y.argmax()])">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+
+t <span class="t-op">=</span> np.<span class="t-fn">linspace</span>(<span class="t-num">0</span>, <span class="t-num">10</span>, <span class="t-num">100</span>)   <span class="t-com"># 0..10 s</span>
+v0, g <span class="t-op">=</span> <span class="t-num">20.0</span>, <span class="t-num">9.81</span>
+y <span class="t-op">=</span> v0<span class="t-op">*</span>t <span class="t-op">-</span> <span class="t-num">0.5</span><span class="t-op">*</span>g<span class="t-op">*</span>t<span class="t-op">**</span><span class="t-num">2</span>          <span class="t-com"># sin bucle</span>
+<span class="t-fn">print</span>(y.<span class="t-fn">max</span>(), t[y.<span class="t-fn">argmax</span>()])</pre>
+              </figure>
+              <div class="tip"><span class="lab">Clave</span>Las operaciones son <b>elemento a elemento</b>. Usa <code>np.sin</code>, <code>np.sqrt</code>, etc., no las del módulo <code>math</code> (que no aceptan arrays).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="py-algebra">
+            <div class="tile-h"><span class="td"></span><h3>Álgebra lineal</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Resolver sistemas $A\vec x=\vec b$ (equilibrio de armaduras, redes) es una línea. Nunca inviertas la matriz a mano: usa <code>np.linalg.solve</code>.</p>
+              <figure class="code" data-copy="# equilibrio: A x = b&#10;A = np.array([[1, 1],&#10;              [0, 2]])&#10;b = np.array([100., 60.])&#10;x = np.linalg.solve(A, b)   # reacciones&#10;print(x)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># equilibrio: A x = b</span>
+A <span class="t-op">=</span> np.<span class="t-fn">array</span>([[<span class="t-num">1</span>, <span class="t-num">1</span>],
+              [<span class="t-num">0</span>, <span class="t-num">2</span>]])
+b <span class="t-op">=</span> np.<span class="t-fn">array</span>([<span class="t-num">100.</span>, <span class="t-num">60.</span>])
+x <span class="t-op">=</span> np.linalg.<span class="t-fn">solve</span>(A, b)   <span class="t-com"># reacciones</span>
+<span class="t-fn">print</span>(x)</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Evita</span><code>np.linalg.inv(A) @ b</code> es más lento y menos estable que <code>solve</code>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 PANDAS ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Pandas</h2><span class="meta">datos de<br>ensayos</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="py-pandas">
+            <div class="tile-h"><span class="td"></span><h3>Datos de ensayos (CSV)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para <b>datos experimentales</b> (sensores, ensayos de tracción, registros de vibración), Pandas lee CSV/Excel, filtra, agrupa y resume con pocas líneas.</p>
+              <div class="cols">
+                <figure class="code" data-copy="import pandas as pd&#10;&#10;df = pd.read_csv('ensayo.csv')&#10;# columnas: fuerza_N, despl_mm&#10;df['esf_MPa'] = df.fuerza_N / A_mm2&#10;df['def'] = df.despl_mm / L0_mm&#10;E = (df.esf_MPa.diff() /&#10;     df['def'].diff()).iloc[1:10].mean()&#10;print('E =', E, 'MPa')">
+                  <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> pandas <span class="t-kw">as</span> pd
+
+df <span class="t-op">=</span> pd.<span class="t-fn">read_csv</span>(<span class="t-str">'ensayo.csv'</span>)
+<span class="t-com"># columnas: fuerza_N, despl_mm</span>
+df[<span class="t-str">'esf_MPa'</span>] <span class="t-op">=</span> df.fuerza_N <span class="t-op">/</span> A_mm2
+df[<span class="t-str">'def'</span>] <span class="t-op">=</span> df.despl_mm <span class="t-op">/</span> L0_mm
+E <span class="t-op">=</span> (df.esf_MPa.<span class="t-fn">diff</span>() <span class="t-op">/</span>
+     df[<span class="t-str">'def'</span>].<span class="t-fn">diff</span>()).iloc[<span class="t-num">1</span>:<span class="t-num">10</span>].<span class="t-fn">mean</span>()
+<span class="t-fn">print</span>(<span class="t-str">'E ='</span>, E, <span class="t-str">'MPa'</span>)</pre>
+                </figure>
+                <div class="tip"><span class="lab">Útil</span><code>df.describe()</code> da media, desviación y percentiles al instante. <code>df.groupby('material').mean()</code> resume por categoría. Exporta con <code>df.to_excel(...)</code> para informes.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 SCIPY ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>SciPy</h2><span class="meta">el motor<br>numérico</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-integrar">
+            <div class="tile-h"><span class="td"></span><h3>Integrar y derivar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Trabajo, área bajo una curva, centroides: integración numérica. <code>quad</code> para funciones, <code>trapezoid</code> para datos muestreados.</p>
+              <figure class="code" data-copy="from scipy import integrate&#10;import numpy as np&#10;&#10;# trabajo = ∫ F dx&#10;W, err = integrate.quad(lambda x: 50*x, 0, 2)&#10;# área bajo datos:&#10;A = integrate.trapezoid(y, x)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> scipy <span class="t-kw">import</span> integrate
+<span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+
+<span class="t-com"># trabajo = ∫ F dx</span>
+W, err <span class="t-op">=</span> integrate.<span class="t-fn">quad</span>(<span class="t-kw">lambda</span> x: <span class="t-num">50</span><span class="t-op">*</span>x, <span class="t-num">0</span>, <span class="t-num">2</span>)
+<span class="t-com"># área bajo datos:</span>
+A <span class="t-op">=</span> integrate.<span class="t-fn">trapezoid</span>(y, x)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="py-resolver">
+            <div class="tile-h"><span class="td"></span><h3>Raíces y optimización</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para ecuaciones no lineales (Colebrook, equilibrio de fases) usa <code>fsolve</code>; para minimizar (peso, costo) <code>minimize</code>.</p>
+              <figure class="code" data-copy="from scipy.optimize import fsolve&#10;&#10;# factor de friccion (Colebrook implícita)&#10;def colebrook(f, Re, eps_D):&#10;    return (1/np.sqrt(f) + 2*np.log10(&#10;        eps_D/3.7 + 2.51/(Re*np.sqrt(f))))&#10;&#10;f = fsolve(colebrook, 0.02, args=(1e5, 1e-4))[0]">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> scipy.optimize <span class="t-kw">import</span> fsolve
+
+<span class="t-com"># factor de friccion (Colebrook implícita)</span>
+<span class="t-kw">def</span> <span class="t-fn">colebrook</span>(f, Re, eps_D):
+    <span class="t-kw">return</span> (<span class="t-num">1</span><span class="t-op">/</span>np.<span class="t-fn">sqrt</span>(f) <span class="t-op">+</span> <span class="t-num">2</span><span class="t-op">*</span>np.<span class="t-fn">log10</span>(
+        eps_D<span class="t-op">/</span><span class="t-num">3.7</span> <span class="t-op">+</span> <span class="t-num">2.51</span><span class="t-op">/</span>(Re<span class="t-op">*</span>np.<span class="t-fn">sqrt</span>(f))))
+
+f <span class="t-op">=</span> <span class="t-fn">fsolve</span>(colebrook, <span class="t-num">0.02</span>, args<span class="t-op">=</span>(<span class="t-num">1e5</span>, <span class="t-num">1e-4</span>))[<span class="t-num">0</span>]</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="py-edo">
+            <div class="tile-h"><span class="td"></span><h3>EDOs (dinámica)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Vibración, caída con arrastre, sistemas masa-resorte-amortiguador: <code>solve_ivp</code> integra $\dot{\vec y}=f(t,\vec y)$. Ejemplo: oscilador amortiguado $m\ddot x+c\dot x+kx=0$.</p>
+              <figure class="code" data-copy="from scipy.integrate import solve_ivp&#10;import numpy as np&#10;&#10;m, c, k = 1.0, 0.5, 20.0&#10;def sys(t, z):          # z = [x, v]&#10;    x, v = z&#10;    return [v, -(c*v + k*x)/m]&#10;&#10;sol = solve_ivp(sys, [0, 10], [0.1, 0],&#10;                t_eval=np.linspace(0, 10, 300))">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> scipy.integrate <span class="t-kw">import</span> solve_ivp
+<span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+
+m, c, k <span class="t-op">=</span> <span class="t-num">1.0</span>, <span class="t-num">0.5</span>, <span class="t-num">20.0</span>
+<span class="t-kw">def</span> <span class="t-fn">sys</span>(t, z):          <span class="t-com"># z = [x, v]</span>
+    x, v <span class="t-op">=</span> z
+    <span class="t-kw">return</span> [v, <span class="t-op">-</span>(c<span class="t-op">*</span>v <span class="t-op">+</span> k<span class="t-op">*</span>x)<span class="t-op">/</span>m]
+
+sol <span class="t-op">=</span> <span class="t-fn">solve_ivp</span>(sys, [<span class="t-num">0</span>, <span class="t-num">10</span>], [<span class="t-num">0.1</span>, <span class="t-num">0</span>],
+                t_eval<span class="t-op">=</span>np.<span class="t-fn">linspace</span>(<span class="t-num">0</span>, <span class="t-num">10</span>, <span class="t-num">300</span>))</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 MATPLOTLIB ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Matplotlib</h2><span class="meta">gráficos de<br>ingeniería</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-plot">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía de un gráfico</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El patrón <b>fig, ax</b> (orientado a objetos) es el recomendado: controlas ejes, rejilla, etiquetas y leyenda. Siempre rotula con <b>unidades</b>.</p>
+              <figure class="code" data-copy="import matplotlib.pyplot as plt&#10;&#10;fig, ax = plt.subplots(figsize=(6,4))&#10;ax.plot(x, y, label='σ-ε', lw=2)&#10;ax.set_xlabel('deformación ε')&#10;ax.set_ylabel('esfuerzo σ [MPa]')&#10;ax.grid(True, ls=':')&#10;ax.legend()&#10;fig.savefig('curva.png', dpi=150)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> matplotlib.pyplot <span class="t-kw">as</span> plt
+
+fig, ax <span class="t-op">=</span> plt.<span class="t-fn">subplots</span>(figsize<span class="t-op">=</span>(<span class="t-num">6</span>,<span class="t-num">4</span>))
+ax.<span class="t-fn">plot</span>(x, y, label<span class="t-op">=</span><span class="t-str">'σ-ε'</span>, lw<span class="t-op">=</span><span class="t-num">2</span>)
+ax.<span class="t-fn">set_xlabel</span>(<span class="t-str">'deformación ε'</span>)
+ax.<span class="t-fn">set_ylabel</span>(<span class="t-str">'esfuerzo σ [MPa]'</span>)
+ax.<span class="t-fn">grid</span>(<span class="t-kw">True</span>, ls<span class="t-op">=</span><span class="t-str">':'</span>)
+ax.<span class="t-fn">legend</span>()
+fig.<span class="t-fn">savefig</span>(<span class="t-str">'curva.png'</span>, dpi<span class="t-op">=</span><span class="t-num">150</span>)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE ===== -->
+          <div class="tile" id="py-firma">
+            <div class="tile-h"><span class="td"></span><h3>Gráfico de ingeniería — la firma</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El resultado típico: una <b>curva esfuerzo-deformación</b> trazada con Matplotlib, con rejilla, ejes rotulados y los puntos clave anotados (límite elástico, fluencia, resistencia última, rotura). Es lo que entregas en un informe.</p>
+              <div class="fbd">
+                <div class="fbd-lbl">matplotlib · stress-strain curve</div>
+                <div class="fbd-card">
+                  <h5>σ-ε de un acero dúctil (salida de plt)</h5>
+                  <svg viewBox="0 0 440 250" role="img" aria-label="Curva esfuerzo-deformación trazada con Matplotlib">
+                    <!-- grid -->
+                    <g class="svg-grid">
+                      <line x1="56" y1="190" x2="420" y2="190"/>
+                      <line x1="56" y1="150" x2="420" y2="150"/>
+                      <line x1="56" y1="110" x2="420" y2="110"/>
+                      <line x1="56" y1="70" x2="420" y2="70"/>
+                      <line x1="130" y1="40" x2="130" y2="210"/>
+                      <line x1="210" y1="40" x2="210" y2="210"/>
+                      <line x1="290" y1="40" x2="290" y2="210"/>
+                      <line x1="370" y1="40" x2="370" y2="210"/>
+                    </g>
+                    <!-- axes -->
+                    <line x1="56" y1="210" x2="420" y2="210" stroke="var(--ink-soft)" stroke-width="2"/>
+                    <line x1="56" y1="210" x2="56" y2="34" stroke="var(--ink-soft)" stroke-width="2"/>
+                    <text class="lab" x="300" y="234" fill="var(--ink-soft)">deformación ε</text>
+                    <text class="labf" transform="rotate(-90 22 130)" x="22" y="130" fill="var(--ink-soft)">σ [MPa]</text>
+                    <!-- curve: elastic line then yield plateau then strain hardening then necking down -->
+                    <polyline points="56,210 110,110 130,96 175,90 250,64 330,58 380,84 405,120" fill="none" stroke="var(--mech)" stroke-width="3"/>
+                    <!-- yield point -->
+                    <circle cx="110" cy="110" r="4" fill="var(--mech-deep)"/>
+                    <text class="lab" x="92" y="104" fill="var(--mech-deep)">σ_y</text>
+                    <!-- ultimate -->
+                    <circle cx="330" cy="58" r="4" fill="var(--s7)"/>
+                    <text class="lab" x="312" y="50" fill="var(--s7)">σ_u</text>
+                    <!-- fracture -->
+                    <circle cx="405" cy="120" r="4" fill="var(--ink-soft)"/>
+                    <text class="lab" x="390" y="138" fill="var(--ink-soft)">rotura</text>
+                    <!-- elastic region label -->
+                    <text class="lab" x="62" y="170" fill="var(--ink-faint)">elástico</text>
+                  </svg>
+                  <div class="fbd-cap">Generado con <code>ax.plot(eps, sigma)</code> + <code>ax.annotate(...)</code>. La <b>pendiente elástica</b> es el módulo $E$; el <b>área bajo la curva</b> es la tenacidad.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 CASO VIGAS ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Caso: vigas y esfuerzo</h2><span class="meta">resistencia<br>en código</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-viga">
+            <div class="tile-h"><span class="td"></span><h3>Diagrama de cortante y momento</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Viga simplemente apoyada con carga puntual: calcula reacciones y traza $V(x)$ y $M(x)$ vectorizados con NumPy.</p>
+              <figure class="code" data-copy="import numpy as np&#10;L, P, a = 6.0, 1000.0, 2.0   # m, N, m&#10;Rb = P*a/L; Ra = P - Rb&#10;x = np.linspace(0, L, 400)&#10;V = np.where(x < a, Ra, Ra - P)&#10;M = np.where(x < a, Ra*x, Ra*x - P*(x-a))&#10;print('M_max =', M.max(), 'N·m')">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+L, P, a <span class="t-op">=</span> <span class="t-num">6.0</span>, <span class="t-num">1000.0</span>, <span class="t-num">2.0</span>   <span class="t-com"># m, N, m</span>
+Rb <span class="t-op">=</span> P<span class="t-op">*</span>a<span class="t-op">/</span>L; Ra <span class="t-op">=</span> P <span class="t-op">-</span> Rb
+x <span class="t-op">=</span> np.<span class="t-fn">linspace</span>(<span class="t-num">0</span>, L, <span class="t-num">400</span>)
+V <span class="t-op">=</span> np.<span class="t-fn">where</span>(x <span class="t-op">&lt;</span> a, Ra, Ra <span class="t-op">-</span> P)
+M <span class="t-op">=</span> np.<span class="t-fn">where</span>(x <span class="t-op">&lt;</span> a, Ra<span class="t-op">*</span>x, Ra<span class="t-op">*</span>x <span class="t-op">-</span> P<span class="t-op">*</span>(x<span class="t-op">-</span>a))
+<span class="t-fn">print</span>(<span class="t-str">'M_max ='</span>, M.<span class="t-fn">max</span>(), <span class="t-str">'N·m'</span>)</pre>
+              </figure>
+              <div class="tip"><span class="lab">Ver también</span>La teoría está en la hoja de <b>Resistencia de Materiales</b>; aquí la automatizas.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="py-esfuerzo">
+            <div class="tile-h"><span class="td"></span><h3>Curva esfuerzo-deformación</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">A partir de datos de un ensayo, ajusta la <b>zona elástica</b> para obtener el módulo $E$ con una regresión lineal.</p>
+              <figure class="code" data-copy="import numpy as np&#10;# zona elastica (primeros puntos)&#10;mask = eps < 0.002&#10;E, b = np.polyfit(eps[mask], sig[mask], 1)&#10;sig_y = sig[mask][-1]   # ~ limite elastico&#10;print(f'E = {E/1000:.1f} GPa')">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+<span class="t-com"># zona elastica (primeros puntos)</span>
+mask <span class="t-op">=</span> eps <span class="t-op">&lt;</span> <span class="t-num">0.002</span>
+E, b <span class="t-op">=</span> np.<span class="t-fn">polyfit</span>(eps[mask], sig[mask], <span class="t-num">1</span>)
+sig_y <span class="t-op">=</span> sig[mask][<span class="t-op">-</span><span class="t-num">1</span>]   <span class="t-com"># ~ limite elastico</span>
+<span class="t-fn">print</span>(<span class="t-str">f'E = {E/1000:.1f} GPa'</span>)</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 CASO TERMO/FLUIDOS ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Caso: termo y fluidos</h2><span class="meta">ciclos y<br>flujo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-termo">
+            <div class="tile-h"><span class="td"></span><h3>Eficiencia y ciclos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Barrido de la eficiencia de Otto contra la relación de compresión: vectorizado y graficado de una vez.</p>
+              <figure class="code" data-copy="import numpy as np&#10;k = 1.4&#10;r = np.linspace(4, 12, 50)&#10;eta = 1 - 1/r**(k-1)&#10;print(eta[r==8])   # eficiencia a r=8&#10;# CoolProp para props reales de fluidos:&#10;# from CoolProp.CoolProp import PropsSI">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+k <span class="t-op">=</span> <span class="t-num">1.4</span>
+r <span class="t-op">=</span> np.<span class="t-fn">linspace</span>(<span class="t-num">4</span>, <span class="t-num">12</span>, <span class="t-num">50</span>)
+eta <span class="t-op">=</span> <span class="t-num">1</span> <span class="t-op">-</span> <span class="t-num">1</span><span class="t-op">/</span>r<span class="t-op">**</span>(k<span class="t-op">-</span><span class="t-num">1</span>)
+<span class="t-fn">print</span>(eta[r<span class="t-op">==</span><span class="t-num">8</span>])   <span class="t-com"># eficiencia a r=8</span>
+<span class="t-com"># CoolProp para props reales de fluidos:</span>
+<span class="t-com"># from CoolProp.CoolProp import PropsSI</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="py-fluidos">
+            <div class="tile-h"><span class="td"></span><h3>Reynolds y pérdidas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Número de Reynolds y pérdida de carga por Darcy-Weisbach: una función reutilizable para cualquier tubería.</p>
+              <figure class="code" data-copy="import numpy as np&#10;def head_loss(rho, v, D, L, mu, f):&#10;    Re = rho*v*D/mu&#10;    hf = f*(L/D)*v**2/(2*9.81)&#10;    return Re, hf&#10;&#10;Re, hf = head_loss(1000, 2.0, 0.05, 100, 1e-3, 0.02)&#10;print(f'Re={Re:.0f}, hf={hf:.2f} m')">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> numpy <span class="t-kw">as</span> np
+<span class="t-kw">def</span> <span class="t-fn">head_loss</span>(rho, v, D, L, mu, f):
+    Re <span class="t-op">=</span> rho<span class="t-op">*</span>v<span class="t-op">*</span>D<span class="t-op">/</span>mu
+    hf <span class="t-op">=</span> f<span class="t-op">*</span>(L<span class="t-op">/</span>D)<span class="t-op">*</span>v<span class="t-op">**</span><span class="t-num">2</span><span class="t-op">/</span>(<span class="t-num">2</span><span class="t-op">*</span><span class="t-num">9.81</span>)
+    <span class="t-kw">return</span> Re, hf
+
+Re, hf <span class="t-op">=</span> <span class="t-fn">head_loss</span>(<span class="t-num">1000</span>, <span class="t-num">2.0</span>, <span class="t-num">0.05</span>, <span class="t-num">100</span>, <span class="t-num">1e-3</span>, <span class="t-num">0.02</span>)
+<span class="t-fn">print</span>(<span class="t-str">f'Re={Re:.0f}, hf={hf:.2f} m'</span>)</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 BUENAS PRÁCTICAS ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Buenas prácticas</h2><span class="meta">cálculos<br>confiables</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-unidades">
+            <div class="tile-h"><span class="td"></span><h3>Unidades y SymPy</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Los errores de <b>unidades</b> causan fallas reales. <code>pint</code> las verifica automáticamente; <code>sympy</code> hace álgebra simbólica (despejar fórmulas).</p>
+              <figure class="code" data-copy="import pint&#10;u = pint.UnitRegistry()&#10;F = 500 * u.N&#10;A = 25 * u.mm**2&#10;sigma = (F / A).to('MPa')   # unidades seguras&#10;print(sigma)&#10;&#10;import sympy as sp&#10;x = sp.symbols('x')&#10;sp.solve(sp.Eq(x**2 - 4, 0), x)">
+                <figcaption><span class="lang">python</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> pint
+u <span class="t-op">=</span> pint.<span class="t-fn">UnitRegistry</span>()
+F <span class="t-op">=</span> <span class="t-num">500</span> <span class="t-op">*</span> u.N
+A <span class="t-op">=</span> <span class="t-num">25</span> <span class="t-op">*</span> u.mm<span class="t-op">**</span><span class="t-num">2</span>
+sigma <span class="t-op">=</span> (F <span class="t-op">/</span> A).<span class="t-fn">to</span>(<span class="t-str">'MPa'</span>)   <span class="t-com"># unidades seguras</span>
+<span class="t-fn">print</span>(sigma)
+
+<span class="t-kw">import</span> sympy <span class="t-kw">as</span> sp
+x <span class="t-op">=</span> sp.<span class="t-fn">symbols</span>(<span class="t-str">'x'</span>)
+sp.<span class="t-fn">solve</span>(sp.<span class="t-fn">Eq</span>(x<span class="t-op">**</span><span class="t-num">2</span> <span class="t-op">-</span> <span class="t-num">4</span>, <span class="t-num">0</span>), x)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="py-repro">
+            <div class="tile-h"><span class="td"></span><h3>Reproducibilidad</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un cálculo de ingeniería debe poder <b>repetirse y auditarse</b>. Documenta supuestos, fija versiones y valida contra un caso conocido.</p>
+              <table class="tbl">
+                <tr><th>Práctica</th><th>Por qué</th></tr>
+                <tr><td class="k">Comenta supuestos y unidades</td><td>trazabilidad del cálculo</td></tr>
+                <tr><td class="k">requirements.txt / venv</td><td>mismas versiones siempre</td></tr>
+                <tr><td class="k">Valida vs caso conocido</td><td>detecta errores de fórmula</td></tr>
+                <tr><td class="k">Funciones + tests</td><td>reutilizable y confiable</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Regla de oro</span>Nunca confíes en un número sin <b>verificar unidades</b> y un <b>orden de magnitud</b> a mano.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Python para Ing. Mecánica · Hoja de referencia</b> — el stack científico (NumPy, Pandas, SciPy, Matplotlib) aplicado a problemas de mecánica: álgebra de equilibrio, integración (trabajo, áreas), raíces (Colebrook), EDOs (vibración), gráficos de ingeniería, diagramas de cortante y momento, curvas esfuerzo-deformación, ciclos termodinámicos, Reynolds y pérdidas, más unidades (pint), SymPy y reproducibilidad. Curso "Python for Mechanical Engineers" + best-practice. No duplica la hoja de Python base.
+        <span class="mono">Código Python · fórmulas con KaTeX · clic en cualquier celda para copiar · v1.1</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

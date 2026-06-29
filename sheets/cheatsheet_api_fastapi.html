@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APIs &amp; FastAPI · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7ECEA;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F1F5F4;
+  --rail:#EFF4F3;
+  --code-bg:#F8FBFA;
+  --line:#DCE5E2;
+  --line-soft:#E8EFEC;
+  --ink:#172420;
+  --ink-soft:#4C5A55;
+  --ink-faint:#86948E;
+  /* FastAPI teal */
+  --cc:#009688;
+  --cc-deep:#00695C;
+  --cc-tint:rgba(0,150,136,.13);
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* HTTP */
+  --s2:#6B4BB8;  /* Petición/respuesta */
+  --s3:#B0840A;  /* Estados */
+  --s4:#C0392B;  /* Seguridad */
+  --s5:#1E7FB0;  /* FastAPI esencial */
+  --s6:#0E8C6B;  /* Parámetros & Pydantic */
+  --s7:#C0398C;  /* CRUD & BD */
+  --s8:#46566A;  /* Routers & Auth */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#B0398C;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#8B978F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--cc);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(23,36,32,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EEF4F2;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#C4D0CB;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--cc);color:#fff;font-size:13px;flex:none;margin-left:3px;font-family:"JetBrains Mono";font-weight:700}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:2px}
+.titlebar .fname b{color:var(--cc-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--cc-deep);background:var(--cc-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.viewtabs{display:flex;gap:0;background:#F4F8F6;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--cc-deep);border-bottom-color:var(--cc)}
+
+.fxbar{display:flex;align-items:stretch;background:#F4F8F6;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--cc-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cc-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--cc)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.3rem,5.6vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--cc-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--cc-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--cc);background:linear-gradient(90deg,var(--cc-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--cc-deep);background:var(--cc-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--cc)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-fam{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cc-deep);font-weight:700;margin:20px 0 2px;padding-left:13px}
+.toc-fam:first-child{margin-top:0}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:14px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.fam-div{display:flex;align-items:center;gap:14px;margin:46px 0 8px;padding:0 4px}
+.fam-div:first-child{margin-top:6px}
+.fam-div .ft{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.15rem;color:var(--cc-deep);white-space:nowrap}
+.fam-div .fl{flex:1;height:2px;background:linear-gradient(90deg,var(--cc),transparent)}
+.fam-div .fmeta{font-family:"JetBrains Mono";font-size:10px;color:var(--ink-faint)}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:34px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(23,36,32,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(23,36,32,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--cc-deep)}
+
+.kbd{font-family:"JetBrains Mono";font-size:11px;font-weight:600;background:var(--canvas);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:2px 7px;color:var(--ink);white-space:nowrap;display:inline-block}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(23,36,32,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--cc);background:#EEF8F6}
+figure.code.copied .cphint{opacity:1;color:var(--cc-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+.pmt{color:var(--cc);font-weight:700}
+.out{color:var(--ink-faint)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--cc-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td .m{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:4px;color:#fff}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* HTTP request/response anatomy signature */
+.httpwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.http-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#EEF4F2;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.http-bar i{width:10px;height:10px;border-radius:50%;background:#C4D0CB;display:block}
+.http-bar i:nth-child(1){background:#E5736B}.http-bar i:nth-child(2){background:#E8B73D}.http-bar i:nth-child(3){background:#69B27C}
+.httpgrid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.httpgrid>div{padding:13px 15px}
+.httpgrid .req{border-right:1px solid var(--line)}
+.httpcap{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.httpcap.q{color:var(--s1)}.httpcap.r{color:var(--s6)}
+.httpline{font-family:"JetBrains Mono";font-size:11.5px;line-height:1.7;color:var(--ink-soft)}
+.httpline b{color:var(--ink)}
+.httpline .hm{color:#fff;background:var(--s1);font-weight:700;padding:0 5px;border-radius:3px}
+.httpline .hs{color:#fff;background:var(--lvl-b);font-weight:700;padding:0 5px;border-radius:3px}
+.httpline .hk{color:var(--s2)}
+@media(max-width:520px){.httpgrid{grid-template-columns:1fr}.httpgrid .req{border-right:none;border-bottom:1px solid var(--line)}}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--cc-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--cc-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+/* ====== ciclo de una petición (svg) ====== */
+.falc{width:100%;height:auto;display:block;margin:2px 0}
+.falc .box{fill:#fff;stroke:var(--ink-soft);stroke-width:1.4}
+.falc .you{fill:#EAF3F8;stroke:var(--s5);stroke-width:2}
+.falc .val{fill:#E9F6F0;stroke:var(--s6);stroke-width:1.5}
+.falc .err{fill:#FBEDEB;stroke:var(--s4);stroke-width:1.5}
+.falc .t{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:12px;fill:var(--ink)}
+.falc .s{font-family:"JetBrains Mono";font-size:9px;fill:var(--ink-soft)}
+.falc .s.g{fill:var(--s6)}
+.falc .s.r{fill:var(--s4)}
+.falc .lbl{font-family:"JetBrains Mono";font-size:8.5px;fill:var(--ink-faint);font-weight:700}
+.falc .ar{stroke:#9aa0ab;stroke-width:1.6;fill:none;marker-end:url(#fa-arr)}
+.falc .ar.e{stroke:var(--s4);stroke-dasharray:4 3;marker-end:url(#fa-arr-e)}
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#172420;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(23,36,32,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">{}</span>
+      <span class="fname"><b>api/</b>main.py — uvicorn</span>
+      <span class="branch">⇄ REST</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.2 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">terminal</span>
+      <span class="vt">/docs</span>
+      <span class="vt">requests.http</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc"><span class="t-fn">uvicorn</span> main:app <span class="t-flag">--reload</span>&nbsp;&nbsp;<span class="t-com"># http://127.0.0.1:8000/docs</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · de los conceptos REST a una API en producción</div>
+      <h1>APIs &amp; FastAPI,<br>el <em>contrato</em> y su <em>código</em>.</h1>
+      <p class="lede">Dos mitades en una hoja. Primero los <b>conceptos</b> que valen para cualquier API: qué es, <b>REST</b>, los <b>métodos HTTP</b>, la <b>petición/respuesta</b>, los <b>códigos de estado</b> y la <b>seguridad</b>. Luego <b>FastAPI</b>, el framework de Python para construirlas: <b>setup</b>, <b>endpoints</b> y parámetros, <b>Pydantic</b>, <b>CRUD</b> con errores, <b>base de datos</b> y <b>autenticación</b>. <b>Clic en cualquier snippet para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Las APIs son para siempre: una vez que alguien las usa, ya no son solo tuyas."</p>
+        <cite>— Werner Vogels, CTO de Amazon · <span class="mono">design for the contract</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>HTTP</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Petición/resp.</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Estados</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Seguridad</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>FastAPI</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Pydantic</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>CRUD &amp; BD</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s8)"></span>Auth</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">API · REST</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">HTTP</span><span class="sd">métodos · verbos</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Petición/resp.</span><span class="sd">params · JSON</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Estados</span><span class="sd">2xx–5xx</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Seguridad</span><span class="sd">auth · CORS</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">FastAPI</span><span class="sd">setup · docs</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Pydantic</span><span class="sd">params · validar</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">CRUD &amp; BD</span><span class="sd">errores · ORM</span></a>
+        <a class="step" href="#e8" style="--c:var(--s8)"><span class="sn">08</span><span class="st">Auth</span><span class="sd">routers · JWT</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">{}</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9M21 3l-9 9"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">HTTP</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-fam">Conceptos de API</div>
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es una API?</a>
+      <a href="#fd-rest" style="--seg:var(--s0)">REST &amp; recursos</a>
+      <a href="#fd-json" style="--seg:var(--s0)">JSON</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · HTTP</div>
+      <a href="#ht-metodos" style="--seg:var(--s1)">Métodos / verbos</a>
+      <a href="#ht-idem" style="--seg:var(--s1)">Idempotencia</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Petición/respuesta</div>
+      <a href="#pr-anatomia" style="--seg:var(--s2)">Anatomía</a>
+      <a href="#pr-params" style="--seg:var(--s2)">Parámetros</a>
+      <a href="#pr-headers" style="--seg:var(--s2)">Cabeceras</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Estados</div>
+      <a href="#st-codes" style="--seg:var(--s3)">Códigos 2xx–5xx</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Seguridad</div>
+      <a href="#sec-auth" style="--seg:var(--s4)">Autenticación</a>
+      <a href="#sec-buenas" style="--seg:var(--s4)">Buenas prácticas</a>
+
+      <div class="toc-fam">FastAPI</div>
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Esencial</div>
+      <a href="#fa-setup" style="--seg:var(--s5)">Instalar &amp; arrancar</a>
+      <a href="#fa-app" style="--seg:var(--s5)">Primera app &amp; docs</a>
+      <a href="#fa-lifecycle" style="--seg:var(--s5)">Ciclo de una petición</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Pydantic</div>
+      <a href="#py-params" style="--seg:var(--s6)">Path &amp; query</a>
+      <a href="#py-model" style="--seg:var(--s6)">Modelos &amp; validación</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · CRUD &amp; BD</div>
+      <a href="#cr-crud" style="--seg:var(--s7)">CRUD completo</a>
+      <a href="#cr-errores" style="--seg:var(--s7)">Errores &amp; estados</a>
+      <a href="#cr-db" style="--seg:var(--s7)">Base de datos</a>
+
+      <div class="toc-h" style="--seg:var(--s8)"><span class="sq"></span>08 · Auth</div>
+      <a href="#au-routers" style="--seg:var(--s8)">Routers</a>
+      <a href="#au-jwt" style="--seg:var(--s8)">Hashing &amp; JWT</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 HTTP</a><a href="#e2">02 Pet/resp</a>
+        <a href="#e3">03 Estados</a><a href="#e4">04 Segur.</a><a href="#e5">05 FastAPI</a>
+        <a href="#e6">06 Pydantic</a><a href="#e7">07 CRUD</a><a href="#e8">08 Auth</a>
+      </div>
+
+      <div class="fam-div"><span class="ft">Conceptos de API</span><span class="fl"></span><span class="fmeta">válido para cualquier lenguaje</span></div>
+
+      <!-- 00 -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">qué es y<br>cómo se organiza</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es una API?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>API</b> (Application Programming Interface) es un <b>contrato</b> que deja que un programa hable con otro sin saber cómo está hecho por dentro. Tú envías una <b>petición</b> y recibes una <b>respuesta</b>, siempre con las mismas reglas.</p>
+              <div class="cols">
+                <div>
+                  <div class="deflist">
+                    <div class="di"><span class="dk">Metáfora</span><span class="dv">el camarero: pides del menú (la API), la cocina (el servidor) prepara y te trae el plato. No entras a la cocina.</span></div>
+                    <div class="di"><span class="dk">Cliente</span><span class="dv">quien pide (app, web, móvil, otro servidor).</span></div>
+                    <div class="di"><span class="dk">Servidor</span><span class="dv">quien responde y guarda los datos.</span></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="tip"><span class="lab">Por qué importa</span>Las APIs <b>desacoplan</b>: el front no necesita saber de la base de datos. Y se <b>reutilizan</b>: la misma API sirve a la web, al móvil y a terceros.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-rest">
+            <div class="tile-h"><span class="td"></span><h3>REST &amp; recursos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>REST</b> es un estilo para diseñar APIs sobre HTTP. Todo gira en torno a <b>recursos</b> (cosas: usuarios, libros) con una <b>URL</b> cada uno, sobre los que aplicas verbos HTTP.</p>
+              <table class="tbl">
+                <tr><th>URL del recurso</th><th>Representa</th></tr>
+                <tr><td class="fn">/books</td><td>la colección de libros</td></tr>
+                <tr><td class="fn">/books/12</td><td>el libro con id 12</td></tr>
+                <tr><td class="fn">/books/12/tags</td><td>los tags de ese libro</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla</span>Nombres en plural y <b>sustantivos</b>, no verbos: <code>/books</code>, nunca <code>/getBooks</code> (el verbo lo pone HTTP).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-json">
+            <div class="tile-h"><span class="td"></span><h3>JSON — el idioma común</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El formato en que viajan los datos: texto con <b>pares clave-valor</b>, legible para humanos y máquinas. Es el cuerpo típico de peticiones y respuestas.</p>
+              <figure class="code" data-copy='{
+  "id": 12,
+  "title": "Clean Code",
+  "rating": 5,
+  "published": true,
+  "tags": ["dev", "best-practice"]
+}'>
+                <figcaption><span class="lang">json</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>{
+  <span class="t-str">"id"</span>: <span class="t-num">12</span>,
+  <span class="t-str">"title"</span>: <span class="t-str">"Clean Code"</span>,
+  <span class="t-str">"rating"</span>: <span class="t-num">5</span>,
+  <span class="t-str">"published"</span>: <span class="t-kw">true</span>,
+  <span class="t-str">"tags"</span>: [<span class="t-str">"dev"</span>, <span class="t-str">"best-practice"</span>]
+}</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Métodos HTTP</h2><span class="meta">el verbo<br>sobre el recurso</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="ht-metodos">
+            <div class="tile-h"><span class="td"></span><h3>Los verbos (CRUD)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>método</b> dice qué quieres hacer con el recurso. Mapean directamente al CRUD: <b>C</b>rear, <b>R</b>ead, <b>U</b>pdate, <b>D</b>elete.</p>
+              <table class="tbl">
+                <tr><th>Método</th><th>CRUD</th><th>Hace</th><th>Ejemplo</th></tr>
+                <tr><td><span class="m" style="background:var(--s5)">GET</span></td><td>Read</td><td>leer sin modificar</td><td class="fn">GET /books/12</td></tr>
+                <tr><td><span class="m" style="background:var(--s6)">POST</span></td><td>Create</td><td>crear un recurso nuevo</td><td class="fn">POST /books</td></tr>
+                <tr><td><span class="m" style="background:var(--s3)">PUT</span></td><td>Update</td><td>reemplazar entero</td><td class="fn">PUT /books/12</td></tr>
+                <tr><td><span class="m" style="background:var(--s2)">PATCH</span></td><td>Update</td><td>modificar un campo</td><td class="fn">PATCH /books/12</td></tr>
+                <tr><td><span class="m" style="background:var(--s4)">DELETE</span></td><td>Delete</td><td>borrar el recurso</td><td class="fn">DELETE /books/12</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="ht-idem">
+            <div class="tile-h"><span class="td"></span><h3>Seguro vs idempotente</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Dos propiedades que guían qué método usar y cómo reintentar sin romper nada.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Seguro</span><span class="dv">no cambia datos. Solo <code>GET</code>.</span></div>
+                <div class="di"><span class="dk">Idempotente</span><span class="dv">repetirlo da el mismo resultado: <code>GET</code>, <code>PUT</code>, <code>DELETE</code>.</span></div>
+                <div class="di"><span class="dk">No idemp.</span><span class="dv"><code>POST</code> dos veces crea dos recursos.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile">
+            <div class="tile-h"><span class="td"></span><h3>PUT vs PATCH</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Ambos actualizan, pero no igual:</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">PUT</span><span class="dv">manda el recurso <b>completo</b>; lo que omitas se borra.</span></div>
+                <div class="di"><span class="dk">PATCH</span><span class="dv">manda <b>solo los campos</b> a cambiar.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Práctica</span>Muchas APIs (y el curso de FastAPI) usan <code>PUT</code> para todas las actualizaciones por simplicidad.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Petición &amp; respuesta</h2><span class="meta">qué viaja<br>en cada sentido</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="pr-anatomia">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía de un intercambio</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cada llamada tiene dos lados: lo que envía el <b>cliente</b> (método + URL + cabeceras + cuerpo) y lo que devuelve el <b>servidor</b> (estado + cabeceras + cuerpo).</p>
+              <div class="httpwrap">
+                <div class="http-bar"><i></i><i></i><i></i><span>POST /books · application/json</span></div>
+                <div class="httpgrid">
+                  <div class="req">
+                    <div class="httpcap q">▸ Petición (request)</div>
+                    <div class="httpline">
+                      <span class="hm">POST</span> <b>/books?lang=es</b> HTTP/1.1<br>
+                      <span class="hk">Host:</span> api.midominio.com<br>
+                      <span class="hk">Authorization:</span> Bearer ···<br>
+                      <span class="hk">Content-Type:</span> application/json<br>
+                      <br>
+                      <b>{ "title": "Clean Code" }</b>
+                    </div>
+                  </div>
+                  <div class="res">
+                    <div class="httpcap r">◂ Respuesta (response)</div>
+                    <div class="httpline">
+                      HTTP/1.1 <span class="hs">201</span> Created<br>
+                      <span class="hk">Content-Type:</span> application/json<br>
+                      <span class="hk">Location:</span> /books/12<br>
+                      <br>
+                      <b>{ "id": 12, "title":</b><br>
+                      <b>&nbsp;&nbsp;"Clean Code" }</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-params">
+            <div class="tile-h"><span class="td"></span><h3>Dónde van los datos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Lugar</th><th>Para qué</th></tr>
+                <tr><td class="k">Path</td><td>identificar el recurso: <code>/books/12</code></td></tr>
+                <tr><td class="k">Query</td><td>filtrar/ordenar/paginar: <code>?rating=5</code></td></tr>
+                <tr><td class="k">Body</td><td>los datos a crear o actualizar (JSON)</td></tr>
+                <tr><td class="k">Headers</td><td>metadatos: auth, tipo de contenido</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-headers">
+            <div class="tile-h"><span class="td"></span><h3>Cabeceras habituales</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">Content-Type</span><span class="dv">formato del cuerpo (<code>application/json</code>).</span></div>
+                <div class="di"><span class="dk">Accept</span><span class="dv">formato que el cliente espera recibir.</span></div>
+                <div class="di"><span class="dk">Authorization</span><span class="dv">credencial: <code>Bearer &lt;token&gt;</code>.</span></div>
+                <div class="di"><span class="dk">User-Agent</span><span class="dv">qué cliente hace la llamada.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Códigos de estado</h2><span class="meta">qué pasó<br>en un número</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="st-codes">
+            <div class="tile-h"><span class="td"></span><h3>Las cinco familias</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El primer dígito te dice la categoría; el número exacto, el detalle. <b>2xx</b> = bien, <b>4xx</b> = culpa del cliente, <b>5xx</b> = culpa del servidor.</p>
+              <div class="cols">
+                <table class="tbl">
+                  <tr><th>Código</th><th>Significado</th></tr>
+                  <tr><td class="fn">200 OK</td><td>todo bien (GET, PUT)</td></tr>
+                  <tr><td class="fn">201 Created</td><td>recurso creado (POST)</td></tr>
+                  <tr><td class="fn">204 No Content</td><td>ok, sin cuerpo (DELETE)</td></tr>
+                  <tr><td class="fn">301 / 302</td><td>redirección</td></tr>
+                  <tr><td class="fn">304 Not Modified</td><td>usa tu caché</td></tr>
+                </table>
+                <table class="tbl">
+                  <tr><th>Código</th><th>Significado</th></tr>
+                  <tr><td class="fn">400 Bad Request</td><td>petición mal formada</td></tr>
+                  <tr><td class="fn">401 Unauthorized</td><td>falta o falla el login</td></tr>
+                  <tr><td class="fn">403 Forbidden</td><td>logueado, sin permiso</td></tr>
+                  <tr><td class="fn">404 Not Found</td><td>no existe el recurso</td></tr>
+                  <tr><td class="fn">422 Unprocessable</td><td>validación falló</td></tr>
+                  <tr><td class="fn">500 / 503</td><td>error del servidor</td></tr>
+                </table>
+              </div>
+              <div class="tip"><span class="lab">401 vs 403</span><b>401</b> = "no sé quién eres" (autentícate). <b>403</b> = "sé quién eres, pero no puedes". <b>422</b> es el que más verás en FastAPI: los datos no pasan la validación.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Seguridad de APIs</h2><span class="meta">quién entra<br>y cómo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="sec-auth">
+            <div class="tile-h"><span class="td"></span><h3>Formas de autenticar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">API key</span><span class="dv">una clave en la cabecera; simple, para servicios.</span></div>
+                <div class="di"><span class="dk">Bearer token</span><span class="dv">token (a menudo <b>JWT</b>) en <code>Authorization</code>.</span></div>
+                <div class="di"><span class="dk">OAuth2</span><span class="dv">login delegado; el estándar de FastAPI.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Authn vs Authz</span><b>Autenticación</b> = quién eres. <b>Autorización</b> = qué puedes hacer. Son cosas distintas.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="sec-buenas">
+            <div class="tile-h"><span class="td"></span><h3>Buenas prácticas</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">HTTPS</span><span class="dv">siempre; nunca credenciales en texto plano.</span></div>
+                <div class="di"><span class="dk">Valida todo</span><span class="dv">no confíes en la entrada del cliente.</span></div>
+                <div class="di"><span class="dk">Rate limit</span><span class="dv">limita peticiones por cliente.</span></div>
+                <div class="di"><span class="dk">CORS</span><span class="dv">controla qué webs pueden llamarte.</span></div>
+                <div class="di"><span class="dk">Secretos</span><span class="dv">en variables de entorno, no en el código.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="fam-div"><span class="ft">FastAPI</span><span class="fl"></span><span class="fmeta">Python · async · Pydantic v2</span></div>
+
+      <!-- 05 -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>FastAPI esencial</h2><span class="meta">de cero a<br>/docs en vivo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fa-setup">
+            <div class="tile-h"><span class="td"></span><h3>Instalar &amp; arrancar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Crea un <b>entorno virtual</b>, instala FastAPI con el servidor <code>uvicorn</code> y lánzalo con recarga automática.</p>
+              <figure class="code" data-copy="python -m venv venv&#10;source venv/bin/activate   # Win: venv\Scripts\activate&#10;pip install &quot;fastapi[standard]&quot; uvicorn&#10;uvicorn main:app --reload">
+                <figcaption><span class="lang">terminal</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-fn">python</span> <span class="t-flag">-m</span> venv venv
+<span class="t-fn">source</span> venv/bin/activate
+<span class="t-com"># Windows: venv\Scripts\activate</span>
+<span class="t-fn">pip</span> <span class="t-kw">install</span> <span class="t-str">"fastapi[standard]"</span> uvicorn
+<span class="t-fn">uvicorn</span> main:app <span class="t-flag">--reload</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">venv</span>Aísla las dependencias del proyecto. Actívalo siempre antes de instalar o ejecutar.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fa-app">
+            <div class="tile-h"><span class="td"></span><h3>Primera app &amp; docs automáticas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Una instancia de <code>FastAPI</code> y un <b>decorador</b> por endpoint. Gratis: docs interactivas en <code>/docs</code> (Swagger) y <code>/redoc</code>.</p>
+              <figure class="code" data-copy="from fastapi import FastAPI&#10;&#10;app = FastAPI()&#10;&#10;@app.get(&quot;/&quot;)&#10;async def root():&#10;    return {&quot;status&quot;: &quot;ok&quot;}">
+                <figcaption><span class="lang">main.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> fastapi <span class="t-kw">import</span> FastAPI
+
+app = <span class="t-fn">FastAPI</span>()
+
+<span class="t-flag">@app.get</span>(<span class="t-str">"/"</span>)
+<span class="t-kw">async def</span> <span class="t-fn">root</span>():
+    <span class="t-kw">return</span> {<span class="t-str">"status"</span>: <span class="t-str">"ok"</span>}</pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué FastAPI</span>Tipas con Python normal y obtienes <b>validación</b>, <b>serialización</b> y <b>documentación</b> automáticas. Rápido de escribir y rápido en ejecución (async).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile span" id="fa-lifecycle">
+            <div class="tile-h"><span class="td"></span><h3>El ciclo de una petición — qué pasa entre el cliente y tu función</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cuando llega una petición, FastAPI la pasa por una cadena: el servidor <b>ASGI</b>, el <b>middleware</b>, el <b>router</b>, las <b>dependencias</b> y <b>Pydantic</b> (que <i>valida</i> la entrada) — y solo entonces ejecuta <b>tu función</b>. A la vuelta, Pydantic <i>serializa</i> la respuesta. Si la validación falla, FastAPI corta y responde <code>422</code> sin llegar a tu código.</p>
+              <svg class="falc" viewBox="0 0 620 566" role="img" aria-label="Ciclo de vida de una petición en FastAPI: cliente, ASGI, middleware, router, dependencias, validación Pydantic, tu función, serialización y respuesta; con rama de error 422">
+                <defs>
+                  <marker id="fa-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 L10 5 L0 10 z" fill="#9aa0ab"/>
+                  </marker>
+                  <marker id="fa-arr-e" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 L10 5 L0 10 z" fill="#C0392B"/>
+                  </marker>
+                </defs>
+
+                <rect class="box" x="110" y="20" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="40" text-anchor="middle">① Cliente</text>
+                <text class="s" x="230" y="56" text-anchor="middle">POST /books · JSON</text>
+                <path class="ar" d="M230 66 L230 80"/>
+
+                <rect class="box" x="110" y="80" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="100" text-anchor="middle">② Uvicorn · ASGI</text>
+                <text class="s" x="230" y="116" text-anchor="middle">recibe la petición</text>
+                <path class="ar" d="M230 126 L230 140"/>
+
+                <rect class="box" x="110" y="140" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="160" text-anchor="middle">③ Middleware</text>
+                <text class="s" x="230" y="176" text-anchor="middle">CORS · logging (entrada)</text>
+                <path class="ar" d="M230 186 L230 200"/>
+
+                <rect class="box" x="110" y="200" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="220" text-anchor="middle">④ Router</text>
+                <text class="s" x="230" y="236" text-anchor="middle">match ruta + método</text>
+                <path class="ar" d="M230 246 L230 260"/>
+
+                <rect class="box" x="110" y="260" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="280" text-anchor="middle">⑤ Depends()</text>
+                <text class="s" x="230" y="296" text-anchor="middle">inyecta db, usuario…</text>
+                <path class="ar" d="M230 306 L230 320"/>
+
+                <rect class="val" x="110" y="320" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="340" text-anchor="middle">⑥ Pydantic ▸ valida</text>
+                <text class="s g" x="230" y="356" text-anchor="middle">body → modelo tipado</text>
+                <path class="ar" d="M230 366 L230 380"/>
+                <!-- rama de error -->
+                <path class="ar e" d="M350 343 L406 343"/>
+                <rect class="err" x="408" y="320" width="190" height="46" rx="7"/>
+                <text class="t" x="503" y="340" text-anchor="middle">HTTPException</text>
+                <text class="s r" x="503" y="356" text-anchor="middle">→ 422 · corta aquí</text>
+
+                <rect class="you" x="110" y="380" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="400" text-anchor="middle">⑦ Tu función</text>
+                <text class="s" x="230" y="416" text-anchor="middle">async def · lógica de negocio</text>
+                <path class="ar" d="M230 426 L230 440"/>
+
+                <rect class="val" x="110" y="440" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="460" text-anchor="middle">⑧ Pydantic ▸ serializa</text>
+                <text class="s g" x="230" y="476" text-anchor="middle">return → JSON + status</text>
+                <path class="ar" d="M230 486 L230 500"/>
+
+                <rect class="box" x="110" y="500" width="240" height="46" rx="7"/>
+                <text class="t" x="230" y="520" text-anchor="middle">⑨ Response</text>
+                <text class="s" x="230" y="536" text-anchor="middle">HTTP 200 + JSON al cliente</text>
+
+                <text class="lbl" x="20" y="346">entrada</text>
+                <text class="lbl" x="20" y="466">salida</text>
+              </svg>
+              <div class="tip"><span class="lab">Lo clave</span>La <b>validación va antes</b> de tu función y la <b>serialización después</b>: tu código solo ve datos ya tipados y devuelve objetos, no JSON a mano. Un <code>raise HTTPException(...)</code> en cualquier punto <b>corta la cadena</b> y vuelve directo al cliente.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Parámetros &amp; Pydantic</h2><span class="meta">entrada<br>tipada y validada</span></div>
+
+        <div class="cols">
+          <div class="tile" id="py-params">
+            <div class="tile-h"><span class="td"></span><h3>Path &amp; query parameters</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El parámetro de la <b>ruta</b> se declara con tipo; los de <b>query</b> son los argumentos extra de la función (con valor por defecto).</p>
+              <figure class="code" data-copy="@app.get(&quot;/books/{book_id}&quot;)&#10;async def read_book(book_id: int,&#10;                    rating: int | None = None):&#10;    # book_id viene del path&#10;    # rating viene de ?rating=5&#10;    return {&quot;id&quot;: book_id, &quot;rating&quot;: rating}">
+                <figcaption><span class="lang">main.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-flag">@app.get</span>(<span class="t-str">"/books/{book_id}"</span>)
+<span class="t-kw">async def</span> <span class="t-fn">read_book</span>(book_id: <span class="t-kw">int</span>,
+        rating: <span class="t-kw">int</span> | <span class="t-kw">None</span> = <span class="t-kw">None</span>):
+    <span class="t-com"># book_id: del path</span>
+    <span class="t-com"># rating: de ?rating=5</span>
+    <span class="t-kw">return</span> {<span class="t-str">"id"</span>: book_id}</pre>
+              </figure>
+              <div class="tip"><span class="lab">Validación gratis</span>Si llaman <code>/books/abc</code>, FastAPI responde <b>422</b> solo: <code>abc</code> no es <code>int</code>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="py-model">
+            <div class="tile-h"><span class="td"></span><h3>Modelos Pydantic (el body)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un modelo <b>Pydantic</b> describe el JSON que entra o sale. <code>Field</code> añade reglas; FastAPI valida y documenta solo.</p>
+              <figure class="code" data-copy="from pydantic import BaseModel, Field&#10;&#10;class BookRequest(BaseModel):&#10;    title: str = Field(min_length=1)&#10;    rating: int = Field(gt=0, le=5)&#10;    published: bool = True&#10;&#10;@app.post(&quot;/books&quot;)&#10;async def create(book: BookRequest):&#10;    return book">
+                <figcaption><span class="lang">main.py · pydantic v2</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> pydantic <span class="t-kw">import</span> BaseModel, Field
+
+<span class="t-kw">class</span> <span class="t-fn">BookRequest</span>(BaseModel):
+    title: <span class="t-kw">str</span> = <span class="t-fn">Field</span>(min_length=<span class="t-num">1</span>)
+    rating: <span class="t-kw">int</span> = <span class="t-fn">Field</span>(gt=<span class="t-num">0</span>, le=<span class="t-num">5</span>)
+    published: <span class="t-kw">bool</span> = <span class="t-kw">True</span>
+
+<span class="t-flag">@app.post</span>(<span class="t-str">"/books"</span>)
+<span class="t-kw">async def</span> <span class="t-fn">create</span>(book: BookRequest):
+    <span class="t-kw">return</span> book</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>CRUD, errores &amp; base de datos</h2><span class="meta">la API<br>de verdad</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="cr-crud">
+            <div class="tile-h"><span class="td"></span><h3>CRUD completo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un endpoint por verbo. Fija el <b>código de estado</b> de éxito con <code>status_code</code>.</p>
+              <figure class="code" data-copy="from fastapi import status&#10;&#10;@app.get(&quot;/books&quot;)               # listar&#10;async def all(): ...&#10;&#10;@app.post(&quot;/books&quot;,&#10;          status_code=status.HTTP_201_CREATED)&#10;async def create(b: BookRequest): ...&#10;&#10;@app.put(&quot;/books/{id}&quot;)          # actualizar&#10;async def update(id: int, b: BookRequest): ...&#10;&#10;@app.delete(&quot;/books/{id}&quot;,&#10;            status_code=204)    # borrar&#10;async def remove(id: int): ...">
+                <figcaption><span class="lang">main.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> fastapi <span class="t-kw">import</span> status
+
+<span class="t-flag">@app.get</span>(<span class="t-str">"/books"</span>)               <span class="t-com"># listar</span>
+<span class="t-kw">async def</span> <span class="t-fn">all</span>(): ...
+
+<span class="t-flag">@app.post</span>(<span class="t-str">"/books"</span>,
+    status_code=status.HTTP_201_CREATED)
+<span class="t-kw">async def</span> <span class="t-fn">create</span>(b: BookRequest): ...
+
+<span class="t-flag">@app.put</span>(<span class="t-str">"/books/{id}"</span>)          <span class="t-com"># editar</span>
+<span class="t-kw">async def</span> <span class="t-fn">update</span>(id: <span class="t-kw">int</span>, b: BookRequest): ...
+
+<span class="t-flag">@app.delete</span>(<span class="t-str">"/books/{id}"</span>,
+    status_code=<span class="t-num">204</span>)            <span class="t-com"># borrar</span>
+<span class="t-kw">async def</span> <span class="t-fn">remove</span>(id: <span class="t-kw">int</span>): ...</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cr-errores">
+            <div class="tile-h"><span class="td"></span><h3>Errores con HTTPException</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cuando algo falla, <b>lanza</b> una <code>HTTPException</code> con el estado y el detalle: FastAPI la convierte en respuesta JSON.</p>
+              <figure class="code" data-copy="from fastapi import HTTPException&#10;&#10;@app.get(&quot;/books/{id}&quot;)&#10;async def read(id: int):&#10;    book = db.get(id)&#10;    if book is None:&#10;        raise HTTPException(&#10;            status_code=404,&#10;            detail=&quot;Book not found&quot;)&#10;    return book">
+                <figcaption><span class="lang">main.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> fastapi <span class="t-kw">import</span> HTTPException
+
+<span class="t-flag">@app.get</span>(<span class="t-str">"/books/{id}"</span>)
+<span class="t-kw">async def</span> <span class="t-fn">read</span>(id: <span class="t-kw">int</span>):
+    book = db.<span class="t-fn">get</span>(id)
+    <span class="t-kw">if</span> book <span class="t-kw">is None</span>:
+        <span class="t-kw">raise</span> <span class="t-fn">HTTPException</span>(
+            status_code=<span class="t-num">404</span>,
+            detail=<span class="t-str">"Book not found"</span>)
+    <span class="t-kw">return</span> book</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cr-db">
+            <div class="tile-h"><span class="td"></span><h3>Base de datos (SQLAlchemy)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>ORM</b> SQLAlchemy mapea tablas a clases Python. Una <b>dependencia</b> abre y cierra la sesión por petición.</p>
+              <figure class="code" data-copy="from sqlalchemy import create_engine&#10;from sqlalchemy.orm import sessionmaker&#10;&#10;engine = create_engine(&#10;    &quot;sqlite:///./app.db&quot;)&#10;Session = sessionmaker(bind=engine)&#10;&#10;def get_db():&#10;    db = Session()&#10;    try:&#10;        yield db&#10;    finally:&#10;        db.close()">
+                <figcaption><span class="lang">database.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> sqlalchemy <span class="t-kw">import</span> create_engine
+<span class="t-kw">from</span> sqlalchemy.orm <span class="t-kw">import</span> sessionmaker
+
+engine = <span class="t-fn">create_engine</span>(
+    <span class="t-str">"sqlite:///./app.db"</span>)
+Session = <span class="t-fn">sessionmaker</span>(bind=engine)
+
+<span class="t-kw">def</span> <span class="t-fn">get_db</span>():
+    db = <span class="t-fn">Session</span>()
+    <span class="t-kw">try</span>:
+        <span class="t-kw">yield</span> db
+    <span class="t-kw">finally</span>:
+        db.<span class="t-fn">close</span>()</pre>
+              </figure>
+              <div class="tip"><span class="lab">Inyección</span>Recibe la sesión con <code>db: Session = Depends(get_db)</code> en cada endpoint.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section class="stage" id="e8" style="--seg:var(--s8)">
+        <div class="stage-head"><span class="sn">08</span><h2>Routers &amp; autenticación</h2><span class="meta">escalar y<br>proteger</span></div>
+
+        <div class="cols">
+          <div class="tile" id="au-routers">
+            <div class="tile-h"><span class="td"></span><h3>Routers — partir el proyecto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cuando crece, separa los endpoints por tema con <code>APIRouter</code> (un archivo por recurso) y móntalos en <code>main.py</code>.</p>
+              <figure class="code" data-copy="# routers/books.py&#10;from fastapi import APIRouter&#10;router = APIRouter(prefix=&quot;/books&quot;,&#10;                   tags=[&quot;books&quot;])&#10;&#10;@router.get(&quot;/&quot;)&#10;async def all(): ...&#10;&#10;# main.py&#10;app.include_router(router)">
+                <figcaption><span class="lang">routers/books.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># routers/books.py</span>
+<span class="t-kw">from</span> fastapi <span class="t-kw">import</span> APIRouter
+router = <span class="t-fn">APIRouter</span>(prefix=<span class="t-str">"/books"</span>,
+                   tags=[<span class="t-str">"books"</span>])
+
+<span class="t-flag">@router.get</span>(<span class="t-str">"/"</span>)
+<span class="t-kw">async def</span> <span class="t-fn">all</span>(): ...
+
+<span class="t-com"># main.py</span>
+app.<span class="t-fn">include_router</span>(router)</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="au-jwt">
+            <div class="tile-h"><span class="td"></span><h3>Hashing &amp; JWT</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Nunca guardes contraseñas en claro: <b>hashea</b> con bcrypt. Tras login, emite un <b>JWT</b> firmado que el cliente envía como Bearer.</p>
+              <figure class="code" data-copy="from passlib.context import CryptContext&#10;from jose import jwt&#10;&#10;pwd = CryptContext(schemes=[&quot;bcrypt&quot;])&#10;hashed = pwd.hash(password)&#10;ok = pwd.verify(plain, hashed)&#10;&#10;token = jwt.encode(&#10;    {&quot;sub&quot;: user, &quot;exp&quot;: expiry},&#10;    SECRET, algorithm=&quot;HS256&quot;)">
+                <figcaption><span class="lang">auth.py</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> passlib.context <span class="t-kw">import</span> CryptContext
+<span class="t-kw">from</span> jose <span class="t-kw">import</span> jwt
+
+pwd = <span class="t-fn">CryptContext</span>(schemes=[<span class="t-str">"bcrypt"</span>])
+hashed = pwd.<span class="t-fn">hash</span>(password)
+ok = pwd.<span class="t-fn">verify</span>(plain, hashed)
+
+token = jwt.<span class="t-fn">encode</span>(
+    {<span class="t-str">"sub"</span>: user, <span class="t-str">"exp"</span>: expiry},
+    SECRET, algorithm=<span class="t-str">"HS256"</span>)</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Cuidado</span>El <code>SECRET</code> va en variable de entorno. Un JWT <b>no</b> se cifra, se <b>firma</b>: no metas datos sensibles en su cuerpo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>APIs &amp; FastAPI · Hoja de referencia</b> — del contrato REST al código FastAPI. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">REST · HTTP · JSON · FastAPI · Pydantic · SQLAlchemy · JWT · v1.2 · jun 2026 · clic para copiar</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+</body>
+</html>

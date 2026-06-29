@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Cowork · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECE6DF;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F7F1EA;
+  --rail:#F4EEE6;
+  --code-bg:#FBF7F2;
+  --line:#E4DBCE;
+  --line-soft:#EDE5D8;
+  --ink:#241D16;
+  --ink-soft:#5C5346;
+  --ink-faint:#948A7B;
+  /* Claude Cowork — deeper terracotta */
+  --co:#C96442;
+  --co-deep:#9E4A2E;
+  --co-tint:rgba(201,100,66,.13);
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#1E9B51;  /* Archivos & ofimática */
+  --s2:#2B6FD6;  /* Conectores */
+  --s3:#7A45C9;  /* Skills */
+  --s4:#0C8A8A;  /* Plugins */
+  --s5:#B0840A;  /* Chat */
+  --s6:#C0392B;  /* Agente personal */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#9E4A2E;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#988F80;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--co);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(36,29,22,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F4EEE6;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#CEC4B5;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--co);color:#fff;font-size:14px;flex:none;margin-left:3px}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--co-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--co-deep);background:var(--co-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.viewtabs{display:flex;gap:0;background:#F9F4ED;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent}
+.viewtabs .vt.on{color:var(--co-deep);border-bottom-color:var(--co)}
+
+.fxbar{display:flex;align-items:stretch;background:#F9F4ED;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--co-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--co-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--co)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.3rem,5.6vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--co-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--co-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--co);background:linear-gradient(90deg,var(--co-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--co-deep);background:var(--co-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--co)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(36,29,22,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(36,29,22,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--co-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(36,29,22,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--co);background:#FBF0EB}
+figure.code.copied .cphint{opacity:1;color:var(--co-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--co-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+/* connector hub signature */
+.hubwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.hub-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F4EEE6;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.hub-bar i{width:10px;height:10px;border-radius:50%;background:#CEC4B5;display:block}
+.hub-bar i:nth-child(1){background:#E5736B}.hub-bar i:nth-child(2){background:#E8B73D}.hub-bar i:nth-child(3){background:#69B27C}
+.hub{width:100%;height:auto;display:block;padding:8px 6px}
+.hub .ln{stroke:var(--co);stroke-width:1.8;fill:none}
+.hub .core{fill:var(--co);stroke:#fff;stroke-width:2}
+.hub .node{fill:#fff;stroke:var(--co);stroke-width:1.6}
+.hub .ct{font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:700;fill:#fff}
+.hub .nt{font-family:"JetBrains Mono";font-size:10px;fill:var(--ink-soft);font-weight:600}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--co-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--co-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#241D16;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(36,29,22,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">✳</span>
+      <span class="fname"><b>Claude Cowork</b> — espacio de trabajo</span>
+      <span class="branch">conectado</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Archivos</span>
+      <span class="vt">Conectores</span>
+      <span class="vt">Skills</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">✳ pídelo</span>
+      <span class="fxc">"Analiza <span class="t-str">ventas.xlsx</span>, hazme un resumen y una presentación"&nbsp;&nbsp;<span class="t-com"># trabajo, hecho</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · un agente para tu trabajo de oficina</div>
+      <h1>Claude <em>Cowork</em>,<br>tu colega que ejecuta.</h1>
+      <p class="lede">El espacio de trabajo agéntico de Anthropic en una página: trabajar con tus <b>archivos</b> y la <b>ofimática</b> (Excel, PowerPoint, PDF), conectar tus <b>apps</b> (Gmail, Drive, Calendar) vía <b>MCP y conectores</b>, ampliar con <b>skills</b> y <b>plugins</b>, usar el <b>chat</b> para investigar y crear, y montar tu propio <b>agente personal</b>. Cowork hace el trabajo; tú diriges. <b>Es Claude operando, no solo respondiendo.</b></p>
+
+      <div class="quote">
+        <p>"No automatices tareas; delega objetivos."</p>
+        <cite>— Filosofía del trabajo agéntico · <span class="mono">Claude Cowork</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Archivos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Conectores</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Skills</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Plugins</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Chat</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Agente personal</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">qué es · cómo</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Archivos</span><span class="sd">Excel · PPT · PDF</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Conectores</span><span class="sd">Gmail · Drive · MCP</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Skills</span><span class="sd">capacidades</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Plugins</span><span class="sd">paquetes</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Chat</span><span class="sd">research · crear</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Agente</span><span class="sd">tu IA personal</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">✳</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10l6 6v10H4z"/><path d="M14 4v6h6"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M7 7l3 3M17 7l-3 3M7 17l3-3"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">work</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">¿Qué es Cowork?</a>
+      <a href="#fd-vs" style="--seg:var(--s0)">Cowork vs Code vs Chat</a>
+      <a href="#fd-como" style="--seg:var(--s0)">Cómo trabaja</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Archivos</div>
+      <a href="#ar-files" style="--seg:var(--s1)">Organizar archivos</a>
+      <a href="#ar-excel" style="--seg:var(--s1)">Claude en Excel</a>
+      <a href="#ar-ppt" style="--seg:var(--s1)">Claude en PowerPoint</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Conectores</div>
+      <a href="#cn-hub" style="--seg:var(--s2)">Conectores &amp; MCP</a>
+      <a href="#cn-uso" style="--seg:var(--s2)">Conectar &amp; usar</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Skills</div>
+      <a href="#sk-que" style="--seg:var(--s3)">Qué son las skills</a>
+      <a href="#sk-crear" style="--seg:var(--s3)">Crear una skill</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Plugins</div>
+      <a href="#pl-que" style="--seg:var(--s4)">Plugins</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Chat</div>
+      <a href="#ch-research" style="--seg:var(--s5)">Investigar &amp; crear</a>
+      <a href="#ch-prompt" style="--seg:var(--s5)">Prompting</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Agente personal</div>
+      <a href="#ag-arch" style="--seg:var(--s6)">Arquitectura</a>
+      <a href="#ag-soul" style="--seg:var(--s6)">SOUL.md &amp; CLAUDE.md</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Archivos</a><a href="#e2">02 Conect.</a>
+        <a href="#e3">03 Skills</a><a href="#e4">04 Plugins</a><a href="#e5">05 Chat</a><a href="#e6">06 Agente</a>
+      </div>
+
+      <!-- 00 -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">qué hace<br>y para quién</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es Claude Cowork?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Cowork</b> es Claude operando como un compañero de trabajo: no solo responde, <b>ejecuta</b> tareas sobre tus archivos y aplicaciones. Le das un objetivo ("organiza esta carpeta", "construye este modelo financiero") y lo lleva a cabo paso a paso, pidiéndote confirmación cuando hace falta.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Operativo</span><span class="dv">actúa sobre archivos, hojas, presentaciones, correo.</span></div>
+                <div class="di"><span class="dk">Ampliable</span><span class="dv">conectores (MCP), skills y plugins.</span></div>
+                <div class="di"><span class="dk">Para</span><span class="dv">analistas, finanzas, marketing — trabajo de conocimiento.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-vs">
+            <div class="tile-h"><span class="td"></span><h3>Cowork vs Code vs Chat</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Tres formas de usar Claude, según el trabajo:</p>
+              <table class="tbl">
+                <tr><th>Producto</th><th>Para</th></tr>
+                <tr><td class="k">Chat</td><td>preguntar, redactar, investigar (conversación)</td></tr>
+                <tr><td class="k">Cowork</td><td>ejecutar trabajo sobre archivos y apps</td></tr>
+                <tr><td class="k">Code</td><td>programar en la terminal / repos</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Mismo motor</span>Comparten modelos, MCP y skills: aprendes una idea y se aplica en los tres.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-como">
+            <div class="tile-h"><span class="td"></span><h3>Cómo trabaja — objetivo, no clics</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">En vez de hacer tú cada clic, describes el <b>resultado</b> que quieres. Cowork planifica, usa las skills/conectores necesarios y te entrega el archivo terminado. Tú revisas y corriges.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">1 · Pide</span><span class="dv">el objetivo en lenguaje natural, con el contexto y el formato.</span></div>
+                <div class="di"><span class="dk">2 · Ejecuta</span><span class="dv">usa archivos, skills y conectores en bucle.</span></div>
+                <div class="di"><span class="dk">3 · Entrega</span><span class="dv">el resultado (xlsx, pptx, correo) listo para revisar.</span></div>
+                <div class="di"><span class="dk">4 · Itera</span><span class="dv">le pides ajustes; no rehaces desde cero.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">Tú diriges</span>Cowork pide permiso antes de acciones con consecuencias (enviar un correo, sobrescribir un archivo). Revisa antes de aprobar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01 -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Archivos &amp; ofimática</h2><span class="meta">Excel, PowerPoint<br>y PDF</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ar-files">
+            <div class="tile-h"><span class="td"></span><h3>Organizar archivos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cowork puede ordenar carpetas, renombrar por convención, extraer datos de varios documentos y consolidarlos. Apunta a una carpeta y di qué quieres.</p>
+              <figure class="code" data-copy="Ordena esta carpeta por tipo y fecha,&#10;renombra como AAAA-MM_cliente_tipo&#10;y deja un índice.csv con el resultado.">
+                <figcaption><span class="lang">prompt · Cowork</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Ordena esta carpeta por tipo y fecha,
+renombra como AAAA-MM_cliente_tipo
+y deja un índice.csv con el resultado.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="ar-excel">
+            <div class="tile-h"><span class="td"></span><h3>Claude en Excel</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Con el complemento de Excel, Claude analiza datos, crea fórmulas y gráficos, limpia valores faltantes y construye modelos (DCF, LBO). Trabaja <i>dentro</i> de tu hoja.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Análisis</span><span class="dv">resumen estadístico, filtros, formato condicional.</span></div>
+                <div class="di"><span class="dk">Modelos</span><span class="dv">flujo de caja descontado, valoración, escenarios.</span></div>
+                <div class="di"><span class="dk">Limpieza</span><span class="dv">imputar faltantes, normalizar, deduplicar.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ar-ppt">
+            <div class="tile-h"><span class="td"></span><h3>Claude en PowerPoint — del dato a la diapositiva</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Genera presentaciones desde datos, PDFs o un guion; añade notas del orador, mejora el diseño y respeta tu plantilla de marca. Pídeselo y refina por diapositiva.</p>
+              <div class="cols">
+                <figure class="code" data-copy="Crea una presentación de 8 diapositivas&#10;a partir de informe.pdf, con la plantilla&#10;de marca y notas del orador. Tono ejecutivo.">
+                  <figcaption><span class="lang">prompt · Cowork</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Crea una presentación de 8 diapositivas
+desde informe.pdf, con la plantilla de
+marca y notas del orador. Tono ejecutivo.</pre>
+                </figure>
+                <div class="tip"><span class="lab">Skills de Office</span>Detrás trabajan las skills <code>xlsx</code>, <code>pptx</code>, <code>docx</code> y <code>pdf</code>: por eso entrega archivos nativos, no capturas.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Conectores &amp; MCP</h2><span class="meta">tus apps,<br>al alcance del agente</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="cn-hub">
+            <div class="tile-h"><span class="td"></span><h3>El hub de conectores</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>conector</b> da a Cowork acceso a una app externa (Gmail, Drive, Calendar, Slack…). Por debajo usan el <b>Model Context Protocol (MCP)</b>, el estándar que conecta modelos con herramientas. Cowork queda en el centro y orquesta todo.</p>
+              <div class="hubwrap">
+                <div class="hub-bar"><i></i><i></i><i></i><span>Cowork + conectores (MCP)</span></div>
+                <svg class="hub" viewBox="0 0 720 200" role="img" aria-label="Cowork en el centro conectado a Gmail, Drive, Calendar, Excel, Skills">
+                  <path class="ln" d="M360 100 L150 50"/><path class="ln" d="M360 100 L150 150"/>
+                  <path class="ln" d="M360 100 L570 50"/><path class="ln" d="M360 100 L570 150"/>
+                  <path class="ln" d="M360 100 L360 24"/><path class="ln" d="M360 100 L360 176"/>
+                  <circle class="core" cx="360" cy="100" r="40"/><text class="ct" x="360" y="98" text-anchor="middle">Cowork</text><text class="ct" x="360" y="113" text-anchor="middle" style="font-size:9px">agente</text>
+                  <g><rect class="node" x="92" y="34" width="92" height="32" rx="7"/><text class="nt" x="138" y="54" text-anchor="middle">Gmail</text></g>
+                  <g><rect class="node" x="92" y="134" width="92" height="32" rx="7"/><text class="nt" x="138" y="154" text-anchor="middle">Drive</text></g>
+                  <g><rect class="node" x="536" y="34" width="92" height="32" rx="7"/><text class="nt" x="582" y="54" text-anchor="middle">Calendar</text></g>
+                  <g><rect class="node" x="536" y="134" width="92" height="32" rx="7"/><text class="nt" x="582" y="154" text-anchor="middle">Excel</text></g>
+                  <g><rect class="node" x="314" y="8" width="92" height="30" rx="7"/><text class="nt" x="360" y="27" text-anchor="middle">Skills</text></g>
+                  <g><rect class="node" x="314" y="162" width="92" height="30" rx="7"/><text class="nt" x="360" y="181" text-anchor="middle">Slack…</text></g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="cn-uso">
+            <div class="tile-h"><span class="td"></span><h3>Conectar &amp; usar</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Activas un conector una vez (autorizas el acceso) y luego lo invocas en lenguaje natural. Cowork combina conectores y archivos en una sola tarea.</p>
+              <figure class="code" data-copy="Lee los correos de esta semana sobre el proyecto X,&#10;resume los acuerdos y agéndalos en mi Calendar.&#10;Redacta el correo de seguimiento (no lo envíes aún).">
+                <figcaption><span class="lang">prompt · conectores</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Lee los correos de esta semana sobre X,
+resume los acuerdos y agéndalos en Calendar.
+Redacta el seguimiento (no lo envíes aún).</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Permisos</span>Concede solo los conectores que la tarea necesita; revisa qué puede leer/escribir cada uno. El "no lo envíes aún" te deja revisar antes de actuar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Skills</h2><span class="meta">conocimiento<br>bajo demanda</span></div>
+
+        <div class="cols">
+          <div class="tile" id="sk-que">
+            <div class="tile-h"><span class="td"></span><h3>Qué son las skills</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>skill</b> es una carpeta con un <code>SKILL.md</code> que enseña a Claude a hacer algo bien: un flujo, unas convenciones, unas plantillas. Su descripción está siempre presente; el detalle se carga <i>solo cuando la tarea lo pide</i> (revelación progresiva).</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Prebuilt</span><span class="dv"><code>xlsx</code>, <code>docx</code>, <code>pptx</code>, <code>pdf</code> para ofimática.</span></div>
+                <div class="di"><span class="dk">Propias</span><span class="dv">las creas para tu dominio (un informe, una marca).</span></div>
+                <div class="di"><span class="dk">Automáticas</span><span class="dv">Claude las usa solo cuando son relevantes.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="sk-crear">
+            <div class="tile-h"><span class="td"></span><h3>Crear una skill</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Lo esencial: un <code>SKILL.md</code> con un encabezado (<code>name</code>, <code>description</code>) y las instrucciones. La <b>descripción</b> es lo que decide cuándo se activa: hazla precisa.</p>
+              <figure class="code" data-copy="---&#10;name: informe-mensual&#10;description: Usar cuando el usuario pida el informe&#10;  mensual de ventas en PPTX con la plantilla de marca.&#10;---&#10;# Informe mensual&#10;1. Lee los datos de ventas del mes.&#10;2. Calcula KPIs y variaciones.&#10;3. Genera el PPTX con la plantilla /marca.">
+                <figcaption><span class="lang">SKILL.md</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">---</span>
+<span class="t-kw">name:</span> informe-mensual
+<span class="t-kw">description:</span> Usar cuando pidan el informe
+  mensual de ventas en PPTX con la marca.
+<span class="t-op">---</span>
+<span class="t-com"># Informe mensual</span>
+1. Lee los datos de ventas del mes.
+2. Calcula KPIs y variaciones.
+3. Genera el PPTX con /marca.</pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Plugins</h2><span class="meta">empaquetar<br>tus capacidades</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="pl-que">
+            <div class="tile-h"><span class="td"></span><h3>Plugins — skills, comandos y conectores juntos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>plugin</b> empaqueta varias capacidades relacionadas (skills, comandos, servidores MCP, agentes) en algo instalable y compartible. Es la forma de distribuir un flujo completo a tu equipo: instalas el plugin y tienes todo el toolkit de un dominio (datos, finanzas) de golpe.</p>
+              <div class="cols">
+                <div class="deflist">
+                  <div class="di"><span class="dk">Qué trae</span><span class="dv">skills + comandos + MCP + agentes en un solo paquete.</span></div>
+                  <div class="di"><span class="dk">Por qué</span><span class="dv">estandariza cómo trabaja todo el equipo.</span></div>
+                  <div class="di"><span class="dk">Ejemplos</span><span class="dv">un plugin de "datos" (análisis + visualización), uno de "finanzas".</span></div>
+                </div>
+                <div class="tip"><span class="lab">Flujo</span>Instalas el plugin → sus skills y comandos aparecen disponibles → Cowork los usa cuando la tarea encaja. Un mismo plugin sirve en Cowork y en Claude Code.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Chat para trabajo</h2><span class="meta">investigar,<br>redactar, crear</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ch-research">
+            <div class="tile-h"><span class="td"></span><h3>Investigar &amp; crear</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El chat de Claude sirve para investigar a fondo, redactar, generar visualizaciones y dashboards, y extraer datos de PDFs. El modo de <b>investigación profunda</b> recorre muchas fuentes y entrega un informe con citas.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Deep research</span><span class="dv">investigación multi-fuente con referencias.</span></div>
+                <div class="di"><span class="dk">Dashboards</span><span class="dv">visualizaciones con la skill de diseño front-end.</span></div>
+                <div class="di"><span class="dk">Extraer</span><span class="dv">PDF → Excel/PowerPoint estructurado.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="ch-prompt">
+            <div class="tile-h"><span class="td"></span><h3>Prompting que funciona</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Buenos resultados = buen encargo. La receta práctica:</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Rol</span><span class="dv">"Actúa como analista financiero…".</span></div>
+                <div class="di"><span class="dk">Contexto</span><span class="dv">el para qué y para quién es el resultado.</span></div>
+                <div class="di"><span class="dk">Tarea</span><span class="dv">el qué, concreto y acotado.</span></div>
+                <div class="di"><span class="dk">Formato</span><span class="dv">longitud, tono, estructura del entregable.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Da el porqué</span>Explicar la intención (no solo la orden) mejora mucho la calidad: Claude conecta la tarea con lo relevante.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Tu agente personal</h2><span class="meta">memoria, personalidad<br>y rutinas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ag-arch">
+            <div class="tile-h"><span class="td"></span><h3>Arquitectura — el "vault"</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un agente personal se monta sobre una <b>carpeta de conocimiento</b> (estilo bóveda de notas / wiki): tus documentos, plantillas y memoria viven ahí, y Claude los consulta y actualiza. La estructura clara de carpetas es lo que lo hace fiable.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Vault</span><span class="dv">tus notas, marca, plantillas y memoria, organizadas.</span></div>
+                <div class="di"><span class="dk">Wiki</span><span class="dv">enlaza ideas; el agente navega como un wiki personal.</span></div>
+                <div class="di"><span class="dk">Marca</span><span class="dv">logo, colores y plantillas en una carpeta dedicada.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="ag-soul">
+            <div class="tile-h"><span class="td"></span><h3>SOUL.md &amp; CLAUDE.md</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Dos archivos dan identidad y reglas a tu agente: <code>SOUL.md</code> define su <b>personalidad y voz</b>; <code>CLAUDE.md</code> define el <b>manual de operación</b> (qué hace, cómo, con qué herramientas).</p>
+              <figure class="code" data-copy="# SOUL.md&#10;Eres mi jefe de gabinete: directo, proactivo,&#10;cuidas mi tiempo. Tono cercano pero profesional.&#10;Resume primero, detalle después.">
+                <figcaption><span class="lang">SOUL.md</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># SOUL.md</span>
+Eres mi jefe de gabinete: directo, proactivo,
+cuidas mi tiempo. Tono cercano y profesional.
+Resume primero, detalle después.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Rutinas</span>Define <b>comandos slash</b> predefinidos para tus tareas recurrentes (informe semanal, agenda del día): un encargo de una línea dispara el flujo completo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>Claude Cowork · Hoja de referencia</b> — un agente para tu trabajo de oficina. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">archivos · conectores · skills · plugins · v1.1 · jun 2026</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+</body>
+</html>

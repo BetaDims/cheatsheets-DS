@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probabilidad · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<style>
+.fml .katex{font-size:1.35em}
+.fml .katex-display{margin:0}
+.fml{color:var(--pb-deep,inherit)}
+:root{
+  --bg:#F1E8EE;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#FAF2F6;
+  --rail:#F8F0F4;
+  --code-bg:#FEFAFC;
+  --line:#ECDCE5;
+  --line-soft:#F3E8EE;
+  --ink:#251A20;
+  --ink-soft:#5E4F57;
+  --ink-faint:#9A8A92;
+  /* Probability rose */
+  --pb:#C0398C;
+  --pb-deep:#9A2C70;
+  --pb-tint:rgba(192,57,140,.12);
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#2B6FD6;  /* Reglas */
+  --s2:#0C8A8A;  /* Condicional */
+  --s3:#7A45C9;  /* Bayes */
+  --s4:#C0750C;  /* Conteo */
+  --s5:#1E9B51;  /* Distribuciones */
+  --s6:#C0392B;  /* Falacias */
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#9A2C70;
+  --t-fn:#0B5FC2;
+  --t-flag:#7A3FC0;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-com:#9A8A92;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--pb);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(37,26,32,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F6ECF2;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.wbtn{display:flex;gap:8px;flex:none}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:#D9C4D1;display:block}
+.wbtn i:nth-child(1){background:#E5736B}.wbtn i:nth-child(2){background:#E8B73D}.wbtn i:nth-child(3){background:#69B27C}
+.titlebar .logo{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;background:var(--pb);color:#fff;font-size:13px;flex:none;margin-left:3px}
+.titlebar .fname{font-family:"JetBrains Mono";font-weight:500;color:var(--ink);letter-spacing:.005em;margin-left:2px}
+.titlebar .fname b{color:var(--pb-deep);font-weight:700}
+.titlebar .branch{font-family:"JetBrains Mono";font-size:11px;color:var(--pb-deep);background:var(--pb-tint);border-radius:5px;padding:1px 8px}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+
+.viewtabs{display:flex;gap:0;background:#FBF4F8;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--pb-deep);border-bottom-color:var(--pb)}
+
+.fxbar{display:flex;align-items:stretch;background:#FBF4F8;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--pb-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pb-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--pb)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:700;font-size:clamp(2.3rem,5.6vw,3.9rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--pb-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--pb-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--pb);background:linear-gradient(90deg,var(--pb-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:14px;font-weight:700}
+.rail .ri.on{color:var(--pb-deep);background:var(--pb-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--pb)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(37,26,32,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(37,26,32,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--pb-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(37,26,32,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--pb);background:#FBEFF6}
+figure.code.copied .cphint{opacity:1;color:var(--pb-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.fml{text-align:center;font-size:15px;padding:14px 12px 16px}
+.fml .big{font-size:18px;font-weight:600;color:var(--pb-deep)}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-flag{color:var(--t-flag)}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--pb-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-fn)}
+
+.treewrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas);margin:4px 0}
+.tree-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;background:#F6ECF2;border-bottom:1px solid var(--line);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint)}
+.tree-bar i{width:10px;height:10px;border-radius:50%;background:#D9C4D1;display:block}
+.tree-bar i:nth-child(1){background:#E5736B}.tree-bar i:nth-child(2){background:#E8B73D}.tree-bar i:nth-child(3){background:#69B27C}
+.tree{width:100%;height:auto;display:block;padding:8px 6px}
+.tree .br{stroke:var(--pb);stroke-width:2;fill:none}
+.tree .nd{fill:#fff;stroke:var(--pb);stroke-width:2}
+.tree .lbl{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink-soft)}
+.tree .pr{font-family:"JetBrains Mono";font-size:10px;fill:var(--pb-deep);font-weight:700}
+.tree .res{font-family:"JetBrains Mono";font-size:10px;fill:var(--s5);font-weight:700}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--pb-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"JetBrains Mono";font-size:11px;color:var(--pb-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#251A20;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(37,26,32,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="wbtn"><i></i><i></i><i></i></span>
+      <span class="logo">⚄</span>
+      <span class="fname"><b>probabilidad</b> · espacio muestral</span>
+      <span class="branch">0 ≤ P ≤ 1</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Conceptos</span>
+      <span class="vt">Fórmulas</span>
+      <span class="vt">Python</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">P ▸</span>
+      <span class="fxc"><span class="t-fn">P</span>(A) = casos favorables / casos posibles&nbsp;&nbsp;<span class="t-com"># piensa en proporciones</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · razonar con incertidumbre</div>
+      <h1><em>Probabilidad</em>,<br>el lenguaje del azar.</h1>
+      <p class="lede">Cómo cuantificar lo incierto en una página: el <b>espacio muestral</b> y los <b>eventos</b>, las <b>reglas</b> de la suma y el producto, la <b>probabilidad condicional</b> y la <b>independencia</b>, el <b>teorema de Bayes</b> para actualizar creencias, el <b>conteo</b> (permutaciones y combinaciones), las <b>distribuciones</b> y el valor esperado, y las <b>falacias</b> que engañan hasta a los expertos. <b>Clic en cualquier fórmula para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"La probabilidad es el sentido común reducido a cálculo."</p>
+        <cite>— Pierre-Simon Laplace · <span class="mono">razona en proporciones</span></cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Reglas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Condicional</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Bayes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Conteo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Distribuciones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Falacias</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">espacio · eventos</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Reglas</span><span class="sd">suma · producto</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Condicional</span><span class="sd">P(A|B) · árbol</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Bayes</span><span class="sd">actualizar creencias</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Conteo</span><span class="sd">permuta · combina</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Distribuciones</span><span class="sd">E[X] · binomial</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Falacias</span><span class="sd">trampas del azar</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">⚄</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 12 17 6M7 12l10 6"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">P(A)</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#fd-que" style="--seg:var(--s0)">Qué es la probabilidad</a>
+      <a href="#fd-space" style="--seg:var(--s0)">Espacio &amp; eventos</a>
+      <a href="#fd-enf" style="--seg:var(--s0)">Tres enfoques</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Reglas</div>
+      <a href="#rg-comp" style="--seg:var(--s1)">Complemento</a>
+      <a href="#rg-suma" style="--seg:var(--s1)">Regla de la suma</a>
+      <a href="#rg-prod" style="--seg:var(--s1)">Regla del producto</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Condicional</div>
+      <a href="#cn-cond" style="--seg:var(--s2)">Probabilidad condicional</a>
+      <a href="#cn-indep" style="--seg:var(--s2)">Independencia</a>
+      <a href="#cn-arbol" style="--seg:var(--s2)">Árbol de probabilidad</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Bayes</div>
+      <a href="#by-form" style="--seg:var(--s3)">El teorema</a>
+      <a href="#by-ej" style="--seg:var(--s3)">Ejemplo: test médico</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Conteo</div>
+      <a href="#ct-mult" style="--seg:var(--s4)">Principio multiplicativo</a>
+      <a href="#ct-pc" style="--seg:var(--s4)">Permutación vs combinación</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Distribuciones</div>
+      <a href="#ds-va" style="--seg:var(--s5)">Variable aleatoria &amp; E[X]</a>
+      <a href="#ds-bin" style="--seg:var(--s5)">Binomial &amp; normal</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Falacias</div>
+      <a href="#fl-trampas" style="--seg:var(--s6)">Trampas del azar</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 Reglas</a><a href="#e2">02 Condic.</a>
+        <a href="#e3">03 Bayes</a><a href="#e4">04 Conteo</a><a href="#e5">05 Distrib.</a><a href="#e6">06 Falacias</a>
+      </div>
+
+      <!-- ===== 00 ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">medir<br>lo incierto</span></div>
+
+        <div class="cols">
+          <div class="tile" id="fd-que">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué es la probabilidad?</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un número entre <b>0</b> (imposible) y <b>1</b> (seguro) que mide qué tan factible es un evento. En el caso clásico (resultados igualmente posibles):</p>
+              <figure class="code" data-copy="P(A) = casos favorables / casos posibles">
+                <figcaption><span class="lang">fórmula · probabilidad clásica</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A) = \dfrac{\text{favorables}}{\text{posibles}}$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Axiomas</span>0 ≤ P(A) ≤ 1 · P(espacio) = 1 · la probabilidad del total siempre suma 1.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-space">
+            <div class="tile-h"><span class="td"></span><h3>Espacio muestral &amp; eventos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">Experimento</span><span class="dv">acción con resultado incierto (lanzar un dado).</span></div>
+                <div class="di"><span class="dk">Espacio Ω</span><span class="dv">todos los resultados posibles {1,2,3,4,5,6}.</span></div>
+                <div class="di"><span class="dk">Evento</span><span class="dv">un subconjunto: "sale par" = {2,4,6}.</span></div>
+                <div class="di"><span class="dk">Punto muestral</span><span class="dv">un resultado individual.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-enf">
+            <div class="tile-h"><span class="td"></span><h3>Tres enfoques de la probabilidad</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Enfoque</th><th>Idea</th><th>Ejemplo</th></tr>
+                <tr><td class="k">Clásica</td><td>casos igualmente posibles</td><td>dado justo: 1/6</td></tr>
+                <tr><td class="k">Frecuentista</td><td>frecuencia relativa a largo plazo</td><td>repetir y contar</td></tr>
+                <tr><td class="k">Subjetiva</td><td>grado de creencia (bayesiana)</td><td>"70% de que llueva"</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Reglas básicas</h2><span class="meta">combinar<br>eventos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="rg-comp">
+            <div class="tile-h"><span class="td"></span><h3>Complemento</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">"Que NO ocurra A". A menudo es el atajo: calcular lo contrario es más fácil.</p>
+              <figure class="code" data-copy="P(no A) = 1 − P(A)">
+                <figcaption><span class="lang">fórmula · complemento</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A^{c}) = 1 - P(A)$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Truco</span>"Al menos uno" = 1 − P(ninguno). Suele ser mucho más simple.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="rg-suma">
+            <div class="tile-h"><span class="td"></span><h3>Regla de la suma (O)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para "A <b>o</b> B" se suman y se resta lo contado dos veces (la intersección).</p>
+              <figure class="code" data-copy="P(A ∪ B) = P(A) + P(B) − P(A ∩ B)">
+                <figcaption><span class="lang">fórmula · unión</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Excluyentes</span>Si A y B no pueden ocurrir juntos (mutuamente excluyentes), P(A∩B)=0 → solo se suman.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="rg-prod">
+            <div class="tile-h"><span class="td"></span><h3>Regla del producto (Y)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para "A <b>y</b> B" (que ocurran ambos) se multiplican. Depende de si son independientes:</p>
+              <div class="cols">
+                <figure class="code" data-copy="# independientes&#10;P(A ∩ B) = P(A) · P(B)">
+                  <figcaption><span class="lang">independientes</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A \cap B) = P(A) \cdot P(B)$$</div>
+                </figure>
+                <figure class="code" data-copy="# dependientes&#10;P(A ∩ B) = P(A) · P(B|A)">
+                  <figcaption><span class="lang">dependientes</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A \cap B) = P(A) \cdot P(B \mid A)$$</div>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Condicional &amp; independencia</h2><span class="meta">cuando una pista<br>cambia el cálculo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cn-cond">
+            <div class="tile-h"><span class="td"></span><h3>Probabilidad condicional</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>P(A|B)</b> = probabilidad de A <i>sabiendo que</i> ocurrió B. Reduce el espacio muestral a "dentro de B".</p>
+              <figure class="code" data-copy="P(A | B) = P(A ∩ B) / P(B)">
+                <figcaption><span class="lang">fórmula · condicional</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A \mid B) = \dfrac{P(A \cap B)}{P(B)}$$</div>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="cn-indep">
+            <div class="tile-h"><span class="td"></span><h3>Independencia</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">A y B son <b>independientes</b> si saber uno no cambia el otro: P(A|B) = P(A).</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Independientes</span><span class="dv">lanzar dos dados: uno no afecta al otro.</span></div>
+                <div class="di"><span class="dk">Dependientes</span><span class="dv">sacar cartas sin reponer: cambia el mazo.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">No confundir</span>"Independiente" ≠ "mutuamente excluyente". Excluyentes son <b>dependientes</b> al extremo: si ocurre uno, el otro no puede.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="cn-arbol">
+            <div class="tile-h"><span class="td"></span><h3>El árbol de probabilidad</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cada rama es una probabilidad; <b>multiplicas a lo largo</b> de una rama y <b>sumas entre</b> ramas que llevan al mismo resultado. Ejemplo: dos lanzamientos de una moneda sesgada (P(cara)=0,6):</p>
+              <div class="treewrap">
+                <div class="tree-bar"><i></i><i></i><i></i><span>árbol · multiplica a lo largo, suma entre ramas</span></div>
+                <svg class="tree" viewBox="0 0 720 220" role="img" aria-label="Árbol de probabilidad de dos lanzamientos">
+                  <path class="br" d="M70 110 L240 50"/>
+                  <path class="br" d="M70 110 L240 170"/>
+                  <path class="br" d="M240 50 L430 25"/>
+                  <path class="br" d="M240 50 L430 80"/>
+                  <path class="br" d="M240 170 L430 145"/>
+                  <path class="br" d="M240 170 L430 200"/>
+                  <circle class="nd" cx="70" cy="110" r="7"/>
+                  <circle class="nd" cx="240" cy="50" r="7"/>
+                  <circle class="nd" cx="240" cy="170" r="7"/>
+                  <circle class="nd" cx="430" cy="25" r="7"/>
+                  <circle class="nd" cx="430" cy="80" r="7"/>
+                  <circle class="nd" cx="430" cy="145" r="7"/>
+                  <circle class="nd" cx="430" cy="200" r="7"/>
+                  <text class="pr" x="135" y="68">0,6 C</text>
+                  <text class="pr" x="135" y="155">0,4 X</text>
+                  <text class="pr" x="320" y="22">0,6 C</text>
+                  <text class="pr" x="320" y="78">0,4 X</text>
+                  <text class="pr" x="320" y="142">0,6 C</text>
+                  <text class="pr" x="320" y="198">0,4 X</text>
+                  <text class="res" x="450" y="29">CC = 0,36</text>
+                  <text class="res" x="450" y="84">CX = 0,24</text>
+                  <text class="res" x="450" y="149">XC = 0,24</text>
+                  <text class="res" x="450" y="204">XX = 0,16</text>
+                  <text class="lbl" x="600" y="120">Σ = 1,00</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Teorema de Bayes</h2><span class="meta">actualizar lo que crees<br>con nueva evidencia</span></div>
+
+        <div class="cols">
+          <div class="tile" id="by-form">
+            <div class="tile-h"><span class="td"></span><h3>El teorema</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Invierte la condicional: pasa de P(evidencia|hipótesis) a P(hipótesis|evidencia). Es la base del razonamiento bayesiano.</p>
+              <figure class="code" data-copy="P(A|B) = P(B|A) · P(A) / P(B)">
+                <figcaption><span class="lang">fórmula · Bayes</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(A \mid B) = \dfrac{P(B \mid A) \cdot P(A)}{P(B)}$$</div>
+              </figure>
+              <div class="deflist">
+                <div class="di"><span class="dk">P(A)</span><span class="dv">a priori: creencia antes de la evidencia.</span></div>
+                <div class="di"><span class="dk">P(B|A)</span><span class="dv">verosimilitud de la evidencia.</span></div>
+                <div class="di"><span class="dk">P(A|B)</span><span class="dv">a posteriori: creencia actualizada.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="by-ej">
+            <div class="tile-h"><span class="td"></span><h3>Ejemplo: test médico</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Enfermedad rara (1%), test 99% sensible y 95% específico. ¿Si das positivo, qué probabilidad real tienes? Sorprendentemente baja:</p>
+              <figure class="code" data-copy="P(enf)=0.01; P(+|enf)=0.99; P(+|sano)=0.05&#10;P(+) = 0.99*0.01 + 0.05*0.99 = 0.0594&#10;P(enf|+) = 0.99*0.01 / 0.0594 ≈ 0.167">
+                <figcaption><span class="lang">cálculo · Bayes</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>P(enf)=<span class="t-num">0.01</span>  P(+|enf)=<span class="t-num">0.99</span>
+P(+|sano)=<span class="t-num">0.05</span>
+P(+) = .99·.01 + .05·.99 = <span class="t-num">0.0594</span>
+P(enf|+) = .99·.01 / .0594 ≈ <span class="t-num">0.167</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">La trampa</span>Solo ~17% pese al positivo: la <b>baja prevalencia</b> domina. Ignorarla es la <b>falacia de la tasa base</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Conteo (combinatoria)</h2><span class="meta">contar sin<br>enumerar todo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ct-mult">
+            <div class="tile-h"><span class="td"></span><h3>Principio multiplicativo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Si una tarea tiene etapas independientes, multiplica las opciones de cada una. 3 camisas × 2 pantalones = 6 conjuntos.</p>
+              <figure class="code" data-copy="total = n₁ · n₂ · … · nₖ">
+                <figcaption><span class="lang">fórmula · regla del producto</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$\text{total} = n_1 \cdot n_2 \cdot \ldots \cdot n_k$$</div>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="ct-pc">
+            <div class="tile-h"><span class="td"></span><h3>Permutación vs combinación</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La clave: ¿<b>importa el orden</b>? Sí → permutación; no → combinación.</p>
+              <figure class="code" data-copy="Permutación: P(n,k) = n! / (n−k)!&#10;Combinación: C(n,k) = n! / (k!·(n−k)!)">
+                <figcaption><span class="lang">fórmulas · conteo</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>P(n,k) = n! / (n−k)!     <span class="t-com"># orden sí</span>
+C(n,k) = n! / (k!·(n−k)!) <span class="t-com"># orden no</span></pre>
+              </figure>
+              <figure class="code" data-copy="import math&#10;math.perm(5, 2)   # 20 (orden importa)&#10;math.comb(5, 2)   # 10 (orden no importa)&#10;math.factorial(5) # 120">
+                <figcaption><span class="lang">python · math</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">import</span> math
+math.<span class="t-fn">perm</span>(<span class="t-num">5</span>, <span class="t-num">2</span>)   <span class="t-com"># 20 orden sí</span>
+math.<span class="t-fn">comb</span>(<span class="t-num">5</span>, <span class="t-num">2</span>)   <span class="t-com"># 10 orden no</span>
+math.<span class="t-fn">factorial</span>(<span class="t-num">5</span>) <span class="t-com"># 120</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Distribuciones</h2><span class="meta">del evento<br>a la variable</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ds-va">
+            <div class="tile-h"><span class="td"></span><h3>Variable aleatoria &amp; valor esperado</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>variable aleatoria</b> asigna un número a cada resultado. El <b>valor esperado</b> E[X] es el promedio a largo plazo, ponderado por probabilidad.</p>
+              <figure class="code" data-copy="E[X] = Σ xᵢ · P(xᵢ)">
+                <figcaption><span class="lang">fórmula · valor esperado</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$E[X] = \sum x_i \cdot P(x_i)$$</div>
+              </figure>
+              <div class="tip"><span class="lab">Discreta vs continua</span><b>Discreta</b>: valores contables (dado). <b>Continua</b>: cualquier valor en un rango (altura) — se usa densidad y áreas.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ds-bin">
+            <div class="tile-h"><span class="td"></span><h3>Binomial &amp; normal</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>binomial</b> cuenta éxitos en n ensayos con probabilidad p. La <b>normal</b> es su límite continuo (campana).</p>
+              <figure class="code" data-copy="P(X=k) = C(n,k) · pᵏ · (1−p)ⁿ⁻ᵏ">
+                <figcaption><span class="lang">fórmula · binomial</span><span class="cphint">clic = copiar</span></figcaption>
+<div class="fml">$$P(X=k) = \binom{n}{k}\, p^{k} (1-p)^{n-k}$$</div>
+              </figure>
+              <figure class="code" data-copy="from scipy import stats&#10;stats.binom.pmf(k=3, n=10, p=0.5)&#10;stats.norm.cdf(1.96)  # ≈ 0.975">
+                <figcaption><span class="lang">python · scipy</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">from</span> scipy <span class="t-kw">import</span> stats
+stats.binom.<span class="t-fn">pmf</span>(k=<span class="t-num">3</span>, n=<span class="t-num">10</span>, p=<span class="t-num">0.5</span>)
+stats.norm.<span class="t-fn">cdf</span>(<span class="t-num">1.96</span>)  <span class="t-com"># ≈ 0.975</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Falacias del azar</h2><span class="meta">trampas que engañan<br>hasta a expertos</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="fl-trampas">
+            <div class="tile-h"><span class="td"></span><h3>Las trampas más comunes</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Falacia</th><th>Qué es</th></tr>
+                <tr><td class="k">Del jugador</td><td>creer que tras varias caras "toca" cruz. Los eventos independientes no tienen memoria.</td></tr>
+                <tr><td class="k">Tasa base</td><td>ignorar la prevalencia (ej. test médico): el positivo no garantiza la enfermedad.</td></tr>
+                <tr><td class="k">Regresión a la media</td><td>valores extremos tienden a moderarse; no es mérito ni castigo, es azar.</td></tr>
+                <tr><td class="k">Francotirador</td><td>dibujar la diana tras disparar: buscar patrones en datos ya ocurridos.</td></tr>
+                <tr><td class="k">Correlación = causalidad</td><td>dos cosas que varían juntas no implican que una cause la otra.</td></tr>
+                <tr><td class="k">Conjunción</td><td>creer que A y B juntos es más probable que A solo (nunca lo es).</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Defensa</span>Ante una afirmación con números, pregunta: ¿cuál es la <b>tasa base</b>? ¿el muestreo fue justo? ¿correlación o causa?</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>Probabilidad · Hoja de referencia</b> — el lenguaje del azar, de los axiomas a Bayes. Construida con el sistema de cheat sheets (mismo diseño, distinta esencia).
+    <span class="mono">P(A) · Bayes · combinatoria · v1.1 · jun 2026 · fórmulas + Python</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+})();
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  if(window.renderMathInElement){
+    renderMathInElement(document.body,{delimiters:[
+      {left:"$$",right:"$$",display:true},
+      {left:"\\(",right:"\\)",display:false}
+    ],throwOnError:false});
+  }
+});
+</script>
+</body>
+</html>

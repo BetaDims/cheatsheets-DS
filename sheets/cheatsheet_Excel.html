@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAEDF0;
+  --surface:#FFFFFF;
+  --surface-2:#F6F8FA;
+  --grid:#E4E7EB;
+  --grid-strong:#CBD1D8;
+  --header-bg:#F2F4F6;
+  --ink:#1C2127;
+  --ink-soft:#586170;
+  --ink-faint:#8A929E;
+  --line:#E4E7EB;
+  --line-strong:#D3D8DE;
+  --excel:#107C41;
+  --excel-dark:#0A6332;
+  --excel-tint:#E7F4EC;
+  --excel-tint-2:#CFE9D9;
+  /* sheet-tab section accents */
+  --s1:#178A4C;  /* Fundamentos */
+  --s2:#2563A8;  /* Análisis & fórmulas */
+  --s3:#C0750C;  /* Visualización */
+  --s4:#6B4BB8;  /* Power tools */
+  --s5:#C0392B;  /* Macros & VBA */
+  --s6:#0E7C86;  /* Aplicado */
+  --s7:#46566A;  /* Buenas prácticas */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  /* faint spreadsheet gridlines */
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  background-position:-1px -1px;
+}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-ligatures:none}
+
+.wrap{max-width:1320px;margin:0 auto;padding:22px 20px 0}
+
+/* ======================= WORKBOOK CHROME ======================= */
+.workbook{background:var(--surface);border:1px solid var(--grid-strong);border-radius:12px 12px 0 0;box-shadow:0 18px 50px -28px rgba(20,40,30,.4);overflow:hidden}
+.titlebar{display:flex;align-items:center;gap:11px;background:var(--excel);color:#fff;padding:10px 16px;font-size:13px}
+.xmark{width:22px;height:22px;border-radius:4px;background:#fff;color:var(--excel);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:800;display:grid;place-items:center;font-size:14px;flex:none;letter-spacing:-.04em}
+.titlebar .fname{font-weight:600;letter-spacing:.005em}
+.titlebar .fname b{font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"IBM Plex Mono";font-size:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:5px;padding:2px 8px;font-weight:500}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:14px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.35);display:block}
+
+/* formula bar */
+.fxbar{display:flex;align-items:stretch;border-bottom:1px solid var(--grid-strong);background:var(--surface-2)}
+.namebox{flex:none;width:128px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:"IBM Plex Mono";font-size:13px;font-weight:600;color:var(--ink);border-right:1px solid var(--grid-strong);background:var(--surface)}
+.namebox .dd{color:var(--ink-faint);font-size:10px}
+.fxlabel{flex:none;display:flex;align-items:center;padding:0 16px;font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-style:italic;font-weight:700;color:var(--ink-soft);border-right:1px solid var(--grid-strong);font-size:15px}
+.fxcontent{display:flex;align-items:center;padding:11px 16px;font-family:"IBM Plex Mono";font-size:14px;color:var(--ink);overflow-x:auto;white-space:nowrap}
+.fxcontent .eq{color:var(--excel);font-weight:600}
+.fxcontent .fn{color:var(--s2);font-weight:600}
+.fxcontent .str{color:var(--s3)}
+
+/* hero body */
+.hero{padding:36px 30px 0}
+.kick{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--excel);font-weight:600;margin-bottom:14px}
+h1{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4.3rem);line-height:.96;letter-spacing:-.025em}
+h1 em{font-style:normal;color:var(--excel)}
+.lede{max-width:66ch;color:var(--ink-soft);font-size:15.5px;margin-top:16px}
+.lede b{color:var(--ink);font-weight:600}
+
+/* sheet tab bar */
+.tabbar{display:flex;align-items:flex-end;gap:3px;margin-top:30px;padding:0 4px;border-bottom:2px solid var(--grid-strong);overflow-x:auto}
+.tab{flex:none;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;padding:9px 14px 8px;border:1px solid var(--grid-strong);border-bottom:none;border-radius:8px 8px 0 0;background:var(--surface-2);position:relative;top:1px;white-space:nowrap;transition:.15s}
+.tab:hover{background:var(--surface);color:var(--ink)}
+.tab .tdot{width:9px;height:9px;border-radius:2px;background:var(--tc);flex:none}
+.tab .tn{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--ink-faint)}
+
+/* ======================= SHELL ======================= */
+.shell{display:grid;grid-template-columns:236px 1fr;gap:40px;align-items:start;margin-top:4px}
+
+/* sticky scroll index */
+nav.toc{position:sticky;top:18px;font-size:13px;padding:30px 0 40px;max-height:calc(100vh - 36px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--grid-strong);border-radius:6px}
+.toc-h{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:20px 0 7px;padding-left:14px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 14px;border-left:2px solid var(--line);transition:.16s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--line-strong);background:var(--surface-2)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+
+/* ======================= MAIN ======================= */
+main{padding:30px 0 80px;min-width:0}
+
+.sheet-sec{margin-bottom:8px;scroll-margin-top:18px}
+.sec-head{display:flex;align-items:center;gap:14px;margin:46px 0 6px;padding:14px 18px;background:var(--surface);border:1px solid var(--grid-strong);border-left:5px solid var(--seg);border-radius:9px}
+.sheet-sec:first-child .sec-head{margin-top:0}
+.sec-tab{font-family:"IBM Plex Mono";font-size:11px;font-weight:600;color:#fff;background:var(--seg);padding:4px 10px;border-radius:5px;flex:none}
+.sec-head h2{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:700;font-size:1.7rem;letter-spacing:-.015em;line-height:1.05}
+.sec-head .rng{margin-left:auto;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:680px){.sec-head .rng{display:none}}
+
+section.block{background:var(--surface);border:1px solid var(--grid);border-radius:9px;padding:18px 20px;margin:14px 0;scroll-margin-top:18px}
+section.block>h3{font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1.12rem;font-weight:700;letter-spacing:-.005em;margin-bottom:4px;display:flex;align-items:center;gap:9px}
+section.block>h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.note{color:var(--ink-soft);font-size:13.5px;margin-bottom:14px;max-width:80ch}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"IBM Plex Mono";font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);padding:1px 5px;border-radius:4px;color:var(--ink)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2.split{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+
+/* ======================= FORMULA CARD (ES / EN) ======================= */
+.pair{display:inline-flex;align-items:center;gap:8px;font-family:"IBM Plex Mono";font-size:12px;font-weight:600;background:var(--surface-2);border:1px solid var(--line-strong);border-radius:6px;padding:3px 9px;margin:0 6px 6px 0;color:var(--ink)}
+.pair i{color:var(--ink-faint);font-style:normal}
+.pair .en{color:var(--s2)}
+
+.fcard{border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;margin:8px 0;background:var(--surface)}
+.fcap{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:7px 12px 4px;border-bottom:1px dashed var(--line)}
+.frow{display:flex;align-items:center;gap:0;cursor:pointer;position:relative;border-bottom:1px solid var(--line);transition:background .14s}
+.frow:last-child{border-bottom:none}
+.frow:hover{background:var(--surface-2)}
+.frow .tag{flex:none;width:34px;text-align:center;font-family:"IBM Plex Mono";font-size:10px;font-weight:600;color:#fff;padding:9px 0;align-self:stretch;display:flex;align-items:center;justify-content:center}
+.frow.es .tag{background:var(--excel)}
+.frow.en .tag{background:var(--s2)}
+.frow .fx{flex:none;font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-style:italic;font-weight:700;color:var(--ink-faint);font-size:12px;padding:0 11px;border-right:1px solid var(--line)}
+.frow code{flex:1;padding:9px 12px;font-family:"IBM Plex Mono";font-size:13px;color:var(--ink);overflow-x:auto;white-space:nowrap;line-height:1.4}
+.frow .cphint{flex:none;font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:0 12px;opacity:0;transition:.14s}
+.frow:hover .cphint{opacity:1}
+.frow.copied{background:var(--excel-tint)}
+.frow.copied .cphint{opacity:1;color:var(--excel);font-weight:600}
+/* formula token colors */
+.k-eq{color:var(--excel);font-weight:600}
+.k-fn{color:var(--s2);font-weight:600}
+.k-str{color:var(--s3)}
+.k-num{color:#9A3DB0}
+.k-ref{color:var(--ink)}
+.k-com{color:var(--ink-faint);font-style:italic}
+
+/* ======================= CODE BLOCK (VBA / DAX / M) ======================= */
+figure.code{border:1px solid var(--line-strong);border-left:4px solid var(--seg);border-radius:8px;overflow:hidden;margin:8px 0;background:var(--surface-2);cursor:pointer;position:relative}
+figure.code figcaption{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 12px 0;display:flex;align-items:center;gap:8px}
+figure.code figcaption .lang{color:var(--seg);font-weight:600}
+figure.code .cphint{margin-left:auto;opacity:0;transition:.14s}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{background:var(--excel-tint)}
+figure.code.copied .cphint{opacity:1;color:var(--excel);font-weight:600}
+figure.code pre{padding:9px 14px 13px;overflow-x:auto;font-size:12.7px;line-height:1.6;color:var(--ink);tab-size:4}
+.c-kw{color:var(--s5);font-weight:600}
+.c-fn{color:var(--s2);font-weight:600}
+.c-str{color:var(--s3)}
+.c-num{color:#9A3DB0}
+.c-com{color:var(--ink-faint);font-style:italic}
+.c-dax{color:var(--s4);font-weight:600}
+
+/* ======================= MINI SPREADSHEET (signature) ======================= */
+.sheetbox{margin:10px 0}
+.sheetcap{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
+.ssheet{display:grid;border:1px solid var(--grid-strong);border-radius:7px;overflow:hidden;font-size:12.5px;width:max-content;max-width:100%}
+.ssheet .c{border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);padding:5px 10px;background:var(--surface);min-width:54px;display:flex;align-items:center;font-family:"IBM Plex Mono"}
+.ssheet .c.num{justify-content:flex-end}
+.ssheet .hd{background:var(--header-bg);color:var(--ink-soft);font-weight:600;justify-content:center;font-size:11px;min-width:auto}
+.ssheet .corner{background:var(--header-bg);min-width:30px}
+.ssheet .rh{background:var(--header-bg);color:var(--ink-soft);font-weight:600;justify-content:center;min-width:30px;font-size:11px}
+.ssheet .sel{background:var(--excel-tint);box-shadow:inset 0 0 0 2px var(--excel);position:relative;z-index:2;font-weight:600}
+.ssheet .head{background:var(--surface-2);font-weight:600;color:var(--ink)}
+.legend{font-size:12px;color:var(--ink-soft);margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.legend .chip{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono";font-size:11px}
+.legend .chip b{color:var(--excel);font-weight:600}
+
+/* ======================= REFERENCE TABLE ======================= */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:4px 0;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tbl th{text-align:left;font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);background:var(--header-bg);padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.es{font-family:"IBM Plex Mono";font-size:12px;color:var(--excel);font-weight:500;white-space:nowrap}
+.tbl td.en{font-family:"IBM Plex Mono";font-size:12px;color:var(--s2);white-space:nowrap}
+.tbl td:last-child{color:var(--ink-soft)}
+.tbl td code{font-family:"IBM Plex Mono";font-size:11.5px;background:var(--surface-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line)}
+
+/* ======================= KEYS / CALLOUTS / MISC ======================= */
+.kbd{font-family:"IBM Plex Mono";font-size:12px;background:var(--surface);border:1px solid var(--grid-strong);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;margin-top:4px}
+@media(max-width:760px){.keys{grid-template-columns:1fr}}
+.keys .kr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px solid var(--line);font-size:13px}
+.keys .kr span{color:var(--ink-soft)}
+.tip{border-left:3px solid var(--seg);background:var(--surface-2);border-radius:0 7px 7px 0;padding:10px 14px;margin:10px 0;font-size:13px;color:var(--ink-soft)}
+.tip b{color:var(--ink);font-weight:600}
+.tip .lab{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--seg);font-weight:600;display:block;margin-bottom:3px}
+.steps{counter-reset:st;list-style:none;margin:6px 0;display:flex;flex-direction:column;gap:7px}
+.steps li{counter-increment:st;position:relative;padding-left:33px;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.steps li::before{content:counter(st);position:absolute;left:0;top:1px;font-family:"IBM Plex Mono";font-size:11px;font-weight:600;color:#fff;background:var(--seg);width:21px;height:21px;border-radius:5px;display:grid;place-items:center}
+.steps li b{color:var(--ink);font-weight:600}
+.eqbox{font-family:"IBM Plex Mono";font-size:15px;background:var(--surface-2);border:1px dashed var(--line-strong);border-radius:7px;padding:11px 14px;margin:8px 0;color:var(--ink);text-align:center}
+.eqbox sub{font-size:11px}
+
+/* mobile sheet tabs (legend) */
+.mtabs{display:none}
+
+footer{border-top:2px solid var(--grid-strong);margin-top:10px;padding:24px 0 50px;color:var(--ink-soft);font-size:12.5px}
+footer b{color:var(--ink)}
+footer .mono{font-family:"IBM Plex Mono";font-size:11px;margin-top:8px;display:block;color:var(--ink-faint)}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.sheet-sec{opacity:0;transform:translateY(8px);animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards}
+.sheet-sec:nth-child(1){animation-delay:.04s}.sheet-sec:nth-child(2){animation-delay:.09s}
+.sheet-sec:nth-child(3){animation-delay:.14s}.sheet-sec:nth-child(4){animation-delay:.19s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.sheet-sec{animation:none;opacity:1;transform:none}}
+
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  .hero{padding:28px 18px 0}
+  main{padding-top:22px}
+  .mtabs{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 0}
+  .mtabs .mt{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;padding:6px 11px;border-radius:7px;background:var(--surface-2);border:1px solid var(--line-strong);color:var(--ink-soft);text-decoration:none}
+  .mtabs .mt .tdot{width:9px;height:9px;border-radius:2px;background:var(--tc)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== WORKBOOK CHROME ===================== -->
+  <div class="workbook">
+    <div class="titlebar">
+      <span class="xmark">X</span>
+      <span class="fname"><b>Excel</b> · Hoja de referencia.xlsx</span>
+      <span class="grow"></span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">A1 <span class="dd">▾</span></span>
+      <span class="fxlabel">fx</span>
+      <span class="fxcontent"><span class="eq">=</span><span class="fn">DOMINAR</span>(Excel;&nbsp;<span class="str">"de la celda al dashboard"</span>)</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · español + nombre en inglés en cada fórmula</div>
+      <h1>Excel, de los <em>fundamentos</em><br>a las <em>macros</em>.</h1>
+      <p class="lede">Todo lo esencial en una sola página para tener abierta mientras trabajas o estudias. Cada fórmula aparece en <b>español</b> y, debajo, su <b>equivalente en inglés</b> — porque <code style="font-family:'IBM Plex Mono';font-size:12.5px">BUSCARV</code> no es lo mismo que <code style="font-family:'IBM Plex Mono';font-size:12.5px">VLOOKUP</code>. Organizada en siete hojas, de lo básico a lo aplicado. <b>Clic en cualquier fórmula para copiarla.</b></p>
+
+      <div class="tabbar">
+        <a class="tab" href="#s1" style="--tc:var(--s1)"><span class="tdot"></span><span class="tn">01</span> Fundamentos</a>
+        <a class="tab" href="#s2" style="--tc:var(--s2)"><span class="tdot"></span><span class="tn">02</span> Análisis &amp; fórmulas</a>
+        <a class="tab" href="#s3" style="--tc:var(--s3)"><span class="tdot"></span><span class="tn">03</span> Visualización</a>
+        <a class="tab" href="#s4" style="--tc:var(--s4)"><span class="tdot"></span><span class="tn">04</span> Power tools</a>
+        <a class="tab" href="#s5" style="--tc:var(--s5)"><span class="tdot"></span><span class="tn">05</span> Macros &amp; VBA</a>
+        <a class="tab" href="#s6" style="--tc:var(--s6)"><span class="tdot"></span><span class="tn">06</span> Aplicado</a>
+        <a class="tab" href="#s7" style="--tc:var(--s7)"><span class="tdot"></span><span class="tn">07</span> Buenas prácticas</a>
+      </div>
+
+      <div class="mtabs">
+        <a class="mt" href="#s1" style="--tc:var(--s1)"><span class="tdot"></span>Fundamentos</a>
+        <a class="mt" href="#s2" style="--tc:var(--s2)"><span class="tdot"></span>Análisis</a>
+        <a class="mt" href="#s3" style="--tc:var(--s3)"><span class="tdot"></span>Visualización</a>
+        <a class="mt" href="#s4" style="--tc:var(--s4)"><span class="tdot"></span>Power tools</a>
+        <a class="mt" href="#s5" style="--tc:var(--s5)"><span class="tdot"></span>Macros &amp; VBA</a>
+        <a class="mt" href="#s6" style="--tc:var(--s6)"><span class="tdot"></span>Aplicado</a>
+        <a class="mt" href="#s7" style="--tc:var(--s7)"><span class="tdot"></span>Prácticas</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SHELL ===================== -->
+  <div class="shell">
+
+    <!-- ============ INDEX ============ -->
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Fundamentos</div>
+      <a href="#f-anatomia" style="--seg:var(--s1)">Anatomía y navegación</a>
+      <a href="#f-referencias" style="--seg:var(--s1)">Referencias y F4</a>
+      <a href="#f-operadores" style="--seg:var(--s1)">Operadores</a>
+      <a href="#f-basicas" style="--seg:var(--s1)">Fórmulas básicas</a>
+      <a href="#f-texto" style="--seg:var(--s1)">Texto</a>
+      <a href="#f-fechas" style="--seg:var(--s1)">Fechas y horas</a>
+      <a href="#f-logica" style="--seg:var(--s1)">Lógica: SI · Y · O</a>
+      <a href="#f-formato" style="--seg:var(--s1)">Formato condicional</a>
+      <a href="#f-validacion" style="--seg:var(--s1)">Validación / listas</a>
+      <a href="#f-tablas" style="--seg:var(--s1)">Tablas, ordenar, filtrar</a>
+      <a href="#f-atajos" style="--seg:var(--s1)">Atajos esenciales</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Análisis &amp; fórmulas</div>
+      <a href="#a-condicionales" style="--seg:var(--s2)">Condicionales agregadas</a>
+      <a href="#a-sumaproducto" style="--seg:var(--s2)">SUMAPRODUCTO</a>
+      <a href="#a-buscarv" style="--seg:var(--s2)">BUSCARV · BUSCARH</a>
+      <a href="#a-buscarx" style="--seg:var(--s2)">BUSCARX</a>
+      <a href="#a-indice" style="--seg:var(--s2)">ÍNDICE + COINCIDIR</a>
+      <a href="#a-ifs" style="--seg:var(--s2)">SI.CONJUNTO · SI.ERROR</a>
+      <a href="#a-arrays" style="--seg:var(--s2)">Arrays dinámicos</a>
+      <a href="#a-nombres" style="--seg:var(--s2)">Rangos con nombre</a>
+      <a href="#a-dinamicas" style="--seg:var(--s2)">Tablas dinámicas</a>
+      <a href="#a-quesi" style="--seg:var(--s2)">Y si… · Solver</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Visualización</div>
+      <a href="#v-tipos" style="--seg:var(--s3)">Qué gráfico usar</a>
+      <a href="#v-dinamicos" style="--seg:var(--s3)">Gráficos dinámicos</a>
+      <a href="#v-sparklines" style="--seg:var(--s3)">Minigráficos</a>
+      <a href="#v-kpi" style="--seg:var(--s3)">Tarjetas KPI</a>
+      <a href="#v-cascada" style="--seg:var(--s3)">Cascada (waterfall)</a>
+      <a href="#v-diseno" style="--seg:var(--s3)">Diseño de dashboard</a>
+      <a href="#v-apoyo" style="--seg:var(--s3)">Funciones de apoyo</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Power tools</div>
+      <a href="#p-pq" style="--seg:var(--s4)">Power Query (ETL)</a>
+      <a href="#p-pp" style="--seg:var(--s4)">Power Pivot · modelo</a>
+      <a href="#p-dax" style="--seg:var(--s4)">DAX esencial</a>
+      <a href="#p-mvsdax" style="--seg:var(--s4)">M vs DAX · cuándo</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Macros &amp; VBA</div>
+      <a href="#m-grabar" style="--seg:var(--s5)">Grabar y editor</a>
+      <a href="#m-estructura" style="--seg:var(--s5)">Sub · variables</a>
+      <a href="#m-objetos" style="--seg:var(--s5)">Rangos y objetos</a>
+      <a href="#m-decisiones" style="--seg:var(--s5)">If · Select Case</a>
+      <a href="#m-bucles" style="--seg:var(--s5)">Bucles</a>
+      <a href="#m-interaccion" style="--seg:var(--s5)">MsgBox · InputBox</a>
+      <a href="#m-udf" style="--seg:var(--s5)">Funciones propias</a>
+      <a href="#m-errores" style="--seg:var(--s5)">Botones y errores</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Aplicado</div>
+      <a href="#x-finanzas" style="--seg:var(--s6)">Finanzas: VNA · TIR</a>
+      <a href="#x-modelado" style="--seg:var(--s6)">Modelado y escenarios</a>
+      <a href="#x-forecasting" style="--seg:var(--s6)">Forecasting</a>
+      <a href="#x-inventarios" style="--seg:var(--s6)">Inventarios: EOQ · Pareto</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Buenas prácticas</div>
+      <a href="#b-estructura" style="--seg:var(--s7)">Estructura del libro</a>
+      <a href="#b-tablas" style="--seg:var(--s7)">Tablas y nombres</a>
+      <a href="#b-errores" style="--seg:var(--s7)">Robustez de fórmulas</a>
+      <a href="#b-auditoria" style="--seg:var(--s7)">Auditoría</a>
+      <a href="#b-regional" style="--seg:var(--s7)">Separador regional</a>
+    </nav>
+
+    <!-- ============ MAIN ============ -->
+    <main>
+
+    <!-- ===================================================== SECTION 1 -->
+    <div class="sheet-sec" id="s1" style="--seg:var(--s1)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 01</span>
+        <h2>Fundamentos</h2>
+        <span class="rng">básico<br>celdas · fórmulas · formato</span>
+      </div>
+
+      <section class="block" id="f-anatomia">
+        <h3>Anatomía de la hoja y navegación</h3>
+        <p class="note">Una <b>celda</b> es la intersección de una columna (letra) y una fila (número): <code>B3</code>. El <b>Cuadro de nombres</b> (arriba a la izquierda) muestra/salta a una celda o rango con nombre; la <b>barra de fórmulas</b> (<i>fx</i>) muestra lo que realmente contiene la celda. Toda fórmula empieza con <code>=</code>.</p>
+        <div class="sheetbox">
+          <div class="sheetcap">Una hoja: encabezados de columna (A·B·C) y números de fila (1·2·3)</div>
+          <div class="ssheet" style="grid-template-columns:30px repeat(3,80px)">
+            <div class="c corner"></div><div class="c hd">A</div><div class="c hd">B</div><div class="c hd">C</div>
+            <div class="c rh">1</div><div class="c head">Producto</div><div class="c head">Precio</div><div class="c head">Stock</div>
+            <div class="c rh">2</div><div class="c">Teclado</div><div class="c num">90</div><div class="c num">12</div>
+            <div class="c rh">3</div><div class="c">Mouse</div><div class="c num sel">45</div><div class="c num">30</div>
+          </div>
+          <div class="legend"><span class="chip">Celda seleccionada → <b>B3</b> = 45</span></div>
+        </div>
+        <div class="keys" style="margin-top:12px">
+          <div class="kr"><span>Ir a una celda concreta</span><span class="kbd">Ctrl + I</span></div>
+          <div class="kr"><span>Saltar al borde de los datos</span><span class="kbd">Ctrl + ←↑→↓</span></div>
+          <div class="kr"><span>Seleccionar hasta el borde</span><span class="kbd">Ctrl + Shift + ↓</span></div>
+          <div class="kr"><span>Editar la celda activa</span><span class="kbd">F2</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="f-referencias">
+        <h3>Referencias: relativa, absoluta y mixta</h3>
+        <p class="note">Al copiar una fórmula, las referencias <b>se desplazan</b>… salvo que las fijes con <code>$</code>. La tecla <span class="kbd">F4</span> recorre los cuatro modos. Es el error nº1 al arrastrar fórmulas.</p>
+        <table class="tbl">
+          <tr><th>Escribes</th><th>Tipo</th><th>Al copiar…</th></tr>
+          <tr><td class="es">A1</td><td>Relativa</td><td>cambian fila y columna</td></tr>
+          <tr><td class="es">$A$1</td><td>Absoluta</td><td>no cambia nunca (fija una constante)</td></tr>
+          <tr><td class="es">A$1</td><td>Mixta</td><td>fija la fila, la columna se mueve</td></tr>
+          <tr><td class="es">$A1</td><td>Mixta</td><td>fija la columna, la fila se mueve</td></tr>
+        </table>
+        <div class="tip"><span class="lab">F4</span>Con el cursor sobre la referencia, pulsa <span class="kbd">F4</span> repetidamente: <code>A1 → $A$1 → A$1 → $A1 → A1</code>.</div>
+      </section>
+
+      <section class="block" id="f-operadores">
+        <h3>Operadores y orden de evaluación</h3>
+        <p class="note">Excel resuelve en este orden: <b>( )</b> → <b>^</b> → <b>* /</b> → <b>+ −</b> → comparación. El <code>&amp;</code> concatena texto. Usa paréntesis para no depender del orden.</p>
+        <table class="tbl">
+          <tr><th>Grupo</th><th>Operadores</th></tr>
+          <tr><td>Aritméticos</td><td><code>+</code> <code>−</code> <code>*</code> <code>/</code> <code>^</code> potencia · <code>%</code> porcentaje</td></tr>
+          <tr><td>Comparación</td><td><code>=</code> <code>&lt;&gt;</code> distinto · <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td></tr>
+          <tr><td>Texto / rangos</td><td><code>&amp;</code> concatena · <code>:</code> rango · <code>;</code> unión · espacio = intersección</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="f-basicas">
+        <h3>Fórmulas básicas</h3>
+        <p class="note">El 80% del trabajo diario. <code>CONTAR</code> cuenta sólo números; <code>CONTARA</code> cuenta celdas no vacías (también texto).</p>
+        <div class="sheetbox">
+          <div class="sheetcap">Datos en B2:B4 → resultado en B5</div>
+          <div class="ssheet" style="grid-template-columns:30px 110px 70px">
+            <div class="c corner"></div><div class="c hd">A</div><div class="c hd">B</div>
+            <div class="c rh">2</div><div class="c">Enero</div><div class="c num">120</div>
+            <div class="c rh">3</div><div class="c">Febrero</div><div class="c num">95</div>
+            <div class="c rh">4</div><div class="c">Marzo</div><div class="c num">140</div>
+            <div class="c rh">5</div><div class="c head">Total</div><div class="c num sel">355</div>
+          </div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">Suma y promedio · B5</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUMA</span>(B2:B4)&nbsp;&nbsp;<span class="k-com">' 355</span></code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUM</span>(B2:B4)</code><span class="cphint">copiar</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Español</th><th>English</th><th>Qué hace</th></tr>
+          <tr><td class="es">PROMEDIO</td><td class="en">AVERAGE</td><td>media aritmética</td></tr>
+          <tr><td class="es">CONTAR</td><td class="en">COUNT</td><td>cuenta números</td></tr>
+          <tr><td class="es">CONTARA</td><td class="en">COUNTA</td><td>cuenta celdas no vacías</td></tr>
+          <tr><td class="es">MAX · MIN</td><td class="en">MAX · MIN</td><td>mayor · menor</td></tr>
+          <tr><td class="es">REDONDEAR</td><td class="en">ROUND</td><td><code>=REDONDEAR(x;2)</code> a 2 decimales</td></tr>
+          <tr><td class="es">ENTERO · RESIDUO</td><td class="en">INT · MOD</td><td>parte entera · resto de dividir</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="f-texto">
+        <h3>Funciones de texto</h3>
+        <p class="note">Para limpiar y separar datos importados. <code>ESPACIOS</code> elimina espacios sobrantes (causa oculta de que <code>BUSCARV</code> falle). <code>EXTRAE</code> saca un trozo desde una posición.</p>
+        <table class="tbl">
+          <tr><th>Español</th><th>English</th><th>Qué hace</th></tr>
+          <tr><td class="es">IZQUIERDA · DERECHA</td><td class="en">LEFT · RIGHT</td><td>n caracteres del inicio / final</td></tr>
+          <tr><td class="es">EXTRAE</td><td class="en">MID</td><td>trozo desde una posición</td></tr>
+          <tr><td class="es">LARGO</td><td class="en">LEN</td><td>número de caracteres</td></tr>
+          <tr><td class="es">ESPACIOS</td><td class="en">TRIM</td><td>quita espacios extra</td></tr>
+          <tr><td class="es">MAYUSC · MINUSC · NOMPROPIO</td><td class="en">UPPER · LOWER · PROPER</td><td>cambia mayúsculas</td></tr>
+          <tr><td class="es">CONCAT · UNIRCADENAS</td><td class="en">CONCAT · TEXTJOIN</td><td>une texto (con separador)</td></tr>
+          <tr><td class="es">SUSTITUIR · HALLAR</td><td class="en">SUBSTITUTE · SEARCH</td><td>reemplaza · busca posición</td></tr>
+          <tr><td class="es">TEXTO</td><td class="en">TEXT</td><td>número → texto con formato</td></tr>
+        </table>
+        <div class="fcard">
+          <div class="fcap">Unir nombre y apellido con un espacio</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">UNIRCADENAS</span>(<span class="k-str">" "</span>;VERDADERO;A2;B2)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">TEXTJOIN</span>(<span class="k-str">" "</span>,TRUE,A2,B2)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="f-fechas">
+        <h3>Fechas y horas</h3>
+        <p class="note">Excel guarda las fechas como <b>números de serie</b> (1 = 1-ene-1900), por eso puedes restarlas. <code>SIFECHA</code> calcula diferencias en años/meses/días (está oculta, pero funciona).</p>
+        <table class="tbl">
+          <tr><th>Español</th><th>English</th><th>Qué hace</th></tr>
+          <tr><td class="es">HOY · AHORA</td><td class="en">TODAY · NOW</td><td>fecha · fecha+hora actuales</td></tr>
+          <tr><td class="es">AÑO · MES · DIA</td><td class="en">YEAR · MONTH · DAY</td><td>extrae partes</td></tr>
+          <tr><td class="es">FECHA</td><td class="en">DATE</td><td><code>=FECHA(2026;6;15)</code></td></tr>
+          <tr><td class="es">DIASEM</td><td class="en">WEEKDAY</td><td>día de la semana (1–7)</td></tr>
+          <tr><td class="es">FIN.MES</td><td class="en">EOMONTH</td><td>último día del mes</td></tr>
+          <tr><td class="es">DIAS.LAB</td><td class="en">NETWORKDAYS</td><td>días hábiles entre fechas</td></tr>
+          <tr><td class="es">SIFECHA</td><td class="en">DATEDIF</td><td><code>=SIFECHA(ini;fin;"Y")</code> → años</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="f-logica">
+        <h3>Lógica: SI, Y, O</h3>
+        <p class="note"><code>SI(prueba; si_verdadero; si_falso)</code>. Combina con <code>Y</code>/<code>O</code> para varias condiciones. Para muchos casos encadenados, mejor <code>SI.CONJUNTO</code> (ver Hoja 02) que anidar muchos <code>SI</code>.</p>
+        <div class="fcard">
+          <div class="fcap">¿Aprobado? nota ≥ 11 (ejemplo de escala peruana)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SI</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">11</span>;<span class="k-str">"Aprobado"</span>;<span class="k-str">"Jalado"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IF</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">11</span>,<span class="k-str">"Aprobado"</span>,<span class="k-str">"Jalado"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">Dos condiciones a la vez (Y) · alguna (O)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SI</span>(<span class="k-fn">Y</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">11</span>;C2<span class="k-eq">&gt;=</span><span class="k-num">75</span>%);<span class="k-str">"OK"</span>;<span class="k-str">"Revisar"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IF</span>(<span class="k-fn">AND</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">11</span>,C2<span class="k-eq">&gt;=</span><span class="k-num">75</span>%),<span class="k-str">"OK"</span>,<span class="k-str">"Revisar"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="f-formato">
+        <h3>Formato condicional</h3>
+        <p class="note">Colorea celdas según su valor, sin fórmulas manuales: <b>Inicio → Formato condicional</b>. Ideal para resaltar lo importante de un vistazo.</p>
+        <table class="tbl">
+          <tr><th>Tipo</th><th>Para qué</th></tr>
+          <tr><td><b>Barras de datos</b></td><td>longitud proporcional dentro de la celda (mini-gráfico)</td></tr>
+          <tr><td><b>Escalas de color</b></td><td>mapa de calor verde→amarillo→rojo</td></tr>
+          <tr><td><b>Conjuntos de iconos</b></td><td>semáforos ●●●, flechas ▲▼ por umbral</td></tr>
+          <tr><td><b>Regla con fórmula</b></td><td>resalta toda la fila: <code>=$E2&lt;0</code> (fija la columna)</td></tr>
+        </table>
+        <div class="tip"><span class="lab">Truco</span>Para pintar la <b>fila entera</b>, usa una regla con fórmula y fija la columna con <code>$</code> (<code>=$E2="Vencido"</code>), aplicada a todo el rango.</div>
+      </section>
+
+      <section class="block" id="f-validacion">
+        <h3>Validación de datos y listas desplegables</h3>
+        <p class="note"><b>Datos → Validación de datos</b> restringe lo que se puede escribir y crea desplegables (menos errores de captura). Para listas dependientes (país → ciudad) se combina con <code>INDIRECTO</code> o <code>ÍNDICE</code>/<code>COINCIDIR</code>.</p>
+        <ol class="steps">
+          <li>Selecciona el rango y abre <b>Datos → Validación de datos</b>.</li>
+          <li>Permitir: <b>Lista</b>. En Origen, apunta a un rango (mejor una <b>Tabla</b>) o escribe valores con <code>;</code>.</li>
+          <li>Para listas dependientes, nombra cada sub-lista y usa <code>=INDIRECTO(A2)</code> como origen.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="f-tablas">
+        <h3>Tablas, ordenar y filtrar</h3>
+        <p class="note">Convierte un rango en <b>Tabla</b> con <span class="kbd">Ctrl + T</span>: se expande sola, da filtros, fila de totales y <b>referencias estructuradas</b> (<code>Ventas[Importe]</code> en vez de <code>B2:B999</code>). La base de casi todo lo demás.</p>
+        <div class="keys">
+          <div class="kr"><span>Crear Tabla</span><span class="kbd">Ctrl + T</span></div>
+          <div class="kr"><span>Activar / quitar filtros</span><span class="kbd">Ctrl + Shift + L</span></div>
+          <div class="kr"><span>Fila de totales (en la Tabla)</span><span class="kbd">Ctrl + Shift + T</span></div>
+          <div class="kr"><span>Quitar duplicados</span><span class="kbd">Datos → Quitar duplicados</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="f-atajos">
+        <h3>Atajos que ahorran horas</h3>
+        <div class="keys">
+          <div class="kr"><span>Rellenar hacia abajo</span><span class="kbd">Ctrl + J</span></div>
+          <div class="kr"><span>Repetir última acción</span><span class="kbd">F4 / Ctrl + Y</span></div>
+          <div class="kr"><span>Pegado especial</span><span class="kbd">Ctrl + Alt + V</span></div>
+          <div class="kr"><span>Insertar fecha de hoy</span><span class="kbd">Ctrl + ;</span></div>
+          <div class="kr"><span>Sumar columna (Autosuma)</span><span class="kbd">Alt + =</span></div>
+          <div class="kr"><span>Formato de moneda / %</span><span class="kbd">Ctrl+Shift+4 / 5</span></div>
+          <div class="kr"><span>Nueva hoja</span><span class="kbd">Shift + F11</span></div>
+          <div class="kr"><span>Convertir en Tabla</span><span class="kbd">Ctrl + T</span></div>
+        </div>
+        <div class="tip"><span class="lab">Nota</span>Algunos atajos cambian según el idioma del teclado/Office. <span class="kbd">Ctrl+J</span> (rellenar abajo) y <span class="kbd">Ctrl+I</span> (Ir a) corresponden al Excel en español.</div>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 2 -->
+    <div class="sheet-sec" id="s2" style="--seg:var(--s2)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 02</span>
+        <h2>Análisis &amp; fórmulas avanzadas</h2>
+        <span class="rng">intermedio–avanzado<br>búsqueda · agregación · arrays</span>
+      </div>
+
+      <section class="block" id="a-condicionales">
+        <h3>Condicionales agregadas (SUMAR/CONTAR/PROMEDIO …SI.CONJUNTO)</h3>
+        <p class="note">Suman o cuentan <b>según varios criterios</b>. La versión <code>.CONJUNTO</code> admite muchos pares <i>rango ; criterio</i>. Es el caballo de batalla del análisis.</p>
+        <div class="sheetbox">
+          <div class="sheetcap">Total vendido de "Sur" → criterio sobre la columna Zona</div>
+          <div class="ssheet" style="grid-template-columns:30px 70px 90px">
+            <div class="c corner"></div><div class="c hd">A</div><div class="c hd">B</div>
+            <div class="c rh">1</div><div class="c head">Zona</div><div class="c head">Venta</div>
+            <div class="c rh">2</div><div class="c">Sur</div><div class="c num">100</div>
+            <div class="c rh">3</div><div class="c">Norte</div><div class="c num">80</div>
+            <div class="c rh">4</div><div class="c">Sur</div><div class="c num">120</div>
+            <div class="c rh">5</div><div class="c head">Sur =</div><div class="c num sel">220</div>
+          </div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">Suma con un criterio · B5</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUMAR.SI.CONJUNTO</span>(B2:B4;A2:A4;<span class="k-str">"Sur"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUMIFS</span>(B2:B4,A2:A4,<span class="k-str">"Sur"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Español</th><th>English</th><th>Cuenta / promedia con criterios</th></tr>
+          <tr><td class="es">CONTAR.SI.CONJUNTO</td><td class="en">COUNTIFS</td><td>cuántas filas cumplen</td></tr>
+          <tr><td class="es">PROMEDIO.SI.CONJUNTO</td><td class="en">AVERAGEIFS</td><td>media de las que cumplen</td></tr>
+          <tr><td class="es">SUMAR.SI · CONTAR.SI</td><td class="en">SUMIF · COUNTIF</td><td>versión de un solo criterio</td></tr>
+        </table>
+        <div class="tip"><span class="lab">Comodines</span>En los criterios: <code>"*sur*"</code> contiene, <code>"&gt;100"</code> mayor que, <code>"&lt;&gt;"&amp;A1</code> distinto de A1.</div>
+      </section>
+
+      <section class="block" id="a-sumaproducto">
+        <h3>SUMAPRODUCTO</h3>
+        <p class="note">Multiplica rangos elemento a elemento y suma el total. Sirve para <b>promedios ponderados</b>, conteos con varias condiciones y cálculos que evitan columnas auxiliares.</p>
+        <div class="fcard">
+          <div class="fcap">Promedio ponderado: precio × cantidad ÷ cantidad total</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUMAPRODUCTO</span>(B2:B9;C2:C9)<span class="k-eq">/</span><span class="k-fn">SUMA</span>(C2:C9)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SUMPRODUCT</span>(B2:B9,C2:C9)<span class="k-eq">/</span><span class="k-fn">SUM</span>(C2:C9)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="a-buscarv">
+        <h3>BUSCARV y BUSCARH</h3>
+        <p class="note"><code>BUSCARV</code> busca un valor en la <b>primera columna</b> y devuelve algo de la misma fila. El 4º argumento <code>FALSO</code> = coincidencia <b>exacta</b> (úsalo casi siempre). <code>BUSCARH</code> es la versión horizontal.</p>
+        <div class="sheetbox">
+          <div class="sheetcap">Buscar "Mouse" y traer su precio (columna 2)</div>
+          <div class="ssheet" style="grid-template-columns:30px 90px 70px">
+            <div class="c corner"></div><div class="c hd">A</div><div class="c hd">B</div>
+            <div class="c rh">1</div><div class="c head">Producto</div><div class="c head">Precio</div>
+            <div class="c rh">2</div><div class="c">Teclado</div><div class="c num">90</div>
+            <div class="c rh">3</div><div class="c sel">Mouse</div><div class="c num sel">45</div>
+            <div class="c rh">4</div><div class="c">Monitor</div><div class="c num">600</div>
+          </div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">=BUSCARV(qué; dónde; nº columna; exacta)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">BUSCARV</span>(<span class="k-str">"Mouse"</span>;A2:B4;<span class="k-num">2</span>;<span class="k-num">FALSO</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">VLOOKUP</span>(<span class="k-str">"Mouse"</span>,A2:B4,<span class="k-num">2</span>,<span class="k-num">FALSE</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+        <div class="tip"><span class="lab">Límite</span><code>BUSCARV</code> sólo mira a la <b>derecha</b> y se rompe si insertas columnas. Para casos nuevos usa <code>BUSCARX</code> o <code>ÍNDICE+COINCIDIR</code>.</div>
+      </section>
+
+      <section class="block" id="a-buscarx">
+        <h3>BUSCARX — la búsqueda moderna</h3>
+        <p class="note">Reemplaza a <code>BUSCARV</code>: busca en <b>cualquier dirección</b>, no depende de números de columna y trae un valor por defecto si no encuentra. Disponible en Microsoft 365 / 2021+.</p>
+        <div class="fcard">
+          <div class="fcap">=BUSCARX(qué; rango_búsqueda; rango_resultado; si_no_existe)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">BUSCARX</span>(<span class="k-str">"Mouse"</span>;A2:A4;B2:B4;<span class="k-str">"N/D"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">XLOOKUP</span>(<span class="k-str">"Mouse"</span>,A2:A4,B2:B4,<span class="k-str">"N/D"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="a-indice">
+        <h3>ÍNDICE + COINCIDIR</h3>
+        <p class="note">La combinación clásica antes de <code>BUSCARX</code>, aún imbatible: <code>COINCIDIR</code> halla la <b>posición</b> de un valor; <code>ÍNDICE</code> devuelve lo que hay en esa posición. Busca hacia la <b>izquierda</b> y en dos dimensiones.</p>
+        <div class="fcard">
+          <div class="fcap">Traer el precio buscando por nombre (búsqueda a la izquierda)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">ÍNDICE</span>(B2:B4;<span class="k-fn">COINCIDIR</span>(<span class="k-str">"Mouse"</span>;A2:A4;<span class="k-num">0</span>))</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">INDEX</span>(B2:B4,<span class="k-fn">MATCH</span>(<span class="k-str">"Mouse"</span>,A2:A4,<span class="k-num">0</span>))</code><span class="cphint">copiar</span></div>
+        </div>
+        <div class="tip"><span class="lab">El 0 importa</span>El <code>0</code> de <code>COINCIDIR</code> exige coincidencia <b>exacta</b>; con <code>1</code> o <code>-1</code> busca aproximada (requiere datos ordenados).</div>
+      </section>
+
+      <section class="block" id="a-ifs">
+        <h3>SI.CONJUNTO y SI.ERROR</h3>
+        <p class="note"><code>SI.CONJUNTO</code> evalúa varias condiciones en orden y devuelve el primer caso verdadero — más legible que muchos <code>SI</code> anidados. <code>SI.ERROR</code> envuelve cualquier fórmula para mostrar algo limpio si da error.</p>
+        <div class="fcard">
+          <div class="fcap">Clasificar por tramos</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SI.CONJUNTO</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">18</span>;<span class="k-str">"A"</span>;B2<span class="k-eq">&gt;=</span><span class="k-num">14</span>;<span class="k-str">"B"</span>;VERDADERO;<span class="k-str">"C"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IFS</span>(B2<span class="k-eq">&gt;=</span><span class="k-num">18</span>,<span class="k-str">"A"</span>,B2<span class="k-eq">&gt;=</span><span class="k-num">14</span>,<span class="k-str">"B"</span>,TRUE,<span class="k-str">"C"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">Evitar #N/D o #¡DIV/0!</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SI.ERROR</span>(<span class="k-fn">BUSCARV</span>(A2;Datos;<span class="k-num">2</span>;<span class="k-num">FALSO</span>);<span class="k-str">"No encontrado"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IFERROR</span>(<span class="k-fn">VLOOKUP</span>(A2,Datos,<span class="k-num">2</span>,<span class="k-num">FALSE</span>),<span class="k-str">"No encontrado"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="a-arrays">
+        <h3>Arrays dinámicos (se "derraman" solos)</h3>
+        <p class="note">Funciones modernas (365/2021+) que devuelven <b>varios resultados</b> que se expanden automáticamente. Referencia todo el derrame con <code>#</code>: <code>A2#</code>.</p>
+        <table class="tbl">
+          <tr><th>Español</th><th>English</th><th>Qué hace</th></tr>
+          <tr><td class="es">FILTRAR</td><td class="en">FILTER</td><td>filas que cumplen un criterio</td></tr>
+          <tr><td class="es">ÚNICOS</td><td class="en">UNIQUE</td><td>valores sin repetir</td></tr>
+          <tr><td class="es">ORDENAR · ORDENARPOR</td><td class="en">SORT · SORTBY</td><td>ordena un rango</td></tr>
+          <tr><td class="es">SECUENCIA</td><td class="en">SEQUENCE</td><td>genera 1,2,3… automáticamente</td></tr>
+        </table>
+        <div class="fcard">
+          <div class="fcap">Lista filtrada de ventas de "Sur" mayores a 100</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">FILTRAR</span>(Datos;(Zona<span class="k-eq">=</span><span class="k-str">"Sur"</span>)<span class="k-eq">*</span>(Venta<span class="k-eq">&gt;</span><span class="k-num">100</span>))</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">FILTER</span>(Datos,(Zona<span class="k-eq">=</span><span class="k-str">"Sur"</span>)<span class="k-eq">*</span>(Venta<span class="k-eq">&gt;</span><span class="k-num">100</span>))</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="a-nombres">
+        <h3>Rangos con nombre</h3>
+        <p class="note">Dale un nombre a una celda o rango (<b>Fórmulas → Administrador de nombres</b> o el Cuadro de nombres): <code>=TasaIGV*Base</code> se lee mucho mejor que <code>=$F$1*B2</code> y no se desordena al copiar.</p>
+        <div class="tip"><span class="lab">Cuándo</span>Para <b>constantes</b> (tasas, tipos de cambio) y rangos que reutilizas en muchas fórmulas. Los nombres son <b>absolutos</b> por defecto.</div>
+      </section>
+
+      <section class="block" id="a-dinamicas">
+        <h3>Tablas dinámicas</h3>
+        <p class="note">La herramienta más potente para <b>resumir</b> miles de filas sin una sola fórmula: arrastra campos a Filas, Columnas, Valores y Filtros. <b>Insertar → Tabla dinámica</b>.</p>
+        <ol class="steps">
+          <li>Parte de una <b>Tabla</b> (<span class="kbd">Ctrl+T</span>) para que crezca sola al añadir datos.</li>
+          <li><b>Filas</b> = categorías · <b>Valores</b> = qué medir (suma, conteo, promedio, % del total).</li>
+          <li><b>Segmentadores</b> y <b>escala de tiempo</b> la vuelven interactiva (botones de filtro).</li>
+          <li><b>Agrupa</b> fechas por mes/año y números por tramos (clic derecho → Agrupar).</li>
+          <li><b>Campo calculado</b> para métricas nuevas (p. ej. Margen = Ganancia/Ventas).</li>
+        </ol>
+        <div class="tip"><span class="lab">Refrescar</span>Los datos no se actualizan solos: <span class="kbd">Alt + F5</span> (esta) o clic derecho → Actualizar. <code>IMPORTARDATOSDINAMICOS</code> / <code>GETPIVOTDATA</code> extrae un valor concreto a una celda.</div>
+      </section>
+
+      <section class="block" id="a-quesi">
+        <h3>Análisis "Y si…" y Solver</h3>
+        <p class="note">En <b>Datos → Análisis de hipótesis</b>: trabaja hacia atrás desde un resultado deseado o compara escenarios. <b>Solver</b> (complemento) optimiza con restricciones — clave en logística y finanzas.</p>
+        <table class="tbl">
+          <tr><th>Herramienta</th><th>Para qué</th></tr>
+          <tr><td><b>Buscar objetivo</b> (Goal Seek)</td><td>¿qué valor de X hace que Y = meta? (1 variable)</td></tr>
+          <tr><td><b>Administrador de escenarios</b></td><td>guardar y comparar juegos de supuestos</td></tr>
+          <tr><td><b>Tabla de datos</b></td><td>sensibilidad: 1 o 2 variables en una rejilla</td></tr>
+          <tr><td><b>Solver</b></td><td>maximizar/minimizar con varias restricciones (EOQ, mezcla óptima, presupuesto)</td></tr>
+        </table>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 3 -->
+    <div class="sheet-sec" id="s3" style="--seg:var(--s3)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 03</span>
+        <h2>Visualización &amp; dashboards</h2>
+        <span class="rng">intermedio–avanzado<br>gráficos · KPIs · diseño</span>
+      </div>
+
+      <section class="block" id="v-tipos">
+        <h3>Qué gráfico usar (y cuál evitar)</h3>
+        <p class="note">El gráfico correcto responde a una <b>pregunta</b>. Regla general: barras para comparar, líneas para tendencia, dispersión para relación. El circular sólo con 2–3 partes.</p>
+        <table class="tbl">
+          <tr><th>Quiero mostrar…</th><th>Gráfico</th></tr>
+          <tr><td>Comparar categorías</td><td><b>Columnas / barras</b> (barras si las etiquetas son largas)</td></tr>
+          <tr><td>Evolución en el tiempo</td><td><b>Líneas</b> (o áreas para acumulados)</td></tr>
+          <tr><td>Composición / partes de un todo</td><td><b>Barra apilada 100%</b> &gt; circular</td></tr>
+          <tr><td>Relación entre dos variables</td><td><b>Dispersión</b> (XY)</td></tr>
+          <tr><td>Dos magnitudes distintas</td><td><b>Combo</b> (columnas + línea, eje secundario)</td></tr>
+          <tr><td>Aporte hacia un total</td><td><b>Cascada</b> (waterfall)</td></tr>
+        </table>
+        <div class="tip"><span class="lab">Evita</span>Efectos 3D, demasiados colores y ejes que no empiezan en 0 en gráficos de barras: distorsionan la lectura.</div>
+      </section>
+
+      <section class="block" id="v-dinamicos">
+        <h3>Gráficos dinámicos e interactividad</h3>
+        <p class="note">Un <b>gráfico dinámico</b> se alimenta de una tabla dinámica y se filtra con los mismos <b>segmentadores</b>. Conecta un segmentador a varias tablas para que todo el dashboard reaccione a la vez.</p>
+        <ol class="steps">
+          <li>Crea la tabla dinámica → <b>Insertar gráfico dinámico</b>.</li>
+          <li><b>Insertar → Segmentación de datos</b> y <b>Escala de tiempo</b> para filtros tipo botón.</li>
+          <li>Clic derecho en el segmentador → <b>Conexiones de informe</b> para enlazarlo a otras tablas.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="v-sparklines">
+        <h3>Minigráficos (sparklines)</h3>
+        <p class="note">Gráficos diminutos <b>dentro de una celda</b>: tendencia por fila sin ocupar espacio. <b>Insertar → Minigráficos</b> (líneas, columnas o ganancia/pérdida). Perfectos junto a una tabla de KPIs.</p>
+      </section>
+
+      <section class="block" id="v-kpi">
+        <h3>Tarjetas KPI</h3>
+        <p class="note">Una cifra grande + comparación vs meta + un símbolo de dirección. Se arma con <code>TEXTO</code> para el formato y formato condicional o <code>SI</code> para el color/flecha.</p>
+        <div class="fcard">
+          <div class="fcap">Variación con flecha y signo</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SI</span>(C2<span class="k-eq">&gt;=</span>B2;<span class="k-str">"▲ "</span>;<span class="k-str">"▼ "</span>)<span class="k-eq">&amp;</span><span class="k-fn">TEXTO</span>(C2<span class="k-eq">/</span>B2<span class="k-eq">-</span><span class="k-num">1</span>;<span class="k-str">"0.0%"</span>)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IF</span>(C2<span class="k-eq">&gt;=</span>B2,<span class="k-str">"▲ "</span>,<span class="k-str">"▼ "</span>)<span class="k-eq">&amp;</span><span class="k-fn">TEXT</span>(C2<span class="k-eq">/</span>B2<span class="k-eq">-</span><span class="k-num">1</span>,<span class="k-str">"0.0%"</span>)</code><span class="cphint">copiar</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="v-cascada">
+        <h3>Gráfica de cascada (waterfall)</h3>
+        <p class="note">Muestra cómo se llega de un valor inicial a uno final sumando y restando pasos (ventas → costos → gastos → utilidad). En 365/2016+: <b>Insertar → Cascada</b>; marca los subtotales como <b>Total</b>.</p>
+      </section>
+
+      <section class="block" id="v-diseno">
+        <h3>Diseño de dashboard — principios</h3>
+        <ol class="steps">
+          <li><b>Separa capas:</b> una hoja de datos crudos, una de cálculo, una de presentación. No mezcles.</li>
+          <li><b>Una idea por vista.</b> Lo más importante arriba a la izquierda (donde cae la vista).</li>
+          <li><b>Menos es más:</b> pocos colores, alineación a una rejilla, números formateados.</li>
+          <li><b>Interactividad</b> con segmentadores; <b>protege</b> las hojas de fórmulas para que nadie las rompa.</li>
+          <li><b>Un clic para actualizar:</b> centraliza con tablas dinámicas / Power Query y un botón de Actualizar todo.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="v-apoyo">
+        <h3>Funciones de apoyo a dashboards</h3>
+        <table class="tbl">
+          <tr><th>Español</th><th>English</th><th>Uso típico</th></tr>
+          <tr><td class="es">ELEGIR</td><td class="en">CHOOSE</td><td>cambiar de serie/escenario con un control</td></tr>
+          <tr><td class="es">INDIRECTO</td><td class="en">INDIRECT</td><td>referir una hoja/rango según el texto de una celda</td></tr>
+          <tr><td class="es">DESREF</td><td class="en">OFFSET</td><td>rango dinámico (ventana móvil)</td></tr>
+          <tr><td class="es">K.ESIMO.MAYOR · K.ESIMO.MENOR</td><td class="en">LARGE · SMALL</td><td>Top/Bottom N para rankings</td></tr>
+        </table>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 4 -->
+    <div class="sheet-sec" id="s4" style="--seg:var(--s4)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 04</span>
+        <h2>Power tools</h2>
+        <span class="rng">avanzado<br>Power Query · Power Pivot · DAX</span>
+      </div>
+
+      <section class="block" id="p-pq">
+        <h3>Power Query — limpiar y combinar (ETL)</h3>
+        <p class="note">El "antes de la fórmula": importa de archivos/carpetas/web/BD, <b>limpia</b> y transforma con pasos grabados que se <b>repiten con un clic</b> al actualizar. <b>Datos → Obtener datos</b>. Cada paso queda registrado en el lenguaje <b>M</b>.</p>
+        <ol class="steps">
+          <li><b>Obtener datos</b> (archivo, carpeta entera, web, base de datos).</li>
+          <li>Transforma: quitar columnas, cambiar tipos, dividir, reemplazar, rellenar, <b>quitar duplicados</b>.</li>
+          <li><b>Anexar</b> (apilar tablas iguales) o <b>Combinar/Merge</b> (cruzar por una clave, como BUSCARV).</li>
+          <li><b>Cerrar y cargar</b> → a una Tabla o al Modelo de datos. Al llegar datos nuevos: <b>Actualizar</b>.</li>
+        </ol>
+        <figure class="code">
+          <figcaption><span class="lang">M</span> · filtrar filas (lenguaje de Power Query) <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-eq">=</span> <span class="c-fn">Table.SelectRows</span>(Origen, <span class="c-kw">each</span> [Monto] <span class="c-kw">&gt;</span> <span class="c-num">0</span>)</pre>
+        </figure>
+        <div class="tip"><span class="lab">Nota</span>El lenguaje <b>M</b> es el mismo en cualquier idioma de Office (no se traduce) y distingue mayúsculas.</div>
+      </section>
+
+      <section class="block" id="p-pp">
+        <h3>Power Pivot — modelo de datos</h3>
+        <p class="note">Permite cargar <b>millones de filas</b> y <b>relacionar varias tablas</b> (ventas ↔ calendario ↔ productos) sin BUSCARV. Activa el complemento y construye relaciones en la <b>vista de diagrama</b>.</p>
+        <ol class="steps">
+          <li>Carga las tablas al <b>Modelo de datos</b> (desde Power Query o "Agregar al modelo").</li>
+          <li>Crea <b>relaciones</b> 1-a-muchos por la columna clave (clic y arrastra en el diagrama).</li>
+          <li>Usa una <b>tabla calendario</b> dedicada para la inteligencia de tiempo.</li>
+          <li>Escribe <b>medidas</b> en DAX y úsalas en tablas dinámicas sobre el modelo.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="p-dax">
+        <h3>DAX esencial</h3>
+        <p class="note">El lenguaje de las <b>medidas</b> de Power Pivot/Power BI. Una <b>columna calculada</b> se evalúa fila a fila y ocupa memoria; una <b>medida</b> se calcula al vuelo según el contexto del filtro (casi siempre quieres medidas). DAX <b>no se traduce</b>: mismas funciones en inglés.</p>
+        <figure class="code">
+          <figcaption><span class="lang">DAX</span> · medidas básicas <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-dax">Ventas Totales</span> <span class="c-eq">=</span> <span class="c-fn">SUM</span>(Ventas[Importe])
+<span class="c-dax">Margen %</span> <span class="c-eq">=</span> <span class="c-fn">DIVIDE</span>([Ganancia], [Ventas Totales])
+<span class="c-dax">Ventas Sur</span> <span class="c-eq">=</span> <span class="c-fn">CALCULATE</span>([Ventas Totales], Zona[Region] <span class="c-eq">=</span> <span class="c-str">"Sur"</span>)</pre>
+        </figure>
+        <figure class="code">
+          <figcaption><span class="lang">DAX</span> · inteligencia de tiempo <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-dax">Ventas YTD</span> <span class="c-eq">=</span> <span class="c-fn">TOTALYTD</span>([Ventas Totales], Calendario[Fecha])
+<span class="c-dax">Ventas Año Ant.</span> <span class="c-eq">=</span> <span class="c-fn">CALCULATE</span>([Ventas Totales],
+    <span class="c-fn">SAMEPERIODLASTYEAR</span>(Calendario[Fecha]))</pre>
+        </figure>
+        <div class="tip"><span class="lab">CALCULATE</span>Es la función central: cambia el <b>contexto de filtro</b> de una medida. <code>DIVIDE</code> evita el error de dividir entre cero.</div>
+      </section>
+
+      <section class="block" id="p-mvsdax">
+        <h3>M vs DAX — cuándo cada uno</h3>
+        <table class="tbl">
+          <tr><th></th><th>Power Query (M)</th><th>Power Pivot (DAX)</th></tr>
+          <tr><td>Momento</td><td><b>antes</b> de cargar</td><td><b>después</b>, al analizar</td></tr>
+          <tr><td>Trabaja sobre</td><td>filas y columnas (forma de la tabla)</td><td>cálculos y métricas del modelo</td></tr>
+          <tr><td>Ejemplos</td><td>limpiar, dividir, combinar, anexar</td><td>KPIs, % del total, YTD, vs año anterior</td></tr>
+        </table>
+        <div class="tip"><span class="lab">Regla</span>Da <b>forma</b> a los datos en Power Query; <b>calcula</b> métricas en DAX. No al revés.</div>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 5 -->
+    <div class="sheet-sec" id="s5" style="--seg:var(--s5)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 05</span>
+        <h2>Automatización · Macros &amp; VBA</h2>
+        <span class="rng">avanzado<br>grabar · VBA · automatizar</span>
+      </div>
+
+      <section class="block" id="m-grabar">
+        <h3>Grabar una macro y abrir el editor</h3>
+        <p class="note">Una <b>macro</b> repite acciones automáticamente. Grábala (<b>Vista → Macros → Grabar</b>) para que Excel escriba el VBA por ti, luego límpialo. El editor se abre con <span class="kbd">Alt + F11</span>. Guarda como <code>.xlsm</code> (libro habilitado para macros).</p>
+        <div class="tip"><span class="lab">Empezar</span>Graba la tarea una vez, mira el código generado y edítalo: es la forma más rápida de aprender VBA.</div>
+      </section>
+
+      <section class="block" id="m-estructura">
+        <h3>Estructura: Sub, variables y tipos</h3>
+        <p class="note">El código vive en <b>módulos</b>. Un <code>Sub</code> ejecuta acciones; una <code>Function</code> devuelve un valor. <code>Option Explicit</code> al inicio te obliga a declarar variables (evita erratas). Declara con <code>Dim … As Tipo</code>.</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · primer Sub <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">Option Explicit</span>
+
+<span class="c-kw">Sub</span> <span class="c-fn">SaludarUsuario</span>()
+    <span class="c-kw">Dim</span> nombre <span class="c-kw">As String</span>
+    nombre <span class="c-eq">=</span> <span class="c-fn">InputBox</span>(<span class="c-str">"¿Cómo te llamas?"</span>)
+    <span class="c-fn">MsgBox</span> <span class="c-str">"Hola, "</span> <span class="c-eq">&amp;</span> nombre, vbInformation
+<span class="c-kw">End Sub</span></pre>
+        </figure>
+        <table class="tbl">
+          <tr><th>Tipo</th><th>Guarda</th></tr>
+          <tr><td><code>String</code></td><td>texto</td></tr>
+          <tr><td><code>Integer · Long</code></td><td>enteros (usa Long por seguridad)</td></tr>
+          <tr><td><code>Double</code></td><td>decimales</td></tr>
+          <tr><td><code>Boolean</code></td><td>True / False</td></tr>
+          <tr><td><code>Range · Worksheet</code></td><td>objetos de Excel</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="m-objetos">
+        <h3>Rangos y objetos</h3>
+        <p class="note">VBA maneja Excel por <b>objetos</b>: <code>Workbooks</code> → <code>Worksheets</code> → <code>Range</code>/<code>Cells</code>. <code>Cells(fila, columna)</code> es ideal dentro de bucles. <code>With</code> evita repetir el objeto.</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · escribir en celdas <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-fn">Range</span>(<span class="c-str">"A1"</span>).Value <span class="c-eq">=</span> <span class="c-str">"Total"</span>
+<span class="c-fn">Cells</span>(<span class="c-num">2</span>, <span class="c-num">1</span>).Value <span class="c-eq">=</span> <span class="c-num">100</span>     <span class="c-com">' fila 2, col A</span>
+
+<span class="c-kw">With</span> <span class="c-fn">Worksheets</span>(<span class="c-str">"Datos"</span>).<span class="c-fn">Range</span>(<span class="c-str">"A1:A10"</span>)
+    .Font.Bold <span class="c-eq">=</span> <span class="c-kw">True</span>
+    .Interior.Color <span class="c-eq">=</span> vbYellow
+<span class="c-kw">End With</span></pre>
+        </figure>
+      </section>
+
+      <section class="block" id="m-decisiones">
+        <h3>Decisiones: If y Select Case</h3>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · If…Then…Else <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">If</span> nota <span class="c-kw">&gt;=</span> <span class="c-num">11</span> <span class="c-kw">Then</span>
+    resultado <span class="c-eq">=</span> <span class="c-str">"Aprobado"</span>
+<span class="c-kw">Else</span>
+    resultado <span class="c-eq">=</span> <span class="c-str">"Jalado"</span>
+<span class="c-kw">End If</span></pre>
+        </figure>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · Select Case (varios tramos) <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">Select Case</span> nota
+    <span class="c-kw">Case Is &gt;=</span> <span class="c-num">18</span>: cat <span class="c-eq">=</span> <span class="c-str">"A"</span>
+    <span class="c-kw">Case</span> <span class="c-num">14</span> <span class="c-kw">To</span> <span class="c-num">17</span>: cat <span class="c-eq">=</span> <span class="c-str">"B"</span>
+    <span class="c-kw">Case Else</span>: cat <span class="c-eq">=</span> <span class="c-str">"C"</span>
+<span class="c-kw">End Select</span></pre>
+        </figure>
+      </section>
+
+      <section class="block" id="m-bucles">
+        <h3>Bucles</h3>
+        <p class="note"><code>For…Next</code> cuando sabes cuántas veces; <code>For Each</code> para recorrer una colección; <code>Do While/Until</code> mientras se cumpla una condición (datos de largo desconocido).</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · For y For Each <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">For</span> i <span class="c-eq">=</span> <span class="c-num">1</span> <span class="c-kw">To</span> <span class="c-num">10</span>
+    <span class="c-fn">Cells</span>(i, <span class="c-num">1</span>).Value <span class="c-eq">=</span> i <span class="c-eq">*</span> <span class="c-num">2</span>
+<span class="c-kw">Next</span> i
+
+<span class="c-kw">For Each</span> celda <span class="c-kw">In</span> <span class="c-fn">Range</span>(<span class="c-str">"A1:A10"</span>)
+    celda.Value <span class="c-eq">=</span> <span class="c-fn">UCase</span>(celda.Value)
+<span class="c-kw">Next</span> celda</pre>
+        </figure>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · Do While (recorre hasta vacío) <span class="cphint">copiar</span></figcaption>
+<pre>fila <span class="c-eq">=</span> <span class="c-num">2</span>
+<span class="c-kw">Do While</span> <span class="c-fn">Cells</span>(fila, <span class="c-num">1</span>).Value <span class="c-kw">&lt;&gt;</span> <span class="c-str">""</span>
+    fila <span class="c-eq">=</span> fila <span class="c-eq">+</span> <span class="c-num">1</span>
+<span class="c-kw">Loop</span></pre>
+        </figure>
+      </section>
+
+      <section class="block" id="m-interaccion">
+        <h3>Interacción: MsgBox e InputBox</h3>
+        <p class="note"><code>MsgBox</code> muestra un mensaje; <code>InputBox</code> pide un dato al usuario. Úsalos para confirmar acciones o capturar parámetros.</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · confirmar antes de actuar <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">If</span> <span class="c-fn">MsgBox</span>(<span class="c-str">"¿Borro los datos?"</span>, vbYesNo) <span class="c-eq">=</span> vbYes <span class="c-kw">Then</span>
+    <span class="c-fn">Range</span>(<span class="c-str">"A2:A100"</span>).ClearContents
+<span class="c-kw">End If</span></pre>
+        </figure>
+      </section>
+
+      <section class="block" id="m-udf">
+        <h3>Funciones personalizadas (UDF)</h3>
+        <p class="note">Una <code>Function</code> en un módulo se usa <b>como cualquier fórmula</b> en la hoja. Ideal para reglas propias (IGV, comisiones).</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · función IGV usable como =IGV(A2) <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">Function</span> <span class="c-fn">IGV</span>(monto <span class="c-kw">As Double</span>) <span class="c-kw">As Double</span>
+    IGV <span class="c-eq">=</span> monto <span class="c-eq">*</span> <span class="c-num">0.18</span>
+<span class="c-kw">End Function</span></pre>
+        </figure>
+      </section>
+
+      <section class="block" id="m-errores">
+        <h3>Botones y manejo de errores</h3>
+        <p class="note">Asigna una macro a un <b>botón</b> (Insertar → Formas o control de formulario → clic derecho → Asignar macro). Protege el código con <code>On Error</code>.</p>
+        <figure class="code">
+          <figcaption><span class="lang">VBA</span> · capturar errores <span class="cphint">copiar</span></figcaption>
+<pre><span class="c-kw">On Error GoTo</span> Fallo
+    <span class="c-com">' … código que podría fallar …</span>
+    <span class="c-kw">Exit Sub</span>
+Fallo:
+    <span class="c-fn">MsgBox</span> <span class="c-str">"Algo salió mal: "</span> <span class="c-eq">&amp;</span> Err.Description</pre>
+        </figure>
+        <div class="tip"><span class="lab">Velocidad</span>Para macros largas: <code>Application.ScreenUpdating = False</code> al inicio y <code>True</code> al final acelera mucho la ejecución.</div>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 6 -->
+    <div class="sheet-sec" id="s6" style="--seg:var(--s6)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 06</span>
+        <h2>Aplicado: finanzas, forecasting &amp; inventarios</h2>
+        <span class="rng">avanzado<br>modelos · pronóstico · logística</span>
+      </div>
+
+      <section class="block" id="x-finanzas">
+        <h3>Finanzas: VNA, TIR y el valor del dinero</h3>
+        <p class="note">Evalúan proyectos descontando flujos futuros. <b>Cuidado:</b> <code>VNA</code> asume que el primer flujo ocurre <b>al final</b> del periodo 1 — por eso la inversión inicial (periodo 0) se suma <b>aparte</b>.</p>
+        <div class="fcard">
+          <div class="fcap">VAN = inversión (negativa) + flujos descontados</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">VNA</span>(<span class="k-num">10</span>%;B2:B6)<span class="k-eq">+</span>B1</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">NPV</span>(<span class="k-num">10</span>%,B2:B6)<span class="k-eq">+</span>B1</code><span class="cphint">copiar</span></div>
+        </div>
+        <div class="fcard">
+          <div class="fcap">TIR sobre todos los flujos (incluida la inversión en B1)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">TIR</span>(B1:B6)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">IRR</span>(B1:B6)</code><span class="cphint">copiar</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Español</th><th>English</th><th>Calcula</th></tr>
+          <tr><td class="es">PAGO</td><td class="en">PMT</td><td>cuota de un préstamo</td></tr>
+          <tr><td class="es">VA · VF</td><td class="en">PV · FV</td><td>valor actual · futuro</td></tr>
+          <tr><td class="es">TASA · NPER</td><td class="en">RATE · NPER</td><td>tasa · número de periodos</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="x-modelado">
+        <h3>Modelado: supuestos, escenarios y equilibrio</h3>
+        <p class="note">Un buen modelo separa <b>supuestos</b> (celdas de entrada, en color) de <b>cálculos</b>. Cambias los drivers y todo se recalcula. La sensibilidad se hace con <b>Tabla de datos</b>; el escenario base/optimista/pesimista con el <b>Administrador de escenarios</b>.</p>
+        <div class="eqbox">Punto de equilibrio (uds) = Costos fijos ÷ (Precio − Costo variable unitario)</div>
+        <div class="tip"><span class="lab">Buscar objetivo</span>¿Qué precio necesito para una utilidad de 50 000? <b>Datos → Análisis de hipótesis → Buscar objetivo</b>, fijando la celda de utilidad.</div>
+      </section>
+
+      <section class="block" id="x-forecasting">
+        <h3>Forecasting (pronóstico de series de tiempo)</h3>
+        <p class="note">Elige el método según el patrón: <b>media móvil</b> suaviza ruido; <b>suavizado exponencial</b> da más peso a lo reciente (factor α); <b>regresión</b> capta tendencia; modelos con <b>estacionalidad</b> para patrones que se repiten.</p>
+        <div class="eqbox">Suavizado exponencial: F<sub>t+1</sub> = α·A<sub>t</sub> + (1 − α)·F<sub>t</sub> &nbsp;&nbsp;(0 &lt; α &lt; 1)</div>
+        <div class="fcard">
+          <div class="fcap">Pronóstico lineal del próximo punto</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">PRONOSTICO.LINEAL</span>(x;ConocidosY;ConocidosX)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">FORECAST.LINEAR</span>(x,ConocidosY,ConocidosX)</code><span class="cphint">copiar</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Español</th><th>English</th><th>Para qué</th></tr>
+          <tr><td class="es">PRONOSTICO.ETS</td><td class="en">FORECAST.ETS</td><td>pronóstico con estacionalidad (suavizado exp.)</td></tr>
+          <tr><td class="es">TENDENCIA</td><td class="en">TREND</td><td>ajuste lineal de toda la serie</td></tr>
+          <tr><td class="es">PENDIENTE · INTERSECCION.EJE</td><td class="en">SLOPE · INTERCEPT</td><td>recta y = m·x + b</td></tr>
+          <tr><td class="es">COEF.DE.CORREL</td><td class="en">CORREL</td><td>fuerza de la relación (−1 a 1)</td></tr>
+        </table>
+        <div class="tip"><span class="lab">Atajo</span>Selecciona la serie → <b>Datos → Hoja de previsión</b> para un pronóstico con intervalos de confianza en segundos.</div>
+      </section>
+
+      <section class="block" id="x-inventarios">
+        <h3>Inventarios: EOQ, POQ y Pareto</h3>
+        <p class="note">Modelos clásicos de gestión de stock. El <b>EOQ</b> halla el tamaño de pedido que minimiza el costo total (pedir + mantener). <b>Pareto/ABC</b> separa los pocos artículos vitales (≈20% que mueven ≈80%).</p>
+        <div class="eqbox">EOQ: &nbsp; Q* = √( 2 · D · S / H )</div>
+        <p class="note" style="margin-top:6px">D = demanda anual · S = costo de pedir · H = costo de mantener por unidad/año.</p>
+        <div class="fcard">
+          <div class="fcap">EOQ en una celda (RAIZ ↔ SQRT)</div>
+          <div class="frow es"><span class="tag">ES</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">RAIZ</span>(<span class="k-num">2</span><span class="k-eq">*</span>D<span class="k-eq">*</span>S<span class="k-eq">/</span>H)</code><span class="cphint">copiar</span></div>
+          <div class="frow en"><span class="tag">EN</span><span class="fx">fx</span><code><span class="k-eq">=</span><span class="k-fn">SQRT</span>(<span class="k-num">2</span><span class="k-eq">*</span>D<span class="k-eq">*</span>S<span class="k-eq">/</span>H)</code><span class="cphint">copiar</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Concepto</th><th>Cómo en Excel</th></tr>
+          <tr><td><b>Punto de reorden</b></td><td>demanda diaria × tiempo de entrega (+ stock de seguridad)</td></tr>
+          <tr><td><b>POQ</b> (lote por periodo)</td><td>EOQ con tasa de producción finita</td></tr>
+          <tr><td><b>Análisis ABC / Pareto</b></td><td>ordena por valor, <code>% acumulado</code>, gráfico de Pareto (Insertar → Histograma → Pareto)</td></tr>
+          <tr><td><b>Restricción de presupuesto</b></td><td><b>Solver</b>: maximizar servicio sujeto a costo ≤ presupuesto</td></tr>
+        </table>
+      </section>
+    </div>
+
+    <!-- ===================================================== SECTION 7 -->
+    <div class="sheet-sec" id="s7" style="--seg:var(--s7)">
+      <div class="sec-head">
+        <span class="sec-tab">Hoja 07</span>
+        <h2>Buenas prácticas</h2>
+        <span class="rng">todos los niveles<br>orden · robustez · auditoría</span>
+      </div>
+
+      <section class="block" id="b-estructura">
+        <h3>Estructura del libro</h3>
+        <ol class="steps">
+          <li><b>Separa capas:</b> datos crudos → cálculos → presentación, en hojas distintas. Una sola fuente de la verdad.</li>
+          <li><b>Entradas en color:</b> marca las celdas de supuestos para distinguirlas de las que llevan fórmula. Nunca escribas sobre una fórmula.</li>
+          <li><b>De arriba-izquierda hacia abajo-derecha:</b> los cálculos fluyen en una dirección, sin referencias circulares.</li>
+          <li><b>Una hoja "Léeme":</b> versión, fecha, autor y supuestos clave.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="b-tablas">
+        <h3>Tablas y nombres en vez de rangos fijos</h3>
+        <p class="note">Usa <b>Tablas</b> (<span class="kbd">Ctrl+T</span>) y referencias estructuradas: <code>=SUMA(Ventas[Importe])</code> se expande sola y se lee mejor que <code>=SUMA(B2:B999)</code>. Pon las constantes en <b>celdas con nombre</b>, no dentro de la fórmula.</p>
+        <div class="tip"><span class="lab">Por qué</span>Las referencias estructuradas y los nombres sobreviven a inserciones de filas/columnas; los rangos fijos, no.</div>
+      </section>
+
+      <section class="block" id="b-errores">
+        <h3>Robustez de fórmulas</h3>
+        <ol class="steps">
+          <li><b>No "hardcodees":</b> nada de números mágicos dentro de fórmulas; ponlos en una celda de parámetros.</li>
+          <li><b>Envuelve riesgos</b> con <code>SI.ERROR</code> y valida con <code>ESNUMERO</code>/<code>ESERROR</code> (<i>ISNUMBER/ISERROR</i>).</li>
+          <li><b>Referencias absolutas correctas</b> (<span class="kbd">F4</span>) al arrastrar; revisa con un par de celdas antes de copiar a miles.</li>
+          <li><b>Evita columnas/filas enteras</b> (<code>A:A</code>) en fórmulas pesadas: ralentizan el libro.</li>
+        </ol>
+      </section>
+
+      <section class="block" id="b-auditoria">
+        <h3>Auditoría: encontrar el error</h3>
+        <div class="keys">
+          <div class="kr"><span>Rastrear precedentes / dependientes</span><span class="kbd">Fórmulas → Auditoría</span></div>
+          <div class="kr"><span>Evaluar fórmula paso a paso</span><span class="kbd">Fórmulas → Evaluar fórmula</span></div>
+          <div class="kr"><span>Ver una parte: selecciónala y</span><span class="kbd">F9</span></div>
+          <div class="kr"><span>Mostrar todas las fórmulas</span><span class="kbd">Ctrl + `</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px">
+          <tr><th>Error</th><th>Suele significar…</th></tr>
+          <tr><td><code>#¡REF!</code></td><td>la referencia se borró (columna/fila eliminada)</td></tr>
+          <tr><td><code>#N/D</code></td><td>la búsqueda no encontró el valor (¿espacios? ¿tipo?)</td></tr>
+          <tr><td><code>#¡VALOR!</code></td><td>texto donde se esperaba un número</td></tr>
+          <tr><td><code>#¡DIV/0!</code></td><td>división entre cero o celda vacía</td></tr>
+          <tr><td><code>####</code></td><td>la columna es muy angosta (no es un error real)</td></tr>
+        </table>
+      </section>
+
+      <section class="block" id="b-regional">
+        <h3>Separador de argumentos: ; vs ,</h3>
+        <p class="note">En esta hoja las fórmulas en <b>español</b> usan punto y coma <code>;</code> y las de <b>inglés</b> usan coma <code>,</code>. Cuál te toca depende de la <b>configuración regional</b> de tu equipo (en muchas instalaciones en español el separador es <code>;</code>, en inglés/EE. UU. es <code>,</code>).</p>
+        <div class="tip"><span class="lab">Si una fórmula da error al pegarla</span>Cambia <code>;</code> por <code>,</code> (o al revés) según tu Excel. También cambia el separador decimal (coma vs punto). Lo ajustas en <b>Archivo → Opciones → Avanzadas → Separadores del sistema</b>.</div>
+      </section>
+    </div>
+
+    </main>
+  </div>
+
+  <footer>
+    <p><b>Excel · Hoja de referencia</b> — condensa los fundamentos, el análisis con fórmulas avanzadas, la visualización, las Power tools, las macros con VBA y las aplicaciones de finanzas, forecasting e inventarios, en siete hojas. Cada fórmula aparece en español con su nombre en inglés al lado.</p>
+    <span class="mono">Pensada para Excel 365 / 2021+ (algunas funciones como BUSCARX, FILTRAR y los arrays dinámicos requieren versión reciente) · clic en cualquier fórmula o bloque de código para copiarlo · el separador ; / , depende de tu configuración regional · v1.0 · junio 2026.</span>
+  </footer>
+
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  /* ---------- copiar al portapapeles ---------- */
+  var toast=document.getElementById('toast'),tmr;
+  function flash(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(tmr);tmr=setTimeout(function(){toast.classList.remove('show');},1400);}
+  function fallback(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+  function copyText(text,el,cls){
+    (async function(){
+      try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);}else{fallback(text);} }
+      catch(e){ fallback(text); }
+      el.classList.add('copied');flash('Copiado');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    })();
+  }
+  /* formula rows: copy just that formula's code */
+  document.querySelectorAll('.frow').forEach(function(row){
+    var code=row.querySelector('code'); if(!code)return;
+    row.addEventListener('click',function(){copyText(code.innerText.replace(/\s+'.*$/,'').trim(),row);});
+  });
+  /* code blocks: copy the whole snippet */
+  document.querySelectorAll('figure.code').forEach(function(fig){
+    var pre=fig.querySelector('pre'); if(!pre)return;
+    fig.addEventListener('click',function(){copyText(pre.innerText,fig);});
+  });
+
+  /* ---------- resaltar sección activa en el índice ---------- */
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var a=map[en.target.id];
+        if(a){links.forEach(function(l){l.classList.remove('active');});a.classList.add('active');
+          /* keep active link in view within the sticky nav */
+          var nav=document.querySelector('nav.toc');
+          if(nav){var r=a.getBoundingClientRect(),nr=nav.getBoundingClientRect();
+            if(r.top<nr.top||r.bottom>nr.bottom){a.scrollIntoView({block:'nearest'});}}
+        }
+      }
+    });
+  },{rootMargin:'-8% 0px -80% 0px',threshold:0});
+  document.querySelectorAll('section.block[id]').forEach(function(s){obs.observe(s);});
+})();
+</script>
+</body>
+</html>

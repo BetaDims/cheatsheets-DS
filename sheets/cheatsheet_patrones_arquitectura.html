@@ -1,0 +1,1125 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patrones de Diseño &amp; Arquitectura · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* cool blueprint paper */
+  --bg:#E7E9EE; --surface:#FFFFFF; --surface-2:#F4F6F8;
+  --ink:#1B2027; --ink-soft:#525a66; --ink-faint:#8a929e;
+  --line:#E3E7EC; --line-strong:#D2D8DF; --header-bg:#F1F4F7;
+  /* brand: acero / plano técnico */
+  --brand:#475569; --brand-deep:#334155; --brand-tint:rgba(71,85,105,.14);
+  /* section accents */
+  --s1:#0E7C86; --s2:#2563A8; --s3:#178A4C;
+  --s4:#C0750C; --s5:#6B4BB8; --s6:#C0392B;
+  /* difficulty */
+  --lvl-b:#38B26C; --lvl-i:#F2C811; --lvl-a:#F0796B;
+  /* dark code block */
+  --code-bg:#1E232E; --code-ink:#E6E9F0; --code-dim:#8a93a6;
+  --c-kw:#E48FB0; --c-fn:#7FB0E0; --c-str:#9FD18B; --c-num:#FFD96B; --c-com:#8A93A6; --c-typ:#7FD4C4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{background:var(--bg);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:26px 26px;
+  color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--brand-tint)}
+.wrap{max-width:1340px;margin:0 auto;padding:22px 20px 0}
+
+/* APP CHROME */
+.app{background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;overflow:hidden;box-shadow:0 18px 50px -28px rgba(30,40,60,.5)}
+.titlebar{display:flex;align-items:center;gap:11px;padding:11px 16px;background:linear-gradient(180deg,#3d4757,#334155);color:#e7eaf0}
+.mark{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,.13);font-weight:800;font-size:12px;letter-spacing:-1px;font-family:"Archivo"}
+.fname{font-size:13px;letter-spacing:.2px;opacity:.95}
+.fname b{font-weight:700}
+.grow{flex:1}
+.vtag{font-family:"IBM Plex Mono";font-size:11px;background:rgba(255,255,255,.12);padding:3px 9px;border-radius:20px;letter-spacing:.3px}
+.wbtn{display:inline-flex;gap:6px;margin-left:4px}
+.wbtn i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.32)}
+.fxbar{display:flex;align-items:center;gap:10px;padding:9px 16px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.namebox{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);border:1px solid var(--line-strong);background:#fff;border-radius:6px;padding:3px 9px;min-width:78px;text-align:center}
+.fxlabel{font-family:"Archivo";font-style:italic;font-weight:700;color:var(--brand);font-size:13px}
+.fxc{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fxc b{color:var(--brand-deep)}
+.hero{padding:26px 22px 20px}
+.kick{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brand);font-weight:600}
+.hero h1{font-family:"Archivo";font-weight:800;font-size:clamp(27px,4vw,42px);line-height:1.04;letter-spacing:-.8px;margin:9px 0 0}
+.hero h1 em{font-style:normal;color:var(--brand);position:relative}
+.lede{max-width:760px;margin:13px 0 0;color:var(--ink-soft);font-size:15px}
+.lede b{color:var(--ink)}
+.herometa{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin-top:16px}
+.quote{font-family:"Archivo";font-style:italic;font-weight:500;font-size:14px;color:var(--ink-soft);border-left:3px solid var(--brand);padding:3px 0 3px 12px}
+.quote span{display:block;font-style:normal;font-size:11.5px;color:var(--ink-faint);font-family:"IBM Plex Mono";margin-top:2px}
+.lvl-legend{display:flex;gap:14px;flex-wrap:wrap}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"IBM Plex Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+.tabbar{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px;border-top:1px solid var(--line);padding-top:16px}
+.tab{font-family:"IBM Plex Mono";font-size:12px;font-weight:500;text-decoration:none;color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);padding:7px 13px;border-radius:8px;transition:.15s;display:inline-flex;gap:8px;align-items:center}
+.tab::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--tc)}
+.tab:hover{border-color:var(--tc);color:var(--ink);transform:translateY(-1px)}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:222px 1fr;gap:22px;margin-top:22px;align-items:start}
+.toc{position:sticky;top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 12px;max-height:calc(100vh - 28px);overflow:auto}
+.toc-h{display:flex;align-items:center;gap:8px;font-family:"Archivo";font-weight:700;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink);margin:13px 0 5px}
+.toc-h:first-child{margin-top:2px}
+.sq{width:11px;height:11px;border-radius:3px;background:var(--seg)}
+.toc a{display:block;text-decoration:none;color:var(--ink-soft);font-size:12.5px;padding:4px 9px;border-left:2px solid var(--line);margin-left:4px;transition:.13s}
+.toc a:hover{color:var(--ink);border-left-color:var(--seg)}
+.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg);background:var(--surface-2);border-radius:0 6px 6px 0}
+
+main{min-width:0}
+.sheet-sec{margin-bottom:30px;opacity:0;transform:translateY(8px);animation:rise .55s cubic-bezier(.2,.7,.2,1) forwards}
+.sheet-sec:nth-child(1){animation-delay:.04s}.sheet-sec:nth-child(2){animation-delay:.08s}
+.sheet-sec:nth-child(3){animation-delay:.12s}.sheet-sec:nth-child(4){animation-delay:.16s}
+.sheet-sec:nth-child(5){animation-delay:.20s}.sheet-sec:nth-child(6){animation-delay:.24s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.sheet-sec{animation:none;opacity:1;transform:none}}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sec-tab{font-family:"Archivo";font-weight:800;font-size:13px;color:#fff;background:var(--seg);width:34px;height:34px;border-radius:9px;display:grid;place-items:center}
+.sec-head h2{font-family:"Archivo";font-weight:800;font-size:22px;letter-spacing:-.4px}
+.rng{margin-left:auto;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);text-align:right}
+
+.block{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 17px;margin-bottom:15px}
+.tile-h{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.td{width:11px;height:11px;border-radius:3px;background:var(--seg);flex:none}
+.block h3,.tile-h h3{font-family:"Archivo";font-weight:700;font-size:15.5px;letter-spacing:-.2px}
+.lvl{font-family:"IBM Plex Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none;margin-left:auto}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.note{color:var(--ink-soft);font-size:13.5px;margin:6px 0}
+.note b{color:var(--ink)}
+.note code,.ic{font-family:"IBM Plex Mono";font-size:12px;background:var(--brand-tint);color:var(--brand-deep);padding:1px 5px;border-radius:4px}
+
+/* grid */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:stretch}
+.tile{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+.tile-b{flex:1}
+.tile.wide{grid-column:1/-1}
+@media(max-width:860px){.cols,.cols3{grid-template-columns:1fr}}
+
+/* pattern card (signature) */
+.pcard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:11px;padding:13px 14px}
+.pc-h{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.pc-name{font-family:"Archivo";font-weight:800;font-size:15px;letter-spacing:-.2px}
+.pc-tag{font-family:"IBM Plex Mono";font-size:10px;color:var(--ink-faint);border:1px solid var(--line-strong);padding:1px 6px;border-radius:20px}
+.prow{display:grid;grid-template-columns:64px 1fr;gap:8px;font-size:13px;margin:4px 0;align-items:start}
+.prow b{font-family:"IBM Plex Mono";font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 0;border-radius:5px;text-align:center;color:#fff}
+.prow .pb{background:#b04a3a}.prow .ps{background:#2f8f57}.prow .pw{background:var(--brand)}
+.prow span{color:var(--ink-soft)}
+.prow span b{all:unset;font-weight:700;color:var(--ink)}
+.pc-b{flex:1}
+
+/* code */
+figure.code{position:relative;margin:9px 0 2px;background:var(--code-bg);border-radius:9px;overflow:hidden;cursor:pointer}
+figure.code:hover{outline:2px solid var(--brand-tint)}
+figure.code .cap{display:flex;align-items:center;gap:7px;padding:6px 11px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+figure.code .cap .dot{width:8px;height:8px;border-radius:50%;background:var(--c-num);opacity:.7}
+figure.code .lng{font-family:"IBM Plex Mono";font-size:10px;color:var(--code-dim);letter-spacing:.5px;text-transform:uppercase}
+figure.code .cphint{margin-left:auto;font-family:"IBM Plex Mono";font-size:10px;color:var(--code-dim)}
+figure.code pre{margin:0;padding:11px 13px;font-size:12px;line-height:1.6;color:var(--code-ink);white-space:pre-wrap;overflow-x:hidden;overflow-wrap:anywhere}
+figure.code.copied{outline:2px solid var(--lvl-b)}
+.k{color:var(--c-kw)}.fn{color:var(--c-fn)}.s{color:var(--c-str)}.n{color:var(--c-num)}.c{color:var(--c-com)}.ty{color:var(--c-typ)}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 2px}
+.tbl th{text-align:left;font-family:"IBM Plex Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-faint);font-weight:600;padding:6px 9px;border-bottom:1px solid var(--line-strong)}
+.tbl td{padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft)}
+.tbl td b{color:var(--ink)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl code{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--brand-deep)}
+
+.callout{border-left:3px solid var(--seg);background:var(--surface-2);border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:var(--ink-soft);margin:9px 0 2px}
+.callout b{color:var(--ink)}
+ul.keys{list-style:none;margin:5px 0 2px;font-size:13.5px}
+ul.keys li{padding:4px 0 4px 18px;position:relative;color:var(--ink-soft)}
+ul.keys li::before{content:"";position:absolute;left:0;top:10px;width:7px;height:7px;border-radius:2px;background:var(--seg)}
+ul.keys li b{color:var(--ink)}
+
+/* uml svg */
+.uml{margin:8px 0 2px;background:var(--surface-2);border:1px dashed var(--line-strong);border-radius:9px;padding:8px}
+.uml svg{display:block;width:100%;height:auto}
+.uml text{font-family:"IBM Plex Mono";fill:var(--ink-soft)}
+.uml .cls{fill:#fff;stroke:var(--brand);stroke-width:1.3}
+.uml .clsname{fill:var(--brand-deep);font-weight:700;font-size:10px}
+.uml .mem{fill:var(--ink-soft);font-size:8.5px}
+.uml .ln{stroke:var(--brand);stroke-width:1.3}
+.uml .ifc{fill:var(--brand-tint)}
+.uml .lab{fill:var(--ink-faint);font-size:8px}
+
+/* swap */
+.swap{display:inline-flex;gap:3px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;margin-bottom:4px}
+.swbtn{font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);background:transparent;border:none;border-radius:7px;padding:6px 14px;cursor:pointer;transition:.15s;font-family:"IBM Plex Sans"}
+.swbtn.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(40,46,66,.12)}
+.swview.hidden{display:none}
+
+footer{margin:14px 0 40px;padding:18px 6px;color:var(--ink-faint);font-size:12.5px;text-align:center}
+footer .mono{font-family:"IBM Plex Mono";font-size:11px;margin-top:5px;display:block}
+footer a{color:var(--brand);text-decoration:none}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--brand-deep);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:9px;opacity:0;pointer-events:none;transition:.25s;z-index:50;box-shadow:0 10px 30px -8px rgba(0,0,0,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .toc{display:none}
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+  .mtabs a{font-family:"IBM Plex Mono";font-size:11.5px;text-decoration:none;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);padding:6px 11px;border-radius:20px}
+}
+</style>
+</head><body>
+<div class="wrap">
+
+  <!-- APP CHROME -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="mark">◇</span>
+      <span class="fname"><b>patrones.md</b> · Patrones de Diseño &amp; Arquitectura</span>
+      <span class="grow"></span>
+      <span class="vtag">GoF · SOLID · v1.0</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+    <div class="fxbar">
+      <span class="namebox">design</span>
+      <span class="fxlabel">UML</span>
+      <span class="fxc"><b>interface</b> Strategy { execute(ctx): Result } <span style="color:var(--ink-faint)">// el patrón es vocabulario compartido</span></span>
+    </div>
+    <div class="hero">
+      <div class="kick">Referencia rápida · Intermedio → Avanzado</div>
+      <h1>Del <em>code smell</em> al <em>patrón</em>, del patrón a la <em>arquitectura</em>.</h1>
+      <p class="lede">Soluciones probadas a problemas recurrentes de diseño orientado a objetos: los 5 principios <b>SOLID</b>, los <b>code smells</b> y sus refactors, los <b>23 patrones GoF</b> (problema → solución → cuándo) y los estilos de <b>arquitectura</b>. <b>Clic en cualquier snippet para copiarlo.</b></p>
+      <div class="herometa">
+        <div class="quote">«Make it work, make it right, make it fast.»<span>— Kent Beck</span></div>
+        <div class="lvl-legend">
+          <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+          <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+          <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+        </div>
+      </div>
+      <div class="tabbar">
+        <a class="tab" href="#s1" style="--tc:var(--s1)">01 · Clean Code</a>
+        <a class="tab" href="#s2" style="--tc:var(--s2)">02 · SOLID</a>
+        <a class="tab" href="#s3" style="--tc:var(--s3)">03 · Creacionales</a>
+        <a class="tab" href="#s4" style="--tc:var(--s4)">04 · Estructurales</a>
+        <a class="tab" href="#s5" style="--tc:var(--s5)">05 · Comportamiento</a>
+        <a class="tab" href="#s6" style="--tc:var(--s6)">06 · Arquitectura</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHELL -->
+  <div class="shell">
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Clean Code</div>
+      <a href="#deuda" style="--seg:var(--s1)">Deuda técnica</a>
+      <a href="#smells" style="--seg:var(--s1)">Code smells</a>
+      <a href="#refactor" style="--seg:var(--s1)">Refactor antes⇄después</a>
+      <a href="#comp-her" style="--seg:var(--s1)">Composición vs herencia</a>
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · SOLID</div>
+      <a href="#srp" style="--seg:var(--s2)">S · SRP</a>
+      <a href="#ocp" style="--seg:var(--s2)">O · OCP</a>
+      <a href="#lsp" style="--seg:var(--s2)">L · LSP</a>
+      <a href="#isp" style="--seg:var(--s2)">I · ISP</a>
+      <a href="#dip" style="--seg:var(--s2)">D · DIP</a>
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Creacionales</div>
+      <a href="#creacionales" style="--seg:var(--s3)">5 patrones</a>
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Estructurales</div>
+      <a href="#estructurales" style="--seg:var(--s4)">7 patrones</a>
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Comportamiento</div>
+      <a href="#comportamiento" style="--seg:var(--s5)">11 patrones</a>
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Arquitectura</div>
+      <a href="#capas" style="--seg:var(--s6)">Capas (n-tier)</a>
+      <a href="#mvc" style="--seg:var(--s6)">MVC / MVVM</a>
+      <a href="#hex" style="--seg:var(--s6)">Hexagonal</a>
+      <a href="#guia" style="--seg:var(--s6)">Cómo elegir</a>
+    </nav>
+
+    <main>
+      <div class="mtabs">
+        <a href="#s1">01 Clean Code</a><a href="#s2">02 SOLID</a>
+        <a href="#s3">03 Creacionales</a><a href="#s4">04 Estructurales</a>
+        <a href="#s5">05 Comportamiento</a><a href="#s6">06 Arquitectura</a>
+      </div>
+
+      <!-- ============ 01 CLEAN CODE ============ -->
+      <div class="sheet-sec" id="s1" style="--seg:var(--s1)">
+        <div class="sec-head"><span class="sec-tab">01</span><h2>Clean Code &amp; Code Smells</h2><span class="rng">la base · antes de cualquier patrón</span></div>
+
+        <section class="block" id="deuda">
+          <div class="tile-h"><span class="td"></span><h3>Deuda técnica y código limpio</h3><span class="lvl b">B</span></div>
+          <p class="note"><b>Deuda técnica</b>: el coste futuro de elegir hoy la solución fácil en lugar de la correcta. Como la financiera, genera <b>intereses</b>: cada cambio cuesta más. No siempre es mala —a veces se asume a conciencia— pero debe pagarse.</p>
+          <p class="note"><b>Clean Code</b> = código que otra persona (o tú en 6 meses) lee y entiende sin sufrir. Reglas guía: nombres que revelan intención, funciones cortas que hacen <b>una</b> cosa, sin duplicación (DRY), sin sorpresas (POLA), y <b>boy-scout rule</b>: deja el código mejor de como lo encontraste.</p>
+          <div class="cols">
+            <div class="tile">
+              <div class="tile-h"><span class="td"></span><h3>Nombres</h3><span class="lvl b">B</span></div>
+              <ul class="keys tile-b">
+                <li>Pronunciables y buscables: <b>elapsedDays</b>, no <code>d</code>.</li>
+                <li>Sin abreviaturas crípticas ni notación húngara.</li>
+                <li>Clases = sustantivo; métodos = verbo.</li>
+                <li>Booleanos como pregunta: <b>isActive</b>, <b>hasNext</b>.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <div class="tile-h"><span class="td"></span><h3>Funciones</h3><span class="lvl i">I</span></div>
+              <ul class="keys tile-b">
+                <li>Pequeñas: idealmente &lt; 20 líneas.</li>
+                <li>Hacen <b>una</b> cosa y a un solo nivel de abstracción.</li>
+                <li>Pocos argumentos (0-2); evita banderas booleanas.</li>
+                <li>Sin efectos secundarios ocultos.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="smells">
+          <div class="tile-h"><span class="td"></span><h3>Code smells frecuentes → refactor</h3><span class="lvl i">I</span></div>
+          <p class="note">Un <b>smell</b> no es un bug: es una señal de que el diseño se está pudriendo. Reconocerlos es el primer paso para refactorizar.</p>
+          <table class="tbl">
+            <thead><tr><th>Smell</th><th>Síntoma</th><th>Refactor / patrón</th></tr></thead>
+            <tbody>
+              <tr><td><b>Long Method</b></td><td>función que hace de todo</td><td>Extract Method</td></tr>
+              <tr><td><b>Large Class</b></td><td>clase-Dios con mil cosas</td><td>Extract Class · SRP</td></tr>
+              <tr><td><b>Long Parameter List</b></td><td>5+ argumentos</td><td>Parameter Object</td></tr>
+              <tr><td><b>Duplicated Code</b></td><td>copy-paste</td><td>Extract · Template Method</td></tr>
+              <tr><td><b>Switch/if anidado</b></td><td>condicionales por tipo</td><td>Polimorfismo · Strategy/State</td></tr>
+              <tr><td><b>Feature Envy</b></td><td>usa datos de otra clase</td><td>Move Method</td></tr>
+              <tr><td><b>Data Clumps</b></td><td>mismos datos juntos</td><td>Extract Class</td></tr>
+              <tr><td><b>Primitive Obsession</b></td><td>todo string/int</td><td>Value Object</td></tr>
+              <tr><td><b>Shotgun Surgery</b></td><td>un cambio toca 10 sitios</td><td>centralizar (Facade)</td></tr>
+              <tr><td><b>Comentarios de más</b></td><td>explican código malo</td><td>renombrar · extraer</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="block" id="refactor">
+          <div class="tile-h"><span class="td"></span><h3>Refactor destacado: <span class="ic">switch</span> → Strategy</h3><span class="lvl a">A</span></div>
+          <p class="note">El smell más rentable de eliminar. Pulsa para ver el <b>antes</b> y el <b>después</b>.</p>
+          <div class="swap" role="tablist" aria-label="Refactor">
+            <button class="swbtn on" data-view="a" role="tab" aria-selected="true">Antes</button>
+            <button class="swbtn" data-view="b" role="tab" aria-selected="false">Después</button>
+          </div>
+          <div class="swapwrap">
+            <div class="swview" id="view-a">
+              <figure class="code" data-copy="function price(type, base) {
+  if (type === 'normal') return base
+  if (type === 'gold')   return base * 0.9
+  if (type === 'vip')    return base * 0.8
+  throw new Error('tipo?')
+}">
+                <div class="cap"><span class="dot"></span><span class="lng">typescript · antes</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">function</span> <span class="fn">price</span>(type, base) {
+  <span class="k">if</span> (type === <span class="s">'normal'</span>) <span class="k">return</span> base
+  <span class="k">if</span> (type === <span class="s">'gold'</span>)   <span class="k">return</span> base * <span class="n">0.9</span>
+  <span class="k">if</span> (type === <span class="s">'vip'</span>)    <span class="k">return</span> base * <span class="n">0.8</span>
+  <span class="k">throw new</span> <span class="ty">Error</span>(<span class="s">'tipo?'</span>)
+}</pre>
+              </figure>
+              <p class="note c" style="color:var(--ink-faint)">Cada tarifa nueva = editar la función. Viola OCP.</p>
+            </div>
+            <div class="swview hidden" id="view-b">
+              <figure class="code" data-copy="interface Pricing { apply(b: number): number }
+class Normal { apply(b){ return b } }
+class Gold   { apply(b){ return b * 0.9 } }
+class Vip    { apply(b){ return b * 0.8 } }
+
+// añadir tarifa = nueva clase, sin tocar lo demás
+const price = (p: Pricing, b: number) => p.apply(b)">
+                <div class="cap"><span class="dot"></span><span class="lng">typescript · después</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Pricing</span> { <span class="fn">apply</span>(b: <span class="ty">number</span>): <span class="ty">number</span> }
+<span class="k">class</span> <span class="ty">Normal</span> { <span class="fn">apply</span>(b){ <span class="k">return</span> b } }
+<span class="k">class</span> <span class="ty">Gold</span>   { <span class="fn">apply</span>(b){ <span class="k">return</span> b*<span class="n">0.9</span> } }
+<span class="k">class</span> <span class="ty">Vip</span>    { <span class="fn">apply</span>(b){ <span class="k">return</span> b*<span class="n">0.8</span> } }
+<span class="c">// nueva tarifa = nueva clase</span>
+<span class="k">const</span> <span class="fn">price</span> = (p: <span class="ty">Pricing</span>, b) =&gt; p.<span class="fn">apply</span>(b)</pre>
+              </figure>
+              <p class="note c" style="color:var(--ink-faint)">Abierto a extensión, cerrado a modificación: es el patrón <b style="color:var(--ink)">Strategy</b>.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="comp-her">
+          <div class="tile-h"><span class="td"></span><h3>Composición sobre herencia</h3><span class="lvl i">I</span></div>
+          <p class="note">Principio rector de casi todos los patrones GoF: prefiere <b>tener-un</b> (composición/delegación) a <b>es-un</b> (herencia). La herencia acopla en tiempo de compilación y rompe encapsulación; la composición se cambia en tiempo de ejecución y combina comportamientos sin explosión de subclases.</p>
+          <div class="callout"><b>Regla práctica:</b> usa herencia solo para verdaderas relaciones <i>es-un</i> con sustituibilidad (Liskov). Para "reutilizar comportamiento", compón. Strategy, Decorator, Bridge y State existen para sustituir jerarquías rígidas por delegación.</div>
+        </section>
+      </div>
+
+      <!-- ============ 02 SOLID ============ -->
+      <div class="sheet-sec" id="s2" style="--seg:var(--s2)">
+        <div class="sec-head"><span class="sec-tab">02</span><h2>Principios SOLID</h2><span class="rng">5 principios · diseño OO mantenible</span></div>
+
+        <section class="block" id="srp">
+          <div class="tile-h"><span class="td"></span><h3>S · Single Responsibility</h3><span class="lvl i">I</span></div>
+          <p class="note"><b>Qué:</b> una clase debe tener <b>una sola razón para cambiar</b>. <b>Por qué:</b> responsabilidades mezcladas se acoplan; tocar una rompe la otra. Pista: si describes la clase con un "y", divídela.</p>
+          <figure class="code" data-copy="// ❌ factura Y persiste Y envía email
+class Invoice { calc(){} save(){} sendEmail(){} }
+
+// ✅ una responsabilidad por clase
+class Invoice { calc(){} }
+class InvoiceRepo { save(i){} }
+class Mailer { send(i){} }">
+            <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="c">// ❌ calcula Y persiste Y envía email</span>
+<span class="k">class</span> <span class="ty">Invoice</span> { <span class="fn">calc</span>(){} <span class="fn">save</span>(){} <span class="fn">sendEmail</span>(){} }
+<span class="c">// ✅ una responsabilidad por clase</span>
+<span class="k">class</span> <span class="ty">Invoice</span> { <span class="fn">calc</span>(){} }
+<span class="k">class</span> <span class="ty">InvoiceRepo</span> { <span class="fn">save</span>(i){} }
+<span class="k">class</span> <span class="ty">Mailer</span> { <span class="fn">send</span>(i){} }</pre>
+          </figure>
+        </section>
+
+        <div class="cols">
+          <section class="block tile" id="ocp">
+            <div class="tile-h"><span class="td"></span><h3>O · Open/Closed</h3><span class="lvl i">I</span></div>
+            <p class="note tile-b"><b>Qué:</b> abierto a <b>extensión</b>, cerrado a <b>modificación</b>. Añade comportamiento con código nuevo, no editando el viejo. <b>Por qué:</b> no rompes lo que ya funciona.</p>
+            <figure class="code" data-copy="// extiende implementando, sin tocar el motor
+interface Shape { area(): number }
+class Circle implements Shape { area(){/**/} }
+class Square implements Shape { area(){/**/} }">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="c">// extiende sin tocar el motor</span>
+<span class="k">interface</span> <span class="ty">Shape</span> { <span class="fn">area</span>(): <span class="ty">number</span> }
+<span class="k">class</span> <span class="ty">Circle</span> <span class="k">implements</span> <span class="ty">Shape</span> {…}
+<span class="k">class</span> <span class="ty">Square</span> <span class="k">implements</span> <span class="ty">Shape</span> {…}</pre>
+            </figure>
+          </section>
+          <section class="block tile" id="lsp">
+            <div class="tile-h"><span class="td"></span><h3>L · Liskov Substitution</h3><span class="lvl a">A</span></div>
+            <p class="note tile-b"><b>Qué:</b> un subtipo debe poder <b>sustituir</b> a su base sin romper al cliente. <b>Por qué:</b> herencia que sorprende (Square extends Rectangle, Penguin extends Bird) es herencia mal modelada.</p>
+            <div class="callout" style="margin-top:auto">No fortalezcas precondiciones ni debilites postcondiciones en el hijo. Si un override lanza <span class="ic">NotSupported</span>, la jerarquía está mal.</div>
+          </section>
+          <section class="block tile" id="isp">
+            <div class="tile-h"><span class="td"></span><h3>I · Interface Segregation</h3><span class="lvl i">I</span></div>
+            <p class="note tile-b"><b>Qué:</b> muchas interfaces pequeñas y específicas mejor que una grande. Ningún cliente debe depender de métodos que no usa. <b>Por qué:</b> evita implementaciones vacías y acoplamiento inútil.</p>
+            <figure class="code" data-copy="// ❌ interface gorda
+interface Worker { work(); eat() }
+// ✅ separadas
+interface Workable { work() }
+interface Feedable { eat() }">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="c">// ❌ interface gorda</span>
+<span class="k">interface</span> <span class="ty">Worker</span> { <span class="fn">work</span>(); <span class="fn">eat</span>() }
+<span class="c">// ✅ separadas y cohesivas</span>
+<span class="k">interface</span> <span class="ty">Workable</span> { <span class="fn">work</span>() }
+<span class="k">interface</span> <span class="ty">Feedable</span> { <span class="fn">eat</span>() }</pre>
+            </figure>
+          </section>
+          <section class="block tile" id="dip">
+            <div class="tile-h"><span class="td"></span><h3>D · Dependency Inversion</h3><span class="lvl a">A</span></div>
+            <p class="note tile-b"><b>Qué:</b> depende de <b>abstracciones</b>, no de concreciones. Los módulos de alto nivel no deben depender de los de bajo nivel; ambos dependen de interfaces. <b>Por qué:</b> habilita testing y reemplazo (inyección de dependencias).</p>
+            <figure class="code" data-copy="// alto nivel recibe una abstracción
+interface Store { save(x): void }
+class Service {
+  constructor(private db: Store) {}
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="c">// alto nivel recibe la abstracción</span>
+<span class="k">interface</span> <span class="ty">Store</span> { <span class="fn">save</span>(x): <span class="ty">void</span> }
+<span class="k">class</span> <span class="ty">Service</span> {
+  <span class="k">constructor</span>(<span class="k">private</span> db: <span class="ty">Store</span>){}
+}</pre>
+            </figure>
+          </section>
+        </div>
+      </div>
+
+      <!-- ============ 03 CREACIONALES ============ -->
+      <div class="sheet-sec" id="s3" style="--seg:var(--s3)">
+        <div class="sec-head"><span class="sec-tab">03</span><h2>Patrones Creacionales</h2><span class="rng">5 patrones · cómo se crean los objetos</span></div>
+        <p class="note" style="margin-bottom:13px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 15px">Abstraen el <b>proceso de instanciación</b>: dan flexibilidad sobre qué se crea, cómo y cuándo, desacoplando al cliente de las clases concretas. Taxonomía y nombres según <b>refactoring.guru/es/design-patterns</b>.</p>
+
+        <div id="creacionales" class="cols">
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Factory Method</span><span class="lvl i">I</span><span class="pc-tag">★ firma</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>crear objetos sin acoplar el cliente a la clase concreta.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un método "fábrica" que las subclases sobrescriben para decidir el producto.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>no sabes de antemano el tipo exacto; quieres extender por subclase.</span></div>
+            </div>
+            <div class="uml"><svg viewBox="0 0 300 96" role="img" aria-label="UML Factory Method">
+              <rect class="cls ifc" x="6" y="10" width="120" height="40" rx="4"/>
+              <text class="clsname" x="14" y="26">Creator</text>
+              <text class="mem" x="14" y="40">+ factory(): Product</text>
+              <rect class="cls" x="6" y="60" width="120" height="28" rx="4"/>
+              <text class="clsname" x="14" y="78">ConcreteCreator</text>
+              <line class="ln" x1="66" y1="60" x2="66" y2="50"/>
+              <rect class="cls ifc" x="180" y="10" width="112" height="28" rx="4"/>
+              <text class="clsname" x="188" y="28">«Product»</text>
+              <rect class="cls" x="180" y="58" width="112" height="28" rx="4"/>
+              <text class="clsname" x="188" y="76">ConcreteProduct</text>
+              <line class="ln" x1="236" y1="58" x2="236" y2="38" stroke-dasharray="3 3"/>
+              <line class="ln" x1="126" y1="74" x2="180" y2="72" stroke-dasharray="3 3"/>
+              <text class="lab" x="132" y="68">crea ▸</text>
+            </svg></div>
+            <figure class="code" data-copy="abstract class Dialog {
+  abstract createButton(): Button  // factory
+  render(){ this.createButton().paint() }
+}
+class WebDialog extends Dialog {
+  createButton(){ return new HtmlButton() }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">abstract class</span> <span class="ty">Dialog</span> {
+  <span class="k">abstract</span> <span class="fn">createButton</span>(): <span class="ty">Button</span>
+  <span class="fn">render</span>(){ <span class="k">this</span>.<span class="fn">createButton</span>().<span class="fn">paint</span>() }
+}
+<span class="k">class</span> <span class="ty">WebDialog</span> <span class="k">extends</span> <span class="ty">Dialog</span> {
+  <span class="fn">createButton</span>(){ <span class="k">return new</span> <span class="ty">HtmlButton</span>() }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Abstract Factory</span><span class="lvl a">A</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>crear <b>familias</b> de objetos compatibles entre sí.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>una interfaz fábrica con un método por producto; cada fábrica concreta produce una familia coherente.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>temas/skins, soporte multiplataforma (botones+menús Win vs Mac).</span></div>
+            </div>
+            <figure class="code" data-copy="interface GUIFactory {
+  button(): Button
+  checkbox(): Checkbox
+}
+class MacFactory implements GUIFactory {
+  button(){ return new MacButton() }
+  checkbox(){ return new MacCheckbox() }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">GUIFactory</span> {
+  <span class="fn">button</span>(): <span class="ty">Button</span>
+  <span class="fn">checkbox</span>(): <span class="ty">Checkbox</span>
+}
+<span class="k">class</span> <span class="ty">MacFactory</span> <span class="k">implements</span> <span class="ty">GUIFactory</span> {
+  <span class="fn">button</span>(){ <span class="k">return new</span> <span class="ty">MacButton</span>() }
+  <span class="fn">checkbox</span>(){ <span class="k">return new</span> <span class="ty">MacCheckbox</span>() }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Builder</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>construir un objeto complejo paso a paso; constructor con 10 parámetros.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>separar la construcción de la representación; encadenar pasos y un <b>build()</b> final.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>muchas configuraciones opcionales; objetos inmutables.</span></div>
+            </div>
+            <figure class="code" data-copy="const q = new QueryBuilder()
+  .select('id', 'name')
+  .from('users')
+  .where('age > 18')
+  .build()">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">const</span> q = <span class="k">new</span> <span class="ty">QueryBuilder</span>()
+  .<span class="fn">select</span>(<span class="s">'id'</span>, <span class="s">'name'</span>)
+  .<span class="fn">from</span>(<span class="s">'users'</span>)
+  .<span class="fn">where</span>(<span class="s">'age &gt; 18'</span>)
+  .<span class="fn">build</span>()</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Prototype</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>crear copias de un objeto sin acoplarte a su clase concreta.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>el objeto sabe <b>clonarse</b> a sí mismo (clone()), copiando su estado.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>crear es caro; partes de una instancia preconfigurada.</span></div>
+            </div>
+            <figure class="code" data-copy="interface Cloneable<T> { clone(): T }
+class Shape implements Cloneable<Shape> {
+  clone(){ return structuredClone(this) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Cloneable</span>&lt;T&gt; { <span class="fn">clone</span>(): T }
+<span class="k">class</span> <span class="ty">Shape</span> <span class="k">implements</span> <span class="ty">Cloneable</span>&lt;<span class="ty">Shape</span>&gt; {
+  <span class="fn">clone</span>(){ <span class="k">return</span> <span class="fn">structuredClone</span>(<span class="k">this</span>) }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard wide">
+            <div class="pc-h"><span class="pc-name">Singleton</span><span class="lvl b">B</span></div>
+            <div class="prow"><b class="pb">Probl.</b><span>garantizar una <b>única</b> instancia con acceso global (config, pool, logger).</span></div>
+            <div class="prow"><b class="ps">Soluc.</b><span>constructor privado + método estático que crea-o-devuelve la única instancia.</span></div>
+            <div class="prow"><b class="pw">Cuándo</b><span>recurso compartido único. <b>Cuidado:</b> es un anti-patrón si abusas — estado global, difícil de testear. Prefiere inyección de dependencias.</span></div>
+            <figure class="code" data-copy="class Config {
+  private static instance: Config
+  private constructor(){}
+  static get(){
+    return this.instance ??= new Config()
+  }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Config</span> {
+  <span class="k">private static</span> instance: <span class="ty">Config</span>
+  <span class="k">private constructor</span>(){}
+  <span class="k">static</span> <span class="fn">get</span>(){
+    <span class="k">return this</span>.instance ??= <span class="k">new</span> <span class="ty">Config</span>()
+  }
+}</pre>
+            </figure>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============ 04 ESTRUCTURALES ============ -->
+      <div class="sheet-sec" id="s4" style="--seg:var(--s4)">
+        <div class="sec-head"><span class="sec-tab">04</span><h2>Patrones Estructurales</h2><span class="rng">7 patrones · cómo se componen los objetos</span></div>
+        <p class="note" style="margin-bottom:13px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 15px">Se ocupan de <b>ensamblar</b> clases y objetos en estructuras mayores manteniéndolas flexibles y eficientes. Casi todos descansan en <b>composición/delegación</b>.</p>
+
+        <div id="estructurales" class="cols">
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Decorator</span><span class="lvl a">A</span><span class="pc-tag">★ firma</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>añadir responsabilidades a un objeto en runtime sin subclases.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>envolver el objeto en wrappers que comparten su interfaz y delegan + añaden.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>combinar comportamientos (stream + gzip + cifrado).</span></div>
+            </div>
+            <div class="uml"><svg viewBox="0 0 300 92" role="img" aria-label="UML Decorator">
+              <rect class="cls ifc" x="90" y="8" width="120" height="26" rx="4"/>
+              <text class="clsname" x="100" y="25">«Component»</text>
+              <rect class="cls" x="6" y="58" width="120" height="26" rx="4"/>
+              <text class="clsname" x="14" y="75">Concrete</text>
+              <rect class="cls" x="174" y="58" width="120" height="26" rx="4"/>
+              <text class="clsname" x="182" y="75">Decorator</text>
+              <line class="ln" x1="66" y1="58" x2="120" y2="34" stroke-dasharray="3 3"/>
+              <line class="ln" x1="234" y1="58" x2="180" y2="34" stroke-dasharray="3 3"/>
+              <line class="ln" x1="234" y1="58" x2="200" y2="40"/>
+              <text class="lab" x="206" y="52">envuelve ▸</text>
+            </svg></div>
+            <figure class="code" data-copy="let s: Coffee = new SimpleCoffee()
+s = new MilkDecorator(s)
+s = new SugarDecorator(s)
+s.cost()  // base + leche + azúcar">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">let</span> s: <span class="ty">Coffee</span> = <span class="k">new</span> <span class="ty">SimpleCoffee</span>()
+s = <span class="k">new</span> <span class="ty">MilkDecorator</span>(s)
+s = <span class="k">new</span> <span class="ty">SugarDecorator</span>(s)
+s.<span class="fn">cost</span>()  <span class="c">// base+leche+azúcar</span></pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Adapter</span><span class="lvl b">B</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>dos interfaces incompatibles deben colaborar.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un envoltorio que traduce la interfaz de una clase a la que el cliente espera.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>integrar librerías/legacy con API distinta.</span></div>
+            </div>
+            <figure class="code" data-copy="class XmlToJsonAdapter implements Json {
+  constructor(private xml: XmlApi){}
+  read(){ return toJson(this.xml.fetch()) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">XmlToJson</span> <span class="k">implements</span> <span class="ty">Json</span> {
+  <span class="k">constructor</span>(<span class="k">private</span> xml: <span class="ty">XmlApi</span>){}
+  <span class="fn">read</span>(){ <span class="k">return</span> <span class="fn">toJson</span>(<span class="k">this</span>.xml.<span class="fn">fetch</span>()) }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Facade</span><span class="lvl b">B</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>un subsistema complejo con muchas clases abruma al cliente.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>una clase fachada con una interfaz simple sobre el subsistema.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>punto de entrada único; reducir acoplamiento.</span></div>
+            </div>
+            <figure class="code" data-copy="class VideoFacade {
+  convert(f: string, fmt: string){
+    const v = codec.load(f)
+    return muxer.save(v, fmt)
+  }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">VideoFacade</span> {
+  <span class="fn">convert</span>(f, fmt){
+    <span class="k">const</span> v = codec.<span class="fn">load</span>(f)
+    <span class="k">return</span> muxer.<span class="fn">save</span>(v, fmt)
+  }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Composite</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>tratar objetos individuales y grupos de forma uniforme.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>árbol: hojas y compuestos comparten la misma interfaz; el compuesto delega en sus hijos.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>jerarquías parte-todo (archivos/carpetas, UI).</span></div>
+            </div>
+            <figure class="code" data-copy="interface Node { size(): number }
+class File implements Node { size(){return n} }
+class Folder implements Node {
+  children: Node[] = []
+  size(){ return sum(this.children, c=>c.size()) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Node</span> { <span class="fn">size</span>(): <span class="ty">number</span> }
+<span class="k">class</span> <span class="ty">File</span> <span class="k">implements</span> <span class="ty">Node</span> {…}
+<span class="k">class</span> <span class="ty">Folder</span> <span class="k">implements</span> <span class="ty">Node</span> {
+  children: <span class="ty">Node</span>[] = []
+  <span class="fn">size</span>(){ <span class="k">return</span> <span class="fn">sum</span>(kids) }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Proxy</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>controlar el acceso a un objeto (caro, remoto, sensible).</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un sustituto con la misma interfaz que añade caché, lazy-load, permisos o logging.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>lazy init, control de acceso, caché.</span></div>
+            </div>
+            <figure class="code" data-copy="class CachedApi implements Api {
+  cache = new Map()
+  constructor(private real: Api){}
+  get(id){ return this.cache.get(id)
+    ?? this.real.get(id) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">CachedApi</span> <span class="k">implements</span> <span class="ty">Api</span> {
+  cache = <span class="k">new</span> <span class="ty">Map</span>()
+  <span class="k">constructor</span>(<span class="k">private</span> real: <span class="ty">Api</span>){}
+  <span class="fn">get</span>(id){ <span class="k">return this</span>.cache.<span class="fn">get</span>(id)
+    ?? <span class="k">this</span>.real.<span class="fn">get</span>(id) }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Bridge</span><span class="lvl a">A</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>una jerarquía que crece en dos dimensiones → explosión de clases.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>separar <b>abstracción</b> e <b>implementación</b> en jerarquías independientes unidas por composición.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>p.ej. Forma × Color, Control × Plataforma.</span></div>
+            </div>
+            <figure class="code" data-copy="class Shape {
+  constructor(protected color: Color){}
+}
+class Circle extends Shape { /* usa color */ }
+// Color es otra jerarquía aparte">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Shape</span> {
+  <span class="k">constructor</span>(<span class="k">protected</span> color: <span class="ty">Color</span>){}
+}
+<span class="k">class</span> <span class="ty">Circle</span> <span class="k">extends</span> <span class="ty">Shape</span> {…}
+<span class="c">// Color = jerarquía independiente</span></pre>
+            </figure>
+          </div>
+
+          <div class="pcard wide">
+            <div class="pc-h"><span class="pc-name">Flyweight</span><span class="lvl a">A</span></div>
+            <div class="prow"><b class="pb">Probl.</b><span>millones de objetos similares agotan la memoria (cada carácter, cada partícula).</span></div>
+            <div class="prow"><b class="ps">Soluc.</b><span>separar estado <b>intrínseco</b> (compartible, inmutable) del <b>extrínseco</b> (pasado por parámetro); compartir y cachear los intrínsecos.</span></div>
+            <div class="prow"><b class="pw">Cuándo</b><span>render de texto, mapas con muchos sprites, juegos. Optimización de memoria, no de diseño.</span></div>
+            <figure class="code" data-copy="// el glyph (forma de la letra) se comparte;
+// posición/color van como parámetro extrínseco
+const a = glyphFactory.get('a')   // cacheado
+a.draw({ x: 10, y: 20, color })">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="c">// el glyph se comparte (intrínseco);</span>
+<span class="c">// pos/color = extrínseco, por parámetro</span>
+<span class="k">const</span> a = glyphFactory.<span class="fn">get</span>(<span class="s">'a'</span>)  <span class="c">// cache</span>
+a.<span class="fn">draw</span>({ x: <span class="n">10</span>, y: <span class="n">20</span>, color })</pre>
+            </figure>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============ 05 COMPORTAMIENTO ============ -->
+      <div class="sheet-sec" id="s5" style="--seg:var(--s5)">
+        <div class="sec-head"><span class="sec-tab">05</span><h2>Patrones de Comportamiento</h2><span class="rng">11 patrones · comunicación y responsabilidades</span></div>
+        <p class="note" style="margin-bottom:13px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 15px">Definen cómo los objetos <b>colaboran y reparten responsabilidades</b>: algoritmos intercambiables, flujos de mensajes y control del comportamiento.</p>
+
+        <div id="comportamiento" class="cols">
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Strategy</span><span class="lvl i">I</span><span class="pc-tag">★ firma</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>varios algoritmos para una tarea; elegir en runtime sin <code>if</code> gigantes.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>encapsular cada algoritmo tras una interfaz común e inyectar el elegido.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>ordenación, precios, rutas, validación.</span></div>
+            </div>
+            <div class="uml"><svg viewBox="0 0 300 92" role="img" aria-label="UML Strategy">
+              <rect class="cls" x="6" y="30" width="116" height="34" rx="4"/>
+              <text class="clsname" x="14" y="46">Context</text>
+              <text class="mem" x="14" y="59">- strategy</text>
+              <rect class="cls ifc" x="176" y="8" width="118" height="26" rx="4"/>
+              <text class="clsname" x="184" y="25">«Strategy»</text>
+              <rect class="cls" x="176" y="58" width="118" height="26" rx="4"/>
+              <text class="clsname" x="184" y="75">ConcreteStrat.</text>
+              <line class="ln" x1="122" y1="44" x2="176" y2="24"/>
+              <text class="lab" x="128" y="38">usa ▸</text>
+              <line class="ln" x1="234" y1="58" x2="234" y2="34" stroke-dasharray="3 3"/>
+            </svg></div>
+            <figure class="code" data-copy="interface Sort { run(a: number[]): number[] }
+class Ctx {
+  constructor(private s: Sort){}
+  exec(a){ return this.s.run(a) }
+}
+new Ctx(new QuickSort()).exec(data)">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Sort</span> { <span class="fn">run</span>(a): <span class="ty">number</span>[] }
+<span class="k">class</span> <span class="ty">Ctx</span> {
+  <span class="k">constructor</span>(<span class="k">private</span> s: <span class="ty">Sort</span>){}
+  <span class="fn">exec</span>(a){ <span class="k">return this</span>.s.<span class="fn">run</span>(a) }
+}
+<span class="k">new</span> <span class="ty">Ctx</span>(<span class="k">new</span> <span class="ty">QuickSort</span>()).<span class="fn">exec</span>(data)</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Observer</span><span class="lvl i">I</span><span class="pc-tag">★ firma</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>varios objetos deben reaccionar a cambios de otro sin acoplarse.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>el sujeto mantiene una lista de observers y los <b>notifica</b> al cambiar.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>eventos, pub/sub, UI reactiva.</span></div>
+            </div>
+            <div class="uml"><svg viewBox="0 0 300 92" role="img" aria-label="UML Observer">
+              <rect class="cls" x="6" y="30" width="116" height="34" rx="4"/>
+              <text class="clsname" x="14" y="46">Subject</text>
+              <text class="mem" x="14" y="59">+ notify()</text>
+              <rect class="cls ifc" x="178" y="8" width="116" height="26" rx="4"/>
+              <text class="clsname" x="186" y="25">«Observer»</text>
+              <rect class="cls" x="178" y="58" width="116" height="26" rx="4"/>
+              <text class="clsname" x="186" y="75">ConcreteObs.</text>
+              <line class="ln" x1="122" y1="40" x2="178" y2="22"/>
+              <text class="lab" x="128" y="34">notifica ▸</text>
+              <line class="ln" x1="236" y1="58" x2="236" y2="34" stroke-dasharray="3 3"/>
+            </svg></div>
+            <figure class="code" data-copy="class Subject {
+  obs: Observer[] = []
+  sub(o){ this.obs.push(o) }
+  emit(d){ this.obs.forEach(o => o.update(d)) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Subject</span> {
+  obs: <span class="ty">Observer</span>[] = []
+  <span class="fn">sub</span>(o){ <span class="k">this</span>.obs.<span class="fn">push</span>(o) }
+  <span class="fn">emit</span>(d){
+    <span class="k">this</span>.obs.<span class="fn">forEach</span>(o =&gt; o.<span class="fn">update</span>(d))
+  }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Command</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>desacoplar quién invoca una acción de quién la ejecuta.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>encapsular la petición como objeto con <b>execute()</b> (y a veces undo()).</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>undo/redo, colas, macros, transacciones.</span></div>
+            </div>
+            <figure class="code" data-copy="interface Command {
+  execute(): void
+  undo(): void
+}
+class PasteCmd implements Command { /**/ }
+history.run(new PasteCmd())">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Command</span> {
+  <span class="fn">execute</span>(): <span class="ty">void</span>
+  <span class="fn">undo</span>(): <span class="ty">void</span>
+}
+<span class="k">class</span> <span class="ty">PasteCmd</span> <span class="k">implements</span> <span class="ty">Command</span> {…}
+history.<span class="fn">run</span>(<span class="k">new</span> <span class="ty">PasteCmd</span>())</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">State</span><span class="lvl a">A</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>el comportamiento cambia según un estado interno; <code>if</code> por estado por todos lados.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>una clase por estado; el contexto delega y las transiciones cambian el objeto-estado.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>máquinas de estado (pedido, reproductor).</span></div>
+            </div>
+            <figure class="code" data-copy="interface State { next(o: Order): void }
+class Pending implements State {
+  next(o){ o.state = new Shipped() }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">State</span> { <span class="fn">next</span>(o: <span class="ty">Order</span>): <span class="ty">void</span> }
+<span class="k">class</span> <span class="ty">Pending</span> <span class="k">implements</span> <span class="ty">State</span> {
+  <span class="fn">next</span>(o){ o.state = <span class="k">new</span> <span class="ty">Shipped</span>() }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Template Method</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>varios algoritmos comparten esqueleto pero difieren en pasos.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>la clase base define el esqueleto (método plantilla) y deja "huecos" abstractos a las subclases.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>frameworks, pipelines con pasos fijos.</span></div>
+            </div>
+            <figure class="code" data-copy="abstract class Report {
+  build(){ this.header(); this.body() }
+  abstract body(): void   // hook
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">abstract class</span> <span class="ty">Report</span> {
+  <span class="fn">build</span>(){ <span class="k">this</span>.<span class="fn">header</span>(); <span class="k">this</span>.<span class="fn">body</span>() }
+  <span class="k">abstract</span> <span class="fn">body</span>(): <span class="ty">void</span>  <span class="c">// hook</span>
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Iterator</span><span class="lvl b">B</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>recorrer una colección sin exponer su estructura interna.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un objeto iterador con <b>next()</b>/<b>hasNext()</b> independiente de la colección.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>colecciones a medida; nativo en JS/Python.</span></div>
+            </div>
+            <figure class="code" data-copy="class Range {
+  *[Symbol.iterator](){
+    for (let i=0; i<this.n; i++) yield i
+  }
+}
+for (const x of new Range(3)) {}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Range</span> {
+  *[<span class="ty">Symbol</span>.iterator](){
+    <span class="k">for</span> (<span class="k">let</span> i=<span class="n">0</span>; i&lt;n; i++) <span class="k">yield</span> i
+  }
+}
+<span class="k">for</span> (<span class="k">const</span> x <span class="k">of</span> <span class="k">new</span> <span class="ty">Range</span>(<span class="n">3</span>)) {}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Chain of Responsibility</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>varios manejadores posibles para una petición; no sabes cuál la atenderá.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>encadenar manejadores; cada uno procesa o pasa al siguiente.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>middleware, validación, logging, aprobaciones.</span></div>
+            </div>
+            <figure class="code" data-copy="abstract class Handler {
+  next?: Handler
+  handle(r){ return this.next?.handle(r) }
+}
+auth.next = log; log.next = route">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">abstract class</span> <span class="ty">Handler</span> {
+  next?: <span class="ty">Handler</span>
+  <span class="fn">handle</span>(r){ <span class="k">return this</span>.next?.<span class="fn">handle</span>(r) }
+}
+auth.next = log; log.next = route</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Mediator</span><span class="lvl i">I</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>muchos objetos se comunican entre sí: malla de dependencias N×N.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un mediador centraliza la comunicación; los objetos solo lo conocen a él.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>diálogos con muchos controles, chat rooms.</span></div>
+            </div>
+            <figure class="code" data-copy="class Dialog {  // mediador
+  notify(sender, ev){
+    if (ev === 'login') this.btn.enable()
+  }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Dialog</span> {  <span class="c">// mediador</span>
+  <span class="fn">notify</span>(sender, ev){
+    <span class="k">if</span> (ev === <span class="s">'login'</span>) <span class="k">this</span>.btn.<span class="fn">enable</span>()
+  }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Memento</span><span class="lvl a">A</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>guardar y restaurar el estado de un objeto sin violar su encapsulación.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>un "memento" opaco con una instantánea del estado; un cuidador lo almacena.</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>undo, snapshots, checkpoints.</span></div>
+            </div>
+            <figure class="code" data-copy="class Editor {
+  save(){ return new Memento(this.text) }
+  restore(m){ this.text = m.state }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">class</span> <span class="ty">Editor</span> {
+  <span class="fn">save</span>(){ <span class="k">return new</span> <span class="ty">Memento</span>(<span class="k">this</span>.text) }
+  <span class="fn">restore</span>(m){ <span class="k">this</span>.text = m.state }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard">
+            <div class="pc-h"><span class="pc-name">Visitor</span><span class="lvl a">A</span></div>
+            <div class="pc-b">
+              <div class="prow"><b class="pb">Probl.</b><span>añadir operaciones a una jerarquía sin modificar sus clases.</span></div>
+              <div class="prow"><b class="ps">Soluc.</b><span>separar el algoritmo en un visitor; cada elemento hace <b>accept(visitor)</b> (doble despacho).</span></div>
+              <div class="prow"><b class="pw">Cuándo</b><span>AST, exportadores, análisis sobre estructuras estables.</span></div>
+            </div>
+            <figure class="code" data-copy="interface Visitor { visitCircle(c): void }
+class Circle {
+  accept(v: Visitor){ v.visitCircle(this) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Visitor</span> { <span class="fn">visitCircle</span>(c) }
+<span class="k">class</span> <span class="ty">Circle</span> {
+  <span class="fn">accept</span>(v: <span class="ty">Visitor</span>){ v.<span class="fn">visitCircle</span>(<span class="k">this</span>) }
+}</pre>
+            </figure>
+          </div>
+
+          <div class="pcard wide">
+            <div class="pc-h"><span class="pc-name">Interpreter</span><span class="lvl a">A</span></div>
+            <div class="prow"><b class="pb">Probl.</b><span>evaluar sentencias de un lenguaje o gramática sencilla y recurrente.</span></div>
+            <div class="prow"><b class="ps">Soluc.</b><span>representar la gramática como un árbol de expresiones; cada nodo sabe <b>interpret(ctx)</b>.</span></div>
+            <div class="prow"><b class="pw">Cuándo</b><span>filtros, reglas, mini-DSL, expresiones matemáticas. El menos usado de GoF; para gramáticas grandes usa un parser generado.</span></div>
+            <figure class="code" data-copy="interface Expr { interpret(ctx): number }
+class Num implements Expr {
+  constructor(private v: number){}
+  interpret(){ return this.v }
+}
+class Add implements Expr {
+  constructor(private l: Expr, private r: Expr){}
+  interpret(c){ return this.l.interpret(c)
+    + this.r.interpret(c) }
+}">
+              <div class="cap"><span class="dot"></span><span class="lng">typescript</span><span class="cphint">clic = copiar</span></div>
+<pre><span class="k">interface</span> <span class="ty">Expr</span> { <span class="fn">interpret</span>(ctx): <span class="ty">number</span> }
+<span class="k">class</span> <span class="ty">Num</span> <span class="k">implements</span> <span class="ty">Expr</span> {
+  <span class="k">constructor</span>(<span class="k">private</span> v: <span class="ty">number</span>){}
+  <span class="fn">interpret</span>(){ <span class="k">return this</span>.v }
+}
+<span class="k">class</span> <span class="ty">Add</span> <span class="k">implements</span> <span class="ty">Expr</span> {
+  <span class="k">constructor</span>(<span class="k">private</span> l, <span class="k">private</span> r){}
+  <span class="fn">interpret</span>(c){ <span class="k">return this</span>.l.<span class="fn">interpret</span>(c)
+    + <span class="k">this</span>.r.<span class="fn">interpret</span>(c) }
+}</pre>
+            </figure>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============ 06 ARQUITECTURA ============ -->
+      <div class="sheet-sec" id="s6" style="--seg:var(--s6)">
+        <div class="sec-head"><span class="sec-tab">06</span><h2>Arquitectura</h2><span class="rng">de los patrones al plano del sistema</span></div>
+
+        <section class="block" id="capas">
+          <div class="tile-h"><span class="td"></span><h3>Arquitectura en capas (n-tier)</h3><span class="lvl i">I</span></div>
+          <p class="note">Organiza el sistema en capas horizontales con dependencia <b>en un solo sentido</b> (de arriba hacia abajo). Cada capa solo conoce la inmediatamente inferior. Es el estilo más común; sencillo, pero puede degradar a un "monolito de barro" si las capas se saltan.</p>
+          <div class="uml"><svg viewBox="0 0 300 124" role="img" aria-label="Capas n-tier">
+            <rect class="cls" x="40" y="6" width="220" height="24" rx="4"/><text class="clsname" x="60" y="22">Presentación / UI</text>
+            <rect class="cls" x="40" y="36" width="220" height="24" rx="4"/><text class="clsname" x="60" y="52">Aplicación / Lógica</text>
+            <rect class="cls" x="40" y="66" width="220" height="24" rx="4"/><text class="clsname" x="60" y="82">Dominio</text>
+            <rect class="cls" x="40" y="96" width="220" height="24" rx="4"/><text class="clsname" x="60" y="112">Datos / Persistencia</text>
+            <line class="ln" x1="150" y1="30" x2="150" y2="36"/><line class="ln" x1="150" y1="60" x2="150" y2="66"/><line class="ln" x1="150" y1="90" x2="150" y2="96"/>
+          </svg></div>
+        </section>
+
+        <div class="cols">
+          <section class="block tile" id="mvc">
+            <div class="tile-h"><span class="td"></span><h3>MVC &amp; MVVM</h3><span class="lvl i">I</span></div>
+            <p class="note"><b>MVC:</b> <b>Model</b> (datos+reglas), <b>View</b> (presentación), <b>Controller</b> (recibe input, orquesta). Separa responsabilidades de UI.</p>
+            <p class="note tile-b"><b>MVVM:</b> el <b>ViewModel</b> expone estado observable y la View se enlaza (data-binding) a él. Variante de MVC para UI reactivas (Angular, WPF, SwiftUI).</p>
+            <div class="callout" style="margin-top:auto">Ambos buscan lo mismo: que la lógica no viva en la vista. MVP es otra variante con un Presenter.</div>
+          </section>
+          <section class="block tile" id="hex">
+            <div class="tile-h"><span class="td"></span><h3>Hexagonal · Puertos &amp; Adaptadores</h3><span class="lvl a">A</span></div>
+            <p class="note">El <b>dominio</b> queda en el centro, aislado. Se comunica con el exterior mediante <b>puertos</b> (interfaces) que implementan <b>adaptadores</b> (DB, API, UI). Las dependencias apuntan <b>hacia dentro</b> (regla DIP).</p>
+            <div class="uml tile-b"><svg viewBox="0 0 300 110" role="img" aria-label="Hexagonal">
+              <polygon class="cls" points="110,14 190,14 230,55 190,96 110,96 70,55" />
+              <text class="clsname" x="118" y="52">Dominio</text>
+              <text class="mem" x="108" y="66">(reglas puras)</text>
+              <circle cx="70" cy="55" r="6" class="cls ifc"/><circle cx="230" cy="55" r="6" class="cls ifc"/>
+              <rect class="cls" x="6" y="42" width="40" height="26" rx="4"/><text class="lab" x="12" y="58">UI/API</text>
+              <rect class="cls" x="254" y="42" width="40" height="26" rx="4"/><text class="lab" x="262" y="58">DB</text>
+              <line class="ln" x1="46" y1="55" x2="64" y2="55"/><line class="ln" x1="236" y1="55" x2="254" y2="55"/>
+              <text class="lab" x="86" y="106">adaptador ▸ puerto ▸ dominio ◂ puerto ◂ adaptador</text>
+            </svg></div>
+          </section>
+        </div>
+
+        <section class="block" id="guia">
+          <div class="tile-h"><span class="td"></span><h3>Cómo elegir (y no sobre-diseñar)</h3><span class="lvl a">A</span></div>
+          <table class="tbl">
+            <thead><tr><th>Necesitas…</th><th>Mira hacia…</th></tr></thead>
+            <tbody>
+              <tr><td>intercambiar un algoritmo en runtime</td><td><b>Strategy</b></td></tr>
+              <tr><td>reaccionar a eventos / cambios</td><td><b>Observer</b></td></tr>
+              <tr><td>añadir features sin tocar la clase</td><td><b>Decorator</b> · OCP</td></tr>
+              <tr><td>integrar una API incompatible</td><td><b>Adapter</b></td></tr>
+              <tr><td>simplificar un subsistema</td><td><b>Facade</b></td></tr>
+              <tr><td>crear familias de objetos</td><td><b>Abstract Factory</b></td></tr>
+              <tr><td>construir objetos complejos</td><td><b>Builder</b></td></tr>
+              <tr><td>undo/redo o colas de acciones</td><td><b>Command</b> · Memento</td></tr>
+              <tr><td>aislar el dominio de la infra</td><td><b>Hexagonal</b> · DIP</td></tr>
+            </tbody>
+          </table>
+          <div class="callout"><b>YAGNI / KISS:</b> un patrón mal aplicado es peor que ninguno. Empieza simple; introduce el patrón cuando el dolor (duplicación, rigidez, acoplamiento) sea real, no preventivo. El patrón es un destino del refactor, no el punto de partida.</div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    Hoja de referencia · Patrones de Diseño &amp; Arquitectura — SOLID · Clean Code · 23 patrones GoF.
+    Fuentes: cursos «Patrones de Diseño» y «Principios SOLID y Clean Code»; taxonomía y nomenclatura según <a href="https://refactoring.guru/es/design-patterns">refactoring.guru/es/design-patterns</a>.
+    <span class="mono">make it work · make it right · make it fast — clic en cualquier snippet para copiarlo</span>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  /* ---- copy ---- */
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button'); el.style.cursor='pointer';
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){ try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} } catch(e){ fallback(text); } })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+
+  /* ---- scrollspy ---- */
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');} }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+  }
+
+  /* ---- refactor swap ---- */
+  var btns=document.querySelectorAll('.swbtn');
+  btns.forEach(function(b){ b.addEventListener('click',function(){
+    var k=b.getAttribute('data-view');
+    btns.forEach(function(x){var on=(x===b);x.classList.toggle('on',on);x.setAttribute('aria-selected',on?'true':'false');});
+    document.querySelectorAll('.swview').forEach(function(v){ v.classList.toggle('hidden', v.id!=='view-'+k); });
+  });});
+})();
+</script>
+</body></html>

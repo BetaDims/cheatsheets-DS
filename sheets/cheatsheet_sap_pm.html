@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP PM · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7EAF0;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F9;
+  --rail:#EFF2F7;
+  --code-bg:#FAFBFD;
+  --line:#DFE3EB;
+  --line-soft:#EBEEF3;
+  --ink:#1B2330;
+  --ink-soft:#4D5666;
+  --ink-faint:#88909E;
+  /* SAP brand blue */
+  --pm:#0A6ED1;
+  --pm-deep:#0850A0;
+  --pm-tint:rgba(10,110,209,.13);
+  /* section accents */
+  --s0:#2B6FD6;
+  --s1:#C0750C;
+  --s2:#1E9B51;
+  --s3:#8E4EC6;
+  --s4:#0E8A8A;
+  --s5:#C0398C;
+  --s6:#46566A;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* code tokens (light editor) */
+  --t-kw:#0850A0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-anno:#B23A20;
+  --t-com:#8A93A0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--pm);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (SAP GUI) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(27,35,48,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF3F8;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:24px;height:22px;border-radius:5px;background:linear-gradient(135deg,var(--pm),#2C8BE8);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:10px;flex:none;letter-spacing:.02em}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--pm-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C7CEDA;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FAFBFD;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--pm-deep);border-bottom-color:var(--pm)}
+
+.fxbar{display:flex;align-items:stretch;background:#FAFBFD;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;gap:6px;padding:0 13px;font-family:"JetBrains Mono";font-size:12px;color:#1E9B51;border-right:1px solid var(--line);font-weight:700}
+.fxbar .namebox svg{width:13px;height:13px}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pm-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--pm)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.3rem,5.7vw,4rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--pm-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--pm-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--pm);background:linear-gradient(90deg,var(--pm-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--pm-deep);background:var(--pm-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--pm)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(27,35,48,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(27,35,48,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--pm-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(27,35,48,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--pm);background:#F0F6FD}
+figure.code.copied .cphint{opacity:1;color:var(--pm-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:700}
+.t-fn{color:var(--t-fn);font-weight:700}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-anno{color:var(--t-anno);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--pm-deep);font-weight:700;white-space:nowrap;position:relative;transition:.14s}
+.tbl td.fn:hover{background:var(--pm-tint)}
+.tbl td.fn.copied{background:var(--pm-tint);color:var(--pm-deep)}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--pm-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature 1: jerarquía de datos maestros ===== */
+.htree{margin:6px 0;border:1px dashed var(--s0);border-radius:11px;padding:14px;background:linear-gradient(180deg,rgba(43,111,214,.07),transparent)}
+.htree .hrow{display:flex;align-items:stretch;gap:10px;margin-bottom:9px}
+.htree .hrow:last-child{margin-bottom:0}
+.htree .hlvl{flex:none;width:26px;display:grid;place-items:center;font-family:"JetBrains Mono";font-size:10px;font-weight:700;color:#fff;background:var(--s0);border-radius:6px;opacity:.92}
+.htree .hbox{flex:1;border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:9px 12px}
+.htree .hbox h5{font-family:"Bricolage Grotesque",sans-serif;font-size:13px;font-weight:700;color:var(--ink)}
+.htree .hbox h5 b{font-family:"JetBrains Mono";font-size:10.5px;color:var(--s0);font-weight:700;margin-left:7px}
+.htree .hbox p{font-size:11px;color:var(--ink-faint);line-height:1.4;margin-top:2px}
+.htree .indent-1{margin-left:18px}.htree .indent-2{margin-left:36px}.htree .indent-3{margin-left:54px}
+@media(max-width:560px){.htree .indent-1,.htree .indent-2,.htree .indent-3{margin-left:8px}}
+
+/* ===== signature 2: ciclo PM (aviso → orden → cierre) ===== */
+.pmflow{margin:6px 0;border:1px dashed var(--s3);border-radius:13px;padding:16px 14px;background:linear-gradient(180deg,rgba(142,78,198,.07),transparent)}
+.pmstages{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.pmstg{flex:1;min-width:90px;border:1px solid var(--line);background:var(--canvas);border-radius:10px;padding:11px 9px;text-align:center;position:relative;display:flex;flex-direction:column;gap:4px}
+.pmstg .pn{font-family:"JetBrains Mono";font-size:9px;font-weight:700;color:var(--ink-faint);letter-spacing:.06em}
+.pmstg .ptt{font-family:"Bricolage Grotesque",sans-serif;font-size:13px;font-weight:700;color:var(--ink);line-height:1.1}
+.pmstg .ptx{font-family:"JetBrains Mono";font-size:9.5px;color:var(--s3);font-weight:700}
+.pmstg .pds{font-size:9.5px;color:var(--ink-faint);line-height:1.25}
+.pmstg.start{border-color:var(--s1);border-top:3px solid var(--s1)}
+.pmstg.start .ptx{color:var(--s1)}
+.pmstg.mid{border-color:var(--s2);border-top:3px solid var(--s2)}
+.pmstg.mid .ptx{color:var(--s2)}
+.pmstg.end{border-color:var(--s3);border-top:3px solid var(--s3);background:var(--pm-tint)}
+.pmarr{display:flex;align-items:center;justify-content:center;width:20px;color:var(--s3);font-weight:700;flex:none}
+.pmback{margin-top:11px;font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);background:var(--canvas);border:1px dashed var(--s3);border-radius:8px;padding:7px 10px;text-align:center}
+.pmback b{color:var(--s3)}
+@media(max-width:680px){.pmstages{flex-direction:column}.pmarr{width:auto;height:16px;transform:rotate(90deg)}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1B2330;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(27,35,48,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">PM</span>
+      <span class="fname"><b>SAP PM</b> · Plant Maintenance</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>Ejecutar</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Avisos</span>
+      <span class="vt">Órdenes</span>
+      <span class="vt">Equipos</span>
+      <span class="vt">Medidas</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg>Cmd</span>
+      <span class="fxc"><span class="t-op">/n</span><span class="t-fn">IW31</span>&nbsp;&nbsp;<span class="t-com">— el campo de transacción te lleva a cualquier sitio</span></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · qué transacciones aprender</div>
+      <h1>SAP PM, del <em>aviso</em><br>a la <em>orden</em> cerrada.</h1>
+      <p class="lede">El módulo de mantenimiento de planta en una página, para el ingeniero que llega a SAP y necesita saber <b>qué teclear</b>. Los <b>datos maestros</b> (ubicaciones técnicas, equipos, BOM, puestos de trabajo), los <b>avisos</b> (<code>IW21</code>), las <b>órdenes</b> (<code>IW31</code>), el <b>ciclo PM</b> completo (aviso → orden → confirmación <code>IW41</code> → cierre), <b>puntos de medida</b> (<code>IK01</code>), <b>planes preventivos</b> (<code>IP01</code>) y la integración con <b>MM</b> y <b>PS</b>. Cada transacción con su <b>qué hace</b>. <b>Clic en cualquier código para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Run simple."</p>
+        <cite>— Lema de SAP</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Datos maestros</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Avisos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Órdenes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Ciclo PM</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Medidas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Preventivo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Integración</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#s0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Datos maestros</span><span class="sd">ubic · equipo · BOM</span></a>
+        <a class="step" href="#s1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Avisos</span><span class="sd">IW21 · IW28</span></a>
+        <a class="step" href="#s2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Órdenes</span><span class="sd">IW31 · PM01-04</span></a>
+        <a class="step" href="#s3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Ciclo PM</span><span class="sd">flujo · IW41</span></a>
+        <a class="step" href="#s4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Medidas</span><span class="sd">IK01 · IK11</span></a>
+        <a class="step" href="#s5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Preventivo</span><span class="sd">IP01 · IP10</span></a>
+        <a class="step" href="#s6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Integración</span><span class="sd">MM · PS · tabla</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">PM</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">ECC<br>S/4</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Datos maestros</div>
+      <a href="#pm-jer" style="--seg:var(--s0)">Jerarquía de objetos</a>
+      <a href="#pm-ubic" style="--seg:var(--s0)">Ubicaciones técnicas</a>
+      <a href="#pm-equi" style="--seg:var(--s0)">Equipos</a>
+      <a href="#pm-bom" style="--seg:var(--s0)">Listas de materiales (BOM)</a>
+      <a href="#pm-wc" style="--seg:var(--s0)">Puestos de trabajo</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Avisos</div>
+      <a href="#pm-avtipos" style="--seg:var(--s1)">Tipos de aviso</a>
+      <a href="#pm-avcrud" style="--seg:var(--s1)">Crear / modificar / ver</a>
+      <a href="#pm-avlist" style="--seg:var(--s1)">Listas (IW28 / IW29)</a>
+      <a href="#pm-avest" style="--seg:var(--s1)">Anatomía de un aviso</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Órdenes</div>
+      <a href="#pm-ordtipos" style="--seg:var(--s2)">Tipos de orden PM01-04</a>
+      <a href="#pm-ordcrud" style="--seg:var(--s2)">Crear / modificar / ver</a>
+      <a href="#pm-ordlist" style="--seg:var(--s2)">Listas (IW38 / IW39)</a>
+      <a href="#pm-ordest" style="--seg:var(--s2)">Estructura de la orden</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Ciclo PM</div>
+      <a href="#pm-ciclo" style="--seg:var(--s3)">El flujo de proceso</a>
+      <a href="#pm-estados" style="--seg:var(--s3)">Estados (status)</a>
+      <a href="#pm-conf" style="--seg:var(--s3)">Confirmaciones (IW41)</a>
+      <a href="#pm-cierre" style="--seg:var(--s3)">Cierre técnico y comercial</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Medidas</div>
+      <a href="#pm-mp" style="--seg:var(--s4)">Puntos de medida (IK01)</a>
+      <a href="#pm-md" style="--seg:var(--s4)">Documentos de medición</a>
+      <a href="#pm-mlist" style="--seg:var(--s4)">Listas de mediciones</a>
+      <a href="#pm-clas" style="--seg:var(--s4)">Clasificación</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Preventivo</div>
+      <a href="#pm-planes" style="--seg:var(--s5)">Planes (IP01-03)</a>
+      <a href="#pm-prog" style="--seg:var(--s5)">Programación (IP10 / IP30)</a>
+      <a href="#pm-rutas" style="--seg:var(--s5)">Hojas de ruta</a>
+      <a href="#pm-estrat" style="--seg:var(--s5)">Estrategias y ciclos</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Integración</div>
+      <a href="#pm-mm" style="--seg:var(--s6)">MM · repuestos</a>
+      <a href="#pm-ps" style="--seg:var(--s6)">PS y otros módulos</a>
+      <a href="#pm-tabla" style="--seg:var(--s6)">Tabla de transacciones</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#s0">00 Maestros</a><a href="#s1">01 Avisos</a><a href="#s2">02 Órdenes</a><a href="#s3">03 Ciclo</a>
+        <a href="#s4">04 Medidas</a><a href="#s5">05 Preventivo</a><a href="#s6">06 Integración</a>
+      </div>
+
+      <!-- ===== 00 DATOS MAESTROS ===== -->
+      <section class="stage" id="s0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Datos maestros</h2><span class="meta">la base<br>de todo PM</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="pm-jer">
+            <div class="tile-h"><span class="td"></span><h3>Jerarquía de objetos técnicos — el mapa mental</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">PM modela tu planta como una <b>jerarquía</b>: la estructura organizativa cuelga del centro de emplazamiento, y los objetos técnicos representan <i>qué</i> mantienes. Un <b>aviso</b> o una <b>orden</b> siempre apuntan a un objeto técnico. Domina esto primero: el resto son transacciones sobre estas piezas.</p>
+              <div class="htree">
+                <div class="hrow"><span class="hlvl">Org</span><div class="hbox"><h5>Sociedad · Centro · Emplazamiento de mantenimiento<b>SPRO</b></h5><p>Dónde vive el mantenimiento dentro de la empresa</p></div></div>
+                <div class="hrow"><span class="hlvl">1</span><div class="hbox"><h5>Ubicación técnica<b>IL01</b></h5><p>El <i>sitio</i> funcional: planta › área › línea › máquina. Estructura estable</p></div></div>
+                <div class="hrow"><span class="hlvl">2</span><div class="hbox indent-1"><h5>Equipo<b>IE01</b></h5><p>El <i>objeto físico</i> individual instalado en una ubicación; se puede mover</p></div></div>
+                <div class="hrow"><span class="hlvl">3</span><div class="hbox indent-2"><h5>Lista de materiales (BOM)<b>IB11</b></h5><p>Los repuestos y componentes del equipo / ubicación</p></div></div>
+                <div class="hrow"><span class="hlvl">⚙</span><div class="hbox indent-3"><h5>Punto de medida · Clase · Puesto de trabajo<b>IK01 · IR01</b></h5><p>Atributos transversales: mediciones, clasificación y quién ejecuta</p></div></div>
+              </div>
+              <div class="tip"><span class="lab">Ubicación vs. equipo</span>La <b>ubicación técnica</b> es el lugar fijo (no se mueve); el <b>equipo</b> es el activo concreto que se monta y desmonta de ese lugar. Una bomba (equipo) puede pasar por varias posiciones (ubicaciones).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-ubic">
+            <div class="tile-h"><span class="td"></span><h3>Ubicaciones técnicas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El esqueleto estructural de la planta. Se codifican por niveles (p. ej. <code>PL1-ARE-LIN-MAQ</code>) según una <b>estructura de codificación</b>.</p>
+              <figure class="code" data-copy="/nIL01   Crear ubicación técnica&#10;/nIL02   Modificar ubicación&#10;/nIL03   Visualizar ubicación&#10;/nIL05   Modificar lista (masivo)&#10;/nIH01   Estructura jerárquica">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IL01</span>   <span class="t-com">Crear ubicación técnica</span>
+<span class="t-op">/n</span><span class="t-fn">IL02</span>   <span class="t-com">Modificar ubicación</span>
+<span class="t-op">/n</span><span class="t-fn">IL03</span>   <span class="t-com">Visualizar ubicación</span>
+<span class="t-op">/n</span><span class="t-fn">IL05</span>   <span class="t-com">Modificar lista (masivo)</span>
+<span class="t-op">/n</span><span class="t-fn">IH01</span>   <span class="t-com">Estructura jerárquica</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Regla 01/02/03</span>En PM el patrón se repite: <code>01</code> crea, <code>02</code> modifica, <code>03</code> visualiza. Apréndelo una vez y lo aplicas a casi todo.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-equi">
+            <div class="tile-h"><span class="td"></span><h3>Equipos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El activo físico individual, con su <b>historial</b>. Puede <b>instalarse</b> en una ubicación técnica y tener número de serie.</p>
+              <figure class="code" data-copy="/nIE01   Crear equipo&#10;/nIE02   Modificar equipo&#10;/nIE03   Visualizar equipo&#10;/nIE05   Modificar lista de equipos&#10;/nIE4N   Gestión de equipo serializado&#10;/nIE07   Lista multinivel">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IE01</span>   <span class="t-com">Crear equipo</span>
+<span class="t-op">/n</span><span class="t-fn">IE02</span>   <span class="t-com">Modificar equipo</span>
+<span class="t-op">/n</span><span class="t-fn">IE03</span>   <span class="t-com">Visualizar equipo</span>
+<span class="t-op">/n</span><span class="t-fn">IE05</span>   <span class="t-com">Modificar lista</span>
+<span class="t-op">/n</span><span class="t-fn">IE4N</span>   <span class="t-com">Equipo serializado</span>
+<span class="t-op">/n</span><span class="t-fn">IE07</span>   <span class="t-com">Lista multinivel</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Por qué importa</span>El historial de averías, costes y mediciones se acumula <b>en el equipo</b>. Bien dado de alta = trazabilidad y análisis de confiabilidad reales.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-bom">
+            <div class="tile-h"><span class="td"></span><h3>Listas de materiales (BOM)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>despiece</b> de un objeto técnico: qué repuestos lo componen. Al crear la orden, eliges componentes <b>directamente de la BOM</b> en vez de buscar materiales a ciegas.</p>
+              <figure class="code" data-copy="/nIB11   BOM de equipo (crear)&#10;/nIB12   BOM de equipo (modificar)&#10;/nIB13   BOM de equipo (visualizar)&#10;/nIB01   BOM de ubicación técnica&#10;/nIB05   BOM de material">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IB11</span>   <span class="t-com">BOM equipo (crear)</span>
+<span class="t-op">/n</span><span class="t-fn">IB12</span>   <span class="t-com">BOM equipo (modificar)</span>
+<span class="t-op">/n</span><span class="t-fn">IB13</span>   <span class="t-com">BOM equipo (visualizar)</span>
+<span class="t-op">/n</span><span class="t-fn">IB01</span>   <span class="t-com">BOM de ubicación técnica</span>
+<span class="t-op">/n</span><span class="t-fn">IB05</span>   <span class="t-com">BOM de material</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="pm-wc">
+            <div class="tile-h"><span class="td"></span><h3>Puestos de trabajo (work centers)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>recurso que ejecuta</b> el trabajo: una cuadrilla, un taller, un técnico. Define <b>capacidad</b>, <b>tarifas de coste</b> (vía centro de coste) y se asigna a las operaciones de la orden. Es la pieza que conecta el mantenimiento con el <b>cálculo de costes</b> y la <b>programación de capacidades</b>.</p>
+              <div class="cols">
+                <figure class="code" data-copy="/nIR01   Crear puesto de trabajo&#10;/nIR02   Modificar puesto de trabajo&#10;/nIR03   Visualizar puesto de trabajo&#10;/nCR05   Lista de puestos de trabajo">
+                  <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IR01</span>   <span class="t-com">Crear puesto de trabajo</span>
+<span class="t-op">/n</span><span class="t-fn">IR02</span>   <span class="t-com">Modificar puesto</span>
+<span class="t-op">/n</span><span class="t-fn">IR03</span>   <span class="t-com">Visualizar puesto</span>
+<span class="t-op">/n</span><span class="t-fn">CR05</span>   <span class="t-com">Lista de puestos</span></pre>
+                </figure>
+                <div>
+                  <div class="tip"><span class="lab">Capacidad</span>El puesto de trabajo aporta las <b>horas disponibles</b>; sin él no hay planificación de capacidades ni reparto de carga.</div>
+                  <div class="tip"><span class="lab">Coste</span>Su enlace con un <b>centro de coste</b> + clase de actividad es lo que valora las horas confirmadas en la orden.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 AVISOS ===== -->
+      <section class="stage" id="s1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Avisos de mantenimiento</h2><span class="meta">qué pasa<br>(notification)</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pm-avtipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de aviso</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El aviso <b>documenta</b> y comunica: una avería, una petición o una mejora. Es el paso previo a decidir si se abre una orden.</p>
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Para</th></tr>
+                <tr><td class="k">M1</td><td>Aviso de avería (algo falló)</td></tr>
+                <tr><td class="k">M2</td><td>Solicitud de mantenimiento</td></tr>
+                <tr><td class="k">M3</td><td>Aviso de actividad (lo hecho)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Aviso ≠ orden</span>El <b>aviso</b> describe el problema; la <b>orden</b> planifica y ejecuta la solución. Uno informa, la otra gasta recursos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-avcrud">
+            <div class="tile-h"><span class="td"></span><h3>Crear / modificar / visualizar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El trío básico del día a día. <code>IW21</code> es donde empieza casi todo el flujo correctivo.</p>
+              <figure class="code" data-copy="/nIW21   Crear aviso&#10;/nIW22   Modificar aviso&#10;/nIW23   Visualizar aviso&#10;/nIW24   Crear aviso (con clase rápida)&#10;/nIQS21  Crear aviso (componente QM/PM)">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IW21</span>   <span class="t-com">Crear aviso</span>
+<span class="t-op">/n</span><span class="t-fn">IW22</span>   <span class="t-com">Modificar aviso</span>
+<span class="t-op">/n</span><span class="t-fn">IW23</span>   <span class="t-com">Visualizar aviso</span>
+<span class="t-op">/n</span><span class="t-fn">IW24</span>   <span class="t-com">Crear (clase directa)</span>
+<span class="t-op">/n</span><span class="t-fn">IW26</span>   <span class="t-com">Crear aviso de avería</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-avlist">
+            <div class="tile-h"><span class="td"></span><h3>Listas de avisos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El trabajo real está en las <b>listas</b>: filtras por estado, fecha, ubicación o equipo y procesas en masa.</p>
+              <figure class="code" data-copy="/nIW28   Lista de avisos (modificar)&#10;/nIW29   Lista de avisos (visualizar)&#10;/nIW30   Avisos por equipo/ubicación&#10;/nIW64   Lista de actividades de aviso">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IW28</span>   <span class="t-com">Lista avisos (modificar)</span>
+<span class="t-op">/n</span><span class="t-fn">IW29</span>   <span class="t-com">Lista avisos (visualizar)</span>
+<span class="t-op">/n</span><span class="t-fn">IW30</span>   <span class="t-com">Avisos por objeto</span>
+<span class="t-op">/n</span><span class="t-fn">IW64</span>   <span class="t-com">Actividades de aviso</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Truco</span>Guarda tus filtros como <b>variante</b> (botón <i>Variantes</i>); así tu lista diaria sale con un clic.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-avest">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía de un aviso</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un aviso bien rellenado alimenta el análisis posterior. Sus partes clave usan <b>catálogos</b> (códigos normalizados):</p>
+              <table class="tbl">
+                <tr><th>Bloque</th><th>Qué captura</th></tr>
+                <tr><td class="k">Objeto</td><td>equipo / ubicación afectada</td></tr>
+                <tr><td class="k">Síntoma</td><td>parte objeto + daño (catálogo)</td></tr>
+                <tr><td class="k">Causa</td><td>por qué ocurrió (catálogo)</td></tr>
+                <tr><td class="k">Medida</td><td>qué se hizo / se pide</td></tr>
+                <tr><td class="k">Posición</td><td>varios fallos en un aviso</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 ÓRDENES ===== -->
+      <section class="stage" id="s2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Órdenes de trabajo</h2><span class="meta">qué hacer<br>(work order)</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="pm-ordtipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de orden — PM01 a PM04</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>clase de orden</b> dice qué proceso de negocio sigue (correctivo, avería, preventivo, mejora). Determina rangos de numeración, perfil de liquidación y campos. Los códigos exactos los define cada empresa, pero el estándar es:</p>
+              <table class="tbl">
+                <tr><th>Clase</th><th>Proceso</th><th>Cuándo</th></tr>
+                <tr><td class="k">PM01</td><td>Mantenimiento correctivo</td><td>reparación planificada</td></tr>
+                <tr><td class="k">PM02</td><td>Avería (breakdown)</td><td>paro no planificado, urgente</td></tr>
+                <tr><td class="k">PM03</td><td>Preventivo</td><td>generada por plan de mant.</td></tr>
+                <tr><td class="k">PM04</td><td>Mejora / modificación</td><td>refactor del activo, proyectos</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué separar clases</span>Permite <b>medir</b> cuánto mantenimiento es reactivo (PM02) frente a planificado (PM03): el ratio preventivo/correctivo es el KPI maestro de toda gestión de activos.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-ordcrud">
+            <div class="tile-h"><span class="td"></span><h3>Crear / modificar / visualizar</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note"><code>IW31</code> abre una orden desde cero; <code>IW34</code> la crea <b>desde un aviso</b> (lo más común: arrastra los datos del problema).</p>
+              <figure class="code" data-copy="/nIW31   Crear orden&#10;/nIW32   Modificar orden&#10;/nIW33   Visualizar orden&#10;/nIW34   Crear orden desde aviso&#10;/nIW36   Crear suborden">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IW31</span>   <span class="t-com">Crear orden</span>
+<span class="t-op">/n</span><span class="t-fn">IW32</span>   <span class="t-com">Modificar orden</span>
+<span class="t-op">/n</span><span class="t-fn">IW33</span>   <span class="t-com">Visualizar orden</span>
+<span class="t-op">/n</span><span class="t-fn">IW34</span>   <span class="t-com">Crear orden desde aviso</span>
+<span class="t-op">/n</span><span class="t-fn">IW36</span>   <span class="t-com">Crear suborden</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-ordlist">
+            <div class="tile-h"><span class="td"></span><h3>Listas de órdenes</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Tu <b>cartera de trabajo</b>. Desde aquí liberas, imprimes y supervisas el avance de muchas órdenes a la vez.</p>
+              <figure class="code" data-copy="/nIW38   Lista de órdenes (modificar)&#10;/nIW39   Lista de órdenes (visualizar)&#10;/nIW37N  Lista órdenes/operaciones&#10;/nIW40   Visualizar órdenes multinivel">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IW38</span>   <span class="t-com">Lista órdenes (modificar)</span>
+<span class="t-op">/n</span><span class="t-fn">IW39</span>   <span class="t-com">Lista órdenes (visualizar)</span>
+<span class="t-op">/n</span><span class="t-fn">IW37N</span>  <span class="t-com">Órdenes + operaciones</span>
+<span class="t-op">/n</span><span class="t-fn">IW40</span>   <span class="t-com">Órdenes multinivel</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="pm-ordest">
+            <div class="tile-h"><span class="td"></span><h3>Estructura de la orden — sus pestañas</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Toda orden PM tiene la misma anatomía. Saber qué hay en cada pestaña es saber operar la orden:</p>
+              <table class="tbl">
+                <tr><th>Parte</th><th>Qué contiene</th></tr>
+                <tr><td class="k">Cabecera</td><td>objeto, clase, prioridad, fechas, puesto de trabajo responsable</td></tr>
+                <tr><td class="k">Operaciones</td><td>los pasos del trabajo: descripción, puesto, duración, nº de personas</td></tr>
+                <tr><td class="k">Componentes</td><td>materiales / repuestos (desde la BOM o stock); generan reservas</td></tr>
+                <tr><td class="k">Costes</td><td>plan vs. real (mano de obra + material + servicios externos)</td></tr>
+                <tr><td class="k">Interlocutores</td><td>solicitante, responsable, proveedor</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Servicios externos</span>Si subcontratas, la operación lleva <b>clave de control PM02</b> y genera una solicitud de pedido (PR) hacia MM. Distíntala de la clave interna <b>PM01</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 CICLO PM ===== -->
+      <section class="stage" id="s3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>El ciclo PM</h2><span class="meta">la firma<br>del módulo</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="pm-ciclo">
+            <div class="tile-h"><span class="td"></span><h3>El flujo de proceso — aviso → orden → ejecución → cierre</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Este es <b>el</b> proceso que tienes que interiorizar. Todo lo demás (datos maestros, listas, planes) existe para alimentar este ciclo. Léelo de izquierda a derecha:</p>
+              <div class="pmflow">
+                <div class="pmstages">
+                  <div class="pmstg start">
+                    <span class="pn">PASO 1</span>
+                    <span class="ptt">Aviso</span>
+                    <span class="ptx">IW21</span>
+                    <span class="pds">Se detecta y documenta el problema</span>
+                  </div>
+                  <span class="pmarr">→</span>
+                  <div class="pmstg start">
+                    <span class="pn">PASO 2</span>
+                    <span class="ptt">Orden</span>
+                    <span class="ptx">IW31 / IW34</span>
+                    <span class="pds">Se planifica: operaciones, repuestos, coste</span>
+                  </div>
+                  <span class="pmarr">→</span>
+                  <div class="pmstg mid">
+                    <span class="pn">PASO 3</span>
+                    <span class="ptt">Liberación</span>
+                    <span class="ptx">FREI · IW32</span>
+                    <span class="pds">Se aprueba; salen reservas e impresión</span>
+                  </div>
+                  <span class="pmarr">→</span>
+                  <div class="pmstg mid">
+                    <span class="pn">PASO 4</span>
+                    <span class="ptt">Ejecución</span>
+                    <span class="ptx">IW41</span>
+                    <span class="pds">Se confirman horas y consumos reales</span>
+                  </div>
+                  <span class="pmarr">→</span>
+                  <div class="pmstg end">
+                    <span class="pn">PASO 5</span>
+                    <span class="ptt">Cierre</span>
+                    <span class="ptx">TECO + liquid.</span>
+                    <span class="pds">Cierre técnico y comercial; queda historial</span>
+                  </div>
+                </div>
+                <div class="pmback">↺ <b>Retroalimentación:</b> el cierre alimenta el <b>historial</b> del equipo (IW65 / IW67) → análisis de averías → ajusta los <b>planes preventivos</b> → genera nuevas órdenes.</div>
+              </div>
+              <div class="tip"><span class="lab">El atajo mental</span>Aviso = <i>qué pasó</i>. Orden = <i>qué haremos y con qué</i>. Confirmación = <i>qué hicimos de verdad</i>. Cierre = <i>cuánto costó y qué aprendimos</i>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-estados">
+            <div class="tile-h"><span class="td"></span><h3>Estados (status del sistema)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El estado controla <b>qué se puede hacer</b> con la orden. Avanzan en orden y los ves en la cabecera.</p>
+              <table class="tbl">
+                <tr><th>Status</th><th>Significa</th></tr>
+                <tr><td class="k">ABIE / CRTD</td><td>creada, aún editable</td></tr>
+                <tr><td class="k">LIB / REL</td><td>liberada, lista para ejecutar</td></tr>
+                <tr><td class="k">NLIQ / PCNF</td><td>confirmada parcialmente</td></tr>
+                <tr><td class="k">NOTI / CNF</td><td>confirmada (final)</td></tr>
+                <tr><td class="k">CTEC / TECO</td><td>cierre técnico</td></tr>
+                <tr><td class="k">CERR / CLSD</td><td>cierre comercial</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-conf">
+            <div class="tile-h"><span class="td"></span><h3>Confirmaciones</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Notificar las <b>horas y trabajos reales</b>. Es lo que pasa el coste real a la orden y descuenta capacidad.</p>
+              <figure class="code" data-copy="/nIW41   Confirmar tiempo (individual)&#10;/nIW42   Confirmación global&#10;/nIW44   Confirmación colectiva&#10;/nIW45   Anular confirmación&#10;/nIW48   Hoja de horas (entrada)">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IW41</span>   <span class="t-com">Confirmar tiempo</span>
+<span class="t-op">/n</span><span class="t-fn">IW42</span>   <span class="t-com">Confirmación global</span>
+<span class="t-op">/n</span><span class="t-fn">IW44</span>   <span class="t-com">Confirmación colectiva</span>
+<span class="t-op">/n</span><span class="t-fn">IW45</span>   <span class="t-com">Anular confirmación</span>
+<span class="t-op">/n</span><span class="t-fn">IW48</span>   <span class="t-com">Hoja de horas</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">IW42 = todo en uno</span><code>IW42</code> confirma horas, consume materiales, registra medidas y cierra técnicamente en <b>una sola pantalla</b>. La favorita en planta.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="pm-cierre">
+            <div class="tile-h"><span class="td"></span><h3>Cierre técnico vs. cierre comercial</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">No son lo mismo y es un error clásico confundirlos. Son <b>dos cierres en secuencia</b>:</p>
+              <div class="cols">
+                <div class="tip"><span class="lab">Técnico (TECO)</span>El <b>trabajo terminó</b>. Bloquea cambios, libera reservas pendientes y fija la fecha de fin. Lo hace mantenimiento. Aún puede <b>reabrirse</b>. Transacción: <code>IW32</code> → botón <i>cierre técnico</i>.</div>
+                <div class="tip"><span class="lab">Comercial (liquidación)</span>La <b>contabilidad terminó</b>: los costes se <b>liquidan</b> al receptor (centro de coste, activo o proyecto) y la orden ya no admite cargos. Transacción: <code>KO88</code> (individual) / <code>KO8G</code> (colectiva).</div>
+              </div>
+              <div class="tip warn"><span class="lab">Orden correcta</span>Primero confirmas (IW41) → luego TECO → luego liquidas (KO88). Liquidar sin confirmar deja la orden con coste real cero y el historial mentiroso.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 MEDIDAS ===== -->
+      <section class="stage" id="s4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Puntos de medida y clasificación</h2><span class="meta">condición<br>del activo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pm-mp">
+            <div class="tile-h"><span class="td"></span><h3>Puntos de medida</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>punto de medida</b> es un lugar donde lees una magnitud (temperatura, presión, vibración). Un <b>contador</b> es un punto que acumula (horas, km) y puede <b>disparar planes</b>.</p>
+              <figure class="code" data-copy="/nIK01   Crear punto de medida&#10;/nIK02   Modificar punto de medida&#10;/nIK03   Visualizar punto de medida&#10;/nIK07   Lista de puntos de medida">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IK01</span>   <span class="t-com">Crear punto de medida</span>
+<span class="t-op">/n</span><span class="t-fn">IK02</span>   <span class="t-com">Modificar punto</span>
+<span class="t-op">/n</span><span class="t-fn">IK03</span>   <span class="t-com">Visualizar punto</span>
+<span class="t-op">/n</span><span class="t-fn">IK07</span>   <span class="t-com">Lista de puntos</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-md">
+            <div class="tile-h"><span class="td"></span><h3>Documentos de medición</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cada <b>lectura</b> registrada es un documento de medición. Sobre los contadores, estas lecturas son las que activan el mantenimiento por uso.</p>
+              <figure class="code" data-copy="/nIK11   Registrar documento medición&#10;/nIK12   Modificar documento&#10;/nIK13   Visualizar documento&#10;/nIK22   Entrada colectiva de medidas">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IK11</span>   <span class="t-com">Registrar medición</span>
+<span class="t-op">/n</span><span class="t-fn">IK12</span>   <span class="t-com">Modificar documento</span>
+<span class="t-op">/n</span><span class="t-fn">IK13</span>   <span class="t-com">Visualizar documento</span>
+<span class="t-op">/n</span><span class="t-fn">IK22</span>   <span class="t-com">Entrada colectiva</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-mlist">
+            <div class="tile-h"><span class="td"></span><h3>Listas de mediciones</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Para revisar tendencias o cargar lecturas en ruta de campo.</p>
+              <figure class="code" data-copy="/nIK17   Lista documentos medición&#10;/nIK18   Documentos por punto/contador&#10;/nIK41   Lista de puntos y contadores">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IK17</span>   <span class="t-com">Lista de mediciones</span>
+<span class="t-op">/n</span><span class="t-fn">IK18</span>   <span class="t-com">Por punto / contador</span>
+<span class="t-op">/n</span><span class="t-fn">IK41</span>   <span class="t-com">Puntos y contadores</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">Conexión clave</span>Un <b>contador</b> + un <b>plan por contador</b> (IP42) = mantenimiento que se dispara por <b>uso real</b>, no por calendario.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-clas">
+            <div class="tile-h"><span class="td"></span><h3>Clasificación</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Añade <b>características</b> técnicas (potencia, caudal, voltaje) a equipos y ubicaciones mediante <b>clases</b>. Permite buscar y comparar activos por sus atributos.</p>
+              <figure class="code" data-copy="/nCT04  Crear/editar característica&#10;/nCL01  Crear clase&#10;/nCL02  Gestionar clases&#10;/nCL20N Asignar objeto a clase&#10;/nCL30N Buscar objetos por clase">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">CT04</span>  <span class="t-com">Característica</span>
+<span class="t-op">/n</span><span class="t-fn">CL01</span>  <span class="t-com">Crear clase</span>
+<span class="t-op">/n</span><span class="t-fn">CL02</span>  <span class="t-com">Gestionar clases</span>
+<span class="t-op">/n</span><span class="t-fn">CL20N</span> <span class="t-com">Asignar objeto</span>
+<span class="t-op">/n</span><span class="t-fn">CL30N</span> <span class="t-com">Buscar por clase</span></pre>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 PREVENTIVO ===== -->
+      <section class="stage" id="s5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Mantenimiento preventivo</h2><span class="meta">planes<br>+ hojas de ruta</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pm-planes">
+            <div class="tile-h"><span class="td"></span><h3>Planes de mantenimiento</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>plan</b> automatiza la generación de avisos/órdenes a intervalos. Tipos: por <b>tiempo</b> (calendario), por <b>contador</b> (uso) y <b>multicontador</b>.</p>
+              <figure class="code" data-copy="/nIP01   Crear plan de mantenimiento&#10;/nIP02   Modificar plan&#10;/nIP03   Visualizar plan&#10;/nIP04   Crear posición de mant.&#10;/nIP42   Plan por estrategia/contador">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IP01</span>   <span class="t-com">Crear plan</span>
+<span class="t-op">/n</span><span class="t-fn">IP02</span>   <span class="t-com">Modificar plan</span>
+<span class="t-op">/n</span><span class="t-fn">IP03</span>   <span class="t-com">Visualizar plan</span>
+<span class="t-op">/n</span><span class="t-fn">IP04</span>   <span class="t-com">Posición de mant.</span>
+<span class="t-op">/n</span><span class="t-fn">IP42</span>   <span class="t-com">Plan por estrategia</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-prog">
+            <div class="tile-h"><span class="td"></span><h3>Programación (scheduling)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Programar el plan es lo que <b>genera las llamadas</b>: SAP calcula las fechas y, llegado el momento, crea la orden automáticamente.</p>
+              <figure class="code" data-copy="/nIP10   Programar plan (individual)&#10;/nIP30   Monitor: ejecutar progr. masiva&#10;/nIP24   Resumen de programación&#10;/nIP19   Gráfico de programación">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IP10</span>   <span class="t-com">Programar plan</span>
+<span class="t-op">/n</span><span class="t-fn">IP30</span>   <span class="t-com">Monitor (masivo, batch)</span>
+<span class="t-op">/n</span><span class="t-fn">IP24</span>   <span class="t-com">Resumen programación</span>
+<span class="t-op">/n</span><span class="t-fn">IP19</span>   <span class="t-com">Gráfico de programación</span></pre>
+              </figure>
+              <div class="tip"><span class="lab">IP30 en producción</span>Se agenda como <b>job de fondo</b> diario: recorre todos los planes y genera las órdenes que tocan. Es el motor del preventivo.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-rutas">
+            <div class="tile-h"><span class="td"></span><h3>Hojas de ruta (task lists)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>hoja de ruta</b> es la receta reutilizable de operaciones: pasos, tiempos, materiales y herramientas estándar. El plan la referencia para no reescribir el trabajo cada vez.</p>
+              <figure class="code" data-copy="/nIA01   Hoja de ruta de equipo&#10;/nIA05   Hoja de ruta general&#10;/nIA06   Hoja ruta ubicación técnica&#10;/nIA07   Visualizar hoja general&#10;/nIA08   Modificar (cambio general)">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IA01</span>   <span class="t-com">Ruta de equipo</span>
+<span class="t-op">/n</span><span class="t-fn">IA05</span>   <span class="t-com">Ruta general</span>
+<span class="t-op">/n</span><span class="t-fn">IA06</span>   <span class="t-com">Ruta de ubicación</span>
+<span class="t-op">/n</span><span class="t-fn">IA07</span>   <span class="t-com">Visualizar ruta general</span>
+<span class="t-op">/n</span><span class="t-fn">IA08</span>   <span class="t-com">Modificar (general)</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-estrat">
+            <div class="tile-h"><span class="td"></span><h3>Estrategias y ciclos</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>estrategia</b> agrupa varios <b>paquetes</b> de mantenimiento (p. ej. cada 1.000, 5.000 y 10.000 h) sobre una misma hoja de ruta. SAP combina los paquetes en cada llamada (el de 10.000 incluye lo de 1.000 y 5.000).</p>
+              <figure class="code" data-copy="/nIP11   Crear/editar estrategia&#10;/nIP12   Visualizar estrategia&#10;/nIP15   Paquetes de mantenimiento">
+                <figcaption><span class="lang">SAP · transacciones</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">IP11</span>   <span class="t-com">Editar estrategia</span>
+<span class="t-op">/n</span><span class="t-fn">IP12</span>   <span class="t-com">Visualizar estrategia</span>
+<span class="t-op">/n</span><span class="t-fn">IP15</span>   <span class="t-com">Paquetes de mant.</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Plan simple vs. estrategia</span>Si solo hay <b>un intervalo</b>, usa plan de ciclo único. Reserva las <b>estrategias</b> para activos con varios niveles de servicio anidados.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 INTEGRACIÓN ===== -->
+      <section class="stage" id="s6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Integración y referencia</h2><span class="meta">PM no vive<br>solo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pm-mm">
+            <div class="tile-h"><span class="td"></span><h3>MM · repuestos y compras</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">PM consume materiales que viven en <b>MM</b> (gestión de materiales). Al añadir un componente a la orden se crea una <b>reserva</b>; al ejecutar, una <b>salida de mercancías</b> (mov. 261) descuenta stock y carga el coste.</p>
+              <figure class="code" data-copy="/nMB21   Crear reserva (manual)&#10;/nMIGO   Salida/entrada de mercancías&#10;/nMMBE   Resumen de stocks&#10;/nME51N  Solicitud de pedido (PR)&#10;/nMD04   Lista stock/necesidades">
+                <figcaption><span class="lang">SAP · MM</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-op">/n</span><span class="t-fn">MB21</span>   <span class="t-com">Crear reserva</span>
+<span class="t-op">/n</span><span class="t-fn">MIGO</span>   <span class="t-com">Mov. de mercancías</span>
+<span class="t-op">/n</span><span class="t-fn">MMBE</span>   <span class="t-com">Resumen de stocks</span>
+<span class="t-op">/n</span><span class="t-fn">ME51N</span>  <span class="t-com">Solicitud de pedido</span>
+<span class="t-op">/n</span><span class="t-fn">MD04</span>   <span class="t-com">Stock / necesidades</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pm-ps">
+            <div class="tile-h"><span class="td"></span><h3>PS y otros módulos</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Para <b>grandes paradas</b> o revisiones, las órdenes PM se cuelgan de un <b>elemento PEP</b> de un proyecto (<b>PS</b>), que agrega presupuesto y avance. PM también toca <b>CO</b> (costes), <b>FI/AA</b> (activos) y <b>HR</b> (personal).</p>
+              <table class="tbl">
+                <tr><th>Módulo</th><th>Relación con PM</th></tr>
+                <tr><td class="k">MM</td><td>repuestos, reservas, compras</td></tr>
+                <tr><td class="k">PS</td><td>proyectos / paradas (PEP)</td></tr>
+                <tr><td class="k">CO</td><td>centro de coste, liquidación</td></tr>
+                <tr><td class="k">FI / AA</td><td>activos fijos, capitalización</td></tr>
+                <tr><td class="k">QM</td><td>inspecciones de calidad</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile span" id="pm-tabla">
+            <div class="tile-h"><span class="td"></span><h3>Tabla maestra de transacciones — la chuleta</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Las transacciones que más vas a teclear, todas juntas. <b>Clic en cualquier código para copiarlo</b> (se antepone <code>/n</code> al teclearlo en el campo de transacción).</p>
+              <table class="tbl">
+                <tr><th>Código</th><th>Qué hace</th><th>Área</th></tr>
+                <tr><td class="fn" data-copy="IL01">IL01</td><td>Crear ubicación técnica</td><td>Datos maestros</td></tr>
+                <tr><td class="fn" data-copy="IE01">IE01</td><td>Crear equipo</td><td>Datos maestros</td></tr>
+                <tr><td class="fn" data-copy="IB11">IB11</td><td>Crear BOM de equipo</td><td>Datos maestros</td></tr>
+                <tr><td class="fn" data-copy="IR01">IR01</td><td>Crear puesto de trabajo</td><td>Datos maestros</td></tr>
+                <tr><td class="fn" data-copy="IW21">IW21</td><td>Crear aviso</td><td>Avisos</td></tr>
+                <tr><td class="fn" data-copy="IW28">IW28</td><td>Lista de avisos</td><td>Avisos</td></tr>
+                <tr><td class="fn" data-copy="IW31">IW31</td><td>Crear orden</td><td>Órdenes</td></tr>
+                <tr><td class="fn" data-copy="IW34">IW34</td><td>Crear orden desde aviso</td><td>Órdenes</td></tr>
+                <tr><td class="fn" data-copy="IW32">IW32</td><td>Modificar orden / liberar / TECO</td><td>Órdenes</td></tr>
+                <tr><td class="fn" data-copy="IW38">IW38</td><td>Lista de órdenes</td><td>Órdenes</td></tr>
+                <tr><td class="fn" data-copy="IW41">IW41</td><td>Confirmar tiempo</td><td>Ciclo PM</td></tr>
+                <tr><td class="fn" data-copy="IW42">IW42</td><td>Confirmación global</td><td>Ciclo PM</td></tr>
+                <tr><td class="fn" data-copy="KO88">KO88</td><td>Liquidar orden (cierre comercial)</td><td>CO / cierre</td></tr>
+                <tr><td class="fn" data-copy="IK01">IK01</td><td>Crear punto de medida</td><td>Medidas</td></tr>
+                <tr><td class="fn" data-copy="IK11">IK11</td><td>Registrar documento de medición</td><td>Medidas</td></tr>
+                <tr><td class="fn" data-copy="IP01">IP01</td><td>Crear plan de mantenimiento</td><td>Preventivo</td></tr>
+                <tr><td class="fn" data-copy="IP10">IP10</td><td>Programar plan</td><td>Preventivo</td></tr>
+                <tr><td class="fn" data-copy="IP30">IP30</td><td>Monitor de programación (masivo)</td><td>Preventivo</td></tr>
+                <tr><td class="fn" data-copy="IA05">IA05</td><td>Hoja de ruta general</td><td>Preventivo</td></tr>
+                <tr><td class="fn" data-copy="MIGO">MIGO</td><td>Movimiento de mercancías</td><td>MM</td></tr>
+                <tr><td class="fn" data-copy="IH01">IH01</td><td>Estructura jerárquica de objetos</td><td>Reporting</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Atajo universal</span>Teclea <code>/n</code> + código para saltar a una transacción cerrando la actual; <code>/o</code> + código la abre en una <b>ventana nueva</b>; <code>/n</code> solo vuelve al menú.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>SAP PM · Hoja de referencia</b> — qué transacciones aprender para un ingeniero de mantenimiento. Construida sobre dos cursos de SAP Plant Maintenance (gestión avanzada de mantenimiento · módulo PM online): datos maestros y jerarquía de objetos, avisos, órdenes, el ciclo PM completo, puntos de medida, mantenimiento preventivo y la integración con MM y PS.
+        <span class="mono">Códigos de transacción reales · notas en español · clic en cualquier código o bloque para copiar. Los códigos PM01-PM04 y los rangos pueden variar según el Customizing de cada empresa.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

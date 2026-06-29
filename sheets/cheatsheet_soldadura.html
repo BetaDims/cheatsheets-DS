@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soldadura · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECE7E1;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F6F2ED;
+  --rail:#F4EFE9;
+  --code-bg:#FBF8F4;
+  --line:#E6DED3;
+  --line-soft:#EFE9E0;
+  --ink:#2A241E;
+  --ink-soft:#5E564B;
+  --ink-faint:#948A7C;
+  /* Soldadura — naranja arco fundido */
+  --wd:#D9480F;
+  --wd-deep:#A6370B;
+  --wd-tint:rgba(217,72,15,.14);
+  /* acentos de sección */
+  --s0:#C0392B;
+  --s1:#2B6FD6;
+  --s2:#1E8E54;
+  --s3:#B0840A;
+  --s4:#0E8A8A;
+  --s5:#8E4EC6;
+  --s6:#C0398C;
+  --s7:#46566A;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* tokens de "código" (especificaciones) */
+  --t-kw:#A6370B;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#B23A20;
+  --t-type:#0E7C86;
+  --t-com:#928C80;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--wd);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (plano de taller) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(42,36,30,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F5F0EA;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--wd),#F08A2E);flex:none}
+.logo svg{width:14px;height:14px}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--wd-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .arc{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:var(--wd-deep);border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .arc i{width:7px;height:7px;border-radius:50%;background:var(--wd);box-shadow:0 0 6px 1px rgba(217,72,15,.7);display:block}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#D6CDBF;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FBF8F4;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--wd-deep);border-bottom-color:var(--wd)}
+
+.fxbar{display:flex;align-items:stretch;background:#FBF8F4;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--wd-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--wd-deep)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--wd-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--wd)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--wd-deep)}
+.lede{max-width:74ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--wd-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--wd);background:linear-gradient(90deg,var(--wd-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative}
+.rail .ri.on{color:var(--wd-deep);background:var(--wd-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--wd)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(42,36,30,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(42,36,30,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--wd-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(42,36,30,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--wd);background:#FCF3EC}
+figure.code.copied .cphint{opacity:1;color:var(--wd-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num);font-weight:600}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--wd-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--wd-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF1E5}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== firma: símbolos AWS A2.4 en SVG ===== */
+.wdiag{margin:8px 0;border:1px dashed var(--wd);border-radius:11px;padding:16px 14px;background:linear-gradient(180deg,rgba(217,72,15,.05),transparent)}
+.wdiag:last-child{margin-bottom:0}
+.wdiag .cap{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--wd-deep);font-weight:700;margin-bottom:8px}
+.wd-svg{display:block;width:100%;height:auto}
+.wl{fill:none;stroke:#D9480F;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.wf{fill:#D9480F;stroke:none}
+.wf2{fill:rgba(217,72,15,.45);stroke:#D9480F;stroke-width:1.4}
+.wp{fill:#ECE3D6;stroke:#9A9082;stroke-width:1.4}
+.wlead{fill:none;stroke:#B3A899;stroke-width:1;stroke-dasharray:3 3}
+.wtx{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;fill:#5E564B;font-variant-ligatures:none}
+.wtx.b{fill:#A6370B;font-weight:700}
+.wtx.s{font-size:10.5px}
+.wtx.t{fill:#A6370B;font-weight:700;font-size:13px}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#2A241E;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(42,36,30,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span>
+      <span class="fname"><b>Soldadura</b> · soldadura.weld</span>
+      <span class="grow"></span>
+      <span class="arc"><i></i>arco ON</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Procesos</span>
+      <span class="vt">Juntas</span>
+      <span class="vt">Símbolos</span>
+      <span class="vt">Defectos</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc">proceso ▸ <b>SMAW</b> · <b>GMAW</b> · <b>GTAW</b> · FCAW · SAW</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del arco al ensayo</div>
+      <h1>Soldadura, del <em>arco</em><br>al <em>símbolo AWS</em>.</h1>
+      <p class="lede">La soldadura industrial en una página: los <b>procesos</b> (SMAW, GMAW/MIG-MAG, GTAW/TIG, FCAW, SAW) y cuándo usar cada uno, los <b>tipos de junta</b> y las <b>posiciones</b> (<code>1G–6G</code>), la <b>geometría</b> del cordón (pierna, garganta, penetración), la <b>simbología AWS A2.4</b> dibujada parte por parte, la <b>clasificación de electrodos</b> (<code>E6010</code>, <code>E7018</code>), los <b>parámetros</b> (amperaje, voltaje, aporte de calor), los <b>defectos</b> y <b>ensayos no destructivos</b>, y la <b>seguridad</b>. Cada bloque con una nota de <b>por qué/cuándo</b>. <b>Clic en cualquier ficha para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"A good weld is invisible; a bad one is forever."</p>
+        <cite>— dicho de taller</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Procesos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Juntas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Cordones</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Símbolos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Aporte</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Parámetros</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Defectos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Seguridad</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Procesos</span><span class="sd">SMAW · MIG · TIG</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Juntas</span><span class="sd">tipos · posición</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Cordones</span><span class="sd">filete · ranura</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Símbolos</span><span class="sd">AWS A2.4</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Aporte</span><span class="sd">E6010 · E7018</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Parámetros</span><span class="sd">A · V · calor</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Defectos</span><span class="sd">+ END</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Seguridad</span><span class="sd">arco · humos</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l9-12 9 12"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.weld</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Procesos</div>
+      <a href="#pr-smaw" style="--seg:var(--s0)">SMAW (electrodo revestido)</a>
+      <a href="#pr-gmaw" style="--seg:var(--s0)">GMAW (MIG / MAG)</a>
+      <a href="#pr-gtaw" style="--seg:var(--s0)">GTAW (TIG)</a>
+      <a href="#pr-fcaw" style="--seg:var(--s0)">FCAW (tubular)</a>
+      <a href="#pr-saw" style="--seg:var(--s0)">SAW (arco sumergido)</a>
+      <a href="#pr-otros" style="--seg:var(--s0)">Otros (OAW · RW)</a>
+      <a href="#pr-cmp" style="--seg:var(--s0)">¿Cuándo usar cada uno?</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Juntas</div>
+      <a href="#jt-tipos" style="--seg:var(--s1)">Tipos de junta</a>
+      <a href="#jt-pos" style="--seg:var(--s1)">Posiciones de soldadura</a>
+      <a href="#jt-desig" style="--seg:var(--s1)">Designación 1G–6G</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Cordones</div>
+      <a href="#cg-filete" style="--seg:var(--s2)">Soldadura de filete</a>
+      <a href="#cg-ranura" style="--seg:var(--s2)">Soldadura de ranura</a>
+      <a href="#cg-geo" style="--seg:var(--s2)">Geometría: pierna y garganta</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Símbolos AWS</div>
+      <a href="#sy-anat" style="--seg:var(--s3)">Anatomía del símbolo</a>
+      <a href="#sy-lados" style="--seg:var(--s3)">Lado flecha vs otro lado</a>
+      <a href="#sy-gal" style="--seg:var(--s3)">Símbolos de cordón</a>
+      <a href="#sy-supl" style="--seg:var(--s3)">Todo alrededor y en obra</a>
+      <a href="#sy-ej" style="--seg:var(--s3)">Lectura de un símbolo</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Aporte</div>
+      <a href="#ap-smaw" style="--seg:var(--s4)">Clasificación SMAW</a>
+      <a href="#ap-decode" style="--seg:var(--s4)">Descifrar E7018 / E6010</a>
+      <a href="#ap-gmaw" style="--seg:var(--s4)">Alambres GMAW (ER70S-6)</a>
+      <a href="#ap-alm" style="--seg:var(--s4)">Bajo hidrógeno y horneado</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Parámetros</div>
+      <a href="#pa-amp" style="--seg:var(--s5)">Amperaje y diámetro</a>
+      <a href="#pa-volt" style="--seg:var(--s5)">Voltaje y longitud de arco</a>
+      <a href="#pa-vel" style="--seg:var(--s5)">Velocidad de avance</a>
+      <a href="#pa-heat" style="--seg:var(--s5)">Aporte de calor</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Defectos + END</div>
+      <a href="#df-def" style="--seg:var(--s6)">Defectos comunes</a>
+      <a href="#df-causa" style="--seg:var(--s6)">Causas y remedios</a>
+      <a href="#df-end" style="--seg:var(--s6)">Ensayos no destructivos</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Seguridad</div>
+      <a href="#se-arco" style="--seg:var(--s7)">Radiación del arco y EPP</a>
+      <a href="#se-humos" style="--seg:var(--s7)">Humos y ventilación</a>
+      <a href="#se-riesgo" style="--seg:var(--s7)">Otros riesgos</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Proc.</a><a href="#e1">01 Juntas</a><a href="#e2">02 Cordones</a><a href="#e3">03 Símbolos</a>
+        <a href="#e4">04 Aporte</a><a href="#e5">05 Parám.</a><a href="#e6">06 Defectos</a><a href="#e7">07 Segur.</a>
+      </div>
+
+      <!-- ===== 00 PROCESOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Procesos principales</h2><span class="meta">arco eléctrico<br>+ metal de aporte</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pr-smaw">
+            <div class="tile-h"><span class="td"></span><h3>SMAW — electrodo revestido</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El clásico "stick". Un <b>electrodo revestido</b> consumible crea el arco; el revestimiento forma escoria y gas protector. Equipo simple, portátil, tolerante al viento y al óxido.</p>
+              <figure class="code" data-copy="SMAW (Shielded Metal Arc Welding)&#10;= soldadura por arco con electrodo&#10;  revestido (MMA / &quot;stick&quot;).&#10;Protección: escoria + gas del&#10;  revestimiento al fundirse.&#10;Corriente: CC o CA.&#10;Fuerte: campo, reparación, exterior.&#10;Débil: lento; hay que picar escoria.">
+                <figcaption><span class="lang">proceso</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">SMAW</span> (Shielded Metal Arc Welding)
+<span class="t-com">= electrodo revestido (MMA, "stick")</span>
+Protección: <span class="t-str">escoria + gas</span> del
+  revestimiento al fundirse.
+Corriente: <span class="t-num">CC</span> o <span class="t-num">CA</span>.
+Fuerte: campo, reparación, exterior.
+Débil: lento; picar escoria.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Cuándo</span>Estructura en obra, reparaciones, aceros al carbono y de baja aleación. El proceso más versátil con el equipo más barato.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-gmaw">
+            <div class="tile-h"><span class="td"></span><h3>GMAW — MIG / MAG</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Alambre macizo alimentado en continuo y gas de protección de una botella. <b>MIG</b> = gas inerte (Ar) para aluminio/inox; <b>MAG</b> = gas activo (CO₂, Ar+CO₂) para acero. Rápido y fácil de aprender.</p>
+              <figure class="code" data-copy="GMAW (Gas Metal Arc Welding)&#10;= alambre continuo + gas externo.&#10;MIG: gas inerte (Ar) → Al, inox.&#10;MAG: gas activo (CO2, Ar+CO2) → acero.&#10;Transferencia: corto, globular,&#10;  spray, pulsado.&#10;Fuerte: rápido, limpio, sin escoria.&#10;Débil: sensible al viento (taller).">
+                <figcaption><span class="lang">proceso</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">GMAW</span> (Gas Metal Arc Welding)
+<span class="t-com">= alambre continuo + gas externo</span>
+MIG: gas inerte (Ar) → Al, inox.
+MAG: gas activo (CO2) → acero.
+Transferencia: corto, globular,
+  spray, pulsado.
+Fuerte: rápido, limpio, sin escoria.
+Débil: sensible al viento.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Cuándo</span>Producción en taller, chapa fina a media, alta productividad. El gas exige resguardo del viento.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-gtaw">
+            <div class="tile-h"><span class="td"></span><h3>GTAW — TIG</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Electrodo de <b>tungsteno no consumible</b>, gas inerte (argón) y aporte por varilla aparte. La máxima calidad y control: cordones limpios, sin salpicadura, en casi cualquier metal.</p>
+              <figure class="code" data-copy="GTAW (Gas Tungsten Arc Welding)&#10;= electrodo de tungsteno (no se&#10;  consume) + gas inerte (Ar) +&#10;  varilla de aporte manual.&#10;CC-: acero/inox. CA: aluminio.&#10;Fuerte: calidad máxima, todo metal,&#10;  control del baño, raíz de tubería.&#10;Débil: lento; requiere destreza.">
+                <figcaption><span class="lang">proceso</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">GTAW</span> (Gas Tungsten Arc Welding)
+<span class="t-com">= tungsteno (no se consume) + Ar</span>
+  + varilla de aporte manual.
+<span class="t-num">CC-</span>: acero/inox. <span class="t-num">CA</span>: aluminio.
+Fuerte: calidad máxima, todo metal,
+  raíz de tubería.
+Débil: lento; requiere destreza.</pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Cuándo</span>Inox, aluminio, titanio, pases de raíz críticos, espesores finos y trabajo visible. El más lento, pero el más fino.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-fcaw">
+            <div class="tile-h"><span class="td"></span><h3>FCAW — alambre tubular</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Como GMAW pero con <b>alambre tubular</b> relleno de fundente. <b>FCAW-G</b> usa gas; <b>FCAW-S</b> es autoprotegido (sin botella), ideal en exteriores. Alta tasa de deposición.</p>
+              <figure class="code" data-copy="FCAW (Flux-Cored Arc Welding)&#10;= alambre tubular con fundente&#10;  dentro; alimentación continua.&#10;FCAW-G: con gas (taller).&#10;FCAW-S: autoprotegido (exterior).&#10;Fuerte: alta deposición, espesores,&#10;  buena en posición vertical.&#10;Débil: genera escoria y humos.">
+                <figcaption><span class="lang">proceso</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">FCAW</span> (Flux-Cored Arc Welding)
+<span class="t-com">= alambre tubular con fundente</span>
+FCAW-G: con gas (taller).
+FCAW-S: autoprotegido (exterior).
+Fuerte: alta deposición, espesores,
+  buena en vertical.
+Débil: escoria y humos.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Cuándo</span>Estructura pesada, espesores gruesos, montaje en obra (FCAW-S). Combina la velocidad del alambre con la robustez del fundente.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-saw">
+            <div class="tile-h"><span class="td"></span><h3>SAW — arco sumergido</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El arco arde <b>oculto bajo una capa de fundente granular</b>: sin chispa visible, sin radiación al operario y deposición altísima. Mecanizado/automático, casi siempre en posición plana.</p>
+              <figure class="code" data-copy="SAW (Submerged Arc Welding)&#10;= arco bajo fundente granular;&#10;  alambre continuo automatizado.&#10;Fuerte: deposición enorme, sin&#10;  radiación visible, cordón limpio.&#10;Limitado: plana/horizontal,&#10;  espesores medios-gruesos.&#10;Uso: vigas, tubería de gran D,&#10;  recipientes a presión.">
+                <figcaption><span class="lang">proceso</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">SAW</span> (Submerged Arc Welding)
+<span class="t-com">= arco bajo fundente granular</span>
+Fuerte: deposición enorme, sin
+  radiación visible, cordón limpio.
+Limitado: plana/horizontal.
+Uso: vigas, tubería de gran D,
+  recipientes a presión.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Cuándo</span>Producción seriada en plana: estructuras grandes y tubería de costura. Inviable manual y fuera de plana.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pr-otros">
+            <div class="tile-h"><span class="td"></span><h3>Otros procesos</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Proceso</th><th>Esencia</th></tr>
+                <tr><td class="fn">OAW</td><td>oxiacetilénico: llama O₂+C₂H₂; chapa fina, soldadura blanda/fuerte</td></tr>
+                <tr><td class="fn">RW</td><td>resistencia: puntos por presión + calor Joule; chapa, automoción</td></tr>
+                <tr><td class="fn">PAW</td><td>plasma: arco constreñido; precisión, microsoldadura</td></tr>
+                <tr><td class="fn">SW</td><td>de espárragos (stud): fija pernos por arco</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Nota</span>OAW y RW no usan arco eléctrico abierto como SMAW/GMAW, pero conviven en el taller.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="pr-cmp">
+            <div class="tile-h"><span class="td"></span><h3>¿Cuándo usar cada uno? — comparativa</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Proceso</th><th>Velocidad</th><th>Calidad</th><th>Posición</th><th>Mejor para</th></tr>
+                <tr><td class="k">SMAW</td><td>baja</td><td>media</td><td>todas</td><td>campo, reparación, exterior, acero</td></tr>
+                <tr><td class="k">GMAW</td><td>alta</td><td>media-alta</td><td>todas*</td><td>producción en taller, chapa, inox, Al</td></tr>
+                <tr><td class="k">GTAW</td><td>muy baja</td><td>máxima</td><td>todas</td><td>raíz crítica, inox, Al, Ti, acabado fino</td></tr>
+                <tr><td class="k">FCAW</td><td>alta</td><td>media-alta</td><td>todas</td><td>espesores, estructura, obra (autoprot.)</td></tr>
+                <tr><td class="k">SAW</td><td>máxima</td><td>alta</td><td>plana/horiz.</td><td>vigas, tubería de costura, serie</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">*Posición</span>GMAW en spray es prácticamente solo plana/horizontal; en arco corto o pulsado sí soldas vertical y sobrecabeza.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 JUNTAS ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Juntas y posiciones</h2><span class="meta">cómo se unen<br>las piezas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="jt-tipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de junta</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>junta</b> es la disposición de las piezas; el <b>cordón</b> (filete o ranura) es lo que la rellena. Cinco juntas básicas según AWS:</p>
+              <table class="tbl">
+                <tr><th>Junta</th><th>Disposición</th></tr>
+                <tr><td class="k">A tope (butt)</td><td>dos piezas en el mismo plano, borde con borde</td></tr>
+                <tr><td class="k">Traslape (lap)</td><td>una pieza encima de la otra, solapadas</td></tr>
+                <tr><td class="k">En T (tee)</td><td>una pieza perpendicular a otra (forma T)</td></tr>
+                <tr><td class="k">Esquina (corner)</td><td>dos piezas en ángulo, formando una L</td></tr>
+                <tr><td class="k">De borde (edge)</td><td>bordes paralelos adyacentes, soldados al canto</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Clave</span>La junta a tope suele llevar cordón de <b>ranura</b>; la de T, esquina y traslape suelen llevar <b>filete</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="jt-pos">
+            <div class="tile-h"><span class="td"></span><h3>Posiciones de soldadura</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>posición</b> es la orientación de la junta frente a la gravedad. De más fácil a más difícil:</p>
+              <table class="tbl">
+                <tr><th>Posición</th><th>Descripción</th></tr>
+                <tr><td class="k">Plana (F)</td><td>se suelda desde arriba; el baño descansa. La más fácil</td></tr>
+                <tr><td class="k">Horizontal (H)</td><td>cordón horizontal sobre plano vertical</td></tr>
+                <tr><td class="k">Vertical (V)</td><td>cordón a lo largo; ascendente o descendente</td></tr>
+                <tr><td class="k">Sobrecabeza (OH)</td><td>se suelda por debajo; baño contra gravedad</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Vertical</span><b>Ascendente</b> = más penetración (estructural). <b>Descendente</b> = rápido pero poca fusión (chapa fina).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="jt-desig">
+            <div class="tile-h"><span class="td"></span><h3>Designación de posición 1G–6G</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El código combina un número (orientación) y una letra: <b>G</b> = ranura (<i>groove</i>), <b>F</b> = filete (<i>fillet</i>). En tubería, el tubo está <b>fijo</b> salvo 1G.</p>
+              <table class="tbl">
+                <tr><th>Código</th><th>Placa</th><th>Tubería</th></tr>
+                <tr><td class="fn">1G</td><td>ranura plana (placa horizontal)</td><td>tubo girando, se suelda plana arriba</td></tr>
+                <tr><td class="fn">2G</td><td>ranura horizontal</td><td>tubo con eje vertical, cordón horizontal</td></tr>
+                <tr><td class="fn">3G</td><td>ranura vertical</td><td>—</td></tr>
+                <tr><td class="fn">4G</td><td>ranura sobrecabeza</td><td>—</td></tr>
+                <tr><td class="fn">5G</td><td>—</td><td>tubo eje horizontal fijo (vert.+sobrecab.)</td></tr>
+                <tr><td class="fn">6G</td><td>—</td><td>tubo fijo a 45°: la prueba más exigente</td></tr>
+                <tr><td class="fn">1F–4F</td><td>filete: plana / horiz. / vert. / sobrecab.</td><td>equivalentes en filete</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Por qué importa</span>La calificación del soldador (WPQ) por una posición cubre las menos exigentes: aprobar <b>6G</b> habilita casi todas las posiciones de tubería.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 CORDONES ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Cordones y geometría</h2><span class="meta">filete · ranura<br>garganta</span></div>
+
+        <div class="cols">
+          <div class="tile" id="cg-filete">
+            <div class="tile-h"><span class="td"></span><h3>Soldadura de filete</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cordón de sección triangular en el ángulo interior de una junta en <b>T, esquina o traslape</b>. No requiere preparar bordes: el más común y económico.</p>
+              <figure class="code" data-copy="Filete (fillet weld)&#10;- sección triangular en el rincón.&#10;- se define por el tamaño de PIERNA&#10;  (leg) — el cateto del triángulo.&#10;- tamaño nominal = pierna menor.&#10;- resiste por CORTANTE en la garganta.&#10;Tip: pierna ≈ espesor de la chapa&#10;  más delgada (regla práctica).">
+                <figcaption><span class="lang">cordón</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">Filete</span> (fillet weld)
+<span class="t-com">- sección triangular en el rincón</span>
+- tamaño = <span class="t-num">PIERNA</span> (leg), el cateto.
+- nominal = pierna menor.
+- resiste por <span class="t-num">cortante</span> en garganta.
+Tip: pierna ≈ espesor de la chapa
+  más delgada.</pre>
+              </figure>
+              <div class="tip"><span class="lab">Sobredimensionar = caro</span>Doblar la pierna cuadruplica el metal y el calor aportado, no la resistencia. Suelda al tamaño que pide el plano, no más.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="cg-ranura">
+            <div class="tile-h"><span class="td"></span><h3>Soldadura de ranura</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Rellena un <b>bisel preparado</b> entre piezas (típico a tope). Permite <b>penetración completa</b> (CJP) para uniones que cargan a tracción total.</p>
+              <table class="tbl">
+                <tr><th>Tipo de ranura</th><th>Uso</th></tr>
+                <tr><td class="k">Cuadrada</td><td>espesores finos, sin biselar</td></tr>
+                <tr><td class="k">En V</td><td>el más común; un solo lado</td></tr>
+                <tr><td class="k">En X (doble V)</td><td>espesor grueso, menos deformación</td></tr>
+                <tr><td class="k">Bisel / U / J</td><td>ahorro de aporte en espesores</td></tr>
+              </table>
+              <div class="tip"><span class="lab">CJP vs PJP</span><b>CJP</b> = penetración completa (junta = metal base). <b>PJP</b> = penetración parcial, controlada por diseño.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="cg-geo">
+            <div class="tile-h"><span class="td"></span><h3>Geometría del filete — pierna y garganta</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>pierna</b> (leg) es el cateto sobre cada cara; la <b>garganta</b> (throat) es la mínima distancia de la raíz a la cara del cordón — la sección que de verdad resiste. Para un filete de catetos iguales <code>L</code>: garganta teórica <code>a = 0,707 · L</code>.</p>
+              <div class="cols">
+                <div class="wdiag">
+                  <div class="cap">Sección de un filete — pierna · garganta · raíz</div>
+                  <svg class="wd-svg" viewBox="0 0 380 250" role="img" aria-label="Sección transversal de soldadura de filete con pierna, garganta y raíz">
+                    <!-- plates -->
+                    <rect class="wp" x="74" y="30" width="26" height="170"/>
+                    <rect class="wp" x="74" y="196" width="240" height="26"/>
+                    <!-- fillet weld -->
+                    <polygon class="wf2" points="100,196 100,150 146,196"/>
+                    <!-- throat (root -> face) -->
+                    <line class="wl" x1="100" y1="196" x2="123" y2="173" stroke-width="1.8"/>
+                    <!-- leg markers -->
+                    <line class="wlead" x1="100" y1="150" x2="48" y2="150"/>
+                    <line class="wlead" x1="123" y1="222" x2="123" y2="244"/>
+                    <line class="wlead" x1="100" y1="196" x2="60" y2="222"/>
+                    <line class="wlead" x1="123" y1="173" x2="210" y2="150"/>
+                    <text class="wtx b" x="44" y="146" text-anchor="end">pierna</text>
+                    <text class="wtx s" x="44" y="160" text-anchor="end">(leg)</text>
+                    <text class="wtx b" x="123" y="244" text-anchor="middle">pierna</text>
+                    <text class="wtx b" x="214" y="148" text-anchor="start">garganta</text>
+                    <text class="wtx s" x="214" y="162" text-anchor="start">a ≈ 0,707·L</text>
+                    <text class="wtx" x="56" y="234" text-anchor="middle">raíz</text>
+                  </svg>
+                </div>
+                <div>
+                  <figure class="code" data-copy="Filete de catetos iguales L:&#10;  garganta teórica a = 0,707 · L&#10;Ejemplo L = 8 mm:&#10;  a = 0,707 · 8 = 5,66 mm&#10;Área resistente por mm de cordón:&#10;  = a · 1 mm&#10;Resistencia a cortante (carga):&#10;  F = a · Lcordón · τperm">
+                    <figcaption><span class="lang">cálculo</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">Filete de catetos iguales L:</span>
+garganta <span class="t-num">a = 0,707 · L</span>
+Ej. L = 8 mm:
+  a = 0,707·8 = <span class="t-num">5,66 mm</span>
+Área por mm = a · 1
+Carga: F = a · Lcordón · τperm</pre>
+                  </figure>
+                  <div class="tip"><span class="lab">Convexidad ≠ resistencia</span>Un cordón muy convexo añade metal por fuera de la garganta: peso y calor, no capacidad. Concavidad excesiva, en cambio, reduce la garganta.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 SÍMBOLOS AWS (firma) ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Simbología AWS A2.4</h2><span class="meta">el plano<br>habla en símbolos</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="sy-anat">
+            <div class="tile-h"><span class="td"></span><h3>Anatomía del símbolo — flecha, línea de referencia, cola</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Todo símbolo de soldadura AWS se construye sobre una <b>línea de referencia horizontal</b>, una <b>flecha</b> que apunta a la junta y, opcional, una <b>cola</b> con la especificación o el proceso. Los símbolos de cordón cuelgan de la línea: <b>debajo = lado de la flecha</b>, <b>encima = otro lado</b>.</p>
+              <div class="wdiag">
+                <div class="cap">Símbolo de soldadura AWS A2.4 — partes</div>
+                <svg class="wd-svg" viewBox="0 0 720 340" role="img" aria-label="Anatomía de un símbolo de soldadura AWS: línea de referencia, flecha, cola, símbolos de filete a ambos lados, todo alrededor y en obra">
+                  <!-- reference line -->
+                  <line class="wl" x1="180" y1="170" x2="460" y2="170"/>
+                  <!-- arrow line + head to joint -->
+                  <line class="wl" x1="460" y1="170" x2="558" y2="254"/>
+                  <polygon class="wf" points="562,257 543,250 552,235"/>
+                  <!-- joint plates (T) -->
+                  <rect class="wp" x="520" y="258" width="104" height="13"/>
+                  <rect class="wp" x="560" y="214" width="13" height="44"/>
+                  <!-- tail (fork) -->
+                  <line class="wl" x1="180" y1="170" x2="146" y2="153"/>
+                  <line class="wl" x1="180" y1="170" x2="146" y2="187"/>
+                  <!-- fillet symbol other side (above) -->
+                  <polygon class="wf" points="300,170 300,148 320,170"/>
+                  <!-- fillet symbol arrow side (below) -->
+                  <polygon class="wf" points="300,170 300,192 320,170"/>
+                  <!-- all-around circle at junction -->
+                  <circle class="wl" cx="460" cy="170" r="9"/>
+                  <!-- field weld flag at junction -->
+                  <line class="wl" x1="460" y1="161" x2="460" y2="138"/>
+                  <polygon class="wf" points="460,138 482,144 460,150"/>
+                  <!-- leaders -->
+                  <line class="wlead" x1="150" y1="100" x2="216" y2="168"/>
+                  <line class="wlead" x1="303" y1="64" x2="306" y2="147"/>
+                  <line class="wlead" x1="468" y1="80" x2="463" y2="162"/>
+                  <line class="wlead" x1="500" y1="126" x2="481" y2="145"/>
+                  <line class="wlead" x1="132" y1="232" x2="151" y2="186"/>
+                  <line class="wlead" x1="303" y1="294" x2="307" y2="192"/>
+                  <line class="wlead" x1="588" y1="292" x2="558" y2="258"/>
+                  <!-- labels -->
+                  <text class="wtx b" x="28" y="94" text-anchor="start">Línea de referencia</text>
+                  <text class="wtx b" x="303" y="54" text-anchor="middle">Símbolo: otro lado</text>
+                  <text class="wtx b" x="470" y="68" text-anchor="middle">Todo alrededor</text>
+                  <text class="wtx b" x="502" y="124" text-anchor="start">En obra (bandera)</text>
+                  <text class="wtx b" x="120" y="250" text-anchor="middle">Cola: proceso / norma</text>
+                  <text class="wtx b" x="303" y="312" text-anchor="middle">Símbolo: lado flecha</text>
+                  <text class="wtx b" x="592" y="310" text-anchor="middle">Flecha → la junta</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Regla de oro</span>La posición respecto a la línea, no respecto a la página, decide el lado: <b>siempre</b> debajo = lado de la flecha, encima = otro lado, aunque gires el plano.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="sy-lados">
+            <div class="tile-h"><span class="td"></span><h3>Lado de la flecha vs otro lado</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La flecha toca una cara de la junta = <b>lado de la flecha</b>. La cara opuesta = <b>otro lado</b>. El símbolo de cordón se coloca según dónde haya que soldar.</p>
+              <table class="tbl">
+                <tr><th>Símbolo</th><th>Significa</th></tr>
+                <tr><td class="k">Debajo de la línea</td><td>soldar en el lado de la flecha</td></tr>
+                <tr><td class="k">Encima de la línea</td><td>soldar en el otro lado</td></tr>
+                <tr><td class="k">Ambos lados</td><td>símbolo encima y debajo</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">No confundir</span>Memoria: la <b>flecha</b> apunta abajo a la junta → su símbolo va <b>abajo</b>. Lo de arriba es "el otro lado".</div>
+            </div>
+          </div>
+
+          <div class="tile" id="sy-ej">
+            <div class="tile-h"><span class="td"></span><h3>Lectura de un símbolo completo</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un símbolo se lee como una frase: tamaño · tipo de cordón · longitud · paso, más banderines de todo-alrededor/en-obra y la cola.</p>
+              <figure class="code" data-copy="Ejemplo: 6 ▽ 50-150  (lado flecha)&#10;  6     = pierna del filete (mm)&#10;  ▽     = cordón de filete&#10;  50    = longitud de cada cordón (mm)&#10;  150   = paso entre centros (mm)&#10;  → filete intermitente 6 mm,&#10;     50 sueldo / 150 paso.&#10;Círculo en el codo = todo alrededor.&#10;Bandera = soldar en obra.">
+                <figcaption><span class="lang">lectura</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-num">6</span> ▽ <span class="t-num">50-150</span>  (lado flecha)
+  <span class="t-num">6</span>   = pierna del filete (mm)
+  ▽   = cordón de filete
+  <span class="t-num">50</span>  = longitud de cada cordón
+  <span class="t-num">150</span> = paso entre centros
+<span class="t-com">→ filete intermit. 50 / 150</span>
+Círculo = todo alrededor.
+Bandera = en obra.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="sy-gal">
+            <div class="tile-h"><span class="td"></span><h3>Símbolos de cordón — filete y ranura</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cada tipo de cordón tiene su glifo, que se cuelga de la línea de referencia. Los de <b>filete</b> son triángulos; los de <b>ranura</b> dibujan el perfil del bisel.</p>
+              <div class="wdiag">
+                <div class="cap">Glifos sobre la línea de referencia</div>
+                <svg class="wd-svg" viewBox="0 0 700 130" role="img" aria-label="Galería de símbolos de cordón AWS: filete, ranura cuadrada, en V, bisel y en U">
+                  <!-- 1 fillet -->
+                  <line class="wl" x1="25" y1="48" x2="115" y2="48"/>
+                  <polygon class="wf" points="55,48 55,72 75,48"/>
+                  <text class="wtx" x="70" y="104" text-anchor="middle">Filete</text>
+                  <!-- 2 square groove -->
+                  <line class="wl" x1="165" y1="48" x2="255" y2="48"/>
+                  <line class="wl" x1="200" y1="48" x2="200" y2="72"/>
+                  <line class="wl" x1="220" y1="48" x2="220" y2="72"/>
+                  <text class="wtx" x="210" y="104" text-anchor="middle">R. cuadrada</text>
+                  <!-- 3 V groove -->
+                  <line class="wl" x1="305" y1="48" x2="395" y2="48"/>
+                  <polyline class="wl" points="337,48 350,74 363,48"/>
+                  <text class="wtx" x="350" y="104" text-anchor="middle">Ranura en V</text>
+                  <!-- 4 bevel groove -->
+                  <line class="wl" x1="445" y1="48" x2="535" y2="48"/>
+                  <line class="wl" x1="490" y1="48" x2="490" y2="74"/>
+                  <line class="wl" x1="490" y1="48" x2="475" y2="74"/>
+                  <text class="wtx" x="490" y="104" text-anchor="middle">Bisel</text>
+                  <!-- 5 U groove -->
+                  <line class="wl" x1="585" y1="48" x2="675" y2="48"/>
+                  <path class="wl" d="M620 48 V60 a10 10 0 0 0 20 0 V48"/>
+                  <text class="wtx" x="630" y="104" text-anchor="middle">Ranura en U</text>
+                </svg>
+              </div>
+              <div class="tip"><span class="lab">Mnemónico</span>El glifo "dibuja" la sección: el triángulo es el filete, la V es el bisel en V, la U es el bisel en U. Donde lo veas (arriba/abajo) marca el lado.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="sy-supl">
+            <div class="tile-h"><span class="td"></span><h3>Símbolos suplementarios — todo alrededor y en obra</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Dos banderines viven en el <b>codo</b> (unión de flecha y línea de referencia): el <b>círculo</b> = soldar todo el perímetro; la <b>bandera</b> = soldar en montaje (en obra), no en taller.</p>
+              <div class="wdiag">
+                <div class="cap">Indicaciones en el codo del símbolo</div>
+                <svg class="wd-svg" viewBox="0 0 700 160" role="img" aria-label="Símbolos suplementarios: todo alrededor (círculo) y en obra (bandera)">
+                  <text class="wtx t" x="150" y="24" text-anchor="middle">Todo alrededor</text>
+                  <text class="wtx t" x="520" y="24" text-anchor="middle">En obra (field)</text>
+                  <!-- left: all-around -->
+                  <line class="wl" x1="60" y1="80" x2="220" y2="80"/>
+                  <line class="wl" x1="220" y1="80" x2="265" y2="116"/>
+                  <polygon class="wf" points="268,118 252,112 259,100"/>
+                  <polygon class="wf" points="130,80 130,98 148,80"/>
+                  <circle class="wl" cx="220" cy="80" r="9"/>
+                  <line class="wlead" x1="220" y1="63" x2="220" y2="40"/>
+                  <text class="wtx s" x="220" y="36" text-anchor="middle">círculo = perímetro</text>
+                  <!-- right: field weld -->
+                  <line class="wl" x1="420" y1="80" x2="580" y2="80"/>
+                  <line class="wl" x1="580" y1="80" x2="625" y2="116"/>
+                  <polygon class="wf" points="628,118 612,112 619,100"/>
+                  <polygon class="wf" points="490,80 490,98 508,80"/>
+                  <line class="wl" x1="580" y1="71" x2="580" y2="44"/>
+                  <polygon class="wf" points="580,44 604,51 580,58"/>
+                  <line class="wlead" x1="606" y1="50" x2="650" y2="40"/>
+                  <text class="wtx s" x="652" y="44" text-anchor="start">bandera = montaje</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 APORTE ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Metales de aporte</h2><span class="meta">clasificación<br>AWS A5</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ap-smaw">
+            <div class="tile-h"><span class="td"></span><h3>Clasificación SMAW (AWS A5.1)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Los electrodos revestidos de acero al carbono se nombran <code>E XX Y Z</code>. Cada cifra dice resistencia, posición y revestimiento/corriente.</p>
+              <figure class="code" data-copy="E   7  0  1  8&#10;|   |  |  |  +- revestimiento + corriente&#10;|   |  |  +---- posición&#10;|   +--+------- resistencia x1000 psi&#10;+-------------- Electrodo&#10;&#10;E70xx → 70 ksi de tracción mínima&#10;Exx1x → todas las posiciones&#10;Exxx8 → bajo hidrógeno, polvo Fe, CA/CC+">
+                <figcaption><span class="lang">aws a5.1</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">E</span>  <span class="t-num">7 0</span>  <span class="t-num">1</span>  <span class="t-num">8</span>
+<span class="t-com">|  |    |  +- revestim. + corriente</span>
+<span class="t-com">|  |    +---- posición</span>
+<span class="t-com">|  +--------- resistencia ×1000 psi</span>
+<span class="t-com">+------------ Electrodo</span>
+
+E70xx → 70 ksi tracción mín.
+Exx1x → todas las posiciones
+Exxx8 → bajo H, polvo Fe</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="ap-gmaw">
+            <div class="tile-h"><span class="td"></span><h3>Alambres GMAW (AWS A5.18)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El alambre macizo se nombra <code>ER XX S-Z</code>. El popular <b>ER70S-6</b> trae extra de Si y Mn: desoxida y suelda bien sobre cascarilla u óxido ligero.</p>
+              <figure class="code" data-copy="ER 70 S - 6&#10;|  |  |   +-- composición química&#10;|  |  +------ Sólido (Solid)&#10;|  +--------- resistencia x1000 psi&#10;+------------ Electrodo / Varilla&#10;&#10;ER70S-6: + Si/Mn, tolera óxido,&#10;  cordón estable; el más usado en MAG.&#10;ER70S-3: menos desoxidantes, acero&#10;  limpio.">
+                <figcaption><span class="lang">aws a5.18</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-kw">ER</span> <span class="t-num">70</span> <span class="t-num">S</span> - <span class="t-num">6</span>
+<span class="t-com">|  |  |   +-- composición química</span>
+<span class="t-com">|  |  +------ Sólido (Solid)</span>
+<span class="t-com">|  +--------- resistencia ×1000 psi</span>
+<span class="t-com">+------------ Electrodo/Varilla</span>
+
+ER70S-6: + Si/Mn, tolera óxido.
+ER70S-3: acero limpio.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="ap-decode">
+            <div class="tile-h"><span class="td"></span><h3>Descifrar electrodos comunes</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Electrodo</th><th>Revestimiento</th><th>Corriente</th><th>Carácter</th></tr>
+                <tr><td class="fn">E6010</td><td>celulósico-sodio</td><td>CC+ (DCEP)</td><td>arco agresivo, penetración profunda; raíz en tubería</td></tr>
+                <tr><td class="fn">E6011</td><td>celulósico-potasio</td><td>CA o CC+</td><td>como 6010 pero en CA; equipos básicos</td></tr>
+                <tr><td class="fn">E6013</td><td>rutilo-potasio</td><td>CA o CC±</td><td>arco suave, fácil; chapa fina, principiantes</td></tr>
+                <tr><td class="fn">E7018</td><td>bajo hidrógeno, polvo Fe</td><td>CA o CC+</td><td>dúctil, alta tenacidad; estructural, código</td></tr>
+                <tr><td class="fn">E7024</td><td>polvo de hierro, rutilo</td><td>CA o CC±</td><td>"drag rod", deposición alta; plana/horiz.</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla mental</span>El <b>último dígito</b> (con el penúltimo) fija revestimiento y corriente. <b>xx10</b> penetra, <b>xx13</b> es fácil, <b>xx18</b> es bajo hidrógeno para trabajo serio.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="ap-alm">
+            <div class="tile-h"><span class="td"></span><h3>Bajo hidrógeno y horneado</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Los electrodos de <b>bajo hidrógeno</b> (E7018 y familia) absorben humedad del aire. El hidrógeno disuelto causa <b>fisuración en frío</b> (en la ZAC, horas después de soldar). Por eso se controla su almacenamiento.</p>
+              <table class="tbl">
+                <tr><th>Práctica</th><th>Detalle</th></tr>
+                <tr><td class="k">Horno de mantenimiento</td><td>guardar a 120–150 °C tras abrir el envase</td></tr>
+                <tr><td class="k">Reacondicionado</td><td>secar a ~260–430 °C si se humedeció (según fabricante)</td></tr>
+                <tr><td class="k">Tiempo expuesto</td><td>limitar horas fuera del horno (p. ej. 4 h)</td></tr>
+                <tr><td class="k">Precalentamiento</td><td>en espesores/aceros sensibles, baja la velocidad de enfriamiento</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Por qué</span>Hidrógeno + tensiones + microestructura dura + frío = grieta diferida. Electrodo seco, precalentamiento y control de enfriamiento lo evitan.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 PARÁMETROS ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Parámetros</h2><span class="meta">amperaje · voltaje<br>velocidad · calor</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pa-amp">
+            <div class="tile-h"><span class="td"></span><h3>Amperaje y diámetro</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>amperaje</b> manda en la <b>penetración</b> y el calor. Lo fija el diámetro del electrodo/alambre y el espesor. Regla práctica para SMAW: ~40 A por cada mm de diámetro de electrodo.</p>
+              <figure class="code" data-copy="Amperaje (A) → penetración + calor.&#10;SMAW (regla): ~30-45 A por mm de Ø.&#10;  Ø 2,5 mm → ~70-100 A&#10;  Ø 3,2 mm → ~90-140 A&#10;  Ø 4,0 mm → ~140-190 A&#10;Demasiado A: socavación, perforar.&#10;Poco A: falta de fusión, pegado.">
+                <figcaption><span class="lang">parámetro</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Amperaje (A) → penetración+calor.
+SMAW: ~30-45 A por mm de Ø.
+  Ø 2,5 → ~70-100 A
+  Ø 3,2 → ~90-140 A
+  Ø 4,0 → ~140-190 A
+<span class="t-num">Mucho A</span>: socavación, perforar.
+<span class="t-num">Poco A</span>: falta de fusión.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pa-volt">
+            <div class="tile-h"><span class="td"></span><h3>Voltaje y longitud de arco</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>voltaje</b> gobierna la <b>longitud del arco</b> y el ancho del cordón. En GMAW lo ajustas en la máquina; en SMAW lo controla el soldador con la distancia.</p>
+              <figure class="code" data-copy="Voltaje (V) → longitud de arco,&#10;  ancho y perfil del cordón.&#10;Arco largo (V alto): cordón ancho,&#10;  plano; más salpicadura, porosidad.&#10;Arco corto (V bajo): cordón angosto,&#10;  abombado; riesgo de pegado.&#10;GMAW: V se fija en la fuente.&#10;SMAW: V = distancia que mantienes.">
+                <figcaption><span class="lang">parámetro</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Voltaje (V) → longitud de arco,
+  ancho y perfil del cordón.
+<span class="t-num">Arco largo</span>: ancho, plano;
+  más salpicadura/porosidad.
+<span class="t-num">Arco corto</span>: angosto,
+  abombado; riesgo de pegado.
+GMAW: V en la fuente.
+SMAW: V = distancia.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pa-vel">
+            <div class="tile-h"><span class="td"></span><h3>Velocidad de avance</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>velocidad de desplazamiento</b> reparte el calor. Rápida = cordón fino, poca penetración; lenta = cordón ancho, exceso de calor y deformación.</p>
+              <figure class="code" data-copy="Velocidad de avance (mm/min):&#10;Rápida → cordón estrecho, convexo,&#10;  poca penetración, falta de fusión.&#10;Lenta → cordón ancho, mucho aporte&#10;  de calor, distorsión, socavación.&#10;Objetivo: ángulo y velocidad&#10;  constantes; observa el baño,&#10;  no la punta.">
+                <figcaption><span class="lang">parámetro</span><span class="cphint">clic = copiar</span></figcaption>
+<pre>Velocidad de avance (mm/min):
+<span class="t-num">Rápida</span> → estrecho, convexo,
+  poca penetración.
+<span class="t-num">Lenta</span> → ancho, mucho calor,
+  distorsión, socavación.
+Mira el <span class="t-str">baño</span>, no la punta.</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="pa-heat">
+            <div class="tile-h"><span class="td"></span><h3>Aporte de calor (heat input)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>aporte de calor</b> resume amperaje, voltaje y velocidad en un solo número (kJ/mm). Lo limita la WPS: demasiado calor ablanda la ZAC; demasiado poco la endurece y agrieta.</p>
+              <figure class="code" data-copy="HI = (60 · I · V) / (v · 1000)&#10;  HI = aporte de calor (kJ/mm)&#10;  I  = amperaje (A)&#10;  V  = voltaje (V)&#10;  v  = velocidad (mm/min)&#10;Ej: I=180, V=24, v=300&#10;  HI = (60·180·24)/(300·1000)&#10;     = 0,86 kJ/mm">
+                <figcaption><span class="lang">fórmula</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-num">HI = (60·I·V) / (v·1000)</span>
+  HI = aporte (kJ/mm)
+  I  = amperaje (A)
+  V  = voltaje (V)
+  v  = velocidad (mm/min)
+Ej: I=180, V=24, v=300
+  HI = (60·180·24)/(300·1000)
+     = <span class="t-num">0,86 kJ/mm</span></pre>
+              </figure>
+              <div class="tip warn"><span class="lab">Por qué importa</span>El aporte de calor controla el enfriamiento y, con él, la microestructura, la dureza y la deformación. Va calificado en la WPS.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 DEFECTOS + END ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Defectos y ensayos</h2><span class="meta">qué falla<br>cómo se detecta</span></div>
+
+        <div class="cols">
+          <div class="tile" id="df-def">
+            <div class="tile-h"><span class="td"></span><h3>Defectos comunes</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Defecto</th><th>Qué es</th></tr>
+                <tr><td class="k">Porosidad</td><td>gas atrapado: burbujas en el cordón</td></tr>
+                <tr><td class="k">Falta de fusión</td><td>el metal no se unió a la base/pase</td></tr>
+                <tr><td class="k">Falta de penetración</td><td>la raíz no se rellenó del todo</td></tr>
+                <tr><td class="k">Socavación</td><td>canal fundido al borde, sin rellenar</td></tr>
+                <tr><td class="k">Inclusión de escoria</td><td>escoria atrapada entre pases</td></tr>
+                <tr><td class="k">Fisuras</td><td>en caliente (solidificación) o en frío (H₂)</td></tr>
+                <tr><td class="k">Salpicadura / sobremonta</td><td>estética y concentración de tensión</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="tile" id="df-causa">
+            <div class="tile-h"><span class="td"></span><h3>Causas y remedios</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Defecto</th><th>Causa → remedio</th></tr>
+                <tr><td class="k">Porosidad</td><td>humedad/grasa/poco gas → limpiar, secar, resguardar del viento</td></tr>
+                <tr><td class="k">Falta de fusión</td><td>poco A, arco frío → subir A, ángulo y técnica</td></tr>
+                <tr><td class="k">Socavación</td><td>mucho A, arco largo, rápido → bajar A, V, oscilar</td></tr>
+                <tr><td class="k">Escoria</td><td>mal picado entre pases → limpiar cada pase</td></tr>
+                <tr><td class="k">Fisura en frío</td><td>H₂ + dureza → electrodo seco, precalentar</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Discontinuidad ≠ defecto</span>Una discontinuidad solo es <b>defecto</b> si supera el criterio de aceptación del código (p. ej. AWS D1.1).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="df-end">
+            <div class="tile-h"><span class="td"></span><h3>Ensayos no destructivos (END / NDT)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Verifican la soldadura <b>sin destruirla</b>. Unos ven la superficie; otros, el interior. Se eligen según el defecto buscado y el material.</p>
+              <table class="tbl">
+                <tr><th>Método</th><th>Detecta</th><th>Alcance</th></tr>
+                <tr><td class="fn">VT — visual</td><td>perfil, socavación, sobremonta, salpicadura</td><td>superficie; primero y más barato</td></tr>
+                <tr><td class="fn">PT — líquidos penetrantes</td><td>grietas/poros abiertos a la superficie</td><td>cualquier material no poroso</td></tr>
+                <tr><td class="fn">MT — partículas magnéticas</td><td>defectos superficiales y subsuperficiales</td><td>solo materiales ferromagnéticos</td></tr>
+                <tr><td class="fn">RT — radiografía</td><td>porosidad, escoria, falta de penetración</td><td>volumétrico; imagen permanente; seguridad radiológica</td></tr>
+                <tr><td class="fn">UT — ultrasonido</td><td>defectos internos, falta de fusión, grietas planas</td><td>volumétrico; gran espesor; requiere operador hábil</td></tr>
+              </table>
+              <div class="tip"><span class="lab">RT vs UT</span><b>RT</b> ve bien defectos volumétricos (poros, escoria); <b>UT</b> destaca con defectos planos (faltas de fusión, grietas). Suelen complementarse.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 SEGURIDAD ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Seguridad</h2><span class="meta">arco · humos<br>EPP</span></div>
+
+        <div class="cols">
+          <div class="tile" id="se-arco">
+            <div class="tile-h"><span class="td"></span><h3>Radiación del arco y EPP</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El arco emite <b>UV, luz visible e IR</b> intensos. La exposición causa "ojo de arco" (fotoqueratitis) y quemaduras. La careta debe llevar el <b>tono</b> adecuado al amperaje.</p>
+              <table class="tbl">
+                <tr><th>EPP</th><th>Para</th></tr>
+                <tr><td class="k">Careta autooscurecible</td><td>tono según A (DIN ~9–13)</td></tr>
+                <tr><td class="k">Ropa de cuero / ignífuga</td><td>UV, salpicadura, calor radiante</td></tr>
+                <tr><td class="k">Guantes y mandil</td><td>chispa y contacto caliente</td></tr>
+                <tr><td class="k">Calzado de seguridad</td><td>caída de piezas, salpicadura</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Mampara</span>Protege a terceros con biombos opacos: el "flash" alcanza a quien mira sin careta a varios metros.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="se-humos">
+            <div class="tile-h"><span class="td"></span><h3>Humos y ventilación</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Los <b>humos</b> son óxidos metálicos finos: respirables y tóxicos. El <b>cromo hexavalente</b> (inox) y el <b>manganeso</b> son especialmente peligrosos.</p>
+              <table class="tbl">
+                <tr><th>Riesgo</th><th>Control</th></tr>
+                <tr><td class="k">Cr(VI) — inox</td><td>extracción localizada + respirador</td></tr>
+                <tr><td class="k">Mn — acero</td><td>buena ventilación; afecta al sistema nervioso</td></tr>
+                <tr><td class="k">Zn — galvanizado</td><td>"fiebre del soldador"; extraer y no inhalar</td></tr>
+                <tr><td class="k">Espacio confinado</td><td>ventilación forzada + control de gases</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Jerarquía</span>Primero <b>extracción en origen</b>, luego ventilación general y, por último, el respirador. Aleja la cabeza de la pluma de humo.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="se-riesgo">
+            <div class="tile-h"><span class="td"></span><h3>Otros riesgos del taller</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>Riesgo</th><th>Prevención</th></tr>
+                <tr><td class="k">Descarga eléctrica</td><td>la tensión en vacío puede matar en condiciones húmedas: guantes secos, buen aislamiento, cable de tierra, no soldar mojado</td></tr>
+                <tr><td class="k">Incendio / explosión</td><td>retirar combustibles 10 m; nunca soldar recipientes que contuvieron inflamables sin purgar; vigilante de fuego</td></tr>
+                <tr><td class="k">Gases comprimidos</td><td>botellas atadas y verticales, capuchón puesto; acetileno nunca &gt; 1 bar de uso</td></tr>
+                <tr><td class="k">Quemaduras / proyecciones</td><td>piezas calientes parecen frías; gafas al picar escoria y amolar</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Permiso de trabajo en caliente</span>Fuera de zonas designadas, exige permiso, retirada de combustibles, extintor y vigilancia 30–60 min tras terminar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Soldadura industrial · Hoja de referencia</b> — del arco al símbolo AWS. Procesos (SMAW · GMAW · GTAW · FCAW · SAW) y cuándo usar cada uno, tipos de junta y posiciones 1G–6G, geometría del cordón (pierna · garganta · penetración), simbología AWS A2.4 dibujada parte por parte, clasificación de electrodos (E6010 · E7018 · ER70S-6), parámetros y aporte de calor, defectos y ensayos no destructivos, y seguridad.
+        <span class="mono">Símbolos AWS dibujados en SVG · notas en español · clic en cualquier ficha para copiar.</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autodesk Inventor · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;600;700;800;900&family=Spline+Sans:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* drafting-paper light theme */
+  --bg:#E4E6EA;
+  --canvas:#FFFFFF;
+  --paper:#FBFBF9;        /* warm "drawing sheet" */
+  --tile:#FFFFFF;
+  --tile-2:#F4F5F7;
+  --rail:#EEF0F3;
+  --code-bg:#F6F7F9;
+  --line:#D7DAE0;
+  --line-soft:#E6E8EC;
+  --grid:#E9EBEF;          /* graph-paper grid */
+  --ink:#1C2024;
+  --ink-soft:#545B64;
+  --ink-faint:#8A909A;
+  /* Inventor red/orange identity */
+  --inv:#E2461E;           /* signature red-orange */
+  --inv-deep:#B7350F;      /* legible on white */
+  --inv-tint:rgba(226,70,30,.12);
+  --steel:#3A6EA5;         /* engineering blue accent */
+  /* pipeline stage accents — all legible on white (text + fills) */
+  --s0:#5A6472;  /* Fundamentos */
+  --s1:#C5471A;  /* Boceto */
+  --s2:#1F8A70;  /* Pieza */
+  --s3:#9A6A12;  /* Chapa */
+  --s4:#7A45C9;  /* Superficies */
+  --s5:#2B6FB0;  /* Ensamblaje */
+  --s6:#B5402B;  /* Soldadura */
+  --s7:#0C8A8A;  /* Simulación */
+  --s8:#C2417E;  /* Automatización */
+  --s9:#3E7D3E;  /* Presentación */
+  --s10:#5563C1; /* Plano */
+  /* level badges */
+  --lvl-b:#2E9C5E;
+  --lvl-i:#E0A21A;
+  --lvl-a:#E2461E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/26px 26px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/26px 26px,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"Spline Sans Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--inv);color:#fff}
+.wrap{max-width:1360px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME (hero) ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(28,32,40,.5)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#F0F1F3;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:21px;height:21px;background:var(--inv);border-radius:5px;color:#fff;font-family:"Chivo",sans-serif;font-weight:900;font-size:13px;flex:none;letter-spacing:-.04em}
+.titlebar .fname{font-weight:600;color:var(--ink);letter-spacing:.005em}
+.titlebar .fname b{color:var(--inv-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .vtag{font-family:"Spline Sans Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#CBD0D8;display:block}
+
+/* ribbon tabs */
+.ribbon{display:flex;gap:0;background:#FAFBFC;border-bottom:1px solid var(--line);padding:0 14px;overflow-x:auto;scrollbar-width:none}
+.ribbon::-webkit-scrollbar{display:none}
+.ribbon .rt{display:flex;align-items:center;gap:7px;padding:9px 14px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;white-space:nowrap}
+.ribbon .rt.on{color:var(--inv-deep);border-bottom-color:var(--inv)}
+.ribbon .rt svg{width:14px;height:14px;flex:none}
+
+/* hero body */
+.hero{padding:34px 30px 30px;position:relative}
+.kick{font-family:"Spline Sans Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--inv-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--inv)}
+h1{font-family:"Chivo",system-ui,sans-serif;font-weight:900;font-size:clamp(2.3rem,6vw,4.1rem);line-height:.96;letter-spacing:-.035em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--inv-deep)}
+.lede{max-width:72ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"Spline Sans Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--inv-deep)}
+
+/* legends */
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"Spline Sans Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"Spline Sans Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#fff;background:var(--c)}
+
+/* pipeline stepper nav */
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:12px 13px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"Spline Sans Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.06em}
+.step .st{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.12}
+.step .sd{font-size:10px;color:var(--ink-faint);font-family:"Spline Sans Mono"}
+@media(max-width:1080px){.stepper{flex-wrap:wrap}.step{flex:1 1 25%;border-bottom:1px solid var(--line)}}
+@media(max-width:760px){.step{flex:1 1 33%}}
+@media(max-width:520px){.step{flex:1 1 50%}}
+
+/* ============ SHELL ============ */
+.shell{display:grid;grid-template-columns:240px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+
+/* browser-tree style sticky index */
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:14px 0 40px 0;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-cap{font-family:"Spline Sans Mono";font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding:0 16px 8px;margin-bottom:4px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;gap:7px}
+.toc-cap svg{width:13px;height:13px}
+.toc-h{font-family:"Chivo",sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.01em;color:var(--ink);margin:14px 0 4px;padding-left:14px;display:flex;align-items:center;gap:8px}
+.toc-h .sn{font-family:"Spline Sans Mono";font-size:9px;color:var(--seg);font-weight:700}
+.toc-h .sq{width:8px;height:8px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:3px 0 3px 30px;border-left:2px solid transparent;margin-left:18px;transition:.15s;line-height:1.3;position:relative}
+nav.toc a::before{content:"";position:absolute;left:6px;top:11px;width:7px;height:1px;background:var(--line)}
+nav.toc a:hover{color:var(--ink)}
+nav.toc a.active{color:var(--inv-deep);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:980px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+/* ============ MAIN ============ */
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:8px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}
+.stage:nth-child(3){animation-delay:.09s}.stage:nth-child(4){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:40px 0 16px;padding:14px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"Spline Sans Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Chivo",sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .ext{font-family:"Spline Sans Mono";font-size:11px;color:var(--seg);font-weight:600;background:var(--tile-2);border:1px solid var(--line);padding:3px 8px;border-radius:5px;flex:none}
+.stage-head .meta{margin-left:auto;font-family:"Spline Sans Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}.stage-head .ext{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+/* visual tile */
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(28,32,40,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(28,32,40,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Chivo",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"Spline Sans Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#fff;flex:none}
+.lvl.b{background:var(--lvl-b)}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a)}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"Spline Sans Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--inv-deep)}
+
+/* ====== REFERENCE TABLE ====== */
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl th{text-align:left;font-family:"Spline Sans Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.cmd{font-family:"Spline Sans Mono";font-size:11.5px;color:var(--inv-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td .kbd{margin-right:3px}
+
+/* ====== copyable command chip ====== */
+.cmdgrid{display:flex;flex-direction:column;gap:7px;margin:4px 0}
+.cmdrow{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:8px;background:var(--code-bg);padding:9px 12px;cursor:pointer;transition:box-shadow .15s,background .15s;position:relative}
+.cmdrow:hover{box-shadow:0 2px 10px -4px rgba(28,32,40,.18)}
+.cmdrow.copied{background:#FBEEE9;border-left-color:var(--inv)}
+.cmdrow .nm{font-family:"Chivo",sans-serif;font-weight:700;font-size:12.5px;color:var(--ink);flex:none;min-width:96px}
+.cmdrow .ds{font-size:11.8px;color:var(--ink-soft);line-height:1.35}
+.cmdrow .ky{margin-left:auto;flex:none;display:flex;gap:3px;align-items:center}
+.cmdrow .cphint{font-family:"Spline Sans Mono";font-size:8.5px;color:var(--ink-faint);opacity:0;transition:.14s;flex:none}
+.cmdrow:hover .cphint{opacity:1}
+.cmdrow.copied .cphint{opacity:1;color:var(--inv-deep);font-weight:700}
+@media(max-width:520px){.cmdrow{flex-wrap:wrap}.cmdrow .nm{min-width:0}}
+
+/* ====== code block (iLogic / params) ====== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(28,32,40,.18)}
+figcaption{font-family:"Spline Sans Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--inv);background:#FBEEE9}
+figure.code.copied .cphint{opacity:1;color:var(--inv-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;overflow-x:auto;font-size:12.4px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:#7A3FC0;font-weight:600}
+.t-fn{color:#0B5FC2;font-weight:600}
+.t-str{color:#0A7D2C}
+.t-num{color:#A8480A}
+.t-com{color:#9097A1;font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+/* ====== tips / callouts ====== */
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip .lab{font-family:"Spline Sans Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+.tip.pro{border-left-color:var(--steel);background:#EDF2F8}
+.tip.pro .lab{color:var(--steel)}
+
+/* steps */
+.steps{counter-reset:st;list-style:none;display:flex;flex-direction:column;gap:8px;margin:4px 0}
+.steps li{counter-increment:st;position:relative;padding-left:31px;font-size:12.7px;color:var(--ink-soft);line-height:1.45}
+.steps li::before{content:counter(st);position:absolute;left:0;top:0;font-family:"Spline Sans Mono";font-size:10px;font-weight:700;color:#fff;background:var(--seg);width:21px;height:21px;border-radius:6px;display:grid;place-items:center}
+.steps li b{color:var(--ink);font-weight:600}
+
+/* def list */
+.deflist{display:flex;flex-direction:column;gap:8px}
+.deflist .di{display:flex;gap:11px;font-size:12.6px;line-height:1.45}
+.deflist .di .dk{font-family:"Spline Sans Mono";font-size:11px;color:var(--inv-deep);font-weight:600;flex:none;width:120px}
+.deflist .di .dv{color:var(--ink-soft)}
+.deflist .di .dv b{color:var(--ink);font-weight:600}
+@media(max-width:520px){.deflist .di{flex-direction:column;gap:1px}.deflist .di .dk{width:auto}}
+
+/* kbd */
+.kbd{font-family:"Spline Sans Mono";font-size:11px;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:5px 22px}
+@media(max-width:620px){.keys{grid-template-columns:1fr}}
+.keys .kr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px solid var(--line-soft);font-size:12.3px}
+.keys .kr span{color:var(--ink-soft)}
+
+/* file-type plates (signature, fundamentos) */
+.ftypes{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:4px 0}
+@media(max-width:520px){.ftypes{grid-template-columns:1fr}}
+.ftile{border:1px solid var(--line);border-radius:9px;padding:11px 12px;background:var(--tile-2);display:flex;gap:11px;align-items:flex-start}
+.ftile .ext{font-family:"Spline Sans Mono";font-weight:700;font-size:11px;color:#fff;background:var(--c);border-radius:5px;padding:4px 7px;flex:none;letter-spacing:-.02em}
+.ftile .ft{font-size:12.6px;font-weight:700;color:var(--ink)}
+.ftile .fd{font-size:11.3px;color:var(--ink-faint);margin-top:1px;line-height:1.4}
+
+/* pipeline ribbon (signature element) */
+.pipe{display:flex;align-items:stretch;gap:0;margin:4px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--canvas)}
+.pstep{flex:1;padding:11px 9px;text-align:center;border-right:1px solid var(--line-soft);position:relative;min-width:0}
+.pstep:last-child{border-right:none}
+.pstep .pi{font-family:"Spline Sans Mono";font-size:9px;color:var(--c);font-weight:700}
+.pstep .pn{font-family:"Chivo",sans-serif;font-size:12px;font-weight:700;color:var(--ink);margin-top:2px;letter-spacing:-.01em}
+.pstep .px{font-family:"Spline Sans Mono";font-size:9px;color:var(--ink-faint);margin-top:2px}
+.pstep::after{content:"›";position:absolute;right:-7px;top:50%;transform:translateY(-50%);color:var(--ink-faint);font-size:14px;z-index:2;background:var(--canvas);padding:0 1px}
+.pstep:last-child::after{display:none}
+@media(max-width:680px){.pipe{flex-wrap:wrap}.pstep{flex:1 1 33%;border-bottom:1px solid var(--line-soft)}.pstep::after{display:none}}
+
+/* constraint glyph grid */
+.glyphs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:4px 0}
+@media(max-width:520px){.glyphs{grid-template-columns:1fr}}
+.gitem{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--tile-2)}
+.gitem .gi{width:30px;height:30px;flex:none;border-radius:6px;background:#fff;border:1px solid var(--line);display:grid;place-items:center}
+.gitem .gi svg{width:20px;height:20px}
+.gitem .gt{font-size:12.3px;font-weight:700;color:var(--ink)}
+.gitem .gd{font-size:10.8px;color:var(--ink-faint);line-height:1.3}
+.gstroke{stroke:var(--s1);stroke-width:1.6;fill:none}
+.gfill{fill:var(--s1)}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 4px 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"Spline Sans Mono";font-size:10.5px;margin-top:8px;display:block;line-height:1.6}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1C2024;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(28,32,40,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">I</span>
+      <span class="fname"><b>Autodesk Inventor</b> · Hoja de referencia.ipt</span>
+      <span class="grow"></span>
+      <span class="vtag">2026 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="ribbon">
+      <span class="rt on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17V7l9-4 9 4v10l-9 4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Inicio</span>
+      <span class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20L20 4M4 14v6h6"/><circle cx="6" cy="18" r="1.4" fill="currentColor"/></svg>Boceto</span>
+      <span class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 9h16M9 4v16"/></svg>Modelo</span>
+      <span class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M10 7h4a3 3 0 0 1 3 3v4"/></svg>Ensamblar</span>
+      <span class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M7 7h6v6H7zM15 9h2M15 13h2M7 17h10"/></svg>Plano</span>
+      <span class="rt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg>Entornos</span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · del boceto al plano de fabricación</div>
+      <h1>Inventor,<br>del <em>croquis</em> al <em>prototipo digital</em>.</h1>
+      <p class="lede">Todo el flujo de diseño mecánico paramétrico en una sola página para tenerla abierta mientras modelas. Cada operación aparece con su <b>atajo real</b> y una nota de <b>cuándo usarla</b> — porque una <code>Extrusión</code> no resuelve lo mismo que un <code>Solevado</code>. Ordenada como de verdad trabajas: <b>boceto → pieza → ensamble → plano</b>, de lo <b>básico</b> a lo <b>avanzado</b>. <b>Clic en cualquier comando o bloque de código para copiarlo.</b></p>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = etapa del flujo</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Boceto</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Pieza</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Chapa</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Superficies</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Ensamblaje</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Soldadura</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Simulación</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s8)"></span>Automatización</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s10)"></span>Plano</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">.ipt · .iam · .idw</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Boceto</span><span class="sd">restricciones · cotas</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Pieza</span><span class="sd">extrusión · revolución</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Chapa</span><span class="sd">pestañas · desarrollo</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Superficies</span><span class="sd">solevar · Free Form</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Ensamblaje</span><span class="sd">uniones · LDM</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Soldadura</span><span class="sd">cordones · símbolos</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Simulación</span><span class="sd">FEA · dinámica</span></a>
+        <a class="step" href="#e8" style="--c:var(--s8)"><span class="sn">08</span><span class="st">Automatización</span><span class="sd">iLogic · iPart</span></a>
+        <a class="step" href="#e9" style="--c:var(--s9)"><span class="sn">09</span><span class="st">Presentación</span><span class="sd">explosión · render</span></a>
+        <a class="step" href="#e10" style="--c:var(--s10)"><span class="sn">10</span><span class="st">Plano</span><span class="sd">vistas · GD&amp;T</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+
+    <!-- model-browser style index -->
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17V7l9-4 9 4v10l-9 4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Navegador del modelo</div>
+
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span><span class="sn">00</span>Fundamentos</div>
+      <a href="#fd-tipos" style="--seg:var(--s0)">Tipos de archivo</a>
+      <a href="#fd-flujo" style="--seg:var(--s0)">El flujo de trabajo</a>
+      <a href="#fd-interfaz" style="--seg:var(--s0)">Interfaz &amp; proyectos</a>
+      <a href="#fd-intencion" style="--seg:var(--s0)">Intención de diseño</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span><span class="sn">01</span>Boceto</div>
+      <a href="#bo-geom" style="--seg:var(--s1)">Geometría 2D</a>
+      <a href="#bo-rest" style="--seg:var(--s1)">Restricciones</a>
+      <a href="#bo-cotas" style="--seg:var(--s1)">Cotas &amp; estado</a>
+      <a href="#bo-3d" style="--seg:var(--s1)">Boceto 3D</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span><span class="sn">02</span>Pieza</div>
+      <a href="#pz-base" style="--seg:var(--s2)">Operaciones base</a>
+      <a href="#pz-mod" style="--seg:var(--s2)">Operaciones de modificación</a>
+      <a href="#pz-patron" style="--seg:var(--s2)">Patrones &amp; simetría</a>
+      <a href="#pz-trabajo" style="--seg:var(--s2)">Geometría de trabajo</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span><span class="sn">03</span>Chapa</div>
+      <a href="#ch-base" style="--seg:var(--s3)">Crear la chapa</a>
+      <a href="#ch-desarrollo" style="--seg:var(--s3)">Desarrollo &amp; DXF</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span><span class="sn">04</span>Superficies</div>
+      <a href="#su-ops" style="--seg:var(--s4)">Operaciones de superficie</a>
+      <a href="#su-free" style="--seg:var(--s4)">Free Form &amp; mixto</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span><span class="sn">05</span>Ensamblaje</div>
+      <a href="#en-rest" style="--seg:var(--s5)">Restricciones &amp; uniones</a>
+      <a href="#en-grandes" style="--seg:var(--s5)">Ensambles grandes</a>
+      <a href="#en-ldm" style="--seg:var(--s5)">Lista de materiales</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span><span class="sn">06</span>Soldadura</div>
+      <a href="#so-cordones" style="--seg:var(--s6)">Cordones &amp; preparación</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span><span class="sn">07</span>Simulación</div>
+      <a href="#si-fea" style="--seg:var(--s7)">Análisis de esfuerzos (FEA)</a>
+      <a href="#si-din" style="--seg:var(--s7)">Simulación dinámica</a>
+
+      <div class="toc-h" style="--seg:var(--s8)"><span class="sq"></span><span class="sn">08</span>Automatización</div>
+      <a href="#au-param" style="--seg:var(--s8)">Parámetros &amp; ecuaciones</a>
+      <a href="#au-fabricas" style="--seg:var(--s8)">iPart · iFeature · iAssembly</a>
+      <a href="#au-ilogic" style="--seg:var(--s8)">iLogic</a>
+      <a href="#au-estados" style="--seg:var(--s8)">Estados de modelo</a>
+
+      <div class="toc-h" style="--seg:var(--s9)"><span class="sq"></span><span class="sn">09</span>Presentación</div>
+      <a href="#pr-explosion" style="--seg:var(--s9)">Explosión &amp; render</a>
+
+      <div class="toc-h" style="--seg:var(--s10)"><span class="sq"></span><span class="sn">10</span>Plano</div>
+      <a href="#pl-vistas" style="--seg:var(--s10)">Vistas de dibujo</a>
+      <a href="#pl-anotar" style="--seg:var(--s10)">Cotas &amp; anotación</a>
+      <a href="#pl-gdt" style="--seg:var(--s10)">GD&amp;T &amp; tablas</a>
+      <a href="#pl-atajos" style="--seg:var(--s10)">Atajos esenciales</a>
+    </nav>
+
+    <!-- ============ MAIN ============ -->
+    <main>
+
+      <!-- ===== STAGE 00 — FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="ext">antes de empezar</span><span class="meta">tipos de archivo<br>y vocabulario base</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="fd-flujo">
+            <div class="tile-h"><span class="td"></span><h3>El flujo de trabajo · de pieza a plano</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Inventor es <b>paramétrico</b> y <b>asociativo</b>: cada paso depende del anterior, y un cambio aguas arriba se propaga solo. Sigue siempre este orden — saltártelo genera modelos frágiles.</p>
+              <div class="pipe" aria-hidden="true">
+                <div class="pstep" style="--c:var(--s1)"><div class="pi">01</div><div class="pn">Boceto</div><div class="px">.ipt</div></div>
+                <div class="pstep" style="--c:var(--s2)"><div class="pi">02</div><div class="pn">Pieza 3D</div><div class="px">.ipt</div></div>
+                <div class="pstep" style="--c:var(--s5)"><div class="pi">03</div><div class="pn">Ensamblaje</div><div class="px">.iam</div></div>
+                <div class="pstep" style="--c:var(--s9)"><div class="pi">04</div><div class="pn">Presentación</div><div class="px">.ipn</div></div>
+                <div class="pstep" style="--c:var(--s10)"><div class="pi">05</div><div class="pn">Plano</div><div class="px">.idw / .dwg</div></div>
+              </div>
+              <div class="tip"><span class="lab">La regla de oro</span>Boceto totalmente restringido → operación 3D → repetir hasta tener la pieza → reunir piezas en un ensamble → documentar en un plano. El plano se actualiza solo cuando cambia la pieza.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-tipos">
+            <div class="tile-h"><span class="td"></span><h3>Tipos de archivo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cada extensión es un <b>entorno</b> distinto. Saber cuál abrir es el primer paso de cualquier diseño.</p>
+              <div class="ftypes">
+                <div class="ftile"><span class="ext" style="--c:var(--s2)">.ipt</span><div><div class="ft">Part — Pieza</div><div class="fd">Un único componente sólido o de chapa.</div></div></div>
+                <div class="ftile"><span class="ext" style="--c:var(--s5)">.iam</span><div><div class="ft">Assembly — Ensamblaje</div><div class="fd">Varias piezas unidas por restricciones.</div></div></div>
+                <div class="ftile"><span class="ext" style="--c:var(--s10)">.idw</span><div><div class="ft">Drawing — Plano</div><div class="fd">Vistas 2D acotadas para fabricar (también .dwg).</div></div></div>
+                <div class="ftile"><span class="ext" style="--c:var(--s9)">.ipn</span><div><div class="ft">Presentation</div><div class="fd">Despieces, explosionados y animaciones.</div></div></div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>El <b>Proyecto</b> (<code>.ipj</code>) define dónde viven todos estos archivos y las rutas de las librerías. Crear el proyecto <b>antes</b> de modelar evita referencias rotas.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="fd-interfaz">
+            <div class="tile-h"><span class="td"></span><h3>Interfaz &amp; navegación</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <div class="deflist">
+                <div class="di"><span class="dk">Cinta (Ribbon)</span><span class="dv">Comandos agrupados por pestañas según el entorno activo.</span></div>
+                <div class="di"><span class="dk">Navegador</span><span class="dv"><b>El árbol del modelo</b>: el historial editable de cada operación. Doble clic = editar.</span></div>
+                <div class="di"><span class="dk">ViewCube</span><span class="dv">Cubo de orientación, arriba a la derecha, para girar la vista.</span></div>
+                <div class="di"><span class="dk">Marca / Marco</span><span class="dv">El origen con sus 3 planos y 3 ejes: el punto de partida de todo boceto.</span></div>
+              </div>
+              <div class="tip"><span class="lab">Navegar la vista</span><span class="kbd">F2</span> encuadre · <span class="kbd">F3</span> zoom · <span class="kbd">F4</span> orbitar · <span class="kbd">Inicio</span> vista isométrica.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="fd-intencion">
+            <div class="tile-h"><span class="td"></span><h3>Intención de diseño — el concepto que más importa</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Modelar pensando en cómo va a cambiar.</b> Inventor recuerda <i>cómo</i> construiste la pieza, no solo su forma final. Si capturas bien la intención, editar un valor reconstruye todo correctamente; si no, el modelo se rompe.</p>
+              <div class="cols">
+                <div>
+                  <div class="tip pro"><span class="lab">Buenas prácticas</span><b>Restringe por completo</b> cada boceto (que pase a azul/negro). Usa <b>relaciones geométricas</b> antes que cotas. Acota desde <b>caras y aristas reales</b>, no al aire. Nombra las operaciones clave en el navegador.</div>
+                </div>
+                <div>
+                  <div class="tip warn"><span class="lab">Evita</span>Bocetos sub-restringidos (líneas que "bailan"), cientos de cotas redundantes, o construir todo en un solo boceto gigante. Divide en operaciones pequeñas y legibles.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 01 — BOCETO ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Boceto</h2><span class="ext">Sketch · 2D</span><span class="meta">todo empieza<br>en un croquis</span></div>
+
+        <div class="cols">
+          <div class="tile" id="bo-geom">
+            <div class="tile-h"><span class="td"></span><h3>Geometría 2D</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Dibuja la silueta; la precisión la dan después las restricciones y cotas. <b>Clic en un comando para copiar su atajo.</b></p>
+              <div class="cmdgrid">
+                <div class="cmdrow" data-copy="L"><span class="nm">Línea</span><span class="ds">Líneas y arcos encadenados (mantén pulsado para tangentes).</span><span class="ky"><span class="kbd">L</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="C"><span class="nm">Círculo</span><span class="ds">Centro + radio.</span><span class="ky"><span class="kbd">C</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="REC"><span class="nm">Rectángulo</span><span class="ds">Dos esquinas, o por centro.</span><span class="ky"><span class="kbd">REC</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="F"><span class="nm">Empalme</span><span class="ds">Redondea una esquina (fillet) entre dos líneas.</span><span class="ky"><span class="kbd">F</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="TR"><span class="nm">Recortar</span><span class="ds">Borra el tramo sobrante hasta la siguiente intersección.</span><span class="ky"><span class="kbd">TR</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="O"><span class="nm">Desfase</span><span class="ds">Copia paralela a una distancia (offset).</span><span class="ky"><span class="kbd">O</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="X"><span class="nm">Proyectar geom.</span><span class="ds">Trae aristas de otra cara al plano de boceto actual.</span><span class="ky"><span class="kbd">X</span><span class="cphint">copiar</span></span></div>
+              </div>
+              <div class="tip"><span class="lab">También</span>Polígono, ranura, elipse, spline, texto y matriz (circular/rectangular) viven en la misma pestaña <b>Boceto</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="bo-rest">
+            <div class="tile-h"><span class="td"></span><h3>Restricciones geométricas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Definen <b>relaciones</b> entre elementos (no medidas). Son el alma de un boceto robusto: prefiérelas siempre antes que las cotas.</p>
+              <div class="glyphs" aria-hidden="true">
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><path class="gstroke" d="M4 8h16M4 16h16"/></svg></span><div><div class="gt">Paralela</div><div class="gd">Mantiene dos líneas paralelas.</div></div></div>
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><path class="gstroke" d="M6 4v16M6 18h14"/></svg></span><div><div class="gt">Perpendicular</div><div class="gd">Ángulo recto exacto.</div></div></div>
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><circle class="gstroke" cx="9" cy="13" r="5"/><path class="gstroke" d="M14 8h6"/></svg></span><div><div class="gt">Tangente</div><div class="gd">Línea que roza un arco sin cruzarlo.</div></div></div>
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><circle class="gstroke" cx="12" cy="12" r="7"/><circle class="gstroke" cx="12" cy="12" r="3"/></svg></span><div><div class="gt">Concéntrica</div><div class="gd">Mismo centro para arcos/círculos.</div></div></div>
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><path class="gstroke" d="M5 7h6M5 12h6M5 17h6"/><path class="gstroke" d="M16 7h3M16 12h3M16 17h3"/></svg></span><div><div class="gt">Igualdad</div><div class="gd">Mismo tamaño en varios elementos.</div></div></div>
+                <div class="gitem"><span class="gi"><svg viewBox="0 0 24 24"><path class="gstroke" d="M12 4v16"/><path class="gstroke" d="M7 9l5-5 5 5" fill="none"/></svg></span><div><div class="gt">Simétrica</div><div class="gd">Espeja respecto a una línea.</div></div></div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>Pulsa <span class="kbd">F8</span> para <b>mostrar todas las restricciones</b> y <span class="kbd">F9</span> para ocultarlas. Si algo no encaja, ahí ves por qué.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="bo-cotas">
+            <div class="tile-h"><span class="td"></span><h3>Cotas &amp; estado del boceto</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>cota general</b> (<span class="kbd">D</span>) pone medidas a distancias, radios y ángulos. El color te dice si el boceto está listo.</p>
+              <table class="tbl">
+                <tr><th>Color</th><th>Significa</th><th>Qué hacer</th></tr>
+                <tr><td class="k">Verde / azul</td><td>Totalmente restringido</td><td>Listo para operar en 3D ✓</td></tr>
+                <tr><td class="k">Blanco / negro</td><td>Sub-restringido</td><td>Faltan cotas o relaciones</td></tr>
+                <tr><td class="k">Ámbar</td><td>Sobre-restringido</td><td>Hay una cota redundante — elimínala</td></tr>
+              </table>
+              <div class="tip"><span class="lab">2026</span>El nuevo <b>Invertir dirección</b> en cotas lineales y angulares voltea la geometría <b>conservando el valor</b>, sin borrar ni rehacer.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="bo-3d">
+            <div class="tile-h"><span class="td"></span><h3>Boceto 3D</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Para recorridos que <b>no caben en un plano</b>: trayectorias de barrido, tuberías, cableados o aristas espaciales.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Curva 3D</span><span class="dv">Líneas y splines en el espacio, ancladas a vértices reales.</span></div>
+                <div class="di"><span class="dk">Doblez (Bend)</span><span class="dv">Redondea esquinas del recorrido 3D con un radio.</span></div>
+                <div class="di"><span class="dk">Proyectar a sup.</span><span class="dv">Calca una curva sobre una cara curva.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">Cuándo</span>Úsalo solo cuando lo necesites: un boceto 2D bien restringido es más fácil de editar que uno 3D.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 02 — PIEZA ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Pieza</h2><span class="ext">Part · .ipt</span><span class="meta">del boceto<br>al sólido 3D</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pz-base">
+            <div class="tile-h"><span class="td"></span><h3>Operaciones base — crean material</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Cada una convierte un boceto en volumen. Elegir la correcta es la decisión clave de todo el modelado.</p>
+              <div class="cmdgrid">
+                <div class="cmdrow" data-copy="E"><span class="nm">Extrusión</span><span class="ds">Estira un perfil en línea recta. La operación más usada.</span><span class="ky"><span class="kbd">E</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="R"><span class="nm">Revolución</span><span class="ds">Gira un perfil alrededor de un eje — piezas cilíndricas, ejes, poleas.</span><span class="ky"><span class="kbd">R</span><span class="cphint">copiar</span></span></div>
+                <div class="cmdrow" data-copy="Barrido"><span class="nm">Barrido</span><span class="ds">Arrastra un perfil a lo largo de un recorrido — tubos, manijas, juntas.</span><span class="ky"><span class="cphint">copiar nombre</span></span></div>
+                <div class="cmdrow" data-copy="Solevado"><span class="nm">Solevado</span><span class="ds">Une varios perfiles distintos en transición suave (loft) — cascos, transiciones.</span><span class="ky"><span class="cphint">copiar nombre</span></span></div>
+                <div class="cmdrow" data-copy="Bobina"><span class="nm">Bobina</span><span class="ds">Hélice a partir de un perfil + eje — resortes, roscas, tornillos.</span><span class="ky"><span class="cphint">copiar nombre</span></span></div>
+              </div>
+              <div class="tip"><span class="lab">Cómo decidir</span>Sección constante recta → <b>Extrusión</b>. Sección girada → <b>Revolución</b>. Sección que sigue una curva → <b>Barrido</b>. Sección que <i>cambia</i> → <b>Solevado</b>. Espiral → <b>Bobina</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pz-mod">
+            <div class="tile-h"><span class="td"></span><h3>Operaciones de modificación</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Se aplican <b>sobre el sólido ya existente</b> — no necesitan boceto (salvo el agujero por boceto).</p>
+              <table class="tbl">
+                <tr><th>Operación</th><th>Atajo</th><th>Qué hace</th></tr>
+                <tr><td class="k">Empalme</td><td class="cmd">F</td><td>Redondea aristas (radio).</td></tr>
+                <tr><td class="k">Chaflán</td><td class="cmd">CHA</td><td>Bisela aristas a 45° o medida.</td></tr>
+                <tr><td class="k">Agujero</td><td class="cmd">H</td><td>Taladros con rosca, avellanado, profundidad — inteligente.</td></tr>
+                <tr><td class="k">Vaciado</td><td class="cmd">—</td><td>Ahueca el sólido dejando paredes finas (shell).</td></tr>
+                <tr><td class="k">Nervio</td><td class="cmd">—</td><td>Refuerzo entre paredes desde una línea de boceto.</td></tr>
+                <tr><td class="k">Rosca</td><td class="cmd">—</td><td>Rosca cosmética o real sobre cilindros.</td></tr>
+                <tr><td class="k">Vaciado/Cara</td><td class="cmd">—</td><td>Inclinación de caras (draft) para moldes.</td></tr>
+              </table>
+              <div class="tip pro"><span class="lab">Orden importa</span>Aplica empalmes y chaflanes <b>al final</b>. Si los pones temprano, las operaciones posteriores se complican y el árbol se vuelve frágil.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pz-patron">
+            <div class="tile-h"><span class="td"></span><h3>Patrones &amp; simetría</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">No modeles cuarenta agujeros iguales. Modela uno y <b>repítelo</b>. Si cambia, cambian todos.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Patrón rect.</span><span class="dv">Repite en filas y columnas a lo largo de dos direcciones.</span></div>
+                <div class="di"><span class="dk">Patrón circular</span><span class="dv">Copias alrededor de un eje (pernos en una brida).</span></div>
+                <div class="di"><span class="dk">Simetría</span><span class="dv">Espeja operaciones respecto a un plano (piezas L/R).</span></div>
+              </div>
+              <div class="tip"><span class="lab">2026</span>Todos los patrones viven ahora en una <b>paleta unificada</b> con panel de Propiedades, e incluyen <b>Distancia irregular</b> para espaciados no uniformes.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pz-trabajo">
+            <div class="tile-h"><span class="td"></span><h3>Geometría de trabajo</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Andamios <b>de referencia</b> (no son material): donde no hay una cara para bocetar o medir, la creas.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Plano de trabajo</span><span class="dv">Superficie auxiliar: desfase, ángulo, tangente a cara, por 3 puntos.</span></div>
+                <div class="di"><span class="dk">Eje de trabajo</span><span class="dv">Línea de referencia para revoluciones, patrones circulares, simetrías.</span></div>
+                <div class="di"><span class="dk">Punto de trabajo</span><span class="dv">Ubicación exacta en intersecciones o vértices.</span></div>
+                <div class="di"><span class="dk">SCU (UCS)</span><span class="dv">Sistema de coordenadas de usuario reubicable.</span></div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>Usa <b>iProperties</b> (clic derecho en el archivo) para asignar material, calcular masa, centro de gravedad y propiedades físicas reales de la pieza.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 03 — CHAPA ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Chapa metálica</h2><span class="ext">Sheet Metal</span><span class="meta">doblar y<br>desplegar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="ch-base">
+            <div class="tile-h"><span class="td"></span><h3>Crear la chapa</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Entorno propio para piezas de <b>espesor constante</b> que se cortan y doblan. Define primero la <b>Regla de chapa</b> (material, espesor, radios de plegado).</p>
+              <table class="tbl">
+                <tr><th>Operación</th><th>Qué hace</th></tr>
+                <tr><td class="k">Cara</td><td>La pared base con el espesor de la regla.</td></tr>
+                <tr><td class="k">Pestaña</td><td>Pared doblada en una arista (flange) — con ángulo y radio.</td></tr>
+                <tr><td class="k">Pestaña de contorno</td><td>Extruye un perfil abierto como pared doblada.</td></tr>
+                <tr><td class="k">Reborde / Plegar</td><td>Bordes de refuerzo y pliegues a partir de líneas.</td></tr>
+                <tr><td class="k">Punzonado</td><td>Inserta herramientas iFeature (troqueles) desde librería.</td></tr>
+                <tr><td class="k">Esquina / chaflán</td><td>Trata el encuentro entre pestañas.</td></tr>
+              </table>
+              <div class="tip"><span class="lab">2026</span>El entorno de chapa se sigue modernizando: <b>Pestaña de contorno</b>, <b>Redondeo de esquina</b> y la <b>herramienta Punzón</b> ahora usan el panel de Propiedades.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="ch-desarrollo">
+            <div class="tile-h"><span class="td"></span><h3>Desarrollo &amp; exportación</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>desarrollo (flat pattern)</b> es la pieza desplegada en plano: lo que de verdad va a la cortadora.</p>
+              <ol class="steps">
+                <li>Crea la pieza doblada con sus pestañas y pliegues.</li>
+                <li><b>Crear desarrollo</b> — Inventor calcula la longitud real usando la deducción de plegado de la regla.</li>
+                <li>Revisa líneas de plegado, herramientas y orientación de la fibra.</li>
+                <li><b>Guardar como DXF</b> del desarrollo para corte láser/plasma/agua.</li>
+              </ol>
+              <div class="tip warn"><span class="lab">Clave</span>La precisión del desarrollo depende de la <b>regla de chapa</b> (factor-K / deducción). Si el material real difiere, el plano desplegado saldrá corto o largo.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 04 — SUPERFICIES ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Superficies &amp; forma libre</h2><span class="ext">Surfaces</span><span class="meta">geometrías<br>orgánicas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="su-ops">
+            <div class="tile-h"><span class="td"></span><h3>Operaciones de superficie</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Las superficies son <b>caras sin grosor</b>: las usas para definir formas complejas que luego conviertes en sólido. Modelado <b>mixto</b> = combinar sólidos y superficies.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Extrusión/Solevado</span><span class="dv">Igual que en sólidos pero con salida "Superficie".</span></div>
+                <div class="di"><span class="dk">Sup. de contorno</span><span class="dv">Parche que cierra un perímetro de aristas/curvas.</span></div>
+                <div class="di"><span class="dk">Recortar / Ampliar</span><span class="dv">Corta o estira una superficie hasta otra.</span></div>
+                <div class="di"><span class="dk">Coser</span><span class="dv">Une varias superficies en un volumen cerrado (quilt).</span></div>
+                <div class="di"><span class="dk">Engrosar</span><span class="dv">Da espesor a una superficie → la convierte en sólido.</span></div>
+                <div class="di"><span class="dk">Esculpir</span><span class="dv">Llena el volumen encerrado por superficies.</span></div>
+              </div>
+              <div class="tip pro"><span class="lab">Flujo típico</span>Definir curvas guía → crear superficies → recortar y coser hasta cerrar el volumen → <b>engrosar/esculpir</b> para obtener el sólido final.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="su-free">
+            <div class="tile-h"><span class="td"></span><h3>Free Form &amp; manipulación directa</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Free Form</b> esculpe formas empujando puntos de una malla — ideal cuando la geometría no se puede describir con cotas (ergonomía, estética).</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Caja / Plano</span><span class="dv">Primitiva de partida que luego deformas.</span></div>
+                <div class="di"><span class="dk">Editar forma</span><span class="dv">Arrastra vértices, aristas y caras de la malla.</span></div>
+                <div class="di"><span class="dk">Manip. directa</span><span class="dv">Mueve/gira caras de un sólido sin volver al boceto.</span></div>
+              </div>
+              <div class="tip warn"><span class="lab">Cuándo</span>Free Form sacrifica el control paramétrico exacto a cambio de libertad de forma. Úsalo para superficies estéticas, no para piezas de tolerancia ajustada.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 05 — ENSAMBLAJE ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Ensamblaje</h2><span class="ext">Assembly · .iam</span><span class="meta">reunir piezas<br>en un producto</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="en-rest">
+            <div class="tile-h"><span class="td"></span><h3>Restricciones &amp; uniones — cómo se conectan las piezas</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Insertas componentes (<span class="kbd">P</span>) y eliminas <b>grados de libertad</b> hasta que cada pieza queda donde debe. Inventor ofrece dos enfoques:</p>
+              <div class="cols">
+                <div>
+                  <p class="note"><b>Restricciones</b> (clásico, <span class="kbd">C</span>) — defines relación por relación:</p>
+                  <table class="tbl">
+                    <tr><th>Restricción</th><th>Efecto</th></tr>
+                    <tr><td class="k">Coincidencia</td><td>Pega caras/ejes (o desfase entre ellos).</td></tr>
+                    <tr><td class="k">Ángulo</td><td>Fija un ángulo entre dos caras.</td></tr>
+                    <tr><td class="k">Tangente</td><td>Una cara roza a otra (leva, rodillo).</td></tr>
+                    <tr><td class="k">Insertar</td><td>Eje + cara de un perno en su agujero, de golpe.</td></tr>
+                  </table>
+                </div>
+                <div>
+                  <p class="note"><b>Uniones (Joints)</b> — moderno: eliges el <b>movimiento</b> permitido directo:</p>
+                  <table class="tbl">
+                    <tr><th>Unión</th><th>Permite</th></tr>
+                    <tr><td class="k">Rígida</td><td>Nada — bloqueo total.</td></tr>
+                    <tr><td class="k">Rotacional</td><td>Giro sobre un eje (bisagra).</td></tr>
+                    <tr><td class="k">Deslizante</td><td>Traslación en una línea (riel).</td></tr>
+                    <tr><td class="k">Cilíndrica</td><td>Girar + deslizar (tornillo).</td></tr>
+                  </table>
+                </div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>Empieza por <b>fijar la pieza base</b> (clic derecho → Fijar). Es tu "tierra"; el resto se restringe contra ella. <b>2026:</b> el nuevo <b>Place &amp; Insert</b> coloca y restringe un componente a varias aristas a la vez.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="en-grandes">
+            <div class="tile-h"><span class="td"></span><h3>Ensambles grandes</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Cientos de piezas piden estrategia para que el equipo no se arrodille.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Representaciones</span><span class="dv">Vistas, posicionales y de nivel de detalle para mostrar/ocultar y aligerar.</span></div>
+                <div class="di"><span class="dk">Subensamblajes</span><span class="dv">Agrupa conjuntos lógicos (motor, chasis) en .iam propios.</span></div>
+                <div class="di"><span class="dk">Ens. flexible</span><span class="dv">Un subensamble que conserva su movimiento dentro del padre.</span></div>
+                <div class="di"><span class="dk">Análisis posicional</span><span class="dv">Estudia el mecanismo en distintas posiciones.</span></div>
+                <div class="di"><span class="dk">Acelerador diseño</span><span class="dv">Generadores de pernos, ejes, engranajes, correas con cálculo.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile" id="en-ldm">
+            <div class="tile-h"><span class="td"></span><h3>Lista de materiales (LDM/BOM)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El conteo automático de todo lo que lleva el producto — la base del plano y de compras.</p>
+              <ol class="steps">
+                <li>Abre <b>Lista de materiales</b> en la pestaña Ensamblar.</li>
+                <li>Marca componentes como <b>Normal</b>, <b>Compra</b> o <b>Fantasma</b> (no se cuenta).</li>
+                <li>Añade columnas: material, masa, nº de pieza, proveedor.</li>
+                <li>Se vuelca a la <b>tabla de piezas + referencias numéricas</b> en el plano.</li>
+              </ol>
+              <div class="tip"><span class="lab">Clave</span>La LDM es <b>asociativa</b>: añade una pieza al ensamble y aparece sola en la lista y en el plano.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 06 — SOLDADURA ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Soldadura</h2><span class="ext">Weldment</span><span class="meta">unir con<br>cordones</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="so-cordones">
+            <div class="tile-h"><span class="td"></span><h3>Cordones, preparación &amp; documentación</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un ensamble soldado (<code>.iam</code> con plantilla de soldadura) trabaja en <b>tres fases</b> que el navegador respeta en orden:</p>
+              <div class="cols">
+                <div>
+                  <div class="tip"><span class="lab">1 · Preparar</span>Mecanizado <b>previo</b>: biseles y chaflanes en las piezas para que el cordón penetre bien.</div>
+                  <div class="tip"><span class="lab">2 · Soldar</span>Crea <b>cordones</b>: empalme (filete), continuo o intermitente, y ranura. Asigna el material de aporte.</div>
+                  <div class="tip"><span class="lab">3 · Mecanizar</span>Operaciones <b>post-soldado</b>: taladros y rebajes que cruzan la unión ya soldada.</div>
+                </div>
+                <div>
+                  <p class="note"><b>Tipos de cordón frecuentes:</b></p>
+                  <table class="tbl">
+                    <tr><th>Cordón</th><th>Uso</th></tr>
+                    <tr><td class="k">Empalme (filete)</td><td>Unión en T o esquina — el más común.</td></tr>
+                    <tr><td class="k">Intermitente</td><td>Tramos alternos para ahorrar aporte y deformación.</td></tr>
+                    <tr><td class="k">Ranura</td><td>Rellena un bisel preparado (full penetration).</td></tr>
+                    <tr><td class="k">Oruga / cosmético</td><td>Representación ligera, solo símbolo y aspecto.</td></tr>
+                  </table>
+                  <div class="tip pro"><span class="lab">Documentar</span>En el plano: el <b>símbolo de soldadura</b> normalizado, la <b>oruga</b>, la lista de materiales del conjunto y el detalle de cada unión.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 07 — SIMULACIÓN ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Simulación</h2><span class="ext">FEA · Dinámica</span><span class="meta">probar antes<br>de fabricar</span></div>
+
+        <div class="cols">
+          <div class="tile" id="si-fea">
+            <div class="tile-h"><span class="td"></span><h3>Análisis de esfuerzos (FEA)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>análisis por elementos finitos</b> predice si una pieza resiste antes de cortar metal. El flujo es siempre el mismo:</p>
+              <ol class="steps">
+                <li><b>Material</b> — define el del componente (acero, aluminio…).</li>
+                <li><b>Restricciones</b> — fija dónde se sujeta la pieza (apoyos fijos, pasadores).</li>
+                <li><b>Cargas</b> — fuerza, presión, gravedad, momento.</li>
+                <li><b>Malla</b> — divide el modelo; afina donde hay concentración de tensión.</li>
+                <li><b>Ejecutar &amp; leer</b> — von Mises, desplazamiento y <b>coef. de seguridad</b>.</li>
+              </ol>
+              <div class="tip warn"><span class="lab">Convergencia</span>Si refinas la malla y el resultado <b>casi no cambia</b>, convergió: el valor es fiable. Si salta mucho, sigue afinando o revisa apoyos/cargas.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="si-din">
+            <div class="tile-h"><span class="td"></span><h3>Simulación dinámica</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Estudia el <b>movimiento</b> de un mecanismo en condiciones reales: velocidades, aceleraciones y fuerzas en las juntas a lo largo del tiempo.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Juntas</span><span class="dv">Convierte restricciones en pares cinemáticos (rotación, prismática…).</span></div>
+                <div class="di"><span class="dk">Cargas/fuerzas</span><span class="dv">Aplica motores, resortes, gravedad y fricción.</span></div>
+                <div class="di"><span class="dk">Salida (Output)</span><span class="dv">Gráficas de posición/velocidad/fuerza en cada instante.</span></div>
+                <div class="di"><span class="dk">A FEA</span><span class="dv">Exporta la fuerza pico de una junta al análisis de esfuerzos.</span></div>
+              </div>
+              <div class="tip pro"><span class="lab">Por qué importa</span>Sabes la <b>fuerza real</b> que sufre cada eje en el peor instante del ciclo — no una estimación a mano — y la llevas directo al cálculo estructural.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 08 — AUTOMATIZACIÓN ===== -->
+      <section class="stage" id="e8" style="--seg:var(--s8)">
+        <div class="stage-head"><span class="sn">08</span><h2>Automatización</h2><span class="ext">iLogic · iPart</span><span class="meta">diseñar una vez,<br>reutilizar mil</span></div>
+
+        <div class="cols">
+          <div class="tile" id="au-param">
+            <div class="tile-h"><span class="td"></span><h3>Parámetros &amp; ecuaciones</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Toda cota es un <b>parámetro</b>. Nómbralos y relaciónalos con ecuaciones: cambias uno y el modelo entero se recalcula.</p>
+              <figure class="code" data-copy="Largo = 120 mm&#10;Ancho = Largo / 2&#10;Agujeros = floor(Largo / 25 mm)">
+                <figcaption><span class="lang">Parámetros</span><span class="cphint">clic para copiar</span></figcaption>
+<pre><span class="t-com">' una cota maestra gobierna el resto</span>
+<span class="t-kw">Largo</span>    <span class="t-op">=</span> <span class="t-num">120 mm</span>
+<span class="t-kw">Ancho</span>   <span class="t-op">=</span> Largo <span class="t-op">/</span> <span class="t-num">2</span>
+<span class="t-kw">Agujeros</span> <span class="t-op">=</span> <span class="t-fn">floor</span>(Largo <span class="t-op">/</span> <span class="t-num">25 mm</span>)</pre>
+              </figure>
+              <div class="tip"><span class="lab">2026</span>Ahora puedes <b>agrupar parámetros</b> en grupos con nombre para organizar modelos complejos, y editar la hoja vinculada desde el propio diálogo.</div>
+              <div class="tip pro"><span class="lab">Inventor + Excel</span>Vincula una hoja de cálculo como tabla de parámetros: el área comercial cambia medidas en Excel y la pieza se actualiza sola.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="au-fabricas">
+            <div class="tile-h"><span class="td"></span><h3>iPart · iFeature · iAssembly</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Las <b>"fábricas"</b>: una plantilla con una tabla de variantes. Una sola definición genera toda una familia.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">iFeature</span><span class="dv">Operación reutilizable (un troquel, un alojamiento) arrastrable a cualquier pieza.</span></div>
+                <div class="di"><span class="dk">iPart</span><span class="dv">Familia de piezas por tabla (p. ej. tornillos M6/M8/M10) — cada fila, una variante.</span></div>
+                <div class="di"><span class="dk">iAssembly</span><span class="dv">Lo mismo a nivel de ensamblaje: configuraciones de un producto.</span></div>
+                <div class="di"><span class="dk">iCopy</span><span class="dv">Duplica un patrón de componentes adaptándolo a una nueva geometría.</span></div>
+                <div class="di"><span class="dk">Content Center</span><span class="dv">Librería de piezas normalizadas; crea la tuya (Customized).</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="au-ilogic">
+            <div class="tile-h"><span class="td"></span><h3>iLogic — reglas que diseñan por ti</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Programación visual dentro de Inventor: <b>reglas</b> que leen y escriben parámetros, muestran/ocultan operaciones y reaccionan a eventos. La automatización más potente del software.</p>
+              <div class="cols">
+                <div>
+                  <figure class="code" data-copy="If Largo > 200 Then&#10;    Feature.IsActive(&quot;Nervio&quot;) = True&#10;Else&#10;    Feature.IsActive(&quot;Nervio&quot;) = False&#10;End If">
+                    <figcaption><span class="lang">iLogic · regla</span><span class="cphint">clic para copiar</span></figcaption>
+<pre><span class="t-com">' añade un refuerzo solo si la pieza es larga</span>
+<span class="t-kw">If</span> Largo <span class="t-op">&gt;</span> <span class="t-num">200</span> <span class="t-kw">Then</span>
+    <span class="t-fn">Feature.IsActive</span>(<span class="t-str">"Nervio"</span>) <span class="t-op">=</span> <span class="t-kw">True</span>
+<span class="t-kw">Else</span>
+    <span class="t-fn">Feature.IsActive</span>(<span class="t-str">"Nervio"</span>) <span class="t-op">=</span> <span class="t-kw">False</span>
+<span class="t-kw">End If</span></pre>
+                  </figure>
+                </div>
+                <div>
+                  <figure class="code" data-copy="Material = InputListBox(&quot;Elige material&quot;, _&#10;   New String(){&quot;Acero&quot;,&quot;Aluminio&quot;}, Material)&#10;iProperties.Material = Material">
+                    <figcaption><span class="lang">iLogic · formulario</span><span class="cphint">clic para copiar</span></figcaption>
+<pre><span class="t-com">' pregunta al usuario y aplica el material</span>
+<span class="t-kw">Material</span> <span class="t-op">=</span> <span class="t-fn">InputListBox</span>(<span class="t-str">"Elige material"</span>, _
+   <span class="t-kw">New String</span>(){<span class="t-str">"Acero"</span>,<span class="t-str">"Aluminio"</span>}, Material)
+<span class="t-fn">iProperties.Material</span> <span class="t-op">=</span> Material</pre>
+                  </figure>
+                </div>
+              </div>
+              <div class="tip"><span class="lab">Bloques de iLogic</span>Condicionales (<code>If…Then</code>) · Funciones · <b>Reglas (Rules)</b> que se disparan con eventos · <b>Formularios (Forms)</b> para que un usuario sin Inventor configure el diseño.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="au-estados">
+            <div class="tile-h"><span class="td"></span><h3>Estados de modelo &amp; tabla de diseño</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Estados de modelo</b> guardan variantes de una <i>misma</i> pieza/ensamble (con/sin agujeros, mecanizado vs. en bruto, simplificado para exportar) dentro del mismo archivo.</p>
+              <div class="tip"><span class="lab">2026</span>Los estados de modelo usan ahora un <b>editor de tabla nativo</b> — ya no hace falta salir a Excel para gestionarlos — y se reubicaron dentro de la carpeta <b>Representaciones</b> del navegador.</div>
+              <div class="tip pro"><span class="lab">Úsalos para</span>Aligerar ensambles grandes (estado "simplificado"), documentar fases de fabricación, o mantener configuraciones en un solo .ipt sin duplicar archivos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 09 — PRESENTACIÓN ===== -->
+      <section class="stage" id="e9" style="--seg:var(--s9)">
+        <div class="stage-head"><span class="sn">09</span><h2>Presentación &amp; render</h2><span class="ext">.ipn · Studio</span><span class="meta">mostrar y<br>comunicar</span></div>
+
+        <div class="cols one">
+          <div class="tile span" id="pr-explosion">
+            <div class="tile-h"><span class="td"></span><h3>Explosionados, instantáneas &amp; renderizado</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <div class="cols">
+                <div>
+                  <p class="note"><b>Presentación (.ipn)</b> — para despieces y manuales de montaje:</p>
+                  <div class="deflist">
+                    <div class="di"><span class="dk">Mover comp.</span><span class="dv">Desplaza piezas con "tweaks" para separar el conjunto.</span></div>
+                    <div class="di"><span class="dk">Vista instantánea</span><span class="dv">Captura un estado del explosionado como imagen para el plano.</span></div>
+                    <div class="di"><span class="dk">Capturar cámara</span><span class="dv">Crea la secuencia de animación de montaje/desmontaje.</span></div>
+                    <div class="di"><span class="dk">Líneas de rastro</span><span class="dv">Muestran la trayectoria de cada pieza al explotar.</span></div>
+                  </div>
+                </div>
+                <div>
+                  <p class="note"><b>Inventor Studio</b> — para imágenes y vídeo realistas:</p>
+                  <div class="deflist">
+                    <div class="di"><span class="dk">Aspectos</span><span class="dv">Materiales y acabados visuales (no afectan a la masa).</span></div>
+                    <div class="di"><span class="dk">Iluminación</span><span class="dv">Estilos de luz y escena, sombras, fondo.</span></div>
+                    <div class="di"><span class="dk">Renderizar imagen</span><span class="dv">Salida fotorrealista de marketing/propuesta.</span></div>
+                    <div class="di"><span class="dk">Renderizar vídeo</span><span class="dv">Anima cámara y componentes en el tiempo.</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>El explosionado y sus instantáneas son <b>asociativos</b>: si el ensamble cambia, la vista de despiece en el plano se actualiza también.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== STAGE 10 — PLANO ===== -->
+      <section class="stage" id="e10" style="--seg:var(--s10)">
+        <div class="stage-head"><span class="sn">10</span><h2>Plano</h2><span class="ext">Drawing · .idw / .dwg</span><span class="meta">el entregable<br>final de fabricación</span></div>
+
+        <div class="cols">
+          <div class="tile" id="pl-vistas">
+            <div class="tile-h"><span class="td"></span><h3>Vistas de dibujo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El plano es <b>2D y asociativo</b>: nace de la pieza/ensamble 3D y se actualiza solo cuando el modelo cambia. Primero el marco y el cajetín, luego las vistas.</p>
+              <table class="tbl">
+                <tr><th>Vista</th><th>Para qué</th></tr>
+                <tr><td class="k">Base</td><td>La primera proyección (frontal). Todo parte de aquí.</td></tr>
+                <tr><td class="k">Proyectada</td><td>Planta, lateral e isométrica desde la base.</td></tr>
+                <tr><td class="k">Sección</td><td>Corta el modelo para mostrar el interior.</td></tr>
+                <tr><td class="k">Detalle</td><td>Amplía una zona pequeña a mayor escala.</td></tr>
+                <tr><td class="k">Rotura</td><td>Acorta piezas muy largas conservando cotas.</td></tr>
+                <tr><td class="k">Superpuesta</td><td>Muestra una posición alternativa del mecanismo.</td></tr>
+                <tr><td class="k">Despiece</td><td>Trae el explosionado del .ipn para el montaje.</td></tr>
+              </table>
+              <div class="tip"><span class="lab">2026</span>Nuevo flujo de <b>Vista de rotura</b>: las líneas de rotura se dibujan en un boceto y puedes <b>acotar</b> la distancia a entidades de la vista, editable luego desde el navegador.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="pl-anotar">
+            <div class="tile-h"><span class="td"></span><h3>Cotas &amp; anotación</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Acota lo necesario para fabricar — ni de más ni de menos. La <b>recuperación de anotaciones</b> trae las cotas que ya pusiste en el modelo.</p>
+              <div class="deflist">
+                <div class="di"><span class="dk">Cota general</span><span class="dv">Lineales, radiales, angulares y de diámetro.</span></div>
+                <div class="di"><span class="dk">Recuperar</span><span class="dv">Reutiliza las cotas del boceto/pieza en la vista.</span></div>
+                <div class="di"><span class="dk">Directriz / texto</span><span class="dv">Notas con flecha a un punto del dibujo.</span></div>
+                <div class="di"><span class="dk">Agujero y rosca</span><span class="dv">Tabla o nota automática con la especificación del taladro.</span></div>
+                <div class="di"><span class="dk">Lista de piezas</span><span class="dv">Tabla de LDM + referencias numéricas (globos).</span></div>
+              </div>
+              <div class="tip pro"><span class="lab">Estilos &amp; plantillas</span>Crea tu <b>cajetín</b>, marco y estilos (cota, texto, capas) una vez y guárdalos como <b>plantilla .idw</b>. Todo plano nuevo nace ya normalizado.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="pl-gdt">
+            <div class="tile-h"><span class="td"></span><h3>GD&amp;T &amp; tablas de control</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note"><b>Acotación geométrica y de tolerancias</b> (GD&amp;T): el lenguaje normalizado que define cuánto puede variar la forma y posición reales de una pieza. Imprescindible para fabricación y control de calidad serios.</p>
+              <div class="cols">
+                <div>
+                  <table class="tbl">
+                    <tr><th>Símbolo</th><th>Controla</th></tr>
+                    <tr><td class="k">Planitud / rectitud</td><td>Forma de una superficie o eje.</td></tr>
+                    <tr><td class="k">Posición</td><td>Ubicación de un agujero respecto a referencias (datums).</td></tr>
+                    <tr><td class="k">Concentricidad</td><td>Alineación de ejes.</td></tr>
+                    <tr><td class="k">Perpendic./paralel.</td><td>Orientación respecto a un datum.</td></tr>
+                  </table>
+                </div>
+                <div>
+                  <p class="note"><b>Elementos en el plano:</b> marco de control (feature control frame), <b>símbolos de referencia (datum)</b>, biblioteca de símbolos estándar, tabla de revisiones con identificador y nube, y la <b>simbología de soldadura</b> para conjuntos soldados.</p>
+                  <div class="tip warn"><span class="lab">Regla práctica</span>Acota solo lo que la <b>función</b> exige. Tolerancias muy ajustadas sin necesidad disparan el coste de fabricación.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile span" id="pl-atajos">
+            <div class="tile-h"><span class="td"></span><h3>Atajos esenciales — todo el flujo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <div class="keys">
+                <div class="kr"><span>Línea (boceto)</span><span class="kbd">L</span></div>
+                <div class="kr"><span>Cota general</span><span class="kbd">D</span></div>
+                <div class="kr"><span>Círculo</span><span class="kbd">C</span></div>
+                <div class="kr"><span>Extrusión</span><span class="kbd">E</span></div>
+                <div class="kr"><span>Revolución</span><span class="kbd">R</span></div>
+                <div class="kr"><span>Empalme (fillet)</span><span class="kbd">F</span></div>
+                <div class="kr"><span>Agujero</span><span class="kbd">H</span></div>
+                <div class="kr"><span>Chaflán</span><span class="kbd">CHA</span></div>
+                <div class="kr"><span>Colocar componente</span><span class="kbd">P</span></div>
+                <div class="kr"><span>Restricción / Unión</span><span class="kbd">C</span></div>
+                <div class="kr"><span>Mostrar restricciones</span><span class="kbd">F8</span></div>
+                <div class="kr"><span>Ocultar restricciones</span><span class="kbd">F9</span></div>
+                <div class="kr"><span>Vista isométrica</span><span class="kbd">Inicio</span></div>
+                <div class="kr"><span>Orbitar / Zoom / Encuadre</span><span><span class="kbd">F4</span> <span class="kbd">F3</span> <span class="kbd">F2</span></span></div>
+                <div class="kr"><span>Medir</span><span class="kbd">M</span></div>
+                <div class="kr"><span>Deshacer / Rehacer</span><span><span class="kbd">Ctrl+Z</span> <span class="kbd">Ctrl+Y</span></span></div>
+              </div>
+              <div class="tip pro"><span class="lab">Pro</span>Personaliza tus propios atajos en <b>Herramientas → Personalizar → Teclado</b>. Los más rentables: las operaciones que repites cada día.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <b>Autodesk Inventor · Hoja de referencia</b> — del boceto al prototipo digital, en el orden en que realmente se trabaja.<br>
+    <span class="mono">Construida sobre el temario de dos cursos completos de Inventor (Professional 2026 + Básico–Avanzado) y la línea de carrera Nivel I/II/III · niveles B/I/A para estudiar por etapas.<br>
+    Notas de novedades verificadas para Inventor 2026 (patrones unificados, panel de propiedades en chapa, estados de modelo nativos, Place &amp; Insert, vista de rotura). Atajos por defecto; tu instalación puede variar. · v1.1 · jun 2026</span>
+  </footer>
+
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ===== copy-to-clipboard ===== */
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1500); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.style.cursor='pointer'; el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function doCopy(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).catch(function(){fallback(text);});}
+      else {fallback(text);}
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1200);
+    }
+    el.addEventListener('click', doCopy);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();doCopy();} });
+  });
+
+  /* ===== scrollspy for the model-browser TOC ===== */
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={};
+  links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var t=document.getElementById(id); if(t) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(l){l.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-10% 0px -75% 0px',threshold:0});
+    targets.forEach(function(t){obs.observe(t);});
+  }
+})();
+</script>
+</body>
+</html>

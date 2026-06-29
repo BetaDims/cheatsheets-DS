@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Termodinámica y Ciclos · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- KaTeX 0.16.11 (fórmulas) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function render(){
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      } else { setTimeout(render, 60); }
+    }
+    render();
+  });
+</script>
+<style>
+:root{
+  --bg:#E7EAED;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F7;
+  --rail:#F0F2F5;
+  --code-bg:#FAFBFC;
+  --line:#DFE3E8;
+  --line-soft:#EBEEF1;
+  --ink:#1E242B;
+  --ink-soft:#4C545E;
+  --ink-faint:#838C97;
+  /* Termodinámica — siena energía */
+  --mech:#A0522D;
+  --mech-deep:#7A3E22;
+  --mech-tint:rgba(160,82,45,.14);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#2B6FD6;
+  --s2:#0E8A8A;
+  --s3:#1E9B51;
+  --s4:#B0840A;
+  --s5:#8E4EC6;
+  --s6:#C0398C;
+  --s7:#C0392B;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  /* mono tokens */
+  --t-kw:#A0522D;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#8B939E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--mech);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+/* ============ APP CHROME ============ */
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(30,36,43,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF1F4;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--mech),#C17A4B);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:11px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--mech-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C7CDD4;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FAFBFC;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--mech-deep);border-bottom-color:var(--mech)}
+
+.fxbar{display:flex;align-items:stretch;background:#FAFBFC;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--mech-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:10px;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--mech-deep)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mech-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--mech)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--mech-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--mech-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--mech);background:linear-gradient(90deg,var(--mech-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--mech-deep);background:var(--mech-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--mech)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(30,36,43,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(30,36,43,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+
+/* ===== formula box (KaTeX) ===== */
+.kbox{margin:10px 0;padding:11px 14px;border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;background:var(--code-bg);overflow-x:auto}
+.kbox:last-child{margin-bottom:0}
+.kbox .kt-cap{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.kbox .katex-display{margin:.25em 0}
+.kbox.tight .katex-display{margin:.1em 0}
+
+/* ===== copyable formulario (mono) ===== */
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(30,36,43,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--mech);background:var(--mech-tint)}
+figure.code.copied .cphint{opacity:1;color:var(--mech-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--mech-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+/* ===== signature: T-s / P-v diagram ===== */
+.fbd{margin:6px 0;border:1px dashed var(--mech);border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--mech-tint),transparent)}
+.fbd .fbd-lbl{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.fbd .fbd-lbl::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--mech)}
+.fbd .fbd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.fbd .fbd-card{border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 10px 6px;display:flex;flex-direction:column}
+.fbd .fbd-card h5{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:6px;text-align:center}
+.fbd svg{width:100%;height:auto;display:block;flex:1}
+.fbd .fbd-cap{margin-top:8px;text-align:center;font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);background:var(--canvas);border:1px solid var(--line);border-radius:7px;padding:7px}
+.fbd .fbd-cap b{color:var(--mech-deep)}
+.svg-ink{stroke:var(--ink-soft)}
+.svg-dim{stroke:var(--ink-faint)}
+text.lab{font-family:"JetBrains Mono";font-size:12px;fill:var(--ink)}
+text.labf{font-family:"JetBrains Mono";font-size:12px;font-weight:700}
+@media(max-width:560px){.fbd .fbd-grid{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E242B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(30,36,43,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ APP CHROME ============ -->
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">Δ</span>
+      <span class="fname"><b>Termo</b> · termodinamica.thermo</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h6l2-7 2 14 2-7h6"/></svg>η = 1 − Tc/Th</span>
+      <span class="vtag">v1.1 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Leyes</span>
+      <span class="vt">Procesos</span>
+      <span class="vt">Ciclos</span>
+      <span class="vt">Cálculo</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc"><b>ΔU = Q − W</b> ▸ <b>dS ≥ δQ/T</b> ▸ <b>η = 1 − Qc/Qh</b></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · energía, calor y trabajo</div>
+      <h1>La <em>energía</em> se conserva;<br>la <em>calidad</em>, no.</h1>
+      <p class="lede">La <b>termodinámica</b> en una página: <b>sistemas y propiedades</b>, la <b>primera ley</b> (<code>ΔU = Q − W</code>) con <b>calor, trabajo y entalpía</b>, el <b>gas ideal</b> y sus <b>procesos</b> (isobárico · isócoro · isotérmico · adiabático · politrópico), la <b>sustancia pura</b> y sus <b>diagramas de fase</b>, la <b>segunda ley</b> y la <b>entropía</b> (Carnot), y los <b>ciclos de potencia</b> (Otto · Diesel · Brayton · Rankine) y de <b>refrigeración</b> con su <b>COP</b>. Cada bloque con su fórmula y una nota de <b>cuándo aplicarla</b>. <b>Clic en cualquier formulario para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"La energía no se crea ni se destruye; solo cambia de forma — y pierde calidad."</p>
+        <cite>— 1ª y 2ª ley de la termodinámica en una frase</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Fundamentos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Primera ley</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Gas ideal · procesos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Sustancia pura</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Segunda ley · entropía</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Ciclos de gas</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Vapor · refrigeración</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Cálculo aplicado</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Fundamentos</span><span class="sd">sistema · propiedades</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Primera ley</span><span class="sd">ΔU = Q − W</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Gas ideal · procesos</span><span class="sd">PV = mRT</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Sustancia pura</span><span class="sd">fases · calidad x</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">2ª ley · entropía</span><span class="sd">Carnot · S</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Ciclos de gas</span><span class="sd">Otto · Diesel · Brayton</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Vapor · refrigeración</span><span class="sd">Rankine · COP</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Cálculo aplicado</span><span class="sd">η · balances</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHELL ============ -->
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">Δ</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17c3 0 3-8 6-8s3 8 6 8 3-6 6-6"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.thermo</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Fundamentos</div>
+      <a href="#t-sistema" style="--seg:var(--s0)">Sistema y entorno</a>
+      <a href="#t-props" style="--seg:var(--s0)">Propiedades y estado</a>
+      <a href="#t-proceso" style="--seg:var(--s0)">Proceso y equilibrio</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Primera ley</div>
+      <a href="#t-qw" style="--seg:var(--s1)">Calor y trabajo</a>
+      <a href="#t-primera" style="--seg:var(--s1)">1ª ley · ΔU = Q − W</a>
+      <a href="#t-entalpia" style="--seg:var(--s1)">Entalpía y calores específicos</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Gas ideal · procesos</div>
+      <a href="#t-gasideal" style="--seg:var(--s2)">Ley del gas ideal</a>
+      <a href="#t-procesos" style="--seg:var(--s2)">Procesos termodinámicos</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Sustancia pura</div>
+      <a href="#t-fases" style="--seg:var(--s3)">Fases y cambio de fase</a>
+      <a href="#t-calidad" style="--seg:var(--s3)">Calidad y tablas de vapor</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · 2ª ley · entropía</div>
+      <a href="#t-segunda" style="--seg:var(--s4)">Enunciados de la 2ª ley</a>
+      <a href="#t-entropia" style="--seg:var(--s4)">Entropía</a>
+      <a href="#t-carnot" style="--seg:var(--s4)">Ciclo de Carnot</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Ciclos de gas</div>
+      <a href="#t-otto" style="--seg:var(--s5)">Ciclo Otto</a>
+      <a href="#t-diesel" style="--seg:var(--s5)">Ciclo Diesel</a>
+      <a href="#t-brayton" style="--seg:var(--s5)">Ciclo Brayton</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Vapor · refrigeración</div>
+      <a href="#t-rankine" style="--seg:var(--s6)">Ciclo Rankine</a>
+      <a href="#t-diagrama" style="--seg:var(--s6)">Diagrama T-s / P-v</a>
+      <a href="#t-refri" style="--seg:var(--s6)">Refrigeración y COP</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Cálculo aplicado</div>
+      <a href="#t-eficiencia" style="--seg:var(--s7)">Eficiencias clave</a>
+      <a href="#t-balance" style="--seg:var(--s7)">Balance de energía</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Fund.</a><a href="#e1">01 1ª ley</a><a href="#e2">02 Gas</a><a href="#e3">03 Fases</a>
+        <a href="#e4">04 2ª ley</a><a href="#e5">05 Gas</a><a href="#e6">06 Vapor</a><a href="#e7">07 Cálc.</a>
+      </div>
+
+      <!-- ===== 00 FUNDAMENTOS ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Fundamentos</h2><span class="meta">el lenguaje<br>de la energía</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-sistema">
+            <div class="tile-h"><span class="td"></span><h3>Sistema y entorno</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La termodinámica analiza el intercambio de <b>energía</b> entre un <b>sistema</b> (lo que estudias) y su <b>entorno</b>, a través de una <b>frontera</b>. La frontera define qué cruza: masa y/o energía.</p>
+              <table class="tbl">
+                <tr><th>Sistema</th><th>Cruza la frontera</th></tr>
+                <tr><td class="k">Cerrado</td><td>energía sí, masa no (masa de control)</td></tr>
+                <tr><td class="k">Abierto</td><td>energía y masa (volumen de control)</td></tr>
+                <tr><td class="k">Aislado</td><td>ni energía ni masa</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Cómo elegir</span>Un pistón sellado = <b>cerrado</b>; una turbina o boquilla con flujo = <b>abierto</b>. Elige bien antes de plantear el balance.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-props">
+            <div class="tile-h"><span class="td"></span><h3>Propiedades y estado</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>estado</b> queda fijado por sus <b>propiedades</b>. <b>Intensivas</b> no dependen de la masa (T, P, v); <b>extensivas</b> sí (V, U, H). Para una sustancia pura simple, <b>dos propiedades intensivas independientes</b> fijan el estado.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">propiedad específica = por unidad de masa</div>
+                $$v=\frac{V}{m}\qquad u=\frac{U}{m}\qquad h=\frac{H}{m}$$
+              </div>
+              <div class="tip"><span class="lab">Regla de estado</span>Por eso las tablas de vapor se entran con <b>dos</b> datos (p. ej. P y T, o P y x).</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="t-proceso">
+            <div class="tile-h"><span class="td"></span><h3>Proceso, ciclo y equilibrio</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>proceso</b> es el cambio de un estado a otro; una <b>trayectoria</b> es la serie de estados intermedios. Un <b>ciclo</b> vuelve al estado inicial. Un proceso <b>cuasiestático</b> (reversible) pasa por estados de equilibrio infinitesimalmente cercanos — ideal de referencia.</p>
+              <table class="tbl">
+                <tr><th>Proceso</th><th>Se mantiene constante</th></tr>
+                <tr><td class="fn">Isobárico</td><td>presión P</td></tr>
+                <tr><td class="fn">Isócoro / isométrico</td><td>volumen V</td></tr>
+                <tr><td class="fn">Isotérmico</td><td>temperatura T</td></tr>
+                <tr><td class="fn">Adiabático</td><td>sin calor (Q = 0)</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Equilibrio (ley cero)</span>Si A está en equilibrio térmico con C y B también, entonces A y B lo están entre sí. Es lo que hace posible <b>medir temperatura</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 PRIMERA LEY ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Primera ley</h2><span class="meta">conservación<br>de la energía</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-qw">
+            <div class="tile-h"><span class="td"></span><h3>Calor y trabajo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>calor</b> $Q$ es energía que cruza la frontera por <b>diferencia de temperatura</b>; el <b>trabajo</b> $W$, por cualquier otro medio (un pistón que se mueve). Ambos son <b>energía en tránsito</b>: no se "almacenan", a diferencia de $U$.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">trabajo de frontera (proceso cuasiestático)</div>
+                $$W=\int_{1}^{2} P\,dV$$
+              </div>
+              <div class="tip"><span class="lab">Convenio (físico)</span>$Q>0$ entra calor al sistema; $W>0$ el sistema hace trabajo sobre el entorno. Cuidado: el convenio químico invierte el signo de $W$.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-primera">
+            <div class="tile-h"><span class="td"></span><h3>1ª ley · ΔU = Q − W</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">La energía de un sistema cerrado cambia solo por el calor que recibe menos el trabajo que realiza. Es <b>conservación de la energía</b> aplicada a sistemas térmicos.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">cerrado · y volumen de control (estacionario)</div>
+                $$\Delta U = Q - W$$
+                $$\dot Q-\dot W=\dot m\left[(h_2-h_1)+\tfrac{v_2^2-v_1^2}{2}+g(z_2-z_1)\right]$$
+              </div>
+              <figure class="code" data-copy="// primera ley — sistema cerrado&#10;dU = Q - W            // energia interna&#10;// proceso a V cte (W=0):&#10;dU = Q = m*cv*dT&#10;// proceso a P cte:&#10;Q = m*cp*dT = dH">
+                <figcaption><span class="lang">formulario</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// primera ley — sistema cerrado</span>
+dU <span class="t-op">=</span> Q <span class="t-op">-</span> W            <span class="t-com">// energia interna</span>
+<span class="t-com">// proceso a V cte (W=0):</span>
+dU <span class="t-op">=</span> Q <span class="t-op">=</span> m<span class="t-op">*</span>cv<span class="t-op">*</span>dT
+<span class="t-com">// proceso a P cte:</span>
+Q <span class="t-op">=</span> m<span class="t-op">*</span>cp<span class="t-op">*</span>dT <span class="t-op">=</span> dH</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile span" id="t-entalpia">
+            <div class="tile-h"><span class="td"></span><h3>Entalpía y calores específicos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>entalpía</b> $H=U+PV$ agrupa la energía interna con el trabajo de flujo: es la propiedad natural para procesos a <b>presión constante</b> y para <b>volúmenes de control</b>. Los <b>calores específicos</b> miden cuánta energía sube la temperatura un grado.</p>
+              <div class="cols">
+                <div class="kbox tight">
+                  <div class="kt-cap">entalpía y calores específicos</div>
+                  $$H=U+PV\qquad c_p-c_v=R$$
+                  $$k=\frac{c_p}{c_v}\qquad \Delta h=c_p\,\Delta T$$
+                </div>
+                <div class="tip"><span class="lab">Por qué cp &gt; cv</span>A presión constante parte del calor se gasta en el <b>trabajo de expansión</b>, así que hace falta más energía para el mismo $\Delta T$. Aire: $c_p\approx1.005$, $c_v\approx0.718$ kJ/kg·K, $k\approx1.4$.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 GAS IDEAL Y PROCESOS ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Gas ideal y procesos</h2><span class="meta">PV = mRT<br>y sus caminos</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-gasideal">
+            <div class="tile-h"><span class="td"></span><h3>Ley del gas ideal</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Para gases a baja densidad (lejos de condensar), $P$, $V$ y $T$ se relacionan por la ley del gas ideal. $R$ es la constante particular del gas ($R=R_u/M$).</p>
+              <div class="kbox tight">
+                <div class="kt-cap">formas equivalentes</div>
+                $$PV=mRT=nR_uT\qquad Pv=RT$$
+                $$\frac{P_1V_1}{T_1}=\frac{P_2V_2}{T_2}$$
+              </div>
+              <div class="tip"><span class="lab">Constantes</span>$R_u=8.314\ \text{J/(mol}\cdot\text{K)}$. Aire: $R=0.287\ \text{kJ/(kg}\cdot\text{K)}$. Úsala solo si el gas está <b>sobrecalentado</b>, no cerca de la saturación.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-procesos">
+            <div class="tile-h"><span class="td"></span><h3>Procesos termodinámicos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Cada proceso fija una variable y define cómo se calculan $W$ y $Q$. El <b>politrópico</b> $PV^n=\text{cte}$ los engloba a todos según el exponente $n$.</p>
+              <table class="tbl">
+                <tr><th>Proceso</th><th>n</th><th>Trabajo W</th></tr>
+                <tr><td class="fn">Isócoro</td><td>∞</td><td>0</td></tr>
+                <tr><td class="fn">Isobárico</td><td>0</td><td>P·ΔV</td></tr>
+                <tr><td class="fn">Isotérmico</td><td>1</td><td>mRT·ln(V₂/V₁)</td></tr>
+                <tr><td class="fn">Adiabático</td><td>k</td><td>(P₁V₁−P₂V₂)/(k−1)</td></tr>
+              </table>
+              <div class="kbox tight">
+                <div class="kt-cap">adiabático reversible (isentrópico)</div>
+                $$PV^{k}=\text{cte}\qquad \frac{T_2}{T_1}=\left(\frac{P_2}{P_1}\right)^{\!\frac{k-1}{k}}$$
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 SUSTANCIA PURA ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Sustancia pura y fases</h2><span class="meta">agua, vapor<br>y diagramas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-fases">
+            <div class="tile-h"><span class="td"></span><h3>Fases y cambio de fase</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Una <b>sustancia pura</b> tiene composición fija. Al calentarla a presión constante pasa de <b>líquido comprimido</b> → <b>líquido saturado</b> → <b>mezcla</b> → <b>vapor saturado</b> → <b>vapor sobrecalentado</b>. Durante el cambio de fase, $T$ y $P$ no cambian: es la <b>temperatura de saturación</b>.</p>
+              <table class="tbl">
+                <tr><th>Región</th><th>Cómo identificarla</th></tr>
+                <tr><td class="k">Líq. comprimido</td><td>T &lt; T_sat a esa P</td></tr>
+                <tr><td class="k">Mezcla (húmedo)</td><td>T = T_sat, 0 &lt; x &lt; 1</td></tr>
+                <tr><td class="k">Vapor sobrecal.</td><td>T &gt; T_sat a esa P</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Punto crítico</span>Por encima de $P_{cr}$ (agua: 22.06 MPa, 374 °C) no hay frontera líquido-vapor: el fluido es <b>supercrítico</b>.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-calidad">
+            <div class="tile-h"><span class="td"></span><h3>Calidad y tablas de vapor</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">En la zona de mezcla, la <b>calidad</b> $x$ es la fracción másica de vapor. Cualquier propiedad se interpola entre el valor de líquido saturado ($_f$) y el de vapor saturado ($_g$).</p>
+              <div class="kbox tight">
+                <div class="kt-cap">calidad e interpolación</div>
+                $$x=\frac{m_{vapor}}{m_{total}}\qquad 0\le x\le 1$$
+                $$y=y_f+x\,(y_g-y_f),\quad y\in\{v,u,h,s\}$$
+              </div>
+              <div class="tip warn"><span class="lab">Atajo</span>Si $x=0$ estás en líquido saturado; $x=1$, vapor saturado. $h_{fg}=h_g-h_f$ es el <b>calor latente</b> de vaporización.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 SEGUNDA LEY Y ENTROPÍA ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Segunda ley y entropía</h2><span class="meta">la dirección<br>del tiempo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-segunda">
+            <div class="tile-h"><span class="td"></span><h3>Enunciados de la 2ª ley</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La primera ley dice cuánta energía; la <b>segunda</b> dice en qué <b>dirección</b> y con qué <b>calidad</b>. El calor fluye espontáneamente de caliente a frío, nunca al revés sin trabajo.</p>
+              <table class="tbl">
+                <tr><th>Enunciado</th><th>Dice que</th></tr>
+                <tr><td class="k">Kelvin-Planck</td><td>ninguna máquina convierte todo el calor en trabajo</td></tr>
+                <tr><td class="k">Clausius</td><td>el calor no pasa solo de frío a caliente</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Consecuencia</span>Toda máquina térmica necesita un <b>foco frío</b> donde botar calor $Q_c$. Por eso $\eta<1$ siempre.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-entropia">
+            <div class="tile-h"><span class="td"></span><h3>Entropía</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>entropía</b> $S$ mide el "desorden" o la energía no disponible para trabajo. En todo proceso real del universo, la entropía <b>aumenta</b> (principio de incremento de entropía).</p>
+              <div class="kbox tight">
+                <div class="kt-cap">definición · gas ideal · 2ª ley</div>
+                $$dS=\frac{\delta Q_{rev}}{T}\qquad \Delta S_{univ}\ge 0$$
+                $$\Delta s=c_p\ln\frac{T_2}{T_1}-R\ln\frac{P_2}{P_1}$$
+              </div>
+              <div class="tip"><span class="lab">Isentrópico</span>Un proceso <b>reversible y adiabático</b> tiene $\Delta s=0$: es la referencia ideal de turbinas, bombas y compresores.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="t-carnot">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo de Carnot — el techo de eficiencia</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>ciclo de Carnot</b> (2 isotérmicas + 2 adiabáticas, todas reversibles) es la máquina térmica <b>más eficiente posible</b> entre dos focos. Ninguna máquina real lo supera; solo depende de las temperaturas absolutas.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">eficiencia de Carnot (T en Kelvin)</div>
+                $$\eta_{Carnot}=1-\frac{T_c}{T_h}$$
+              </div>
+              <div class="tip warn"><span class="lab">Lección de diseño</span>Para subir la eficiencia: <b>sube $T_h$</b> (entra calor más caliente) o <b>baja $T_c$</b> (rechaza a un foco más frío). Por eso las centrales buscan vapor muy caliente y condensadores fríos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 CICLOS DE GAS ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Ciclos de potencia de gas</h2><span class="meta">motores y<br>turbinas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-otto">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo Otto (encendido por chispa)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Modela el <b>motor de gasolina</b>: 2 adiabáticas + 2 isócoras. La eficiencia depende solo de la <b>relación de compresión</b> $r=V_1/V_2$.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">eficiencia térmica del aire-estándar</div>
+                $$\eta_{Otto}=1-\frac{1}{r^{\,k-1}}$$
+              </div>
+              <div class="tip"><span class="lab">Límite</span>Más $r$ = más $\eta$, pero el <b>autoencendido (knock)</b> de la gasolina limita $r$ a ~8–11.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-diesel">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo Diesel (encendido por compresión)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El <b>motor diésel</b> comprime solo aire y quema a <b>presión constante</b>. Permite $r$ altas (14–22) → mayor eficiencia. Aparece la <b>relación de corte</b> $r_c=V_3/V_2$.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">eficiencia</div>
+                $$\eta_{Diesel}=1-\frac{1}{r^{\,k-1}}\!\left[\frac{r_c^{\,k}-1}{k\,(r_c-1)}\right]$$
+              </div>
+              <div class="tip"><span class="lab">Comparación</span>A igual $r$, el Otto es más eficiente; pero el diésel admite $r$ mucho mayores, así que en la práctica rinde más.</div>
+            </div>
+          </div>
+
+          <div class="tile span" id="t-brayton">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo Brayton (turbina de gas)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Base de las <b>turbinas de gas</b> y los <b>motores a reacción</b>: compresor → cámara de combustión (P cte) → turbina. La eficiencia depende de la <b>relación de presiones</b> $r_p=P_2/P_1$.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">eficiencia del Brayton ideal</div>
+                $$\eta_{Brayton}=1-\frac{1}{r_p^{\,(k-1)/k}}$$
+              </div>
+              <div class="tip warn"><span class="lab">Trabajo neto</span>La turbina debe mover el compresor: la <b>relación de trabajo de retroceso</b> (back-work) es alta (~50 %), por eso la eficiencia del compresor y de la turbina importa tanto.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 VAPOR Y REFRIGERACIÓN ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Vapor y refrigeración</h2><span class="meta">Rankine,<br>P-v y T-s</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-rankine">
+            <div class="tile-h"><span class="td"></span><h3>Ciclo Rankine (vapor)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">El ciclo de las <b>centrales térmicas</b>: bomba → caldera → turbina → condensador. Usa agua/vapor para aprovechar el calor latente. El <b>recalentamiento</b> y la <b>regeneración</b> suben su eficiencia.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">eficiencia neta (por entalpías)</div>
+                $$\eta=\frac{w_{turbina}-w_{bomba}}{q_{caldera}}=\frac{(h_3-h_4)-(h_2-h_1)}{h_3-h_2}$$
+              </div>
+              <div class="tip"><span class="lab">Trabajo de bomba</span>Comprimir líquido cuesta poco: $w_{bomba}\approx v_f(P_2-P_1)$. Casi todo el trabajo neto sale de la turbina.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="t-refri">
+            <div class="tile-h"><span class="td"></span><h3>Refrigeración y COP</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Invierte la máquina térmica: gasta trabajo para <b>mover calor</b> de frío a caliente (compresión de vapor). Su mérito es el <b>COP</b>, no una eficiencia &lt; 1.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">coeficiente de desempeño</div>
+                $$COP_{R}=\frac{Q_c}{W}\qquad COP_{HP}=\frac{Q_h}{W}=COP_R+1$$
+              </div>
+              <div class="tip"><span class="lab">Ver también</span>El ciclo de 4 componentes en detalle (P-h, refrigerantes) está en la hoja de <b>Refrigeración</b>. Aquí solo el marco termodinámico.</div>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURE ===== -->
+          <div class="tile span" id="t-diagrama">
+            <div class="tile-h"><span class="td"></span><h3>Diagrama T-s / P-v de un ciclo — la firma</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Todo ciclo se lee en dos planos. En el <b>T-s</b> (temperatura-entropía) el <b>área encerrada</b> es el calor neto = trabajo neto, y el área bajo cada curva es el calor de ese tramo. En el <b>P-v</b> (presión-volumen) el área encerrada es el <b>trabajo neto</b>. Abajo, un ciclo Rankine en T-s y un Otto en P-v.</p>
+              <div class="fbd">
+                <div class="fbd-lbl">cycle diagrams · área = trabajo neto</div>
+                <div class="fbd-grid">
+                  <div class="fbd-card">
+                    <h5>T-s · ciclo Rankine</h5>
+                    <svg viewBox="0 0 360 250" role="img" aria-label="Diagrama temperatura-entropía del ciclo Rankine con la campana de saturación">
+                      <!-- axes -->
+                      <line x1="44" y1="220" x2="340" y2="220" stroke="var(--ink-soft)" stroke-width="2"/>
+                      <line x1="44" y1="220" x2="44" y2="24" stroke="var(--ink-soft)" stroke-width="2"/>
+                      <text class="lab" x="330" y="240" fill="var(--ink-soft)">s</text>
+                      <text class="lab" x="20" y="34" fill="var(--ink-soft)">T</text>
+                      <!-- saturation dome -->
+                      <path d="M120,210 C120,120 150,70 200,66 C250,70 300,130 300,210" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="4 3"/>
+                      <text class="lab" x="186" y="58" fill="var(--ink-faint)">campana</text>
+                      <!-- cycle 1-2-3-4 -->
+                      <!-- 1->2 pump (left edge, near vertical) -->
+                      <line x1="120" y1="210" x2="122" y2="186" stroke="var(--s6)" stroke-width="3"/>
+                      <!-- 2->3 boiler (along left branch up and across superheat) -->
+                      <path d="M122,186 C150,120 190,80 270,80" fill="none" stroke="var(--s6)" stroke-width="3"/>
+                      <!-- 3->4 turbine (down to dome right) -->
+                      <line x1="270" y1="80" x2="285" y2="210" stroke="var(--s6)" stroke-width="3"/>
+                      <!-- 4->1 condenser (isothermal across bottom) -->
+                      <line x1="285" y1="210" x2="120" y2="210" stroke="var(--s6)" stroke-width="3"/>
+                      <!-- nodes -->
+                      <circle cx="120" cy="210" r="4" fill="var(--mech-deep)"/><text class="labf" x="104" y="222" fill="var(--mech-deep)">1</text>
+                      <circle cx="122" cy="186" r="4" fill="var(--mech-deep)"/><text class="labf" x="106" y="184" fill="var(--mech-deep)">2</text>
+                      <circle cx="270" cy="80" r="4" fill="var(--mech-deep)"/><text class="labf" x="276" y="76" fill="var(--mech-deep)">3</text>
+                      <circle cx="285" cy="210" r="4" fill="var(--mech-deep)"/><text class="labf" x="290" y="222" fill="var(--mech-deep)">4</text>
+                    </svg>
+                  </div>
+                  <div class="fbd-card">
+                    <h5>P-v · ciclo Otto</h5>
+                    <svg viewBox="0 0 360 250" role="img" aria-label="Diagrama presión-volumen del ciclo Otto">
+                      <line x1="44" y1="220" x2="340" y2="220" stroke="var(--ink-soft)" stroke-width="2"/>
+                      <line x1="44" y1="220" x2="44" y2="24" stroke="var(--ink-soft)" stroke-width="2"/>
+                      <text class="lab" x="330" y="240" fill="var(--ink-soft)">v</text>
+                      <text class="lab" x="22" y="34" fill="var(--ink-soft)">P</text>
+                      <!-- 1 bottom-right, 2 top-left compression adiabatic -->
+                      <path d="M300,200 C200,180 120,140 90,96" fill="none" stroke="var(--s5)" stroke-width="3"/>
+                      <!-- 2->3 isochoric up (left, vertical) -->
+                      <line x1="90" y1="96" x2="90" y2="44" stroke="var(--s5)" stroke-width="3"/>
+                      <!-- 3->4 expansion adiabatic -->
+                      <path d="M90,44 C120,80 220,150 300,150" fill="none" stroke="var(--s5)" stroke-width="3"/>
+                      <!-- 4->1 isochoric down (right, vertical) -->
+                      <line x1="300" y1="150" x2="300" y2="200" stroke="var(--s5)" stroke-width="3"/>
+                      <circle cx="300" cy="200" r="4" fill="var(--mech-deep)"/><text class="labf" x="306" y="204" fill="var(--mech-deep)">1</text>
+                      <circle cx="90" cy="96" r="4" fill="var(--mech-deep)"/><text class="labf" x="70" y="94" fill="var(--mech-deep)">2</text>
+                      <circle cx="90" cy="44" r="4" fill="var(--mech-deep)"/><text class="labf" x="72" y="42" fill="var(--mech-deep)">3</text>
+                      <circle cx="300" cy="150" r="4" fill="var(--mech-deep)"/><text class="labf" x="306" y="150" fill="var(--mech-deep)">4</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="fbd-cap">Rankine: <b>2→3</b> caldera (entra calor) · <b>3→4</b> turbina (sale trabajo) · <b>4→1</b> condensador (sale calor) · <b>1→2</b> bomba. El <b>área encerrada</b> = trabajo neto del ciclo.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 CÁLCULO APLICADO ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Cálculo aplicado</h2><span class="meta">eficiencias<br>y balances</span></div>
+
+        <div class="cols">
+          <div class="tile" id="t-eficiencia">
+            <div class="tile-h"><span class="td"></span><h3>Eficiencias clave</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>eficiencia térmica</b> de una máquina mide qué fracción del calor entrante se vuelve trabajo útil. Compárala siempre contra Carnot para saber cuánto margen real queda.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">máquina térmica</div>
+                $$\eta_{t}=\frac{W_{neto}}{Q_h}=1-\frac{Q_c}{Q_h}$$
+              </div>
+              <figure class="code" data-copy="// eficiencia de una maquina termica&#10;eta = W_neto / Q_h&#10;eta = 1 - Q_c / Q_h&#10;// tope teorico (Carnot, T en Kelvin):&#10;eta_max = 1 - Tc / Th&#10;// efectividad real:&#10;eta_2da = eta / eta_max">
+                <figcaption><span class="lang">formulario</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com">// eficiencia de una maquina termica</span>
+eta <span class="t-op">=</span> W_neto <span class="t-op">/</span> Q_h
+eta <span class="t-op">=</span> <span class="t-num">1</span> <span class="t-op">-</span> Q_c <span class="t-op">/</span> Q_h
+<span class="t-com">// tope teorico (Carnot, T en Kelvin):</span>
+eta_max <span class="t-op">=</span> <span class="t-num">1</span> <span class="t-op">-</span> Tc <span class="t-op">/</span> Th
+<span class="t-com">// efectividad real:</span>
+eta_2da <span class="t-op">=</span> eta <span class="t-op">/</span> eta_max</pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="t-balance">
+            <div class="tile-h"><span class="td"></span><h3>Balance de energía (pasos)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Casi todo problema se resuelve con el mismo método: define el sistema, fija los estados con dos propiedades, plantea la 1ª ley y, si hace falta, la 2ª.</p>
+              <table class="tbl">
+                <tr><th>#</th><th>Paso</th></tr>
+                <tr><td class="fn">1</td><td>Define sistema y frontera (¿abierto/cerrado?)</td></tr>
+                <tr><td class="fn">2</td><td>Fija cada estado (2 propiedades → tablas/gas ideal)</td></tr>
+                <tr><td class="fn">3</td><td>Identifica el proceso (adiabático, isobárico…)</td></tr>
+                <tr><td class="fn">4</td><td>Aplica 1ª ley: ΔU/ΔH = Q − W</td></tr>
+                <tr><td class="fn">5</td><td>Chequea 2ª ley (ΔS ≥ 0) y compara con Carnot</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Unidades</span>Temperaturas absolutas en <b>Kelvin</b> para eficiencias y gas ideal. Cuida kJ vs J y por-masa vs total.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Termodinámica y Ciclos · Hoja de referencia</b> — de la primera ley (ΔU = Q − W) y la entalpía, pasando por el gas ideal y sus procesos, la sustancia pura y sus diagramas de fase, la segunda ley y la entropía (Carnot), hasta los ciclos de potencia (Otto, Diesel, Brayton, Rankine) y de refrigeración (COP). Basada en las secciones "Thermodynamics" y "Thermodynamic Cycles" del curso "The Complete Mechanical Engineering Course — 12 Courses in 1" + best-practice.
+        <span class="mono">Fórmulas con KaTeX · notas en español · clic en cualquier formulario para copiar · v1.1</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>
