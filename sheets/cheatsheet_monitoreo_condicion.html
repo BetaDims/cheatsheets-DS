@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoreo de condición · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function render(){
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      } else { setTimeout(render, 60); }
+    }
+    render();
+  });
+</script>
+<style>
+:root{
+  --bg:#E7EAED;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F7;
+  --rail:#F0F2F5;
+  --code-bg:#FAFBFC;
+  --line:#DFE3E8;
+  --line-soft:#EBEEF1;
+  --ink:#1E242B;
+  --ink-soft:#4C545E;
+  --ink-faint:#838C97;
+  /* Monitoreo de condición — naranja térmico IR */
+  --mech:#C75300;
+  --mech-deep:#9A3F00;
+  --mech-tint:rgba(199,83,0,.13);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#C75300;
+  --s2:#C0398C;
+  --s3:#2B6FD6;
+  --s4:#0E8A8A;
+  --s5:#B0840A;
+  --s6:#1E9B51;
+  --s7:#8E4EC6;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#8B939E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--mech);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(30,36,43,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF1F4;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--mech),#E8902A);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:13px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--mech-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C7CDD4;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FAFBFC;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--mech-deep);border-bottom-color:var(--mech)}
+
+.fxbar{display:flex;align-items:stretch;background:#FAFBFC;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--mech-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:10px;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--mech-deep)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mech-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--mech)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--mech-deep)}
+.lede{max-width:76ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--mech-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--mech);background:linear-gradient(90deg,var(--mech-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--mech-deep);background:var(--mech-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--mech)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(30,36,43,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(30,36,43,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+
+.kbox{margin:10px 0;padding:11px 14px;border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;background:var(--code-bg);overflow-x:auto}
+.kbox:last-child{margin-bottom:0}
+.kbox .kt-cap{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.kbox .katex-display{margin:.25em 0}
+.kbox.tight .katex-display{margin:.1em 0}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(30,36,43,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--mech);background:var(--mech-tint)}
+figure.code.copied .cphint{opacity:1;color:var(--mech-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--mech-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.fbd{margin:6px 0;border:1px dashed var(--mech);border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--mech-tint),transparent)}
+.fbd .fbd-lbl{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.fbd .fbd-lbl::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--mech)}
+.fbd .fbd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.fbd .fbd-card{border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 12px 6px;display:flex;flex-direction:column}
+.fbd .fbd-card h5{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:6px;text-align:center}
+.fbd svg{width:100%;height:auto;display:block;flex:1}
+.fbd .fbd-cap{margin-top:8px;text-align:center;font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);background:var(--canvas);border:1px solid var(--line);border-radius:7px;padding:7px}
+.fbd .fbd-cap b{color:var(--mech-deep)}
+text.lab{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink)}
+text.labf{font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+@media(max-width:560px){.fbd .fbd-grid{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E242B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(30,36,43,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">◉</span>
+      <span class="fname"><b>Monitoreo de condición</b> · condicion.pdm</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17c5 0 5-10 10-10s5 7 8 7"/></svg>P-F</span>
+      <span class="vtag">v1.0 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Curva P-F</span>
+      <span class="vt">Termografía</span>
+      <span class="vt">Ultrasonido</span>
+      <span class="vt">Alineación</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc"><b>termografía</b> ▸ <b>ultrasonido</b> ▸ <b>alineación</b> ▸ <b>balanceo</b></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · ver la falla antes del fallo</div>
+      <h1>Escucha la máquina<br>cuando aún <em>susurra</em>.</h1>
+      <p class="lede">El <b>monitoreo de condición</b> (predictivo) más allá de la vibración: la <b>curva P-F</b> que justifica todo el programa, la <b>termografía infrarroja</b> (emisividad, patrones eléctricos y mecánicos), el <b>ultrasonido acústico</b> (fugas, trampas de vapor, descargas y lubricación guiada), la <b>alineación láser</b> de ejes y el <b>balanceo</b> de campo. Cada técnica con su <b>qué detecta</b>, su <b>cuándo</b> y sus tolerancias. Aceite/lubricación → hoja <b>Tribología</b>; espectros → hoja <b>Vibraciones</b>. <b>Clic en cualquier formulario para copiarlo.</b></p>
+
+      <div class="quote">
+        <p>"Detect the fault before the failure." — entre el punto P (detectable) y el F (funcional) está toda tu ventana para planificar.</p>
+        <cite>— principio del mantenimiento predictivo · curva P-F</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Programa + P-F</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>Termografía IR</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>Patrones térmicos</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>Ultrasonido</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>Alineación de ejes</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>Balanceo de campo</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>Integrar el programa</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Programa + P-F</span><span class="sd">la ventana</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">Termografía</span><span class="sd">emisividad</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">Patrones IR</span><span class="sd">eléctr./mec.</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">Ultrasonido</span><span class="sd">fugas · rodam.</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">Alineación</span><span class="sd">láser</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">Balanceo</span><span class="sd">1 y 2 planos</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">Integrar</span><span class="sd">intervalos</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">◉</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><circle cx="10" cy="12" r="3"/><path d="M17 9l4-2v10l-4-2"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h3l2-7 3 14 3-10 2 5h5"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h7M13 12h7M11 8v8M13 8v8"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.pdm</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Programa + P-F</div>
+      <a href="#mc-pdm" style="--seg:var(--s0)">Qué es el predictivo</a>
+      <a href="#mc-pf" style="--seg:var(--s0)">Curva P-F (firma)</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · Termografía IR</div>
+      <a href="#mc-ir" style="--seg:var(--s1)">Cómo funciona / cámara</a>
+      <a href="#mc-emis" style="--seg:var(--s1)">Emisividad y errores</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · Patrones IR</div>
+      <a href="#mc-elec" style="--seg:var(--s2)">Patrones eléctricos</a>
+      <a href="#mc-mec" style="--seg:var(--s2)">Patrones mecánicos</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · Ultrasonido</div>
+      <a href="#mc-us" style="--seg:var(--s3)">Acústico: qué oye</a>
+      <a href="#mc-uslub" style="--seg:var(--s3)">Lubricación guiada</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · Alineación</div>
+      <a href="#mc-desal" style="--seg:var(--s4)">Tipos y métodos</a>
+      <a href="#mc-tol" style="--seg:var(--s4)">Tolerancias y trampas</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · Balanceo</div>
+      <a href="#mc-bal" style="--seg:var(--s5)">Balanceo de campo</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · Integrar</div>
+      <a href="#mc-prog" style="--seg:var(--s6)">Técnicas e intervalos</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 P-F</a><a href="#e1">01 IR</a><a href="#e2">02 Patrones</a><a href="#e3">03 US</a>
+        <a href="#e4">04 Alin.</a><a href="#e5">05 Bal.</a><a href="#e6">06 Integrar</a>
+      </div>
+
+      <!-- ===== 00 PROGRAMA + P-F (SIGNATURE) ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>El programa predictivo</h2><span class="meta">por qué<br>funciona</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-pdm">
+            <div class="tile-h"><span class="td"></span><h3>Qué es el predictivo (PdM)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El mantenimiento <b>predictivo</b> mide la <b>condición real</b> del equipo para intervenir <b>justo antes</b> de la falla — ni demasiado tarde (correctivo), ni desperdiciando vida útil (preventivo por calendario).</p>
+              <table class="tbl">
+                <tr><th>Estrategia</th><th>Decide intervenir por</th></tr>
+                <tr><td class="k">Correctivo</td><td>la falla ya ocurrió</td></tr>
+                <tr><td class="k">Preventivo</td><td>el calendario / horas</td></tr>
+                <tr><td class="k">Predictivo</td><td>la condición medida</td></tr>
+                <tr><td class="k">Proactivo</td><td>elimina la causa raíz</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Ver hoja</span>La estrategia, RCM, KPIs y criticidad están en <b>Mantenimiento</b>. Aquí van las <b>técnicas</b> de medición.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-pf">
+            <div class="tile-h"><span class="td"></span><h3>La curva P-F</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El concepto que justifica el predictivo: tras iniciarse, una falla se vuelve <b>detectable</b> en el punto <b>P</b> y llega al fallo funcional <b>F</b>. El <b>intervalo P-F</b> es tu ventana para planificar. Cada técnica "ve" la falla en un punto distinto.</p>
+              <table class="tbl">
+                <tr><th>Técnica</th><th>Detecta la falla…</th></tr>
+                <tr><td class="k">Ultrasonido</td><td>la más temprana (P)</td></tr>
+                <tr><td class="k">Vibración</td><td>temprana</td></tr>
+                <tr><td class="k">Aceite</td><td>temprana-media</td></tr>
+                <tr><td class="k">Termografía</td><td>media</td></tr>
+                <tr><td class="k">Ruido / calor / humo</td><td>tardía (cerca de F)</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Intervalo de inspección</span>Debe ser <b>≤ ½ del intervalo P-F</b> para no perderse la falla entre rondas.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile span" id="mc-pf-sig">
+            <div class="tile-h"><span class="td"></span><h3>Curva P-F + paleta térmica — la firma</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">A la izquierda, la <b>curva P-F</b>: la condición se degrada con el tiempo; cada técnica detecta en un punto y el tramo <b>P→F</b> es la ventana de planificación. A la derecha, la <b>paleta de un termograma</b>: el color mapea temperatura (frío→caliente), base de la termografía.</p>
+              <div class="fbd">
+                <div class="fbd-lbl">P-F interval · thermal palette</div>
+                <div class="fbd-grid">
+                  <div class="fbd-card">
+                    <h5>Curva P-F</h5>
+                    <svg viewBox="0 0 320 220" role="img" aria-label="Curva P-F de degradación">
+                      <line x1="40" y1="190" x2="305" y2="190" stroke="var(--ink-soft)" stroke-width="1.5"/>
+                      <line x1="40" y1="20" x2="40" y2="190" stroke="var(--ink-soft)" stroke-width="1.5"/>
+                      <text class="lab" x="150" y="212" fill="var(--ink-soft)">tiempo →</text>
+                      <text class="labf" transform="rotate(-90 16 110)" x="16" y="110" fill="var(--ink-soft)">condición</text>
+                      <path d="M48,42 C120,46 175,60 210,95 C238,125 255,160 280,188" fill="none" stroke="var(--mech)" stroke-width="3"/>
+                      <circle cx="205" cy="90" r="5" fill="var(--s3)"/>
+                      <text class="labf" x="178" y="80" fill="var(--s3)">P</text>
+                      <text class="lab" x="150" y="68" fill="var(--ink-faint)">detectable</text>
+                      <circle cx="280" cy="188" r="5" fill="var(--s7)"/>
+                      <text class="labf" x="286" y="180" fill="var(--s7)">F</text>
+                      <line x1="205" y1="90" x2="205" y2="190" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/>
+                      <line x1="280" y1="188" x2="280" y2="190" stroke="var(--ink-faint)" stroke-width="1"/>
+                      <line x1="205" y1="170" x2="280" y2="170" stroke="var(--mech-deep)" stroke-width="1.5"/>
+                      <text class="lab" x="216" y="164" fill="var(--mech-deep)">intervalo P-F</text>
+                    </svg>
+                  </div>
+                  <div class="fbd-card">
+                    <h5>Paleta térmica (termograma)</h5>
+                    <svg viewBox="0 0 320 220" role="img" aria-label="Paleta de temperaturas de un termograma">
+                      <defs>
+                        <linearGradient id="ir" x1="0" y1="1" x2="0" y2="0">
+                          <stop offset="0" stop-color="#1b2a6b"/><stop offset="0.3" stop-color="#7a1fa2"/>
+                          <stop offset="0.55" stop-color="#c2185b"/><stop offset="0.78" stop-color="#f57c00"/>
+                          <stop offset="1" stop-color="#ffeb3b"/>
+                        </linearGradient>
+                      </defs>
+                      <rect x="50" y="24" width="40" height="160" rx="5" fill="url(#ir)" stroke="var(--line)"/>
+                      <text class="lab" x="98" y="34" fill="var(--ink-soft)">caliente</text>
+                      <text class="lab" x="98" y="182" fill="var(--ink-soft)">frío</text>
+                      <circle cx="225" cy="95" r="48" fill="url(#ir)" opacity="0.92" stroke="var(--line)"/>
+                      <circle cx="225" cy="95" r="20" fill="#ffeb3b"/>
+                      <text class="lab" x="200" y="100" fill="#7a1100">punto</text>
+                      <text class="lab" x="195" y="115" fill="#7a1100">caliente</text>
+                      <text class="lab" x="180" y="170" fill="var(--ink-soft)">conexión floja → ΔT</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="fbd-cap">El predictivo gana en el <b>intervalo P-F</b>; la termografía traduce <b>temperatura a color</b> y un <b>ΔT</b> respecto a un punto sano o gemelo delata el problema.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 TERMOGRAFÍA ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>Termografía infrarroja</h2><span class="meta">ver el<br>calor</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-ir">
+            <div class="tile-h"><span class="td"></span><h3>Cómo funciona / la cámara</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Todo cuerpo sobre 0 K emite radiación infrarroja según su temperatura. La cámara la convierte en una imagen de color (termograma). El calor anómalo casi siempre precede a una falla eléctrica o mecánica.</p>
+              <div class="kbox tight">
+                <div class="kt-cap">radiación emitida (Stefan-Boltzmann)</div>
+                $$W=\varepsilon\,\sigma\,T^4$$
+              </div>
+              <table class="tbl">
+                <tr><th>Parámetro</th><th>Qué es</th></tr>
+                <tr><td class="k">Resolución (IFOV)</td><td>detalle por píxel</td></tr>
+                <tr><td class="k">NETD</td><td>sensibilidad térmica (mK)</td></tr>
+                <tr><td class="k">Rango / span</td><td>temperaturas medibles</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Cualitativo vs cuantitativo</span>Comparar caliente/frío (cualitativo) detecta rápido; medir °C exactos (cuantitativo) exige ajustar emisividad, distancia y reflejada.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-emis">
+            <div class="tile-h"><span class="td"></span><h3>Emisividad y errores</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La <b>emisividad (ε)</b> es cuán bien un material emite IR (0–1). Metales pulidos tienen ε baja y <b>reflejan</b> el entorno → lecturas falsas. Es el error #1 de los principiantes.</p>
+              <table class="tbl">
+                <tr><th>Superficie</th><th>ε aprox.</th></tr>
+                <tr><td class="k">Pintura mate, cinta</td><td>~0.95</td></tr>
+                <tr><td class="k">Óxido, plástico</td><td>~0.9</td></tr>
+                <tr><td class="k">Aluminio pulido</td><td>~0.05 (¡problema!)</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Truco de campo</span>Para medir metal brillante: pon <b>cinta mate</b> o pintura (ε conocida), o mide en una zona no reflectante. Evita ángulos &gt; 30° y el sol/reflejos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 PATRONES IR ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>Patrones térmicos</h2><span class="meta">qué busca<br>el ojo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-elec">
+            <div class="tile-h"><span class="td"></span><h3>Patrones eléctricos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La aplicación estrella de la termografía. Una conexión floja o desequilibrio se calienta por <b>resistencia</b> (P = I²R). Se juzga por el <b>ΔT</b> respecto a fases o componentes similares.</p>
+              <table class="tbl">
+                <tr><th>Patrón</th><th>Causa típica</th></tr>
+                <tr><td class="k">1 terminal caliente</td><td>conexión floja/corroída</td></tr>
+                <tr><td class="k">1 fase caliente</td><td>desbalance de carga</td></tr>
+                <tr><td class="k">Componente entero</td><td>sobrecarga</td></tr>
+              </table>
+              <figure class="code" data-copy="Criterio ΔT (conexiones electricas, NETA/NFPA 70B)&#10;DT 1-3 C   : posible deficiencia, vigilar&#10;DT 4-15 C  : indica problema, reparar&#10;DT 16-35 C : reparar pronto (monitorear carga)&#10;DT > 35 C  : falla mayor, accion inmediata&#10;Medir con carga >= 40% y comparar fases similares">
+                <figcaption><span class="lang">criterios ΔT</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># ΔT conexiones eléctricas (NETA/NFPA 70B)</span>
+ΔT <span class="t-num">1–3</span> °C   <span class="t-op">:</span> posible deficiencia, vigilar
+ΔT <span class="t-num">4–15</span> °C  <span class="t-op">:</span> problema, reparar
+ΔT <span class="t-num">16–35</span> °C <span class="t-op">:</span> reparar pronto
+ΔT <span class="t-op">&gt;</span> <span class="t-num">35</span> °C   <span class="t-op">:</span> acción inmediata
+<span class="t-com"># medir con carga ≥ 40% y comparar fases</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-mec">
+            <div class="tile-h"><span class="td"></span><h3>Patrones mecánicos y de proceso</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El calor por <b>fricción</b> o <b>aislamiento</b> revela fallas mecánicas y de proceso que la electricidad no muestra.</p>
+              <table class="tbl">
+                <tr><th>Aplicación</th><th>Qué ve</th></tr>
+                <tr><td class="k">Rodamiento</td><td>sobrecalentamiento por fricción</td></tr>
+                <tr><td class="k">Acople / correa</td><td>fricción por desalineación</td></tr>
+                <tr><td class="k">Nivel de tanque</td><td>línea por diferencia térmica</td></tr>
+                <tr><td class="k">Refractario / aislam.</td><td>puntos calientes (pérdida)</td></tr>
+                <tr><td class="k">Trampa de vapor</td><td>fría = atascada cerrada</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Combina</span>Rodamiento caliente en IR + pico no-síncrono en vibración = confirmación. Las técnicas se <b>corroboran</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 ULTRASONIDO ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>Ultrasonido acústico</h2><span class="meta">oír lo<br>inaudible</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-us">
+            <div class="tile-h"><span class="td"></span><h3>Qué oye el ultrasonido</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">El ultrasonido <b>pasivo</b> (acústico, ~20–100 kHz) capta sonidos por encima del oído humano y los traslada a audible. La fricción, la turbulencia y las descargas eléctricas emiten ultrasonido: es la técnica que detecta la falla <b>más temprano</b> (punto P).</p>
+              <table class="tbl">
+                <tr><th>Aplicación</th><th>Qué detecta</th></tr>
+                <tr><td class="k">Fugas (aire/gas)</td><td>turbulencia → siseo US</td></tr>
+                <tr><td class="k">Trampas de vapor</td><td>flujo correcto vs fuga</td></tr>
+                <tr><td class="k">Eléctrico (AT)</td><td>efecto corona, arco, tracking</td></tr>
+                <tr><td class="k">Rodamientos</td><td>fricción/falta de film</td></tr>
+                <tr><td class="k">Válvulas</td><td>paso interno (passing)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Aire comprimido</span>Detectar y reparar fugas de aire es de los <b>ahorros energéticos</b> más rentables de una planta.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-uslub">
+            <div class="tile-h"><span class="td"></span><h3>Lubricación guiada por ultrasonido</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Engrasar "por calendario" sobre- o sub-lubrica. Con ultrasonido escuchas el rodamiento y engrasas <b>hasta que el nivel sonoro baja</b> a su línea base: la cantidad justa.</p>
+              <table class="tbl">
+                <tr><th>Señal US</th><th>Significa</th></tr>
+                <tr><td class="k">dB sube lento</td><td>falta de lubricante</td></tr>
+                <tr><td class="k">dB no baja al engrasar</td><td>falla incipiente real</td></tr>
+                <tr><td class="k">dB sobre-engrase</td><td>exceso de grasa</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Sinergia</span>Sobre-engrasar daña sellos y rodamientos. Combina con análisis de <b>aceite</b> (hoja Tribología) y <b>vibración</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 ALINEACIÓN ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>Alineación de ejes</h2><span class="meta">precisión<br>que dura</span></div>
+
+        <div class="cols">
+          <div class="tile" id="mc-desal">
+            <div class="tile-h"><span class="td"></span><h3>Tipos y métodos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Alinear = hacer colineales los ejes de dos máquinas acopladas. La desalineación es una de las <b>causas principales</b> de fallo de rodamientos, sellos y acoples.</p>
+              <table class="tbl">
+                <tr><th>Tipo</th><th>Qué es</th></tr>
+                <tr><td class="k">Paralela (offset)</td><td>ejes paralelos, desplazados</td></tr>
+                <tr><td class="k">Angular</td><td>ejes en ángulo</td></tr>
+                <tr><td class="k">Combinada</td><td>lo habitual (ambas)</td></tr>
+              </table>
+              <table class="tbl">
+                <tr><th>Método</th><th>Precisión</th></tr>
+                <tr><td class="k">Regla / galgas</td><td>baja (solo grueso)</td></tr>
+                <tr><td class="k">Comparadores (reloj)</td><td>buena, laboriosa</td></tr>
+                <tr><td class="k">Láser</td><td>alta, rápida (estándar)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Láser</span>El alineador láser mide el movimiento relativo de los ejes al girar y calcula las <b>correcciones (shims)</b> en patas. Ver hoja <b>Vibraciones</b> (firma 2×).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="mc-tol">
+            <div class="tile-h"><span class="td"></span><h3>Tolerancias y trampas</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">La tolerancia depende de las <b>rpm</b>: a más velocidad, más estricta. Antes de alinear hay que cumplir <b>condiciones previas</b> o todo el trabajo se pierde.</p>
+              <table class="tbl">
+                <tr><th>rpm</th><th>Offset aceptable aprox.</th></tr>
+                <tr><td class="k">1800</td><td>~0.05 mm (excelente ~0.03)</td></tr>
+                <tr><td class="k">3600</td><td>~0.03 mm (excelente ~0.02)</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Pata coja (soft foot)</span>Una pata que no asienta deforma la máquina al apretar. <b>Corrígela primero</b> (&lt; 0.05 mm) o la alineación será imposible.</div>
+              <div class="tip"><span class="lab">Crecimiento térmico</span>Las máquinas calientes crecen: se alinean <b>en frío con offset</b> calculado para quedar alineadas en operación.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 BALANCEO ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>Balanceo de campo</h2><span class="meta">matar<br>el 1×</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="mc-bal">
+            <div class="tile-h"><span class="td"></span><h3>Balanceo en sitio (1 y 2 planos)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Si la vibración a <b>1×</b> es por desbalance, se corrige añadiendo/quitando masa sin desmontar el rotor. Se usa una <b>masa de prueba</b> para ver cómo responde el sistema (amplitud y fase) y calcular el contrapeso.</p>
+              <div class="cols">
+                <table class="tbl">
+                  <tr><th>Caso</th><th>Planos</th></tr>
+                  <tr><td class="k">Rotor angosto (disco)</td><td>1 plano (estático)</td></tr>
+                  <tr><td class="k">Rotor ancho (rodillo)</td><td>2 planos (dinámico)</td></tr>
+                </table>
+                <figure class="code" data-copy="Balanceo de campo (1 plano) - pasos&#10;1. Medir vibracion 1x inicial: amplitud + fase&#10;2. Detener; colocar masa de prueba conocida&#10;3. Medir de nuevo: amplitud + fase&#10;4. Calcular masa y angulo de correccion&#10;5. Colocar correccion; verificar < tolerancia&#10;6. Si no, iterar (trim balance)">
+                  <figcaption><span class="lang">procedimiento</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># Balanceo 1 plano (campo)</span>
+<span class="t-num">1.</span> vibración 1× inicial: amplitud + fase
+<span class="t-num">2.</span> masa de prueba conocida
+<span class="t-num">3.</span> medir de nuevo: amplitud + fase
+<span class="t-num">4.</span> calcular masa y ángulo de corrección
+<span class="t-num">5.</span> colocar y verificar <span class="t-op">&lt;</span> tolerancia
+<span class="t-num">6.</span> si no, iterar (trim)</pre>
+                </figure>
+              </div>
+              <div class="tip warn"><span class="lab">Antes de balancear</span>Descarta <b>desalineación, holgura y resonancia</b>: balancear no arregla esos. La calidad de balanceo se norma en <b>ISO 21940</b> (grados G). Confirma el diagnóstico con la hoja <b>Vibraciones</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 INTEGRAR ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>Integrar el programa</h2><span class="meta">la suma<br>gana</span></div>
+
+        <div class="cols">
+          <div class="tile span" id="mc-prog">
+            <div class="tile-h"><span class="td"></span><h3>Técnicas, qué detectan e intervalos</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Ninguna técnica lo ve todo: el programa fuerte <b>combina</b> varias y cruza resultados. La frecuencia de inspección sale de la criticidad y del intervalo P-F del modo de falla dominante.</p>
+              <table class="tbl">
+                <tr><th>Técnica</th><th>Fuerte en</th><th>Intervalo típico</th></tr>
+                <tr><td class="k">Vibración</td><td>rotativas (rodam., desbalance)</td><td>mensual</td></tr>
+                <tr><td class="k">Termografía</td><td>eléctrico, fricción</td><td>trimestral / semestral</td></tr>
+                <tr><td class="k">Ultrasonido</td><td>fugas, lubric., eléctrico AT</td><td>mensual / continuo</td></tr>
+                <tr><td class="k">Análisis de aceite</td><td>desgaste, contaminación</td><td>según horas (ver Tribología)</td></tr>
+                <tr><td class="k">Alineación / balanceo</td><td>precisión (proactivo)</td><td>al instalar / tras alarma</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Regla del planificador</span>Prioriza por <b>criticidad</b> (ver Mantenimiento): los equipos A llevan varias técnicas y rondas cortas; los C, una técnica o run-to-failure. Documenta línea base y tendencias.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>Monitoreo de condición · Hoja de referencia</b> — el programa predictivo y la curva P-F (intervalo de inspección ≤ ½ P-F), termografía infrarroja (emisividad, ΔT, patrones eléctricos y mecánicos), ultrasonido acústico (fugas, trampas de vapor, eléctrico AT, lubricación guiada), alineación de ejes (paralela/angular, láser, tolerancias por rpm, pata coja, crecimiento térmico), balanceo de campo (1 y 2 planos, ISO 21940) e integración del programa por criticidad. Aceite/lubricación → hoja Tribología; espectros y diagnóstico → hoja Vibraciones; estrategia → hoja Mantenimiento. Cursos "Infrared Thermography", "Laser/Shaft Alignment", "Predictive Maintenance" + best-practice.
+        <span class="mono">Fórmulas con KaTeX · notas en español · clic en cualquier formulario para copiar · v1.0</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

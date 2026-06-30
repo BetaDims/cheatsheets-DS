@@ -14051,5 +14051,1365 @@
         ]
       }
     ]
+  },
+  {
+    "course": "Advanced Machinery Vibration Analysis",
+    "source_file": "Advanced Machinery Vibration Analysis.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "1 secciones · 17 clases · 0h",
+        "lectures": [
+          "Maintenance Stratigies",
+          "Introduction to Vibration Analysis",
+          "Principles of Vibration Motion",
+          "Vibration Measurement & Data Acquisition Best Practice",
+          "Vibration Signal Processing",
+          "Vibration Analysis Process & Setting Up Database",
+          "Time Waveform Analysis",
+          "Fault Analysis - Diagnosing Unbalance & Rotor Balancing",
+          "Fault Analysis - Diagnosing Misalignment & Shaft Alignment",
+          "Fault Analysis - Diagnosing Mechanical Looseness",
+          "Fault Analysis - Diagnosing Bearing Defect",
+          "Fault Analysis - Diagnosing Electric Motor Defect",
+          "Fault Analysis - Diagnosing Gears Defect",
+          "Fault Analysis - Diagnosing Pumps, Fans & Compressors",
+          "Fault Analysis - Diagnosing Belts Defects",
+          "Fault Analysis - Diagnosing Resonance & Natural Frequency",
+          "Vibration Standards"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Análisis de Vibraciones - Categoría l (Básico)",
+    "source_file": "Análisis de Vibraciones - Categoría l (Básico).txt",
+    "sections": [
+      {
+        "section": "Introducción al Monitoreo de Condición",
+        "stats": "6 secciones · 107 clases · 0h",
+        "lectures": [
+          "Contexto de las Certificaciones",
+          "Introducción",
+          "Tipos de Mantenimiento",
+          "Importancia del Mantenimiento Basado en Condición",
+          "Introducción a otras Técnicas",
+          "Rol del Análisis de Vibraciones",
+          "Introducción",
+          "Movimiento Oscilatorio",
+          "Forma de Onda",
+          "Periodo",
+          "Frecuencia",
+          "Amplitud",
+          "Espectro de Frecuencia",
+          "Ejemplo con Notas Musicales",
+          "Órdenes",
+          "Frecuencias de Fallo",
+          "Descripción de Forma de Onda",
+          "Ejemplo con forma de Onda Real",
+          "Unidades de Vibración (Ejemplo con Autito)",
+          "Unidades de Vibración (Industrial)",
+          "Relación entre Desplazamiento, Velocidad y Aceleración",
+          "Comparación entre Desplazamiento, Velocidad y Aceleración",
+          "Valor Global",
+          "Introducción",
+          "Repetibilidad",
+          "Sensor de Desplazmiento",
+          "Sensor de Velocidad",
+          "Acelerómetro",
+          "Sensitividad",
+          "Desventajas del Acelerómetro",
+          "Direcciones de Medición",
+          "Puntos de Medición",
+          "Tips prácticos",
+          "Accesibilidad",
+          "Nomenclatura",
+          "Ejercicio",
+          "Ruta de Medición",
+          "Orden de Ruta",
+          "Seguimiento de Ruta",
+          "Problemas en Ruta",
+          "Buenas Prácticas",
+          "Condiciones de Operación",
+          "Montaje de Sensores",
+          "Reconocer Datos Erróneos",
+          "Caída de Ski (Ski Slope)",
+          "Observaciones de Campo",
+          "Introducción",
+          "Filtros",
+          "Ejemplo de Filtros (Ecualizador)",
+          "Muestreo",
+          "Frecuencia de Muestreo",
+          "Aliasing",
+          "Frecuencia de Nyquist",
+          "Resolución de Muestreo",
+          "Tiempo de Muestreo",
+          "Importancia de la Resolución",
+          "Ejercicio",
+          "Ventanas",
+          "Factor Ventana",
+          "Promediado",
+          "Introducción",
+          "Validar Datos",
+          "Velocidad de Giro",
+          "Regiones Espectrales",
+          "Armónicos",
+          "Bandas Laterales",
+          "Bandas laterales - Ejemplo Engranajes",
+          "Bandas laterales - Ejemplo Rodamientos",
+          "Ruido",
+          "Comparación con Datos Pasados",
+          "Tendencia",
+          "Herramientas de Visualización",
+          "Frecuencia Natural",
+          "Resonancia",
+          "Velocidad Crítica",
+          "Combatir la Resonancia",
+          "Desbalance",
+          "Desbalance Estático",
+          "Desbalance Par",
+          "Desbalance Dinámico",
+          "Máquinas en Voladizo",
+          "Balanceo",
+          "Desalineamiento",
+          "Desalineamiento Angular",
+          "Desalineamiento Paralelo",
+          "Alineación",
+          "Solturas",
+          "Soltura Estructural",
+          "Soltura No Rotacional",
+          "Soltura Rotacional",
+          "Fallas en Rodamientos",
+          "Pista Externa",
+          "Pista Interna",
+          "Bolas",
+          "Jaula",
+          "Frecuencias de Falla de Rodamientos",
+          "Ejemplo de Falla BPFO",
+          "Etapas de Degradación de un Rodamiento",
+          "Técnicas de Alta Frecuencia",
+          "Introducción a Limites de Alarma",
+          "Norma ISO",
+          "Analogía del Valor Global con la Salud Humana",
+          "Interpretación Gráficos Norma ISO",
+          "Alarmas Relativas",
+          "Bandas de Alarma",
+          "Alarmas de Envolvente",
+          "Cierre"
+        ]
+      },
+      {
+        "section": "Fundamentos de Vibraciones",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Recolección de Datos",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Procesamiento de Señales",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Análisis Básico de Fallas",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Evaluación de Severidad",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Basic Machinery Vibration Analysis",
+    "source_file": "Basic Machinery Vibration Analysis.txt",
+    "sections": [
+      {
+        "section": "Basic Machinery Vibration Analysis",
+        "stats": "1 secciones · 12 clases · 0h",
+        "lectures": [
+          "Introduction to Maintenance",
+          "Condition Monitoring Techniques",
+          "Introduction to Vibration Analysis Technique",
+          "Principles of Vibration Motion",
+          "Vibration Data Collection - Best Practice",
+          "Sensors Types, Locations & Mounting - Best Practice",
+          "Vibration Signal Processing",
+          "Setting Up Vibration Measurement Database",
+          "Vibration Analysis Process",
+          "Basic Fault Diagnosis - Part (1)",
+          "Basic Fault Diagnosis - Part (2)",
+          "Vibration Standards"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Basic Non-Destructive Testing (NDT)",
+    "source_file": "Basic Non-Destructive Testing (NDT).txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "6 secciones · 6 clases · 0h",
+        "lectures": [
+          "Introduction to Non-Destructive Testing",
+          "Introduction",
+          "Lecture Two Visual Testing (VT)",
+          "Visual Tseting",
+          "Penetrant Testing (PT)",
+          "Penetrant Testing",
+          "Magnetic Particle Testing (MPT)",
+          "Magnetic Particle Testing",
+          "Radiographic Testing (RT)",
+          "Radiographic Testing",
+          "Ultrasonic Testing (UT)",
+          "Ultrasonic Testing"
+        ]
+      },
+      {
+        "section": "Visual Testing  Method (VT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Penetrant Testing Method (PT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Magnetic Particle Testing Method (MPT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Radiographic Testing Method (RT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Ultrasonic Testing Method  (UT)",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Curso de Instrumentacion Industrial",
+    "source_file": "Curso de Instrumentacion Industrial.txt",
+    "sections": [
+      {
+        "section": "Instrumentacion Industrial",
+        "stats": "1 secciones · 22 clases · 0h",
+        "lectures": [
+          "Fundamentos de la Instrumentacion Industrial - Parte 1",
+          "Fundamentos de la Instrumentacion Industrial - Parte 2",
+          "Sensores Binarios",
+          "Calibración de Transmisores de temperatura",
+          "Medicion de RTD PT100",
+          "Lectura de señal mA de TT",
+          "Calibracion de TT TMT 181",
+          "Uso de calibrador FLUKE 724",
+          "Calibracion de Transmisores de Presion, Protocolo HART",
+          "Configuracion de Transmisor de Presion PMC51 desde Fluke 754",
+          "Configuracion utilizando en EM 475",
+          "Damping",
+          "Configuracion de Transmisores de Nivel y conexion a PLC",
+          "Flujometros y Diagramas P&ID",
+          "Lectura de Diagramas P&ID",
+          "Interpretacion de diagramas P&ID",
+          "Diagramas de Lazo",
+          "Foundation FieldBUS",
+          "Enlace instrumentos a PLC y HMI",
+          "Configuracion MODEM USB HART Y SISTEMA SCADA",
+          "Clase 12. Uso de AMS TREX, calibracion de transmisores y valvulas",
+          "CAPACITACION FOUNDATION FIELDBUS"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Infrared Thermography - Essentials Guide",
+    "source_file": "Infrared Thermography - Essentials Guide.txt",
+    "sections": [
+      {
+        "section": "Introduction to Infrared Thermography",
+        "stats": "3 secciones · 31 clases · 0h",
+        "lectures": [
+          "Welcome",
+          "Learning about Thermography",
+          "About Infrared",
+          "History of IR",
+          "Quiz 1",
+          "Evolution of Cameras",
+          "IR Camera Market",
+          "Inside of IR camera",
+          "IR System Properties I",
+          "IR System Properties II",
+          "Settings of an IR imager",
+          "Capturing with IR imager",
+          "Demonstration of IR Camera operation",
+          "Thermodynamics (Intro)",
+          "Heat vs Temperature",
+          "Temperature Scale",
+          "1st Law of Thermodynamics",
+          "2nd Law of Thermodynamics",
+          "Heat Flow",
+          "Heat flow by Conduction",
+          "IR Camera Demonstration - Conduction",
+          "Heat flow by Convection",
+          "IR Camera Demonstration - Convection",
+          "Heat flow by Radiation",
+          "Conservation of Energy",
+          "Transmission",
+          "IR Camera Demonstration - Transmission",
+          "Reflection",
+          "Demonstration - Reflection",
+          "Absorption & Emission",
+          "Emission vs Reflection",
+          "Emissivity"
+        ]
+      },
+      {
+        "section": "Infrared Systems (IR Cameras)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Heat Theory for IR Thermography",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Infrared Thermography for Industrial Applications",
+    "source_file": "Infrared Thermography for Industrial Applications.txt",
+    "sections": [
+      {
+        "section": "Infrared Thermography for Industrial Applications",
+        "stats": "1 secciones · 8 clases · 0h",
+        "lectures": [
+          "Introduction to Maintenance & Condition Monitoring",
+          "Maintenance & Condition Monitoring Intro",
+          "Condition Monitoring & Inspection Techniques",
+          "CM & Inspection Techniques",
+          "Introduction to Infrared Thermography Technique",
+          "Thermography Introduction",
+          "Heat Transfer Concepts",
+          "Heat Transfer Concepts",
+          "The Physics of Radiation",
+          "Radiation Physics",
+          "Thermography Camera Working Principles",
+          "Thermography Camera Working Principles",
+          "Mechanical & Electrical Systems Thermography Inspection",
+          "Mechanical & Electrical Systems Inspection",
+          "Thermography Standards & Repair Priority",
+          "Thermography Standards & Repair Priority"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Introduction to Non-Destructive Testing (NDT)",
+    "source_file": "Introduction to Non-Destructive Testing (NDT).txt",
+    "sections": [
+      {
+        "section": "Introduction to Non-Destructive Testing",
+        "stats": "11 secciones · 43 clases · 0h",
+        "lectures": [
+          "Introduction",
+          "What is NDT?",
+          "Importance of NDT in Engineering",
+          "NDT Methods Overview",
+          "Summarized Reading Material",
+          "Section 1 Quiz",
+          "Section 1 Quiz",
+          "Visual Inspection Fundamentals",
+          "Optical Testing Techniques",
+          "Applications of Visual and Optical Testing",
+          "Summarized Reading Material",
+          "Section 2 Quiz",
+          "Principles of Liquid Penetrant Testing",
+          "PT Procedures and Techniques",
+          "Advantages and Limitations of PT",
+          "Summarized Reading Material",
+          "Section 3 Quiz",
+          "Basics of Magnetic Particle Testing",
+          "MT Equipment and Procedures",
+          "MT Applications in Industry",
+          "Summarized Reading Material",
+          "Section 4 Quiz",
+          "Radiographic Testing Principles",
+          "RT Equipment and Safety",
+          "Interpreting Radiographic Images",
+          "Summarized Reading Material",
+          "Section 5 Quiz",
+          "Introduction to Ultrasonic Testing",
+          "UT Equipment and Techniques",
+          "UT Applications and Case Studies",
+          "Summarized Reading Material",
+          "Section 6 Quiz",
+          "Fundamentals of Eddy Current Testing",
+          "ET Probes and Inspections",
+          "ET in Aerospace and Automotive",
+          "Summarized Reading Material",
+          "Section 7 Quiz",
+          "Basics of Acoustic Emission Testing",
+          "AE Instrumentation and Data Analysis",
+          "AE in Structural Health Monitoring",
+          "Summarized Reading Material",
+          "Section 8 Quiz",
+          "Infrared Testing Principles",
+          "Thermal Imaging Techniques",
+          "Thermal Testing in Building Diagnostics",
+          "Summarized Reading Material",
+          "Section 9 Quiz",
+          "NDT Standards and Regulations",
+          "NDT Career Paths and Certification",
+          "Emerging Trends in Non-Destructive Testing",
+          "Summarized Reading Material",
+          "Section 10 Quiz"
+        ]
+      },
+      {
+        "section": "Visual and Optical Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Liquid Penetrant Testing (PT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Magnetic Particle Testing (MT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Radiographic Testing (RT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Ultrasonic Testing (UT)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Eddy Current Testing (ET)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Acoustic Emission Testing (AE)",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Infrared and Thermal Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "NDT in Industry and Career Opportunities",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Laser Shaft Alignment -Reliability Engineering",
+    "source_file": "Laser Shaft Alignment -Reliability Engineering.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "1 secciones · 14 clases · 0h",
+        "lectures": [
+          "Introduction",
+          "Alignment Definition",
+          "Alignment = Energy Saving",
+          "Alignment Methods",
+          "Types of Misalignment",
+          "Indications of Misalignment",
+          "Causes of Misalignment",
+          "Soft Foot or Frame Distortion",
+          "Reliability Centered Maintenance - Corrective Maintenance",
+          "The Benefits of Alignment",
+          "Pre-Alignment Checks",
+          "Get Certified -  Build your knowledge - Build Your future",
+          "Test your Alignment Knowledge - Part One",
+          "Test your Alignment Knowledge - Part Two",
+          "Test your Alignment Knowledge - Part Three",
+          "Offer - free one to one practical session",
+          "Full Lecture Video Training Presentation"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Mastering Industrial Instrumentation and Process Control",
+    "source_file": "Mastering Industrial Instrumentation and Process Control.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "18 secciones · 150 clases · 0h",
+        "lectures": [
+          "Introduction To Instrumentation",
+          "Knowledge Check",
+          "Instrument Diagrams",
+          "Instrument and process equipment symbols",
+          "Diagrams symbols",
+          "Instrument identification tags",
+          "Pipe and pipe fittings",
+          "Tube and tube fittings",
+          "Connections and wire terminations",
+          "Cable routing",
+          "Electric & Magnetic field decoupling",
+          "Fiber optics",
+          "Knowledge Check",
+          "Pneumatic sensing elements",
+          "Self balancing pneumatic instrument",
+          "Pilot valves and pneumatic amplifying relays",
+          "Analogy to opamp circuits",
+          "Analysis of practical pneumatic instruments",
+          "Proper care of pneumatic instruments",
+          "Knowledge Check",
+          "4 to 20 mA analog current signals",
+          "Calculation examples",
+          "Graphical interpretation of signal ranges",
+          "Controller output current loops",
+          "Troubleshooting current loops",
+          "Using loop calibrators",
+          "Knowledge Check",
+          "Hand & Limit switches",
+          "Process variable switches",
+          "On Off valves",
+          "Fluid power systems",
+          "Solenoid valves",
+          "Normal energization states",
+          "On Off electric motor",
+          "Motor contactors and protection",
+          "Motor control circuit wiring",
+          "Knowledge Check",
+          "Calibration versus rerangin",
+          "Calibration errors and testing",
+          "Automated calibration",
+          "LRV and URV settings, digital trim",
+          "Calibration procedures",
+          "Knowledge Check",
+          "Mechanical pressure elements",
+          "Electrical pressure elements",
+          "Resonant element sensors",
+          "Differential pressure transmitters",
+          "Inferential measurement applications",
+          "Pressure sensor accessories",
+          "Pressure pulsation damping",
+          "Purged impulse lines",
+          "Knowledge Check",
+          "Level gauges and float",
+          "Hydrostatic pressure",
+          "Transmitter suppression and elevation",
+          "Compensated leg systems",
+          "Tank expert systems",
+          "Displacement",
+          "Displacement interface level measurement",
+          "Echo",
+          "Radar level measurement",
+          "Magneto strictive level measurement",
+          "Weight",
+          "Capacitive",
+          "Radiation",
+          "Level sensor accessories",
+          "Knowledge Check",
+          "Bi metal temperature sensors",
+          "Filled bulb temperature sensors",
+          "Thermistors and RTD",
+          "Proper RTD sensor connections",
+          "Thermocouples",
+          "Reference junction compensation",
+          "Software compensation",
+          "Side effects of reference junction compensation",
+          "Non contact temperature sensors",
+          "Temperature sensor accessories",
+          "Knowledge Check"
+        ]
+      },
+      {
+        "section": "Instrument Document",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Instrument connection",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Pneumatic instrumentation",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Analog electronic instrumentation",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Discrete process measurement",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Instrument calibration",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Continuous pressure measurement",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Continuous level measurement",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Continuous temperature measurement",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "NDT Level II Magnetic Particle Testing (MT) and Detection",
+    "source_file": "NDT Level II Magnetic Particle Testing (MT) and Detection.txt",
+    "sections": [
+      {
+        "section": "Introduction To NDT And Magnetic Particle Testing",
+        "stats": "8 secciones · 52 clases · 0h",
+        "lectures": [
+          "Introduction",
+          "Overview Of Non-Destructive Testing Methods",
+          "History And Evolution Of Magnetic Particle Testing",
+          "Fundamental Physics Of Magnetism",
+          "Principles Of Magnetic Particle Testing",
+          "Advantages, Limitations, And Applications Of MT",
+          "Magnetic Fields And Field Lines",
+          "Ferromagnetic, Paramagnetic, And Diamagnetic Materials",
+          "Magnetic Domains And Hysteresis",
+          "Flux Density, Permeability, And Coercivity",
+          "Electromagnetism And Current Flow",
+          "Leakage Fields And Defect Detection Theory",
+          "Portable And Stationary MT Equipment",
+          "Prods, Coils, And Yokes",
+          "Central Conductor And Indirect Magnetization",
+          "Magnetic Particles — Wet And Dry Methods",
+          "Carrier Fluids And Suspension Properties",
+          "UV Lighting And Inspection Booths",
+          "Calibration And Maintenance Of Equipment",
+          "Longitudinal Vs. Circular Magnetization",
+          "Prod Technique And Applications",
+          "Head Shot (Head Stock) Technique",
+          "Coil Magnetization Technique",
+          "Yoke Technique For Remote Inspection",
+          "Central Conductor Technique",
+          "Multidirectional And Vector Magnetization",
+          "Selection Criteria For Magnetization Methods",
+          "Pre-Inspection Requirements And Surface Preparation",
+          "Step-By-Step MT Procedure",
+          "Magnetizing Current Calculations (AC, HWDC, FWDC)",
+          "Direction And Strength Of Magnetic Fields",
+          "Particle Application And Excess Removal",
+          "Interpretation And Evaluation Of Indications",
+          "Recording And Documentation Of Results",
+          "International Standards — ASTM E1444, ISO 9934, ASME V",
+          "Relevant Vs. Non-Relevant Indications",
+          "False Indications And Their Causes",
+          "Surface Breaking Vs. Near-Surface Defects",
+          "Severity Assessment And Acceptance Criteria",
+          "Demagnetization Techniques And Verification",
+          "Quality Control And System Performance Checks",
+          "Case Study 1 — Offshore Platform Weld Inspection (UK North Sea)",
+          "Case Study 2 — Railway Axle Failure Analysis (Germany)",
+          "Detailed Example 1 — Aerospace Component Inspection (USA)",
+          "Detailed Example 2 — Pipeline Girth Weld Assessment (Australia)",
+          "Advanced Trick #1 — Optimizing UV-A Intensity For Fluorescent MT",
+          "Advanced Trick #2 — Using Field Indicators And Gauss Meters",
+          "Advanced Trick #3 — Mastering The Vector Magnetization Technique",
+          "Advanced Trick #4 — Particle Concentration And Bath Maintenance",
+          "Advanced Trick #5 — Interpreting Subtle Indications In Complex Geometries",
+          "Course Summary And Certification Preparation",
+          "References and External Resources",
+          "NDT Level II Magnetic Particle Testing – Certification Practice Quiz"
+        ]
+      },
+      {
+        "section": "Magnetism And Electromagnetic Principles",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Equipment And Materials For MT",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "MT Techniques And Magnetization Methods",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Testing Procedures And Standards",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Indication Evaluation And Quality Control",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Advanced Applications, Case Studies & Expert Tips",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "NDT Level II Magnetic Particle Testing – Surface Defect Detection Mastery",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Non Destructive Testing Methods (NDT Process)",
+    "source_file": "Non Destructive Testing Methods (NDT Process).txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "10 secciones · 22 clases · 0h",
+        "lectures": [
+          "Course Introduction",
+          "What is NDT & Why to Learn it ?",
+          "Quiz-1",
+          "Visual testing",
+          "Advantages & Disadvantages of Visual Testing",
+          "VT",
+          "Dye Penetrant or Liquid Penetrant Method",
+          "Advantages & Disadvantages of DPT",
+          "Demonstration of Dye Penetrant Method",
+          "Quiz-2",
+          "DPT",
+          "Magnetic Particle Testing Method",
+          "Advantages & Disadvantages of MPT",
+          "Animation of Magnetic Particle Testing",
+          "Quiz-3",
+          "MPT",
+          "Ultrasonic Testing",
+          "Advantages & Disadvantages of Ultrasonic testing",
+          "Animation of Ultrasonic Testing",
+          "Quiz-4",
+          "UT",
+          "Eddy Current Testing",
+          "Advantages & Disadvantages of eddy Current Testings",
+          "Animation Eddy current Testing",
+          "Quiz-5",
+          "ECT",
+          "Radiography Testing",
+          "Radiography Advantages & Disadvantages",
+          "Animation Radiography Testing",
+          "Quiz-6",
+          "RT",
+          "Acoustic Emission Testing",
+          "Advantages & Disadvantages of Acoustic Emission Testing",
+          "Acoustic Emission Quiz",
+          "Leak Testing Method",
+          "Non Destructive Testing Practice Test"
+        ]
+      },
+      {
+        "section": "Visual Testing Methods",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Dye or Liquid Penetrate Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Magnetic Partical Testings",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Eddy Current Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Radiography testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Acoustic Emission Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Leak Testing Method",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "NDT Final Exam",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Non-Destructive Testing Level II Full Course | NDT Course",
+    "source_file": "Non-Destructive Testing Level II Full Course | NDT Course.txt",
+    "sections": [
+      {
+        "section": "Introduction to NDT Methods",
+        "stats": "9 secciones · 47 clases · 0h",
+        "lectures": [
+          "Introduction",
+          "Interview Questions",
+          "Quiz for Introduction to NDT Methods",
+          "Basics of Visual Testing",
+          "Procedure for VT",
+          "Visual Inspection of Welds",
+          "Interview Question for Visual Testing",
+          "Quiz for Visual Testing",
+          "Basics of Ultrasonic Testing",
+          "Acoustic Impedance and Mode Conversion",
+          "Couplants",
+          "Transducers and their Characteristics",
+          "Probes in Ultrasonic Testing",
+          "Ultrasonic Flaw Detector",
+          "Ultrasonic Test Techniques",
+          "Calibration",
+          "Interview Questions for Ultrasonic Testing",
+          "Quiz for Ultrasonic Testing",
+          "Basics and Types of Magnetic Particle Testing",
+          "Equipment and Techniques",
+          "Procedure for MPT",
+          "Pre Cleaning",
+          "Introduction of Magnetic Field",
+          "Application of Magnetic Media",
+          "Interpretations of Indications and Weld Inspection",
+          "Demagnetization and Reporting",
+          "Interview Questions for Magnetic Particle Testing",
+          "Quiz for Magnetic Particle Testing",
+          "Basics of LPT",
+          "Procedure for Cleaning",
+          "Penetrant Application",
+          "Excess Penetrant Removal and Development",
+          "Types and Methods in LPT",
+          "Inspection and Evaluation",
+          "Interview Questions for Liquid Penetrant Testing",
+          "Quiz for Liquid Penetrant Testing",
+          "Basics, Types and Applications of RT",
+          "X Rays and Gamma Rays",
+          "Testing Procedure and Film Processing",
+          "Interview Questions for Radiographic Testing",
+          "Quiz for Radiographic Testing",
+          "Generation, Penetration, Applications and Basics of ECT",
+          "Inspection Applications",
+          "Eddy Current Testing Probes",
+          "ECT Interview Questions",
+          "Quiz for Eddy Current Testing",
+          "Sources, Stages, Ability and Applications of AET",
+          "Background Noise, Source Location and Types of AET",
+          "Components of AET",
+          "AET Interview Questions",
+          "Quiz for Acoustic Emission Testing",
+          "Basics, Types and Operator Training for LT",
+          "Bubble Leak Testing",
+          "Pressure Decay and Mass Spectrometer Technique",
+          "Leak Testing Interview Questions",
+          "Quiz for Leak Testing"
+        ]
+      },
+      {
+        "section": "Visual Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Magnetic Particle Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Liquid Penetrant Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Radiographic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Eddy Current Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Acoustic Emission Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Leak Testing",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Python For Mechanical Vibrations and Dynamics + 17 Examples",
+    "source_file": "Python For Mechanical Vibrations and Dynamics + 17 Examples.txt",
+    "sections": [
+      {
+        "section": "Course Introduction",
+        "stats": "4 secciones · 43 clases · 0h",
+        "lectures": [
+          "Welcome Video and Course Introduction",
+          "What You Need To Know and Prepare + Installations",
+          "Important Point",
+          "Alternative Approach For Writing Your Python Codes",
+          "Example 0 - Introductory Example",
+          "Example 0 - Introductory Example - Second Method",
+          "Example 1 - Detailed Explanation - Free Fall",
+          "Example 1 - How to Write the Code",
+          "Example 1 - How to Write the Code - Second Method",
+          "Example 2 - Detailed Explanation - Projectile Motion",
+          "Example 2 - How to Write the Code",
+          "Example 3 - Detailed Explanation - System with Spring",
+          "Example 3 - How to Write the Code",
+          "Example 4 - Detailed Explanation - System with Spring + Initial Velocity",
+          "Example 4 - How to Write the Code",
+          "Example 5 - Detailed Explanation - Motion as a Function of System Parameters",
+          "Example 5 - How to Write the Code - Case 1",
+          "Example 5 - How to Write the Code - Case 2 and 3",
+          "Example 6 - Detailed Explanation - Constant External Force",
+          "Example 6 - How to Write the Code",
+          "Example 7 - Detailed Explanation - Harmonic External Force",
+          "Example 7 - How to Write the Code",
+          "Example 8 - Detailed Explanation - Resonance Phenomenon",
+          "Example 8 - How to Write the Code",
+          "Example 9 - Detailed Explanation - Motion with Spring and Damping",
+          "Example 9 - How to Write the Code - part 1 - Underdamped Systems",
+          "Example 9 - How to Write the Code - part 2 - Critically-damped Systems",
+          "Example 9 - How to Write the Code - part 3 - Overdamped Systems",
+          "Example 9 - How to Write the Code - part 4 - Harmonic External Force",
+          "Example 10- Detailed Explanation - Vibration with Coulomb Friction",
+          "Example 10 - How to Write the Code",
+          "Example 11 - Detailed Explanation - Motion Analysis Using Laplace Transform",
+          "Example 11 - How to Write the Code",
+          "Example 12 - Detailed Explanation - Laplace Transform for Damped System",
+          "Example 12 - How to Write the Code",
+          "Example 13 - Detailed Explanation - Motion Analysis of 2-DoF Systems",
+          "Example 13 - How to Write the Code",
+          "Example 14 - Detailed Explanation - Natural Frequencies of 2-DoF Systems",
+          "Example 14 - How to Write the Code",
+          "Example 15 - Detailed Explanation - Car Suspension + Road Surface",
+          "Example 15 - How to Write the Code",
+          "Example 16 - Detailed Explanation - Car Suspension + Road Surface + Damping",
+          "Example 16 - How to Write the Code"
+        ]
+      },
+      {
+        "section": "Be Prepared Before You Start",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Alternative Approach For Writing Your Python Codes",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Solved Examples: Python Codes + Detailed Explanations",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Root Cause Analysis and the 8D Corrective Action Process",
+    "source_file": "Root Cause Analysis and the 8D Corrective Action Process.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "1 secciones · 87 clases · 0h",
+        "lectures": [
+          "Introduction to the Course",
+          "What is Root Cause Analysis?",
+          "What is 8D?",
+          "Glossary of Terminology",
+          "Quiz on the 8D's",
+          "Different Sized Solutions",
+          "CAR vs PAR",
+          "CAR vs PAR",
+          "Quiz on CAR and PAR",
+          "D0 Preparation Phase",
+          "D1 Assemble the Team, Pt 1",
+          "D1 Assemble the Team, Pt 2",
+          "Quiz on Assemble the Team",
+          "D2 Describe the Problem",
+          "Process Modeling, Flow Charts",
+          "Process Modeling, SIPOC Diagrams",
+          "Process Modeling, Process Flow Diagrams",
+          "Process Modeling, PFD Excel Template",
+          "Process Modeling, Value Stream Mapping",
+          "Pareto Analysis, Pt 1",
+          "Pareto Analysis ( Excel Pivot Tables), Pt 2",
+          "Quiz on Pareto Analysis",
+          "Concentration Diagrams",
+          "Failure Analysis",
+          "Conclusion to D2",
+          "D3 Interim Containment Response, Pt 1",
+          "D3 Interim Containment Response, Pt 2",
+          "D3 Interim Containment Response, Pt 3",
+          "Quiz on Containment",
+          "Dimensional Analysis, Pt 1",
+          "Dimensional Analysis, Pt 2",
+          "Ready for Root Cause?",
+          "D4 Root Cause Analysis",
+          "Cause and Effect Diagram",
+          "Quiz on the C and E Diagram",
+          "Introduction to Analytical Tools",
+          "Control Chart Terminology",
+          "X-bar and R Chart, Pt 1",
+          "X-bar and R Chart, Pt 2",
+          "X-bar and R Chart, Pt 3",
+          "X-bar and R",
+          "Quiz on Control Charts",
+          "Control Chart Interpretation, Pt 1",
+          "Control Chart Interpretation, Pt 2",
+          "Quiz on Control Chart Interpretation",
+          "Capability Analysis, Pt 1",
+          "Capability Analysis, Pt 2",
+          "Capability Analysis, Pt 3",
+          "Capability Analysis, Pt 4",
+          "Capability Analysis, Pt 5",
+          "Capability Analysis, Pt 6",
+          "Capability Analysis, Pt 7",
+          "Capability Analysis, Pt 8",
+          "Closing Thoughts on Capability Analysis",
+          "Capability Analysis",
+          "Quiz on Capability Analysis",
+          "Introduction to Measurement Systems Analysis (MSA)",
+          "Measurement Systems Analysis, Pt 1",
+          "Measurement Systems Analysis, Pt 2",
+          "Measurement Systems Analysis, Pt 3",
+          "Measurement Systems Analysis, Pt 4",
+          "Closing Thoughts on MSA",
+          "Measurement Systems Analysis",
+          "5 Why Analysis",
+          "5 Why Conclusion",
+          "5 Why Quiz Question",
+          "Thoughts on Regression Analysis",
+          "Regression Analysis, Pt 1",
+          "Regression Analysis, Pt 2",
+          "Regression Analysis, Pt 3",
+          "The Correlation Matrix",
+          "Regression Analysis, Pt 4",
+          "Regression Analysis, Pt 5",
+          "Regression Analysis Conclusion",
+          "Regression analysis",
+          "Closing Thoughts on Root Cause Analysis",
+          "Preface to D5 and D6 - Selecting and Implementing Corrective Actions",
+          "Brainstorming",
+          "Implement Corrective Actions",
+          "The Quality Notice",
+          "Shifting the Mean",
+          "Correlating Process with Product Variables",
+          "Andon",
+          "Standardized Work Instructions",
+          "Process Auditing",
+          "Poke Yoke, Pt 1",
+          "Poke Yoke, Pt 2",
+          "Poke Yoke, Pt 3",
+          "Poke Yoke Example",
+          "Automated Inspection",
+          "Why Prototype?",
+          "Thoughts on Prototyping",
+          "Closing Comment on Corrective Actions",
+          "Corrective Actions",
+          "Verification of Corrective Activities",
+          "Thoughts on Approaching Corrective Actions",
+          "Implementing Preventive and Parallel Actions",
+          "Thank the Team",
+          "8D Template",
+          "Excellent Student Questions, Pt 1",
+          "Excellent Student Questions, Pt 2",
+          "Conclusion to the Course",
+          "Bonus Lecture"
+        ]
+      }
+    ]
+  },
+  {
+    "course": "Shaft alignment : Principles and Best Engineering Practices",
+    "source_file": "Shaft alignment : Principles and Best Engineering Practices.txt",
+    "sections": [
+      {
+        "section": "About the course",
+        "stats": "5 secciones · 50 clases · 0h",
+        "lectures": [
+          "Welcome to WR Training",
+          "About the course",
+          "Introduction to shaft alignment",
+          "Definition",
+          "Machinery catenary",
+          "Brief summary",
+          "Common signs of misalignment",
+          "Alignment parameters",
+          "Angularity",
+          "Offset",
+          "More on offset and angularity",
+          "Short flexible couplings",
+          "Spacer shafts",
+          "More on couplings",
+          "Offset A / Offset B",
+          "Alignment parameters relationship",
+          "Alignment tolerances for flexible couplings",
+          "Coupling strain and shaft deflection",
+          "Machine breakdowns",
+          "What's next ?",
+          "Before you proceed to the next section",
+          "Test your knowledge",
+          "Introduction to alignment methods and practice",
+          "Importance of preparation",
+          "Machine installation",
+          "Shims explained",
+          "Soft foot",
+          "More on soft foot",
+          "Alignment method #1: Eyesight",
+          "Alignment method #2: Dial indicators",
+          "How do dial indicators work ? (part 1)",
+          "How do dial indicators work ? (part 2)",
+          "Important factors when using dial indicators",
+          "Alignment method #3: Rim and Face (part 1)",
+          "The concept of \"runout\"",
+          "Alignment method #3: Rim and Face (part 2)",
+          "Alignment method #4: Reverse indicator (part 1)",
+          "Alignment method #4: Reverse indicator (part 2)",
+          "Alignment method #5: Laser Optical Systems",
+          "Laser method capabilities",
+          "Laser systems operating principles",
+          "Laser shaft alignment",
+          "Before you proceed to the next section",
+          "Test your knowledge",
+          "Introduction to pre-conditions for alignment",
+          "Soft foot",
+          "Pipe strain",
+          "Thermal growth",
+          "Sags of alignment clamps",
+          "Dial gauge errors",
+          "Before you proceed to the next section",
+          "Test your knowledge",
+          "Course feedback",
+          "Bonus"
+        ]
+      },
+      {
+        "section": "Introduction",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "What is shaft alignment ?",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Alignment methods and practice",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Pre-conditions for alignment",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Ultrasonic Testing (UT) – Complete NDT Level I & II Training",
+    "source_file": "Ultrasonic Testing (UT) – Complete NDT Level I & II Training.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "11 secciones · 29 clases · 0h",
+        "lectures": [
+          "UT – Introduction to Ultrasonic Testing",
+          "UT – Principles of Sound and Wave Propagation",
+          "UT – Equipment and Calibration",
+          "UT – Test Techniques",
+          "UT – Discontinuities and Defect Types",
+          "UT – Data Interpretation and Reporting",
+          "UT – Material Properties and Limitations",
+          "UT – Safety and Handling Procedures",
+          "UT – Practical Demonstrations (Part 1)",
+          "UT – Practical Demonstrations (Part 2)",
+          "UT – ASME Code Overview (Part 1)",
+          "UT – ASME Code Techniques (Part 2)",
+          "UT – ASME Code Application (Part 3)",
+          "UT 13",
+          "Principle & Working Basics",
+          "UT Machine and Probe",
+          "Normal & TR Probe Range Calibration",
+          "Angle Beam Range Calibration",
+          "How to Draw a DAC",
+          "Inspection",
+          "Plate and Pipe",
+          "Details",
+          "Acceptance Criteria",
+          "Theory",
+          "Documentation",
+          "PAUT of Aluminium Welding",
+          "UT 01",
+          "UT 04"
+        ]
+      },
+      {
+        "section": "Part 01 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 02 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 03 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 04 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 05 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 06 Ultrasonic Testing",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Part 07 Welding Porosity",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "Calibration",
+        "stats": "",
+        "lectures": []
+      },
+      {
+        "section": "UT 04",
+        "stats": "",
+        "lectures": []
+      }
+    ]
+  },
+  {
+    "course": "Understanding Nondestructive Testing and Evaluation, NDT-NDE",
+    "source_file": "Understanding Nondestructive Testing and Evaluation, NDT-NDE.txt",
+    "sections": [
+      {
+        "section": "Introduction",
+        "stats": "1 secciones · 34 clases · 0h",
+        "lectures": [
+          "Introduction to the Course",
+          "Nondestructive Examination, Part 1",
+          "NDE Part 1 Quiz",
+          "Nondestructive Examination, Part 2",
+          "Non Destructive Examination Part 2",
+          "General principles and guidelines for NDT, Part 1",
+          "General principles and guidelines for NDT, Part 2",
+          "Choosing proper NDT",
+          "Choosing Proper NDT",
+          "NDE Glossary",
+          "NDE Glossary",
+          "Limitations in flaw size",
+          "Limitations in Flaw Size",
+          "NDT  Principles, Part 1",
+          "NDT  Principles, Part 2",
+          "NDT Principles",
+          "Visual Testing A",
+          "Visual Testing #1",
+          "Visual Testing B",
+          "Visual Testing #2",
+          "Visual Testing C, Part 1",
+          "Visual Testing #3",
+          "Visual Testing C, Part 2",
+          "Visual Testing #4",
+          "Liquid Penetrant Testing, Pt 1",
+          "Liquid Penetrant Testing, Pt 2",
+          "Magnetic Particle Testing, Part 1",
+          "Magnetic Particle #1",
+          "Magnetic Particle Testing, Part 2",
+          "Magnetic Particle #2",
+          "Radiography Testing A, Part 1",
+          "Radiographic (RT) #1",
+          "Radiography Testing A, Part 2",
+          "Radiography Testing A, Part 3",
+          "Radiographic (RT) #2",
+          "Radiography Testing B Gamma",
+          "Radiographic (RT) #3",
+          "Radiography Testing C",
+          "Radiographic (RT) #4",
+          "Radiographic Testing D, Part 1",
+          "Radiographic (RT) #5",
+          "Radiographic Testing D, Part 2",
+          "Radiographic (RT) #2",
+          "Ultrasonic Testing, Part 1",
+          "Ultrasonic #1",
+          "Ultrasonic Testing, Part 2",
+          "Ultrasonic #2",
+          "Ultrasonic Testing B, Part 1",
+          "Ultrasonic #3",
+          "Ultrasonic Testing B, Part 2",
+          "Eddy Current Testing",
+          "Eddy Current Testing Quiz",
+          "Personnel Certification, Part 1",
+          "Personnel Certification, Part 2",
+          "Conclusion to the Course",
+          "Bonus Lecture"
+        ]
+      }
+    ]
   }
 ]

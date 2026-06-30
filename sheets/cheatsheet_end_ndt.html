@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>END / Ensayos No Destructivos · Hoja de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7EAED;
+  --canvas:#FFFFFF;
+  --tile:#FFFFFF;
+  --tile-2:#F3F5F7;
+  --rail:#F0F2F5;
+  --code-bg:#FAFBFC;
+  --line:#DFE3E8;
+  --line-soft:#EBEEF1;
+  --ink:#1E242B;
+  --ink-soft:#4C545E;
+  --ink-faint:#838C97;
+  /* END/NDT — petróleo inspección */
+  --mech:#1F7A8C;
+  --mech-deep:#155E6B;
+  --mech-tint:rgba(31,122,140,.14);
+  /* section accents */
+  --s0:#5A6472;
+  --s1:#1F7A8C;
+  --s2:#2B6FD6;
+  --s3:#C0398C;
+  --s4:#B0840A;
+  --s5:#C0392B;
+  --s6:#8E4EC6;
+  --s7:#1E9B51;
+  --lvl-b:#38B26C;
+  --lvl-i:#F2C811;
+  --lvl-a:#F0796B;
+  --t-kw:#7A3FC0;
+  --t-fn:#0B5FC2;
+  --t-str:#0A7D2C;
+  --t-num:#A8480A;
+  --t-type:#0E7C86;
+  --t-com:#8B939E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:14px}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-ligatures:none}
+::selection{background:var(--mech);color:#fff}
+.wrap{max-width:1340px;margin:0 auto;padding:20px 20px 0}
+
+.app{background:var(--canvas);border:1px solid var(--line);border-radius:13px 13px 0 0;overflow:hidden;box-shadow:0 30px 80px -46px rgba(30,36,43,.45)}
+.titlebar{display:flex;align-items:center;gap:11px;background:#EFF1F4;color:var(--ink-soft);padding:9px 15px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.logo{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--mech),#3FA9BC);color:#fff;font-family:"JetBrains Mono";font-weight:700;font-size:13px;flex:none}
+.titlebar .fname{font-weight:600;color:var(--ink);margin-left:2px}
+.titlebar .fname b{color:var(--mech-deep);font-weight:700}
+.titlebar .grow{margin-left:auto}
+.titlebar .run{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono";font-size:10.5px;color:#1E9B51;border:1px solid var(--line);background:#fff;border-radius:5px;padding:2px 8px;margin-right:10px}
+.titlebar .run svg{width:11px;height:11px}
+.titlebar .vtag{font-family:"JetBrains Mono";font-size:10.5px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink-soft)}
+.titlebar .wbtn{display:flex;gap:8px;margin-left:13px}
+.titlebar .wbtn i{width:11px;height:11px;border-radius:50%;background:#C7CDD4;display:block}
+
+.viewtabs{display:flex;gap:0;background:#FAFBFC;border-bottom:1px solid var(--line);padding:0 14px}
+.viewtabs .vt{display:flex;align-items:center;gap:7px;padding:9px 15px;font-size:12px;font-weight:600;color:var(--ink-faint);border-bottom:2px solid transparent;font-family:"JetBrains Mono"}
+.viewtabs .vt.on{color:var(--mech-deep);border-bottom-color:var(--mech)}
+
+.fxbar{display:flex;align-items:stretch;background:#FAFBFC;border-bottom:1px solid var(--line)}
+.fxbar .namebox{flex:none;display:flex;align-items:center;padding:0 14px;font-family:"JetBrains Mono";font-size:13px;color:var(--mech-deep);border-right:1px solid var(--line);font-weight:700}
+.fxbar .fxc{display:flex;align-items:center;gap:10px;padding:10px 15px;font-family:"JetBrains Mono";font-size:13px;overflow-x:auto;white-space:nowrap;color:var(--ink)}
+.fxbar .fxc b{color:var(--mech-deep)}
+
+.hero{padding:34px 30px 30px}
+.kick{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mech-deep);font-weight:600;margin-bottom:15px;display:flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:2px;background:var(--mech)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.1rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+h1 em{font-style:normal;color:var(--mech-deep)}
+.lede{max-width:78ch;color:var(--ink-soft);font-size:15px;margin-top:17px}
+.lede b{color:var(--ink);font-weight:600}
+.lede code{font-family:"JetBrains Mono";font-size:12.5px;background:var(--tile-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--mech-deep)}
+
+.quote{margin-top:20px;padding:13px 18px;border-left:3px solid var(--mech);background:linear-gradient(90deg,var(--mech-tint),transparent);border-radius:0 9px 9px 0;max-width:72ch}
+.quote p{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4}
+.quote cite{display:block;margin-top:5px;font-style:normal;font-family:"JetBrains Mono";font-size:11px;color:var(--ink-faint);letter-spacing:.03em}
+
+.legends{display:flex;flex-wrap:wrap;gap:26px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.legend-grp .lg-t{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}
+.legend-grp .lg-r{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lchip .dot{width:9px;height:9px;border-radius:3px;background:var(--c);flex:none}
+.lvlpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+.lvlpill b{font-family:"JetBrains Mono";font-size:10px;font-weight:700;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;background:var(--c)}
+
+.stepper{display:flex;align-items:stretch;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--tile-2)}
+.step{flex:1;display:flex;flex-direction:column;gap:3px;padding:13px 14px;text-decoration:none;border-right:1px solid var(--line);position:relative;transition:background .16s;min-width:0;background:var(--canvas)}
+.step:last-child{border-right:none}
+.step:hover{background:var(--tile-2)}
+.step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.step .sn{font-family:"JetBrains Mono";font-size:10px;color:var(--c);font-weight:700;letter-spacing:.08em}
+.step .st{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.step .sd{font-size:10.5px;color:var(--ink-faint)}
+@media(max-width:980px){.stepper{flex-wrap:wrap}.step{flex:1 1 33%;border-bottom:1px solid var(--line)}}
+@media(max-width:560px){.step{flex:1 1 50%}}
+
+.shell{display:grid;grid-template-columns:62px 222px 1fr;gap:0 32px;align-items:start;margin-top:2px}
+.rail{position:sticky;top:14px;background:var(--rail);border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail .ri{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--ink-faint);position:relative;font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+.rail .ri.on{color:var(--mech-deep);background:var(--mech-tint)}
+.rail .ri.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--mech)}
+.rail .ri svg{width:18px;height:18px}
+.rail .rsep{width:24px;height:1px;background:var(--line);margin:7px 0}
+.rail .rlbl{font-family:"JetBrains Mono";font-size:8px;letter-spacing:.04em;color:var(--ink-faint);margin-top:2px;text-align:center;line-height:1.1}
+@media(max-width:1080px){.rail{display:none}}
+
+nav.toc{position:sticky;top:14px;font-size:12.5px;padding:8px 0 40px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:thin}
+nav.toc::-webkit-scrollbar{width:6px}
+nav.toc::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.toc-h{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px;padding-left:13px;display:flex;align-items:center;gap:8px}
+.toc-h:first-child{margin-top:0}
+.toc-h .sq{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+nav.toc a{display:block;color:var(--ink-soft);text-decoration:none;padding:4px 0 4px 13px;border-left:2px solid var(--line);transition:.15s;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--ink-faint)}
+nav.toc a.active{color:var(--ink);font-weight:600;border-left-color:var(--seg)}
+@media(max-width:1080px){.shell{grid-template-columns:200px 1fr;gap:0 26px}}
+@media(max-width:860px){.shell{grid-template-columns:1fr}nav.toc{display:none}}
+
+.mtabs{display:none}
+@media(max-width:860px){
+  .mtabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .mtabs a{font-family:"JetBrains Mono";font-size:11px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);background:var(--canvas);padding:4px 9px;border-radius:20px}
+}
+
+main{padding:8px 0 70px;min-width:0}
+.stage{margin-bottom:10px;scroll-margin-top:14px;opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.2,.7,.2,1) forwards}
+.stage:nth-child(1){animation-delay:.03s}.stage:nth-child(2){animation-delay:.06s}.stage:nth-child(3){animation-delay:.09s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.stage{animation:none;opacity:1;transform:none}}
+
+.stage-head{display:flex;align-items:center;gap:14px;margin:42px 0 16px;padding:15px 19px;background:linear-gradient(90deg,var(--tile-2),var(--canvas));border:1px solid var(--line);border-left:4px solid var(--seg);border-radius:11px}
+.stage:first-child .stage-head{margin-top:6px}
+.stage-head .sn{font-family:"JetBrains Mono";font-size:12px;font-weight:700;color:#fff;background:var(--seg);padding:4px 9px;border-radius:6px;flex:none}
+.stage-head h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.stage-head .meta{margin-left:auto;font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-faint);text-align:right;line-height:1.4}
+@media(max-width:620px){.stage-head .meta{display:none}}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.cols.one{grid-template-columns:1fr}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+
+.tile{background:var(--tile);border:1px solid var(--line);border-radius:11px;overflow:hidden;scroll-margin-top:14px;box-shadow:0 1px 2px rgba(30,36,43,.04);display:flex;flex-direction:column}
+.tile.span{grid-column:1/-1}
+.tile-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(30,36,43,.022),transparent)}
+.tile-h .td{width:9px;height:9px;border-radius:2px;background:var(--seg);flex:none}
+.tile-h h3{font-family:"Bricolage Grotesque",sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0}
+.lvl{font-family:"JetBrains Mono";font-size:9.5px;font-weight:700;width:19px;height:19px;border-radius:5px;display:grid;place-items:center;color:#1a1a1a;flex:none}
+.lvl.b{background:var(--lvl-b);color:#fff}.lvl.i{background:var(--lvl-i)}.lvl.a{background:var(--lvl-a);color:#fff}
+.tile-b{padding:15px 16px;flex:1}
+.note{color:var(--ink-soft);font-size:13px;margin-bottom:12px;line-height:1.5}
+.note:last-child{margin-bottom:0}
+.note b{color:var(--ink);font-weight:600}
+.note code{font-family:"JetBrains Mono";font-size:12px;background:var(--tile-2);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+
+figure.code{border:1px solid var(--line);border-left:3px solid var(--seg);border-radius:9px;overflow:hidden;margin:9px 0;background:var(--code-bg);cursor:pointer;position:relative;transition:box-shadow .15s}
+figure.code:last-child{margin-bottom:0}
+figure.code:hover{box-shadow:0 2px 10px -4px rgba(30,36,43,.18)}
+figcaption{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding:8px 13px 0;display:flex;align-items:center;gap:8px}
+figcaption .lang{color:var(--seg);font-weight:700}
+figcaption .cphint{margin-left:auto;opacity:0;transition:.14s;font-size:9px}
+figure.code:hover .cphint{opacity:1}
+figure.code.copied{border-left-color:var(--mech);background:var(--mech-tint)}
+figure.code.copied .cphint{opacity:1;color:var(--mech-deep);font-weight:700}
+figure.code pre{padding:8px 14px 12px;white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden;font-size:12.6px;line-height:1.62;color:var(--ink);tab-size:2}
+.t-kw{color:var(--t-kw);font-weight:600}
+.t-fn{color:var(--t-fn);font-weight:600}
+.t-str{color:var(--t-str)}
+.t-num{color:var(--t-num)}
+.t-type{color:var(--t-type);font-weight:600}
+.t-com{color:var(--t-com);font-style:italic}
+.t-op{color:var(--ink-soft)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:12.6px;background:var(--canvas);border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:4px 0}
+.tbl:last-child{margin-bottom:0}
+.tbl th{text-align:left;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);background:var(--tile-2);padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:7px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.fn{font-family:"JetBrains Mono";font-size:11.5px;color:var(--mech-deep);font-weight:600;white-space:nowrap}
+.tbl td.k{color:var(--ink);font-weight:600;white-space:nowrap}
+.tbl td code{font-family:"JetBrains Mono";font-size:11px;background:var(--tile-2);padding:1px 4px;border-radius:3px;border:1px solid var(--line-soft);color:var(--t-type)}
+
+.tip{border-left:3px solid var(--seg);background:var(--tile-2);border-radius:0 8px 8px 0;padding:10px 13px;margin:11px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.tip:last-child{margin-bottom:0}
+.tip b{color:var(--ink);font-weight:600}
+.tip code{font-family:"JetBrains Mono";font-size:11.5px;background:var(--canvas);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:var(--mech-deep)}
+.tip .lab{font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--seg);font-weight:700;display:block;margin-bottom:4px}
+.tip.warn{border-left-color:#D98C2B;background:#FBF4E8}
+.tip.warn .lab{color:#B5701A}
+
+.fbd{margin:6px 0;border:1px dashed var(--mech);border-radius:11px;padding:14px;background:linear-gradient(180deg,var(--mech-tint),transparent)}
+.fbd .fbd-lbl{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.fbd .fbd-lbl::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--mech)}
+.fbd .fbd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.fbd .fbd-card{border:1px solid var(--line);background:var(--canvas);border-radius:9px;padding:10px 12px 6px;display:flex;flex-direction:column}
+.fbd .fbd-card h5{font-family:"JetBrains Mono";font-size:10.5px;font-weight:700;color:var(--mech-deep);margin-bottom:6px;text-align:center}
+.fbd svg{width:100%;height:auto;display:block;flex:1}
+.fbd .fbd-cap{margin-top:8px;text-align:center;font-family:"JetBrains Mono";font-size:10px;color:var(--ink-soft);background:var(--canvas);border:1px solid var(--line);border-radius:7px;padding:7px}
+.fbd .fbd-cap b{color:var(--mech-deep)}
+text.lab{font-family:"JetBrains Mono";font-size:11px;fill:var(--ink)}
+text.labf{font-family:"JetBrains Mono";font-size:11px;font-weight:700}
+@media(max-width:560px){.fbd .fbd-grid{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:14px;padding:22px 0 50px;color:var(--ink-faint);font-size:12px}
+footer b{color:var(--ink-soft)}
+footer .mono{font-family:"JetBrains Mono";font-size:10.5px;margin-top:8px;display:block}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E242B;color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:40px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 12px 30px -8px rgba(30,36,43,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="app">
+    <div class="titlebar">
+      <span class="logo">⊙</span>
+      <span class="fname"><b>END / NDT</b> · ensayos.ndt</span>
+      <span class="grow"></span>
+      <span class="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>sin dañar</span>
+      <span class="vtag">v1.0 · jun 2026</span>
+      <span class="wbtn"><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="viewtabs">
+      <span class="vt on">Métodos</span>
+      <span class="vt">Superficiales</span>
+      <span class="vt">Volumétricos</span>
+      <span class="vt">Niveles</span>
+    </div>
+
+    <div class="fxbar">
+      <span class="namebox">▸</span>
+      <span class="fxc"><b>VT</b> ▸ <b>PT</b> ▸ <b>MT</b> ▸ <b>UT</b> ▸ <b>RT</b> ▸ <b>ET</b></span>
+    </div>
+
+    <div class="hero">
+      <div class="kick">Referencia rápida · integridad sin destruir la pieza</div>
+      <h1>Encuentra la grieta<br>antes de que <em>te encuentre</em>.</h1>
+      <p class="lede">Los <b>Ensayos No Destructivos</b> (END / NDT) inspeccionan integridad <b>sin dañar</b> la pieza: el mapa de métodos (<b>superficiales</b> vs <b>volumétricos</b>) y, uno a uno, <b>VT</b> (visual), <b>PT</b> (líquidos penetrantes), <b>MT</b> (partículas magnéticas), <b>UT</b> (ultrasonido), <b>RT</b> (radiografía), <b>ET</b> (corrientes inducidas) y otros (AE, LT) — con su principio, qué detecta, ventajas y límites. Cierra con <b>niveles I/II/III</b> (SNT-TC-1A / ISO 9712) y la diferencia clave <b>indicación ≠ discontinuidad ≠ defecto</b>. <b>Clic en cualquier tarjeta de procedimiento para copiarla.</b></p>
+
+      <div class="quote">
+        <p>"Find the flaw before it finds you." — el END es la diferencia entre una parada planificada y una catástrofe.</p>
+        <cite>— cultura de la inspección · SNT-TC-1A / ISO 9712</cite>
+      </div>
+
+      <div class="legends">
+        <div class="legend-grp">
+          <div class="lg-t">Color = sección</div>
+          <div class="lg-r">
+            <span class="lchip"><span class="dot" style="--c:var(--s0)"></span>Panorama + mapa</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s1)"></span>VT (visual)</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s2)"></span>PT (penetrantes)</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s3)"></span>MT (magnéticas)</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s4)"></span>UT (ultrasonido)</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s5)"></span>RT (radiografía)</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s6)"></span>ET / AE / LT</span>
+            <span class="lchip"><span class="dot" style="--c:var(--s7)"></span>Niveles y aceptación</span>
+          </div>
+        </div>
+        <div class="legend-grp">
+          <div class="lg-t">Nivel</div>
+          <div class="lg-r">
+            <span class="lvlpill"><b style="--c:var(--lvl-b)">B</b>Básico</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-i)">I</b>Intermedio</span>
+            <span class="lvlpill"><b style="--c:var(--lvl-a)">A</b>Avanzado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <a class="step" href="#e0" style="--c:var(--s0)"><span class="sn">00</span><span class="st">Panorama</span><span class="sd">el mapa</span></a>
+        <a class="step" href="#e1" style="--c:var(--s1)"><span class="sn">01</span><span class="st">VT</span><span class="sd">visual</span></a>
+        <a class="step" href="#e2" style="--c:var(--s2)"><span class="sn">02</span><span class="st">PT</span><span class="sd">penetrante</span></a>
+        <a class="step" href="#e3" style="--c:var(--s3)"><span class="sn">03</span><span class="st">MT</span><span class="sd">magnética</span></a>
+        <a class="step" href="#e4" style="--c:var(--s4)"><span class="sn">04</span><span class="st">UT</span><span class="sd">ultrasonido</span></a>
+        <a class="step" href="#e5" style="--c:var(--s5)"><span class="sn">05</span><span class="st">RT</span><span class="sd">radiografía</span></a>
+        <a class="step" href="#e6" style="--c:var(--s6)"><span class="sn">06</span><span class="st">ET·AE·LT</span><span class="sd">otros</span></a>
+        <a class="step" href="#e7" style="--c:var(--s7)"><span class="sn">07</span><span class="st">Niveles</span><span class="sd">aceptación</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail" aria-hidden="true">
+      <div class="ri on">⊙</div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+      <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h3l2-7 3 14 3-10 2 5h5"/></svg></div>
+      <div class="rsep"></div>
+      <div class="rlbl">.ndt</div>
+    </aside>
+
+    <nav class="toc" aria-label="Índice">
+      <div class="toc-h" style="--seg:var(--s0)"><span class="sq"></span>00 · Panorama</div>
+      <a href="#nd-que" style="--seg:var(--s0)">Qué es END</a>
+      <a href="#nd-mapa" style="--seg:var(--s0)">Mapa de métodos (firma)</a>
+
+      <div class="toc-h" style="--seg:var(--s1)"><span class="sq"></span>01 · VT</div>
+      <a href="#nd-vt" style="--seg:var(--s1)">Inspección visual</a>
+
+      <div class="toc-h" style="--seg:var(--s2)"><span class="sq"></span>02 · PT</div>
+      <a href="#nd-pt" style="--seg:var(--s2)">Líquidos penetrantes</a>
+
+      <div class="toc-h" style="--seg:var(--s3)"><span class="sq"></span>03 · MT</div>
+      <a href="#nd-mt" style="--seg:var(--s3)">Partículas magnéticas</a>
+
+      <div class="toc-h" style="--seg:var(--s4)"><span class="sq"></span>04 · UT</div>
+      <a href="#nd-ut" style="--seg:var(--s4)">Ultrasonido</a>
+
+      <div class="toc-h" style="--seg:var(--s5)"><span class="sq"></span>05 · RT</div>
+      <a href="#nd-rt" style="--seg:var(--s5)">Radiografía</a>
+
+      <div class="toc-h" style="--seg:var(--s6)"><span class="sq"></span>06 · ET · AE · LT</div>
+      <a href="#nd-et" style="--seg:var(--s6)">Corrientes inducidas (ET)</a>
+      <a href="#nd-otros" style="--seg:var(--s6)">AE y fugas (LT)</a>
+
+      <div class="toc-h" style="--seg:var(--s7)"><span class="sq"></span>07 · Niveles</div>
+      <a href="#nd-niveles" style="--seg:var(--s7)">Niveles I / II / III</a>
+      <a href="#nd-acept" style="--seg:var(--s7)">Indicación y aceptación</a>
+    </nav>
+
+    <main>
+      <div class="mtabs" aria-hidden="true">
+        <a href="#e0">00 Mapa</a><a href="#e1">01 VT</a><a href="#e2">02 PT</a><a href="#e3">03 MT</a>
+        <a href="#e4">04 UT</a><a href="#e5">05 RT</a><a href="#e6">06 ET</a><a href="#e7">07 Niveles</a>
+      </div>
+
+      <!-- ===== 00 PANORAMA (SIGNATURE) ===== -->
+      <section class="stage" id="e0" style="--seg:var(--s0)">
+        <div class="stage-head"><span class="sn">00</span><h2>Panorama de los END</h2><span class="meta">el mapa<br>mental</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-que">
+            <div class="tile-h"><span class="td"></span><h3>Qué es un ensayo no destructivo</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">Un <b>END</b> examina un material o componente para detectar discontinuidades <b>sin alterar</b> su utilidad. Es clave en soldadura, recipientes a presión, tuberías, estructuras y aeronáutica: garantiza integridad sin sacrificar la pieza.</p>
+              <table class="tbl">
+                <tr><th>Decide…</th><th>El END responde</th></tr>
+                <tr><td class="k">¿Hay discontinuidad?</td><td>detección</td></tr>
+                <tr><td class="k">¿Dónde y qué tamaño?</td><td>caracterización</td></tr>
+                <tr><td class="k">¿Es aceptable?</td><td>evaluación vs código</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Superficial vs volumétrico</span>La gran división: métodos que ven la <b>superficie</b> (VT, PT, MT, ET) vs los que ven el <b>interior/volumen</b> (UT, RT). Elegir bien = el 80 % del éxito.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-pick">
+            <div class="tile-h"><span class="td"></span><h3>¿Qué método elegir?</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La elección depende de <b>dónde</b> está la discontinuidad y del <b>material</b>.</p>
+              <table class="tbl">
+                <tr><th>Si buscas…</th><th>Usa</th></tr>
+                <tr><td class="k">Grieta superficial, cualquier material</td><td>PT</td></tr>
+                <tr><td class="k">Grieta superficial/subsup., ferromagnético</td><td>MT</td></tr>
+                <tr><td class="k">Defecto interno, espesor</td><td>UT</td></tr>
+                <tr><td class="k">Defecto interno, imagen permanente</td><td>RT</td></tr>
+                <tr><td class="k">Grietas/conductividad, no ferroso</td><td>ET</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Regla</span><b>PT</b> solo capta lo abierto a la superficie; <b>UT/RT</b> ven el volumen. Nunca uses MT en aceros austeníticos (no magnéticos).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="tile span" id="nd-mapa">
+            <div class="tile-h"><span class="td"></span><h3>Mapa de métodos + probeta — la firma</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">A la izquierda, el <b>mapa</b>: cada método ordenado por <b>qué profundidad alcanza</b>. A la derecha, una <b>probeta</b> en corte con dos discontinuidades: una <b>abierta a la superficie</b> (la ven PT/MT/VT) y otra <b>interna</b> (la ven UT/RT). Saber qué método "llega" a cada falla es el corazón del END.</p>
+              <div class="fbd">
+                <div class="fbd-lbl">method map · specimen cross-section</div>
+                <div class="fbd-grid">
+                  <div class="fbd-card">
+                    <h5>Mapa: superficie ↔ volumen</h5>
+                    <svg viewBox="0 0 300 230" role="img" aria-label="Mapa de métodos END por profundidad">
+                      <text class="labf" x="20" y="28" fill="var(--mech-deep)">SUPERFICIE</text>
+                      <rect x="20" y="38" width="118" height="26" rx="5" fill="var(--mech-tint)" stroke="var(--s1)"/>
+                      <text class="lab" x="30" y="55" fill="var(--s1)">VT · visual</text>
+                      <rect x="20" y="70" width="118" height="26" rx="5" fill="var(--mech-tint)" stroke="var(--s2)"/>
+                      <text class="lab" x="30" y="87" fill="var(--s2)">PT · penetrante</text>
+                      <rect x="20" y="102" width="118" height="26" rx="5" fill="var(--mech-tint)" stroke="var(--s3)"/>
+                      <text class="lab" x="30" y="119" fill="var(--s3)">MT · sub-superf.</text>
+                      <rect x="20" y="134" width="118" height="26" rx="5" fill="var(--mech-tint)" stroke="var(--s6)"/>
+                      <text class="lab" x="30" y="151" fill="var(--s6)">ET · superf./cond.</text>
+                      <text class="labf" x="162" y="28" fill="var(--mech-deep)">VOLUMEN</text>
+                      <rect x="162" y="70" width="118" height="40" rx="5" fill="var(--mech-tint)" stroke="var(--s4)"/>
+                      <text class="lab" x="172" y="94" fill="var(--s4)">UT · interno</text>
+                      <rect x="162" y="118" width="118" height="40" rx="5" fill="var(--mech-tint)" stroke="var(--s5)"/>
+                      <text class="lab" x="172" y="142" fill="var(--s5)">RT · interno</text>
+                      <line x1="150" y1="34" x2="150" y2="170" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/>
+                      <text class="lab" x="20" y="195" fill="var(--ink-soft)">arriba = más superficial</text>
+                    </svg>
+                  </div>
+                  <div class="fbd-card">
+                    <h5>Probeta: dos discontinuidades</h5>
+                    <svg viewBox="0 0 300 230" role="img" aria-label="Corte de probeta con grieta superficial e interna">
+                      <rect x="40" y="60" width="220" height="110" rx="4" fill="#EFF2F4" stroke="var(--ink-soft)" stroke-width="2"/>
+                      <text class="lab" x="46" y="52" fill="var(--ink-soft)">superficie</text>
+                      <path d="M95,60 L100,95 L96,98" fill="none" stroke="var(--s5)" stroke-width="3"/>
+                      <text class="lab" x="68" y="118" fill="var(--s5)">grieta</text>
+                      <text class="lab" x="60" y="132" fill="var(--s5)">superficial</text>
+                      <ellipse cx="190" cy="118" rx="16" ry="9" fill="#fff" stroke="var(--s4)" stroke-width="2.5"/>
+                      <text class="lab" x="168" y="150" fill="var(--s4)">poro interno</text>
+                      <path d="M40 175 h220" stroke="var(--ink-faint)" stroke-width="1"/>
+                      <text class="lab" x="160" y="196" fill="var(--ink-soft)">PT/MT ↑   ·   UT/RT ↕</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="fbd-cap">Una grieta <b>abierta a la superficie</b> la captan VT/PT/MT; un <b>poro interno</b> solo lo ven UT o RT. El END correcto es el que <b>llega</b> a la discontinuidad esperada.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 01 VT ===== -->
+      <section class="stage" id="e1" style="--seg:var(--s1)">
+        <div class="stage-head"><span class="sn">01</span><h2>VT · Inspección visual</h2><span class="meta">el método<br>base</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-vt">
+            <div class="tile-h"><span class="td"></span><h3>Visual / óptico (VT)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <p class="note">El END más usado y la base de todos: el ojo (con o sin ayudas) busca discontinuidades superficiales, corrosión, deformación y defectos de soldadura. Suele ser el <b>primer</b> ensayo y precede a los demás.</p>
+              <table class="tbl">
+                <tr><th>Aspecto</th><th>Detalle</th></tr>
+                <tr><td class="k">Detecta</td><td>grietas, poros, socavado, corrosión</td></tr>
+                <tr><td class="k">Directo</td><td>ojo, lupa, calibres de soldadura</td></tr>
+                <tr><td class="k">Remoto</td><td>boroscopio, videoscopio, dron</td></tr>
+                <tr><td class="k">Requisito</td><td>luz ≥ 500 lux, agudeza visual</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Videoscopía</span>El <b>boroscopio/videoscopio</b> lleva el VT al interior de turbinas, motores, tuberías y álabes sin desmontar — VT remoto, esencial en mantenimiento.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-vt2">
+            <div class="tile-h"><span class="td"></span><h3>Ventajas y límites (VT)</h3><span class="lvl b">B</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>✔ Ventajas</th><th>✘ Límites</th></tr>
+                <tr><td>barato, rápido</td><td>solo superficie</td></tr>
+                <tr><td>sin consumibles</td><td>depende del inspector</td></tr>
+                <tr><td>cualquier material</td><td>necesita acceso y luz</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">No saltarlo</span>Muchas discontinuidades se ven a simple vista. Un buen VT <b>filtra</b> antes de gastar en métodos caros.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 PT ===== -->
+      <section class="stage" id="e2" style="--seg:var(--s2)">
+        <div class="stage-head"><span class="sn">02</span><h2>PT · Líquidos penetrantes</h2><span class="meta">capilaridad<br>delatora</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-pt">
+            <div class="tile-h"><span class="td"></span><h3>Penetrante (PT) — principio</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Un líquido coloreado o fluorescente penetra por <b>capilaridad</b> en discontinuidades <b>abiertas a la superficie</b>. Tras limpiar el exceso, un <b>revelador</b> "chupa" el penetrante atrapado y dibuja la indicación.</p>
+              <figure class="code" data-copy="PT - secuencia (ASTM E1417)&#10;1. Limpieza previa (desengrasar, secar)&#10;2. Aplicar penetrante; tiempo de penetracion 5-30 min&#10;3. Remover exceso (agua / solvente / emulsificante)&#10;4. Aplicar revelador (polvo/suspension)&#10;5. Tiempo de revelado; inspeccionar&#10;6. Limpieza final">
+                <figcaption><span class="lang">secuencia PT</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># PT (ASTM E1417)</span>
+<span class="t-num">1.</span> limpieza previa (desengrasar, secar)
+<span class="t-num">2.</span> penetrante; <span class="t-op">dwell</span> 5–30 min
+<span class="t-num">3.</span> remover exceso (agua/solvente)
+<span class="t-num">4.</span> revelador (polvo/suspensión)
+<span class="t-num">5.</span> revelado; inspeccionar
+<span class="t-num">6.</span> limpieza final</pre>
+              </figure>
+              <div class="tip"><span class="lab">Tipos</span>Visible (rojo, luz blanca) o <b>fluorescente</b> (luz UV, más sensible).</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-pt2">
+            <div class="tile-h"><span class="td"></span><h3>Ventajas y límites (PT)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>✔ Ventajas</th><th>✘ Límites</th></tr>
+                <tr><td>cualquier material no poroso</td><td>solo defectos abiertos a superficie</td></tr>
+                <tr><td>barato, portátil</td><td>superficie limpia y seca</td></tr>
+                <tr><td>sensible a grietas finas</td><td>no en materiales porosos</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Cuidado</span>La <b>limpieza</b> manda: grasa o pintura tapan la grieta y dan falsos negativos. No remuevas en exceso (borrarías la indicación).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 MT ===== -->
+      <section class="stage" id="e3" style="--seg:var(--s3)">
+        <div class="stage-head"><span class="sn">03</span><h2>MT · Partículas magnéticas</h2><span class="meta">fugas de<br>campo</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-mt">
+            <div class="tile-h"><span class="td"></span><h3>Magnéticas (MT) — principio</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">Se magnetiza una pieza <b>ferromagnética</b>; una discontinuidad superficial o sub-superficial interrumpe el flujo y crea una <b>fuga de campo</b>. Las partículas de hierro (secas o en suspensión) se acumulan ahí y dibujan la indicación.</p>
+              <table class="tbl">
+                <tr><th>Concepto</th><th>Detalle</th></tr>
+                <tr><td class="k">Material</td><td>solo ferromagnético (acero al C)</td></tr>
+                <tr><td class="k">Detecta</td><td>superficial y sub-superficial leve</td></tr>
+                <tr><td class="k">Orientación</td><td>mejor ⟂ al campo → magnetizar en 2 direcciones</td></tr>
+                <tr><td class="k">Partículas</td><td>visibles o fluorescentes (UV)</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Métodos</span>Yugo (electroimán), puntas (prods), bobina, cabezal. <b>Yugo AC</b> portátil = el más común en campo.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-mt2">
+            <div class="tile-h"><span class="td"></span><h3>Ventajas y límites (MT)</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>✔ Ventajas</th><th>✘ Límites</th></tr>
+                <tr><td>rápido, sensible a grietas</td><td>solo ferromagnéticos</td></tr>
+                <tr><td>ve algo bajo la superficie</td><td>orientación del defecto importa</td></tr>
+                <tr><td>poca preparación</td><td>requiere desmagnetizar después</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Clave</span>Magnetiza en <b>dos direcciones</b> perpendiculares: una grieta paralela al campo no produce fuga y se escapa. <b>Desmagnetiza</b> al terminar.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 UT ===== -->
+      <section class="stage" id="e4" style="--seg:var(--s4)">
+        <div class="stage-head"><span class="sn">04</span><h2>UT · Ultrasonido</h2><span class="meta">eco del<br>interior</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-ut">
+            <div class="tile-h"><span class="td"></span><h3>Ultrasonido (UT) — principio</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Un palpador emite un pulso de <b>ultrasonido</b> (~0.5–25 MHz) en el material; las discontinuidades y la pared trasera <b>reflejan</b> ecos que se miden en tiempo. Da <b>profundidad y tamaño</b> del defecto y el espesor de pared.</p>
+              <div class="cols">
+                <table class="tbl">
+                  <tr><th>Vista</th><th>Qué muestra</th></tr>
+                  <tr><td class="k">A-scan</td><td>amplitud vs tiempo (eco)</td></tr>
+                  <tr><td class="k">B/C-scan</td><td>corte / planta</td></tr>
+                  <tr><td class="k">Phased Array</td><td>haz orientable, imagen</td></tr>
+                  <tr><td class="k">TOFD</td><td>dimensiona grietas con precisión</td></tr>
+                </table>
+                <div class="tip"><span class="lab">Acoplante</span>Necesita <b>gel/agua</b> entre palpador y pieza (el aire no transmite ultrasonido). Palpador recto o <b>angular</b> (soldaduras).</div>
+              </div>
+              <figure class="code" data-copy="UT - relacion espesor / tiempo de eco&#10;e = (v * t) / 2     (ida y vuelta)&#10;v = velocidad del sonido en el material&#10;  acero ~ 5900 m/s (longitudinal)&#10;t = tiempo entre pulso y eco de fondo&#10;Calibrar siempre con bloque patron (V1/V2)">
+                <figcaption><span class="lang">UT · espesor</span><span class="cphint">clic = copiar</span></figcaption>
+<pre><span class="t-com"># espesor por tiempo de eco</span>
+e <span class="t-op">=</span> (v <span class="t-op">*</span> t) <span class="t-op">/</span> <span class="t-num">2</span>     <span class="t-com"># ida y vuelta</span>
+v <span class="t-op">=</span> vel. del sonido (acero ~<span class="t-num">5900</span> m/s)
+t <span class="t-op">=</span> tiempo pulso → eco de fondo
+<span class="t-com"># calibrar con bloque patrón V1/V2</span></pre>
+              </figure>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-ut2">
+            <div class="tile-h"><span class="td"></span><h3>Ventajas y límites (UT)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>✔ Ventajas</th><th>✘ Límites</th></tr>
+                <tr><td>defectos internos profundos</td><td>requiere operador hábil</td></tr>
+                <tr><td>da profundidad y tamaño</td><td>necesita acoplante</td></tr>
+                <tr><td>solo acceso por 1 cara</td><td>geometría compleja difícil</td></tr>
+                <tr><td>sin radiación (seguro)</td><td>calibración con patrón</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Medición de espesor</span>El UT es el método estándar para medir <b>pérdida de pared por corrosión</b> en tuberías y tanques (inspección de integridad).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 RT ===== -->
+      <section class="stage" id="e5" style="--seg:var(--s5)">
+        <div class="stage-head"><span class="sn">05</span><h2>RT · Radiografía</h2><span class="meta">la foto<br>interior</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-rt">
+            <div class="tile-h"><span class="td"></span><h3>Radiografía (RT) — principio</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Radiación <b>X o gamma</b> atraviesa la pieza e impresiona una película o detector digital. Donde hay menos material (poro, falta de fusión), pasa más radiación y queda <b>más oscuro</b>: una imagen permanente del interior.</p>
+              <table class="tbl">
+                <tr><th>Concepto</th><th>Detalle</th></tr>
+                <tr><td class="k">Fuente</td><td>tubo de rayos X o isótopo (Ir-192, Co-60)</td></tr>
+                <tr><td class="k">Detecta</td><td>poros, inclusiones, falta de fusión</td></tr>
+                <tr><td class="k">Registro</td><td>película o digital (CR/DR)</td></tr>
+                <tr><td class="k">Calidad</td><td>IQI / penetrámetro, densidad</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">⚠ Seguridad radiológica</span>La RT usa <b>radiación ionizante</b>: zona acordonada, dosimetría, licencias. Es el END con mayor riesgo de seguridad.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-rt2">
+            <div class="tile-h"><span class="td"></span><h3>Ventajas y límites (RT)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <table class="tbl">
+                <tr><th>✔ Ventajas</th><th>✘ Límites</th></tr>
+                <tr><td>imagen permanente, clara</td><td>radiación (riesgo + permisos)</td></tr>
+                <tr><td>excelente para volumétricos</td><td>acceso por ambas caras</td></tr>
+                <tr><td>cualquier material</td><td>costoso y lento</td></tr>
+                <tr><td>buen registro documental</td><td>grietas finas ⟂ al haz se escapan</td></tr>
+              </table>
+              <div class="tip"><span class="lab">RT vs UT</span><b>RT</b> ve mejor poros/inclusiones (volumétricos); <b>UT</b> ve mejor grietas planas y da profundidad. A menudo se <b>complementan</b>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 ET / AE / LT ===== -->
+      <section class="stage" id="e6" style="--seg:var(--s6)">
+        <div class="stage-head"><span class="sn">06</span><h2>ET · AE · LT</h2><span class="meta">los<br>especialistas</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-et">
+            <div class="tile-h"><span class="td"></span><h3>Corrientes inducidas (ET)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Una bobina con corriente alterna induce <b>corrientes parásitas</b> (eddy) en un material conductor; una grieta o cambio de conductividad altera esas corrientes y la impedancia de la bobina lo detecta. Sin contacto, muy rápido.</p>
+              <table class="tbl">
+                <tr><th>Uso típico</th><th>Detalle</th></tr>
+                <tr><td class="k">Tubos de intercambiador</td><td>inspección rápida con sonda</td></tr>
+                <tr><td class="k">Grietas superficiales</td><td>no ferrosos, aeronáutica</td></tr>
+                <tr><td class="k">Medir recubrimientos</td><td>espesor de capa, conductividad</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Límite</span>Solo <b>conductores</b>; poca penetración (<b>efecto piel</b>): superficie y sub-superficie cercana.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-otros">
+            <div class="tile-h"><span class="td"></span><h3>Emisión acústica (AE) y fugas (LT)</h3><span class="lvl a">A</span></div>
+            <div class="tile-b">
+              <p class="note">Métodos para casos especiales y monitoreo de estructuras completas.</p>
+              <table class="tbl">
+                <tr><th>Método</th><th>Qué hace</th></tr>
+                <tr><td class="k">AE</td><td>"escucha" la energía que libera una grieta al crecer (monitoreo global, recipientes a presión)</td></tr>
+                <tr><td class="k">LT (fugas)</td><td>detecta fugas por presión/vacío, gas trazador o ultrasonido</td></tr>
+              </table>
+              <div class="tip"><span class="lab">AE</span>La emisión acústica es <b>pasiva y global</b>: instrumenta toda la estructura y localiza la fuente activa durante una prueba de presión.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 07 NIVELES ===== -->
+      <section class="stage" id="e7" style="--seg:var(--s7)">
+        <div class="stage-head"><span class="sn">07</span><h2>Niveles y aceptación</h2><span class="meta">quién firma<br>qué</span></div>
+
+        <div class="cols">
+          <div class="tile" id="nd-niveles">
+            <div class="tile-h"><span class="td"></span><h3>Niveles I / II / III</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La certificación de personal (esquemas <b>SNT-TC-1A</b> de ASNT o <b>ISO 9712</b>) define qué puede hacer cada inspector por método.</p>
+              <table class="tbl">
+                <tr><th>Nivel</th><th>Puede</th></tr>
+                <tr><td class="k">I</td><td>ejecutar el ensayo bajo supervisión</td></tr>
+                <tr><td class="k">II</td><td>montar, calibrar, ensayar e <b>interpretar</b> según procedimiento</td></tr>
+                <tr><td class="k">III</td><td>desarrollar procedimientos, aprobar, formar y certificar</td></tr>
+              </table>
+              <div class="tip"><span class="lab">Como planificador</span>Programa quién (nivel y método) hace cada inspección y verifica <b>vigencia</b> de certificados y de los <b>procedimientos</b> aplicables.</div>
+            </div>
+          </div>
+
+          <div class="tile" id="nd-acept">
+            <div class="tile-h"><span class="td"></span><h3>Indicación ≠ discontinuidad ≠ defecto</h3><span class="lvl i">I</span></div>
+            <div class="tile-b">
+              <p class="note">La distinción que evita rechazar piezas buenas (o aceptar malas). El criterio de <b>aceptación</b> sale del código (ASME, AWS D1.1, API).</p>
+              <table class="tbl">
+                <tr><th>Término</th><th>Significa</th></tr>
+                <tr><td class="k">Indicación</td><td>respuesta del ensayo (puede ser falsa)</td></tr>
+                <tr><td class="k">Discontinuidad</td><td>interrupción real del material</td></tr>
+                <tr><td class="k">Defecto</td><td>discontinuidad que <b>excede</b> el criterio → rechazo</td></tr>
+              </table>
+              <div class="tip warn"><span class="lab">Clave</span>No toda indicación es defecto: hay indicaciones <b>falsas</b> (suciedad) y <b>relevantes/no relevantes</b> (geometría). Se evalúa contra el <b>código</b> aplicable.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <b>END / Ensayos No Destructivos · Hoja de referencia</b> — el panorama (superficiales VT/PT/MT/ET vs volumétricos UT/RT) y cada método con principio, qué detecta, ventajas y límites: VT (visual y videoscopía), PT (líquidos penetrantes, secuencia ASTM E1417), MT (partículas magnéticas, magnetizar en 2 direcciones), UT (ultrasonido, A-scan/PA/TOFD, espesor por eco), RT (radiografía X/gamma, seguridad radiológica), ET (corrientes inducidas), AE y LT; y los niveles I/II/III (SNT-TC-1A / ISO 9712) con la diferencia indicación ≠ discontinuidad ≠ defecto. Cursos "Basic/Introduction to NDT", "NDT Methods", "NDT Level II (MT/UT)", "Understanding NDT-NDE" + best-practice.
+        <span class="mono">notas en español · clic en cualquier tarjeta de procedimiento para copiar · v1.0</span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),t;
+  function flash(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(t); t=setTimeout(function(){toast.classList.remove('show');},1400); }
+  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+  document.querySelectorAll('[data-copy]').forEach(function(el){
+    el.setAttribute('tabindex','0'); el.setAttribute('role','button');
+    function go(){
+      var text=el.getAttribute('data-copy'); if(!text)return;
+      (async function(){
+        try{ if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);} else {fallback(text);} }
+        catch(e){ fallback(text); }
+      })();
+      el.classList.add('copied'); flash('Copiado ✓');
+      setTimeout(function(){el.classList.remove('copied');},1100);
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();go();} });
+  });
+  var links=Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map={}; links.forEach(function(a){ var id=a.getAttribute('href').slice(1); var el=document.getElementById(id); if(el) map[id]=a; });
+  var targets=Object.keys(map).map(function(id){return document.getElementById(id);});
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[en.target.id]; if(a){a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-12% 0px -78% 0px',threshold:0});
+    targets.forEach(function(el){obs.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>
